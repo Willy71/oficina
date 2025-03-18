@@ -145,7 +145,7 @@ def obtener_prefijo(pais):
     return prefijos.get(pais, '')
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Titulo de la pagina
-centrar_texto("Gestão de Ordens de Serviço", 4, "white")
+centrar_texto("Gestão de Ordens de Serviço", 2, "white")
     
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Seleccion de la opcion de CRUD
