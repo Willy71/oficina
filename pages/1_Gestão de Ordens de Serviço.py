@@ -181,6 +181,20 @@ if action == "Nova ordem de serviço":
                 cor = st.text_input("Cor")
             with col05:
                 km = st.text_input("Km")
+
+        # Opciones para el desplegable
+        opciones_estado = [
+            "Entrada",
+            "Em orçamento",
+            "Aguardando aprovação",
+            "Em reparação",
+            "Concluido",
+            "Entregado"
+        ]
+        with st.container():    
+            col10, col11, col12, col13 = st.columns(4)
+            with col11:
+                estado = st.selectbox("Seleccione el estado del vehículo:", opciones_estado)
      
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
@@ -197,7 +211,8 @@ if action == "Nova ordem de serviço":
                             'Modelo': modelo,
                             'Ano': ano,
                             'Cor': cor,
-                            'Km': km
+                            'Km': km,
+                            'Estado': estado
                         }
                     ]
                 )
