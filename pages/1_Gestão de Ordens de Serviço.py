@@ -258,9 +258,11 @@ if action == "Nova ordem de serviço":
                 data = pd.DataFrame(
                     [
                         {
-                            'user_id': obtener_proximo_id(existing_data),
+                            '#': obtener_proximo_id(existing_data),
                             'Praca': praca,
-                            'Hospedes': guests,
+                            'Carro': carro,
+                            'Modelo': modelo,
+                            'Ano': ano,
                             'Hora de entrada': checkin_time.isoformat() if checkin_time else None,
                             'Data de entrada': admission_date.isoformat() if admission_date else None,
                             'Hora de saida': checkout_time.isoformat() if checkout_time else None,
