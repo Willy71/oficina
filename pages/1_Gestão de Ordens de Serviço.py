@@ -164,7 +164,7 @@ if action == "Nova ordem de serviço":
     st.markdown("Insira os detalhes da nova ordem de serviço")
     with st.form(key="ordem"):
         with st.container():    
-            col00, col01, col02, col03, col04, col05 = st.columns(5)
+            col00, col01, col02, col03, col04, col05 = st.columns(6)
             with col00:
                 praca = st.text_input("Praca")
             with col01:
