@@ -153,10 +153,10 @@ def obtener_prefijo(pais):
 action = st.selectbox(
     "Escolha uma ação",
     [
-        "Nova ordem de serviço", # Insert
-        "Atualizar ordem existente", # Update
-        "Ver todos as ordens de serviço", # View
-        "Apagar ordem de serviço", # Delete
+        "Nova carro", # Insert
+        "Atualizar carro", # Update
+        "Ver todos os carros", # View
+        "Apagar carro", # Delete
     ],
 )
 # ----------------------------------------------------------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ action = st.selectbox(
 
 vendor_to_update = None  # Establecer un valor predeterminado
 
-if action == "Nova ordem de serviço":
+if action == "Nova carro":
     st.markdown("Insira os detalhes da nova ordem de serviço")
     with st.form(key="ordem"):
         with st.container():    
