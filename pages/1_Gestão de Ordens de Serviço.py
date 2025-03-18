@@ -164,7 +164,7 @@ if action == "Nova ordem de serviço":
     st.markdown("Insira os detalhes da nova ordem de serviço")
     with st.form(key="ordem"):
         with st.container():    
-            col00, col01, col02, col03, col04 = st.columns([2, 2, 2, 1, 3])
+            col00, col01, col02, col03, col04, col05 = st.columns(5)
             with col00:
                 praca = st.text_input("Praca")
             with col01:
@@ -173,6 +173,10 @@ if action == "Nova ordem de serviço":
                 modelo = st.text_input("Modelo")
             with col03:
                 ano = st.text_input("Ano")
+            with col04:
+                cor = st.text_input("Cor")
+            with col05:
+                km = st.text_input("Km")
      
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
@@ -188,6 +192,8 @@ if action == "Nova ordem de serviço":
                             'Carro': carro,
                             'Modelo': modelo,
                             'Ano': ano,
+                            'Cor': cor,
+                            'Km': km
                         }
                     ]
                 )
