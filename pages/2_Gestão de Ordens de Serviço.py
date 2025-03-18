@@ -53,7 +53,7 @@ background: rgba(0,0,0,0);
 st.markdown(page_bg_img, unsafe_allow_html=True)
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Titulo de la pagina
-st.title("Portal de gestão")
+st.title("Gestão de Ordens de Serviço")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Establecer conexion con Google Sheets
