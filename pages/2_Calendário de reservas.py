@@ -7,7 +7,7 @@ from google.oauth2.service_account import Credentials
 
 # Colocar nome na pagina, icone e ampliar a tela
 st.set_page_config(
-    page_title="Carros",
+    page_title="Consultas",
     page_icon=":car",
     layout="wide"
 )
