@@ -52,10 +52,6 @@ background: rgba(0,0,0,0);
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 # ----------------------------------------------------------------------------------------------------------------------------------
-# Titulo de la pagina
-st.title("Gestão de Ordens de Serviço")
-
-# ----------------------------------------------------------------------------------------------------------------------------------
 # Establecer conexion con Google Sheets
 #conn = st.experimental_connection("gsheets", type=GSheetsConnection)
 
@@ -147,6 +143,9 @@ prefijos = {c.alpha_2: pn.country_code_for_region(c.alpha_2) for c in pycountry.
 # Función para obtener el prefijo seleccionado
 def obtener_prefijo(pais):
     return prefijos.get(pais, '')
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Titulo de la pagina
+centrar_texto("Gestão de Ordens de Serviço", 4, "white")
     
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Seleccion de la opcion de CRUD
