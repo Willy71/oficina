@@ -71,12 +71,25 @@ def photo_link(alt_text, img_url, link_url, img_width):
     markdown_code = f'<a href="{link_url}" target="_blank"><img src="{img_url}" alt="{alt_text}" width="{img_width}"></a>'
     st.markdown(markdown_code, unsafe_allow_html=True)
 
-sf.line(4, "blue")
+def line(size, color):
+    """
+    Draws a horizontal line on the Streamlit page.
+
+    Parameters:
+    - size (str): The thickness of the line.
+    - color (str): The color of the line.
+    """
+    st.markdown(
+        f"<hr style='height:{size}px;border:none;color:{color};background-color:{color};' />",
+        unsafe_allow_html=True
+    )
+
+line(4, "blue")
 
 centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/Logo%20oficina%20001.jpeg?raw=true", 800)
 st.markdown("")
 
-sf.line(4, "blue")
+line(4, "blue")
 
 
 
