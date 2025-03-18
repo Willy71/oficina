@@ -71,10 +71,10 @@ def photo_link(alt_text, img_url, link_url, img_width):
     markdown_code = f'<a href="{link_url}" target="_blank"><img src="{img_url}" alt="{alt_text}" width="{img_width}"></a>'
     st.markdown(markdown_code, unsafe_allow_html=True)
 
-centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/Logo%20oficina%20001.jpeg?raw=true", 300)
+centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/Logo%20oficina%20001.jpeg?raw=true", 800)
 st.markdown("")
 
-st.markdown("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
+
 
 
 
