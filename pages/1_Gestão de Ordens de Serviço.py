@@ -168,11 +168,11 @@ if action == "Nova ordem de serviço":
             with col00:
                 praca = st.text_input("Praca")
             with col01:
-                carro = st.text_input("Marca do carro")
+                carro = st.text_input("Marca")
             with col02:
-                modelo = st.text_input("Adicione o modelo do carro")
+                modelo = st.text_input("Modelo")
             with col03:
-                ano = st.text_input("Adicione o ano do carro")
+                ano = st.text_input("Ano")
      
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
