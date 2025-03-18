@@ -205,6 +205,15 @@ if action == "Nova ordem de serviço":
             col20, col21, col22, col23, col24 = st.columns(5)
             with col22:
                 estado = st.selectbox("Estado do serviço", opciones_estado)
+
+        with st.container():    
+            col30, col31, col32 = st.columns(3)
+            with col30:
+                dono_empresa = st.text_input("Dono / Empresa")
+            with col31:
+                telefone = st.text_input("Telefone")
+            with col32:
+                endereco = st.text_input("Endereço")
      
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
