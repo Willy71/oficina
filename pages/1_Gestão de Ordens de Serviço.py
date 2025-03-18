@@ -171,15 +171,18 @@ if action == "Nova ordem de serviço":
             col00, col01, col02, col03, col04, col05 = st.columns(6)
             with col00:
                 praca = st.text_input("Praca")
-            with col01:
+                
+        with st.container():    
+            col10, col11, col12, col13, col14, col15 = st.columns(6)
+            with col10:
                 carro = st.text_input("Marca")
-            with col02:
+            with col11:
                 modelo = st.text_input("Modelo")
-            with col03:
+            with col12:
                 ano = st.text_input("Ano")
-            with col04:
+            with col13:
                 cor = st.text_input("Cor")
-            with col05:
+            with col14:
                 km = st.text_input("Km")
 
         # Opciones para el desplegable
@@ -192,8 +195,8 @@ if action == "Nova ordem de serviço":
             "Entregado"
         ]
         with st.container():    
-            col10, col11, col12, col13 = st.columns(4)
-            with col10:
+            col20, col21, col22, col23, col24, col25 = st.columns(6)
+            with col20:
                 estado = st.selectbox("Estado do serviço", opciones_estado)
      
         with st.container():
