@@ -9,8 +9,8 @@ import datetime
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Colocar nome na pagina, icone e ampliar a tela
 st.set_page_config(
-    page_title="Reservations",
-    page_icon=":house",
+    page_title="Carros na oficina",
+    page_icon=":car",
     layout="wide"
 )
 
