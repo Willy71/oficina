@@ -167,7 +167,7 @@ if action == "Nova ordem de serviço":
             col00, col01, col02, col03, col04 = st.columns([2, 2, 2, 1, 3])
             with col00:
                 opciones_numericas = list(range(31))
-                room = st.selectbox("Praca", opciones_numericas, index=None, placeholder="Selecione um carro...")
+                praca = st.text_input("Adicione uma praca")
             with col01:
                 opciones_numericas_2 = list(range(11))
                 guests = st.selectbox("Quantidade de hospedes", opciones_numericas_2, index=None, placeholder="Hospedes...")
@@ -256,7 +256,7 @@ if action == "Nova ordem de serviço":
                     [
                         {
                             'user_id': obtener_proximo_id(existing_data),
-                            'Quarto': room,
+                            'Praca': praca,
                             'Hospedes': guests,
                             'Hora de entrada': checkin_time.isoformat() if checkin_time else None,
                             'Data de entrada': admission_date.isoformat() if admission_date else None,
@@ -292,7 +292,7 @@ if action == "Nova ordem de serviço":
                 # Adding updated data to the dataframe
                 updated_df = pd.concat([existing_data, updated_vendor_data], ignore_index=True)
                 conn.update(worksheet="Hoja1", data=updated_df)
-                st.success("Reserva adicionada com sucesso")
+                st.success("Ordem de serviço adicionada com sucesso")
                 df = st.dataframe(existing_data, hide_index=True)
 # ____________________________________________________________________________________________________________________________________
 
