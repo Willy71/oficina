@@ -193,7 +193,7 @@ if action == "Nova ordem de serviço":
         ]
         with st.container():    
             col10, col11, col12, col13 = st.columns(4)
-            with col11:
+            with col10:
                 estado = st.selectbox("Estado do serviço", opciones_estado)
      
         with st.container():
