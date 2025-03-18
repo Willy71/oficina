@@ -54,7 +54,7 @@ background: rgba(0,0,0,0);
 st.markdown(page_bg_img, unsafe_allow_html=True)
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Titulo de la pagina
-st.title("Portal de gestão")
+st.title("Alta de carro")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Establecer conexion con Google Sheets
