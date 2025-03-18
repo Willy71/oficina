@@ -166,11 +166,14 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns([2, 2, 2, 1, 3])
             with col00:
-                opciones_numericas = list(range(31))
                 praca = st.text_input("Adicione uma praca")
             with col01:
-                opciones_numericas_2 = list(range(11))
-                guests = st.selectbox("Quantidade de hospedes", opciones_numericas_2, index=None, placeholder="Hospedes...")
+                carro = st.text_input("Adicione a marca do carro")
+            with col02:
+                modelo = st.tet_input("Adicione o modelo do carro")
+            with col03:
+                ano = st.text_input("Adicione o ano do carro")
+               
         
         with st.container():    
             col10, col11, col12, col13, col14, col15, col16 = st.columns([1, 2, 2, 0.5, 2, 2, 1])
