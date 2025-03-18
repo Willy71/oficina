@@ -71,44 +71,11 @@ def photo_link(alt_text, img_url, link_url, img_width):
     markdown_code = f'<a href="{link_url}" target="_blank"><img src="{img_url}" alt="{alt_text}" width="{img_width}"></a>'
     st.markdown(markdown_code, unsafe_allow_html=True)
 
-centrar_imagen("https://i.postimg.cc/mDFQdDqb/Your-Company-removebg-preview.png", 300)
+centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/Logo%20oficina%20001.jpeg?raw=true", 300)
 st.markdown("")
 
 st.markdown("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
 
-centrar_imagen("https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/255px-Flag_of_the_United_Kingdom_%283-5%29.svg.png", 50)
-st.markdown("")
-centrar_texto("Application for temporary rental management.", 5, "white")
-centrar_texto("If you want customization of this project, consult with our developer.", 5, "white")
 
-col1, col2, col3 = st.columns([5, 3.7, 2])  # Establecer anchos personalizados (en este caso, la columna central es el doble de ancha)
-with col2:
-    photo_link("Whatsapp", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/120px-WhatsApp.svg.png", "https://wa.me/5542991657847", "50px")
-
-
-
-st.markdown("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
-
-centrar_imagen("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Flag_of_Spain.svg/255px-Flag_of_Spain.svg.png", 50)
-st.markdown("")
-centrar_texto("Aplicacion para la administración de alquileres temporarios.", 5, "white")
-centrar_texto("Si desea una personalizacion de este proyecto consulte con nuestro desarrollador.", 5, "white")
-
-col4, col5, col6 = st.columns([5, 3.7, 2])
-with col5:
-    photo_link("Whatsapp", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/120px-WhatsApp.svg.png", "https://wa.me/5542991657847", "50px")
-
-st.markdown("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
-
-centrar_imagen("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/260px-Flag_of_Portugal.svg.png", 50)
-st.markdown("")
-centrar_texto("Aplicativo para gerenciamento de aluguel temporário.", 5, "white")
-centrar_texto("Caso queira customização deste projeto consulte nosso desenvolvedor.", 5, "white")
-
-col7, col8, col9 = st.columns([5, 3.7, 2])
-with col8:
-    photo_link("Whatsapp", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/120px-WhatsApp.svg.png", "https://wa.me/5542991657847", "50px")
-
-st.markdown("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
 
 
