@@ -170,7 +170,7 @@ if action == "Nova ordem de serviço":
             with col01:
                 carro = st.text_input("Marca do carro")
             with col02:
-                modelo = st.tet_input("Adicione o modelo do carro")
+                modelo = st.text_input("Adicione o modelo do carro")
             with col03:
                 ano = st.text_input("Adicione o ano do carro")
      
