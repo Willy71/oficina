@@ -79,7 +79,7 @@ gc = gspread.authorize(credentials)
 
 # Clave de la hoja de cálculo (la parte de la URL después de "/d/" y antes de "/edit")
 SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'  # Reemplaza con la clave de tu documento
-SHEET_NAME = 'Principal'  # Nombre de la hoja dentro del documento
+SHEET_NAME = 'Hoja 1'  # Nombre de la hoja dentro del documento
 
 try:
     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
@@ -208,7 +208,7 @@ if action == "Nova ordem de serviço":
                 updated_vendor_data = pd.DataFrame(data)
                 # Adding updated data to the dataframe
                 updated_df = pd.concat([existing_data, updated_vendor_data], ignore_index=True)
-                conn.update(worksheet="Principal", data=updated_df)
+                conn.update(worksheet="Hoja 1", data=updated_df)
                 st.success("Ordem de serviço adicionada com sucesso")
                 df = st.dataframe(existing_data, hide_index=True)
 # ____________________________________________________________________________________________________________________________________
