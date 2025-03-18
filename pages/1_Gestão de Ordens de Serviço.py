@@ -180,7 +180,7 @@ if action == "Nova ordem de serviço":
             
                 
         with st.container():    
-            col10, col11, col12, col13, col14, col15 = st.columns(6)
+            col10, col11, col12, col13, col14 = st.columns(5)
             with col10:
                 carro = st.text_input("Marca")
             with col11:
