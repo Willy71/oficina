@@ -194,7 +194,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col10, col11, col12, col13 = st.columns(4)
             with col11:
-                estado = st.selectbox("Seleccione el estado del vehículo:", opciones_estado)
+                estado = st.selectbox("Estado do serviço", opciones_estado)
      
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
