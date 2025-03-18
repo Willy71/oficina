@@ -7,8 +7,8 @@ from google.oauth2.service_account import Credentials
 
 # Colocar nome na pagina, icone e ampliar a tela
 st.set_page_config(
-    page_title="Calendar",
-    page_icon=":house",
+    page_title="Carros",
+    page_icon=":car",
     layout="wide"
 )
 
