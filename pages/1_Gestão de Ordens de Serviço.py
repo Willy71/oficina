@@ -150,9 +150,9 @@ action = st.selectbox(
     "Escolha uma ação",
     [
         "Nova ordem de serviço", # Insert
-        "Atualizar reserva existente", # Update
-        "Ver todos as reservas", # View
-        "Apagar reserva", # Delete
+        "Atualizar ordem existente", # Update
+        "Ver todos as ordens de serviço", # View
+        "Apagar ordem de serviço", # Delete
     ],
 )
 # ----------------------------------------------------------------------------------------------------------------------------------
@@ -296,8 +296,8 @@ if action == "Nova ordem de serviço":
                 df = st.dataframe(existing_data, hide_index=True)
 # ____________________________________________________________________________________________________________________________________
 
-elif action == "Atualizar reserva existente":
-    st.markdown("Selecione o ID da reserva que deseja atualizar.")
+elif action == "Atualizar ordem existente":
+    st.markdown("Selecione o ID da ordem que deseja atualizar.")
     # Eliminar filas con NaN en la columna "user_id"
     existing_data = existing_data.dropna(subset=["user_id"])
 
@@ -521,12 +521,12 @@ elif action == "Atualizar reserva existente":
                     st.dataframe(existing_data, hide_index=True)      
 # ____________________________________________________________________________________________________________________________________
 # Ver todas las reservas
-elif action == "Ver todos as reservas":
+elif action == "Ver todos as ordens de serviço":
     st.dataframe(existing_data, hide_index=True)
 
 # ____________________________________________________________________________________________________________________________________
 # Delete Vendor by user_id
-elif action == "Apagar reserva":
+elif action == "Apagar ordem de serviço":
     user_id_to_delete = st.selectbox(
         "Selecione uma reserva para apagar", options=existing_data["user_id"].astype(int).tolist()
     )
