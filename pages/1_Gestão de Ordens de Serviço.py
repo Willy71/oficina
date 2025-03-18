@@ -225,13 +225,19 @@ if action == "Nova ordem de serviço":
                     [
                         {
                             'user_id': obtener_proximo_id(existing_data),
-                            'Praca': praca,
-                            'Carro': carro,
-                            'Modelo': modelo,
-                            'Ano': ano,
-                            'Cor': cor,
-                            'Km': km,
-                            'Estado': estado
+                            'praca': praca,
+                            'date_in': data_entrada,
+                            'date_prev': previsao_entrega,
+                            'date_out': data_saida,
+                            'carro': carro,
+                            'modelo': modelo,
+                            'ano': ano,
+                            'cor': cor,
+                            'km': km,
+                            'estado': estado,
+                            'dono_empresa': dono_empresa,
+                            'telefone': telefone,
+                            'endereco': endereco                            
                         }
                     ]
                 )
