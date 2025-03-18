@@ -208,6 +208,9 @@ if action == "Nova ordem de serviço":
                 updated_vendor_data = pd.DataFrame(data)
                 # Adding updated data to the dataframe
                 updated_df = pd.concat([existing_data, updated_vendor_data], ignore_index=True)
+                # Reemplazo de valores nulos y conversión a string
+                updated_df = updated_df.fillna("").astype(str)
+                # Actualización en Google Sheets
                 worksheet.update([updated_df.columns.values.tolist()] + updated_df.values.tolist())
                 st.success("Ordem de serviço adicionada com sucesso")
                 df = st.dataframe(existing_data, hide_index=True)
