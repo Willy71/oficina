@@ -92,10 +92,14 @@ except gspread.exceptions.SpreadsheetNotFound:
 
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
-    if df.empty:
+    if df.empty or 'user_id' not in df.columns:
+        return 1  # Si el DataFrame está vacío o no tiene la columna, el próximo ID es 1
+    try:
+        max_id = pd.to_numeric(df['user_id'], errors='coerce').max()
+        return int(max_id) + 1 if not pd.isna(max_id) else 1
+    except Exception as e:
+        print(f"Error al obtener el próximo ID: {e}")
         return 1
-    else:
-        return df['user_id'].max() + 1
         
 
 def centrar_imagen(imagen, ancho):
