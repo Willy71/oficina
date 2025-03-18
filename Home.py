@@ -16,7 +16,7 @@ reduce_space ="""
             <style type="text/css">
             /* Remueve el espacio en el encabezado por defecto de las apps de Streamlit */
             div[data-testid="stAppViewBlockContainer"]{
-                padding-top:30px;
+                padding-top:10px;
             }
             </style>
             """
