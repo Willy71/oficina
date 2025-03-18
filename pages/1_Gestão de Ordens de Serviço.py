@@ -202,8 +202,8 @@ if action == "Nova ordem de serviço":
             "Entregado"
         ]
         with st.container():    
-            col20, col21, col22, col23, col24 = st.columns(5)
-            with col22:
+            col20, col21, col22= st.columns(3)
+            with col21:
                 estado = st.selectbox("Estado do serviço", opciones_estado)
 
         with st.container():    
