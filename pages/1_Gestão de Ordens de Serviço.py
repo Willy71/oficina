@@ -166,89 +166,14 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns([2, 2, 2, 1, 3])
             with col00:
-                praca = st.text_input("Adicione uma praca")
+                praca = st.text_input("Praca")
             with col01:
-                carro = st.text_input("Adicione a marca do carro")
+                carro = st.text_input("Marca do carro")
             with col02:
                 modelo = st.tet_input("Adicione o modelo do carro")
             with col03:
                 ano = st.text_input("Adicione o ano do carro")
-               
-        
-        with st.container():    
-            col10, col11, col12, col13, col14, col15, col16 = st.columns([1, 2, 2, 0.5, 2, 2, 1])
-            with col11:
-                checkin_time = st.time_input('Hora de entrada', value=None)
-            with col12:
-                admission_date = st.date_input("Data de entrada", format="DD.MM.YYYY")
-            with col14:
-                checkout_time = st.time_input('Hora de saida', value=None)
-            with col15:
-                departure_date = st.date_input("Data de saida", format="DD.MM.YYYY")
-        
-        with st.container():    
-            col30, col31, col32, col33, col34 = st.columns([2, 2, 2, 0.2, 3.8])
-            with col30:
-                first_name = st.text_input('Primeiro nome')
-            with col31:
-                last_name = st.text_input('Sobrenome')
-            with col32:
-                email = st.text_input("Entre um email válido:")
-            with col34:
-                st.text("")
-                if validar_email(email):
-                    st.success("¡El email é valido!")
-                else:
-                    st.error("O endereço de e-mail não é válido.")
-             
-        # ...
-
-        with st.container():    
-            col40, col41, col42, col43, col44 = st.columns([2, 2, 0.2, 0.2, 5.6])
-            with col40:
-                # Selecciona el país desde el selectbox
-                country = st.selectbox('Selecione um pais', list(prefijos.keys()))
-            with col41:
-                phone_number = st.text_input("Número de telefone:")
-            with col44:
-                st.text("")
-                # Validar el número de teléfono continuamente
-                if validar_numero_telefono(phone_number):
-                    st.success("Número de telefone valido!")
-                else:
-                    st.error("Não valido. Insira um número de 11 dígitos.")
-        
-        with st.container():    
-            col50, col51, col52, col53, col54 = st.columns([4, 2, 2, 1, 1])
-            with col50:
-                street = st.text_input('Rua')
-            with col51:
-                street_number = st.text_input('Número da rua')
-            with col52:
-                department_number = st.text_input("Número de apartamento")
-        
-        with st.container():    
-            col60, col61, col62, col63, col64 = st.columns([2, 2, 2, 1, 3])
-            with col60:
-                city = st.text_input('Cidade')
-            with col61:
-                state = st.text_input('Estado')
-            with col62:
-                zip_code = st.text_input('CEP')
-        
-        with st.container():    
-            col70, col71, col72, col73, col74, col75 = st.columns([1, 2, 2, 2, 2, 1])
-            with col71:
-                total_cost = st.number_input(label="Costo total")       
-            with col72:
-                opciones_pago = ["Nenhum", "Cartão de crédito", "A vista", "Débito"]
-                payment_option = st.selectbox("Pagamento", opciones_pago, index=None, placeholder="Opções de pagamento...")
-            with col73:
-                opciones_saldo = ["Nenhum", "Pago integral", "Pago parcial"]
-                pay_option = st.selectbox("Pagamento", opciones_saldo, index=None, placeholder="Pagamento...")
-            with col74:
-                pay_amount = st.number_input(label='Inserir pagamento')
-
+     
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
             with col83:
@@ -263,25 +188,6 @@ if action == "Nova ordem de serviço":
                             'Carro': carro,
                             'Modelo': modelo,
                             'Ano': ano,
-                            'Hora de entrada': checkin_time.isoformat() if checkin_time else None,
-                            'Data de entrada': admission_date.isoformat() if admission_date else None,
-                            'Hora de saida': checkout_time.isoformat() if checkout_time else None,
-                            'Data de saida': departure_date.isoformat() if departure_date else None,
-                            'Primeiro nome': first_name,
-                            'Sobrenome': last_name,
-                            'Email': email,
-                            'Pais': country,
-                            'Celular': phone_number,
-                            'Rua': street,
-                            'Numero': street_number,
-                            'Apartamento': department_number,
-                            'Cidade': city,
-                            'Estado': state,
-                            'CEP': zip_code,
-                            'Costo total': total_cost,
-                            'Forma de pagamento': payment_option,
-                            'Opção de pagamento': pay_option,
-                            'Quantia paga': pay_amount
                         }
                     ]
                 )
