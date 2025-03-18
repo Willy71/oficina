@@ -133,6 +133,9 @@ def get_occupied_dates(selected_room, occupancy_data):
 
     return entry_dates, entry_times, exit_dates, exit_times, occupied_dates
 
+# Titulo de la pagina
+centrar_texto("Consultar carro - Histórico", 1, "white")
+
 # ----------------------------------------------------------------------------------------------------------------------------
 # Widget para seleccionar el "Quarto" (Room)
 #room_options = sorted(existing_data["Quarto"].astype(int).unique())
