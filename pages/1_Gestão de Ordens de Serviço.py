@@ -187,7 +187,7 @@ if action == "Nova ordem de serviço":
                 data = pd.DataFrame(
                     [
                         {
-                            # '#': obtener_proximo_id(existing_data),
+                            'user id': obtener_proximo_id(existing_data),
                             'Praca': praca,
                             'Carro': carro,
                             'Modelo': modelo,
