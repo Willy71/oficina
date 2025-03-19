@@ -322,11 +322,156 @@ if action == "Nova ordem de serviço":
             with col152:
                 valor_serv_12 = st.text_input("12 - Valor do serviço")
 
+        with st.container():    
+            col160, col161, col162 = st.columns([1,5,2])
+            with col160:
+                quant_peca_1 = st.text_input("1 - Quantidade")
+            with col161:
+                desc_peca_1 = st.text_input("1 - Descriçao da peça")
+            with col162:
+                valor_peca_1 = st.text_input("1 - Valor de cada peça")
+
+        with st.container():    
+            col170, col171, col172 = st.columns([1,5,2])
+            with col170:
+                quant_peca_2 = st.text_input("2 - Quantidade")
+            with col171:
+                desc_peca_2 = st.text_input("2 - Descriçao da peça")
+            with col172:
+                valor_peca_2 = st.text_input("2 - Valor de cada peça")
+
+        with st.container():    
+            col180, col181, col182 = st.columns([1,5,2])
+            with col180:
+                quant_peca_3 = st.text_input("3 - Quantidade")
+            with col181:
+                desc_peca_3 = st.text_input("3 - Descriçao da peça")
+            with col182:
+                valor_peca_3 = st.text_input("3 - Valor de cada peça")
+        
+        with st.container():    
+            col190, col191, col192 = st.columns([1,5,2])
+            with col190:
+                quant_peca_4 = st.text_input("4 - Quantidade")
+            with col191:
+                desc_peca_4 = st.text_input("4 - Descriçao da peça")
+            with col192:
+                valor_peca_4 = st.text_input("4 - Valor de cada peça")
+        
+        with st.container():    
+            col200, col201, col202 = st.columns([1,5,2])
+            with col200:
+                quant_peca_5 = st.text_input("5 - Quantidade")
+            with col201:
+                desc_peca_5 = st.text_input("5 - Descriçao da peça")
+            with col202:
+                valor_peca_5 = st.text_input("5 - Valor de cada peça")
+        
+        with st.container():    
+            col210, col211, col212 = st.columns([1,5,2])
+            with col210:
+                quant_peca_6 = st.text_input("6 - Quantidade")
+            with col211:
+                desc_peca_6 = st.text_input("6 - Descriçao da peça")
+            with col212:
+                valor_peca_6 = st.text_input("6 - Valor de cada peça")
+        
+        with st.container():    
+            col220, col221, col222 = st.columns([1,5,2])
+            with col220:
+                quant_peca_7 = st.text_input("7 - Quantidade")
+            with col221:
+                desc_peca_7 = st.text_input("7 - Descriçao da peça")
+            with col222:
+                valor_peca_7 = st.text_input("7 - Valor de cada peça")
+        
+        with st.container():    
+            col230, col231, col232 = st.columns([1,5,2])
+            with col230:
+                quant_peca_8 = st.text_input("8 - Quantidade")
+            with col231:
+                desc_peca_8 = st.text_input("8 - Descriçao da peça")
+            with col232:
+                valor_peca_8 = st.text_input("8 - Valor de cada peça")
+        
+        with st.container():    
+            col240, col241, col242 = st.columns([1,5,2])
+            with col240:
+                quant_peca_9 = st.text_input("9 - Quantidade")
+            with col241:
+                desc_peca_9 = st.text_input("9 - Descriçao da peça")
+            with col242:
+                valor_peca_9 = st.text_input("9 - Valor de cada peça")
+        
+        with st.container():    
+            col250, col251, col252 = st.columns([1,5,2])
+            with col250:
+                quant_peca_10 = st.text_input("10 - Quantidade")
+            with col251:
+                desc_peca_10 = st.text_input("10 - Descriçao da peça")
+            with col252:
+                valor_peca_10 = st.text_input("10 - Valor de cada peça")
+        
+        with st.container():    
+            col260, col261, col262 = st.columns([1,5,2])
+            with col260:
+                quant_peca_11 = st.text_input("11 - Quantidade")
+            with col261:
+                desc_peca_11 = st.text_input("11 - Descriçao da peça")
+            with col262:
+                valor_peca_11 = st.text_input("11 - Valor de cada peça")
+        
+        with st.container():    
+            col270, col271, col272 = st.columns([1,5,2])
+            with col270:
+                quant_peca_12 = st.text_input("12 - Quantidade")
+            with col271:
+                desc_peca_12 = st.text_input("12 - Descriçao da peça")
+            with col272:
+                valor_peca_12 = st.text_input("12 - Valor de cada peça")
+        
+        with st.container():    
+            col280, col281, col282 = st.columns([1,5,2])
+            with col280:
+                quant_peca_13 = st.text_input("13 - Quantidade")
+            with col281:
+                desc_peca_13 = st.text_input("13 - Descriçao da peça")
+            with col282:
+                valor_peca_13 = st.text_input("13 - Valor de cada peça")
+        
+        with st.container():    
+            col290, col291, col292 = st.columns([1,5,2])
+            with col290:
+                quant_peca_14 = st.text_input("14 - Quantidade")
+            with col291:
+                desc_peca_14 = st.text_input("14 - Descriçao da peça")
+            with col292:
+                valor_peca_14 = st.text_input("14 - Valor de cada peça")
+        
+        with st.container():    
+            col300, col301, col302 = st.columns([1,5,2])
+            with col300:
+                quant_peca_15 = st.text_input("15 - Quantidade")
+            with col301:
+                desc_peca_15 = st.text_input("15 - Descriçao da peça")
+            with col302:
+                valor_peca_15 = st.text_input("15 - Valor de cada peça")
+        
+        with st.container():    
+            col310, col311, col312 = st.columns([1,5,2])
+            with col310:
+                quant_peca_16 = st.text_input("16 - Quantidade")
+            with col311:
+                desc_peca_16 = st.text_input("16 - Descriçao da peça")
+            with col312:
+                valor_peca_16 = st.text_input("16 - Valor de cada peça")
+        
+
                 
      
         with st.container():
-            col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
-            with col83:
+            col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
+            with col322:
                 submit_button = st.form_submit_button("Enviar")
             if submit_button:
                 # Obtener los datos ingresados
@@ -382,7 +527,55 @@ if action == "Nova ordem de serviço":
                             'valor_serv_11': valor_serv_11,
                             'item_serv_12': item_serv_12,
                             'desc_ser_12': desc_ser_12,
-                            'valor_serv_12': valor_serv_12
+                            'valor_serv_12': valor_serv_12,
+                            'quant_peca_1': quant_peca_1,
+                            'desc_peca_1': desc_peca_1,
+                            'valor_peca_1': valor_peca_1,
+                            'quant_peca_2': quant_peca_2,
+                            'desc_peca_2': desc_peca_2,
+                            'valor_peca_2': valor_peca_2,
+                            'quant_peca_3': quant_peca_3,
+                            'desc_peca_3': desc_peca_3,
+                            'valor_peca_3': valor_peca_3,
+                            'quant_peca_4': quant_peca_4,
+                            'desc_peca_4': desc_peca_4,
+                            'valor_peca_4': valor_peca_4,
+                            'quant_peca_5': quant_peca_5,
+                            'desc_peca_5': desc_peca_5,
+                            'valor_peca_5': valor_peca_5,
+                            'quant_peca_6': quant_peca_6,
+                            'desc_peca_6': desc_peca_6,
+                            'valor_peca_6': valor_peca_6,
+                            'quant_peca_7': quant_peca_7,
+                            'desc_peca_7': desc_peca_7,
+                            'valor_peca_7': valor_peca_7,
+                            'quant_peca_8': quant_peca_8,
+                            'desc_peca_8': desc_peca_8,
+                            'valor_peca_8': valor_peca_8,
+                            'quant_peca_9': quant_peca_9,
+                            'desc_peca_9': desc_peca_9,
+                            'valor_peca_9': valor_peca_9,
+                            'quant_peca_10': quant_peca_10,
+                            'desc_peca_10': desc_peca_10,
+                            'valor_peca_10': valor_peca_10,
+                            'quant_peca_11': quant_peca_11,
+                            'desc_peca_11': desc_peca_11,
+                            'valor_peca_11': valor_peca_11,
+                            'quant_peca_12': quant_peca_12,
+                            'desc_peca_12': desc_peca_12,
+                            'valor_peca_12': valor_peca_12,
+                            'quant_peca_13': quant_peca_13,
+                            'desc_peca_13': desc_peca_13,
+                            'valor_peca_13': valor_peca_13,
+                            'quant_peca_14': quant_peca_14,
+                            'desc_peca_14': desc_peca_14,
+                            'valor_peca_14': valor_peca_14,
+                            'quant_peca_15': quant_peca_15,
+                            'desc_peca_15': desc_peca_15,
+                            'valor_peca_15': valor_peca_15,
+                            'quant_peca_16': quant_peca_16,
+                            'desc_peca_16': desc_peca_16,
+                            'valor_peca_16': valor_peca_16                       
                         }
                     ]
                 )
