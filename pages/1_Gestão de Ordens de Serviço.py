@@ -233,7 +233,7 @@ if action == "Nova ordem de serviço":
                 valor_serv_2 = st.text_input("2- Valor do serviço")
 
         with st.container():    
-            col60, col61, co62 = st.columns([1,5,2])
+            col60, col61, col62 = st.columns([1,5,2])
             with col60:
                 item_serv_3 = st.text_input("3 - Item")
             with col61:
