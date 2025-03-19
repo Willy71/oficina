@@ -219,9 +219,18 @@ if action == "Nova ordem de serviço":
             with col40:
                 item_serv_1 = st.text_input("Item")
             with col41:
-                desc_ser_1 = st.text_input("Descriçao de serviço")
+                desc_ser_1 = st.text_input("1 - Descriçao de serviço")
             with col42:
-                valor_serv_1 = st.text_input("Valor do serviço")
+                valor_serv_1 = st.text_input("1 - Valor do serviço")
+                
+        with st.container():    
+            col50, col51, col52 = st.columns([1,5,2])
+            with col50:
+                item_serv_2 = st.text_input("Item")
+            with col51:
+                desc_ser_2 = st.text_input("2 -Descriçao de serviço")
+            with col52:
+                valor_serv_2 = st.text_input("2- Valor do serviço")
      
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
@@ -248,7 +257,10 @@ if action == "Nova ordem de serviço":
                             'endereco': endereco,
                             'item_serv_1': item_serv_1,
                             'desc_ser_1': desc_ser_1,
-                            'valor_serv_1': valor_serv_1                 
+                            'valor_serv_1': valor_serv_1,
+                            'item_serv_2': item_serv_2,
+                            'desc_ser_2': desc_ser_2,
+                            'valor_serv_2': valor_serv_2 
                         }
                     ]
                 )
