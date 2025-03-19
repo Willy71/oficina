@@ -91,11 +91,18 @@ def obtener_proximo_id(df):
     if df.empty or 'user_id' not in df.columns:
         return 1  # Si el DataFrame está vacío o no tiene la columna, el próximo ID es 1
     try:
-        max_id = pd.to_numeric(df['user_id'], errors='coerce').max()
-        return int(max_id) + 1 if not pd.isna(max_id) else 1
-    except Exception as e:
-        print(f"Error al obtener el próximo ID: {e}")
-        return 1
+    # Intentar obtener los registros de la hoja
+    existing_data = pd.DataFrame(worksheet.get_all_records())
+
+        # Verificar si el DataFrame está vacío
+        if existing_data.empty:
+            st.warning("La hoja de cálculo está vacía o no contiene registros.")
+        else:
+            st.write("Datos cargados correctamente:")
+            st.dataframe(existing_data)
+
+    except gspread.exceptions.GSpreadException as e:
+        st.error(f"Error al obtener los registros: {str(e)}")
         
 
 def centrar_imagen(imagen, ancho):
