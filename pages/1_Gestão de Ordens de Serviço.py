@@ -325,7 +325,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col160, col161, col162 = st.columns([1,5,2])
             with col160:
-                quant_peca_1 = st.text_input("1 - Quantidade")
+                quant_peca_1 = st.text_input("1 - Quant.")
             with col161:
                 desc_peca_1 = st.text_input("1 - Descriçao da peça")
             with col162:
@@ -334,7 +334,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col170, col171, col172 = st.columns([1,5,2])
             with col170:
-                quant_peca_2 = st.text_input("2 - Quantidade")
+                quant_peca_2 = st.text_input("2 - Quant.")
             with col171:
                 desc_peca_2 = st.text_input("2 - Descriçao da peça")
             with col172:
@@ -343,7 +343,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col180, col181, col182 = st.columns([1,5,2])
             with col180:
-                quant_peca_3 = st.text_input("3 - Quantidade")
+                quant_peca_3 = st.text_input("3 - Quant.")
             with col181:
                 desc_peca_3 = st.text_input("3 - Descriçao da peça")
             with col182:
@@ -352,7 +352,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col190, col191, col192 = st.columns([1,5,2])
             with col190:
-                quant_peca_4 = st.text_input("4 - Quantidade")
+                quant_peca_4 = st.text_input("4 - Quant.")
             with col191:
                 desc_peca_4 = st.text_input("4 - Descriçao da peça")
             with col192:
@@ -361,7 +361,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col200, col201, col202 = st.columns([1,5,2])
             with col200:
-                quant_peca_5 = st.text_input("5 - Quantidade")
+                quant_peca_5 = st.text_input("5 - Quant.")
             with col201:
                 desc_peca_5 = st.text_input("5 - Descriçao da peça")
             with col202:
@@ -370,7 +370,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col210, col211, col212 = st.columns([1,5,2])
             with col210:
-                quant_peca_6 = st.text_input("6 - Quantidade")
+                quant_peca_6 = st.text_input("6 - Quant.")
             with col211:
                 desc_peca_6 = st.text_input("6 - Descriçao da peça")
             with col212:
@@ -379,7 +379,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col220, col221, col222 = st.columns([1,5,2])
             with col220:
-                quant_peca_7 = st.text_input("7 - Quantidade")
+                quant_peca_7 = st.text_input("7 - Quant.")
             with col221:
                 desc_peca_7 = st.text_input("7 - Descriçao da peça")
             with col222:
@@ -388,7 +388,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col230, col231, col232 = st.columns([1,5,2])
             with col230:
-                quant_peca_8 = st.text_input("8 - Quantidade")
+                quant_peca_8 = st.text_input("8 - Quant.")
             with col231:
                 desc_peca_8 = st.text_input("8 - Descriçao da peça")
             with col232:
@@ -397,7 +397,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col240, col241, col242 = st.columns([1,5,2])
             with col240:
-                quant_peca_9 = st.text_input("9 - Quantidade")
+                quant_peca_9 = st.text_input("9 - Quant.")
             with col241:
                 desc_peca_9 = st.text_input("9 - Descriçao da peça")
             with col242:
@@ -406,7 +406,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col250, col251, col252 = st.columns([1,5,2])
             with col250:
-                quant_peca_10 = st.text_input("10 - Quantidade")
+                quant_peca_10 = st.text_input("10 - Quant.")
             with col251:
                 desc_peca_10 = st.text_input("10 - Descriçao da peça")
             with col252:
@@ -415,7 +415,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col260, col261, col262 = st.columns([1,5,2])
             with col260:
-                quant_peca_11 = st.text_input("11 - Quantidade")
+                quant_peca_11 = st.text_input("11 - Quant.")
             with col261:
                 desc_peca_11 = st.text_input("11 - Descriçao da peça")
             with col262:
@@ -424,7 +424,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col270, col271, col272 = st.columns([1,5,2])
             with col270:
-                quant_peca_12 = st.text_input("12 - Quantidade")
+                quant_peca_12 = st.text_input("12 - Quant.")
             with col271:
                 desc_peca_12 = st.text_input("12 - Descriçao da peça")
             with col272:
@@ -433,7 +433,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col280, col281, col282 = st.columns([1,5,2])
             with col280:
-                quant_peca_13 = st.text_input("13 - Quantidade")
+                quant_peca_13 = st.text_input("13 - Quant.")
             with col281:
                 desc_peca_13 = st.text_input("13 - Descriçao da peça")
             with col282:
@@ -442,7 +442,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col290, col291, col292 = st.columns([1,5,2])
             with col290:
-                quant_peca_14 = st.text_input("14 - Quantidade")
+                quant_peca_14 = st.text_input("14 - Quant.")
             with col291:
                 desc_peca_14 = st.text_input("14 - Descriçao da peça")
             with col292:
@@ -451,7 +451,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col300, col301, col302 = st.columns([1,5,2])
             with col300:
-                quant_peca_15 = st.text_input("15 - Quantidade")
+                quant_peca_15 = st.text_input("15 - Quant.")
             with col301:
                 desc_peca_15 = st.text_input("15 - Descriçao da peça")
             with col302:
@@ -460,7 +460,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col310, col311, col312 = st.columns([1,5,2])
             with col310:
-                quant_peca_16 = st.text_input("16 - Quantidade")
+                quant_peca_16 = st.text_input("16 - Quant.")
             with col311:
                 desc_peca_16 = st.text_input("16 - Descriçao da peça")
             with col312:
