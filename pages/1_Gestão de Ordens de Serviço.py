@@ -217,7 +217,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col40, col41, col42 = st.columns([1,5,2])
             with col40:
-                item_serv_1 = st.text_input("Item")
+                item_serv_1 = st.text_input("1 - Item")
             with col41:
                 desc_ser_1 = st.text_input("1 - Descriçao de serviço")
             with col42:
@@ -226,7 +226,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col50, col51, col52 = st.columns([1,5,2])
             with col50:
-                item_serv_2 = st.text_input("Item")
+                item_serv_2 = st.text_input("2 - Item")
             with col51:
                 desc_ser_2 = st.text_input("2 -Descriçao de serviço")
             with col52:
