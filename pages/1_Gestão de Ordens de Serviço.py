@@ -231,6 +231,98 @@ if action == "Nova ordem de serviço":
                 desc_ser_2 = st.text_input("2 -Descriçao de serviço")
             with col52:
                 valor_serv_2 = st.text_input("2- Valor do serviço")
+
+        with st.container():    
+            col60, col61, co62 = st.columns([1,5,2])
+            with col60:
+                item_serv_3 = st.text_input("3 - Item")
+            with col61:
+                desc_ser_3 = st.text_input("3 -Descriçao de serviço")
+            with col62:
+                valor_serv_3 = st.text_input("3- Valor do serviço")
+
+        with st.container():    
+            col70, col71, col72 = st.columns([1,5,2])
+            with col70:
+                item_serv_4 = st.text_input("4 - Item")
+            with col71:
+                desc_ser_4 = st.text_input("4 -Descriçao de serviço")
+            with col72:
+                valor_serv_4 = st.text_input("4- Valor do serviço")
+
+        with st.container():    
+            col80, col81, col82 = st.columns([1,5,2])
+            with col80:
+                item_serv_5 = st.text_input("5 - Item")
+            with col81:
+                desc_ser_5 = st.text_input("5 - Descriçao de serviço")
+            with col82:
+                valor_serv_5 = st.text_input("5 - Valor do serviço")
+        
+        with st.container():    
+            col90, col91, col92 = st.columns([1,5,2])
+            with col90:
+                item_serv_6 = st.text_input("6 - Item")
+            with col91:
+                desc_ser_6 = st.text_input("6 - Descriçao de serviço")
+            with col92:
+                valor_serv_6 = st.text_input("6 - Valor do serviço")
+        
+        with st.container():    
+            col100, col101, col102 = st.columns([1,5,2])
+            with col100:
+                item_serv_7 = st.text_input("7 - Item")
+            with col101:
+                desc_ser_7 = st.text_input("7 - Descriçao de serviço")
+            with col102:
+                valor_serv_7 = st.text_input("7 - Valor do serviço")
+        
+        with st.container():    
+            col110, col111, col112 = st.columns([1,5,2])
+            with col110:
+                item_serv_8 = st.text_input("8 - Item")
+            with col111:
+                desc_ser_8 = st.text_input("8 - Descriçao de serviço")
+            with col112:
+                valor_serv_8 = st.text_input("8 - Valor do serviço")
+        
+        with st.container():    
+            col120, col121, col122 = st.columns([1,5,2])
+            with col120:
+                item_serv_9 = st.text_input("9 - Item")
+            with col121:
+                desc_ser_9 = st.text_input("9 - Descriçao de serviço")
+            with col122:
+                valor_serv_9 = st.text_input("9 - Valor do serviço")
+        
+        with st.container():    
+            col130, col131, col132 = st.columns([1,5,2])
+            with col130:
+                item_serv_10 = st.text_input("10 - Item")
+            with col131:
+                desc_ser_10 = st.text_input("10 - Descriçao de serviço")
+            with col132:
+                valor_serv_10 = st.text_input("10 - Valor do serviço")
+        
+        with st.container():    
+            col140, col141, col142 = st.columns([1,5,2])
+            with col140:
+                item_serv_11 = st.text_input("11 - Item")
+            with col141:
+                desc_ser_11 = st.text_input("11 - Descriçao de serviço")
+            with col142:
+                valor_serv_11 = st.text_input("11 - Valor do serviço")
+        
+        with st.container():    
+            col150, col151, col152 = st.columns([1,5,2])
+            with col150:
+                item_serv_12 = st.text_input("12 - Item")
+            with col151:
+                desc_ser_12 = st.text_input("12 - Descriçao de serviço")
+            with col152:
+                valor_serv_12 = st.text_input("12 - Valor do serviço")
+
+                
      
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
@@ -260,7 +352,37 @@ if action == "Nova ordem de serviço":
                             'valor_serv_1': valor_serv_1,
                             'item_serv_2': item_serv_2,
                             'desc_ser_2': desc_ser_2,
-                            'valor_serv_2': valor_serv_2 
+                            'valor_serv_2': valor_serv_2,
+                            'item_serv_3': item_serv_3,
+                            'desc_ser_3': desc_ser_3,
+                            'valor_serv_3': valor_serv_3,
+                            'item_serv_4': item_serv_4,
+                            'desc_ser_4': desc_ser_4,
+                            'valor_serv_4': valor_serv_4,
+                            'item_serv_5': item_serv_5,
+                            'desc_ser_5': desc_ser_5,
+                            'valor_serv_5': valor_serv_5,
+                            'item_serv_6': item_serv_6,
+                            'desc_ser_6': desc_ser_6,
+                            'valor_serv_6': valor_serv_6,
+                            'item_serv_7': item_serv_7,
+                            'desc_ser_7': desc_ser_7,
+                            'valor_serv_7': valor_serv_7,
+                            'item_serv_8': item_serv_8,
+                            'desc_ser_8': desc_ser_8,
+                            'valor_serv_8': valor_serv_8,
+                            'item_serv_9': item_serv_9,
+                            'desc_ser_9': desc_ser_9,
+                            'valor_serv_9': valor_serv_9,
+                            'item_serv_10': item_serv_10,
+                            'desc_ser_10': desc_ser_10,
+                            'valor_serv_10': valor_serv_10,
+                            'item_serv_11': item_serv_11,
+                            'desc_ser_11': desc_ser_11,
+                            'valor_serv_11': valor_serv_11,
+                            'item_serv_12': item_serv_12,
+                            'desc_ser_12': desc_ser_12,
+                            'valor_serv_12': valor_serv_12
                         }
                     ]
                 )
