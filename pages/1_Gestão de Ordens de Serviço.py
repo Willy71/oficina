@@ -85,24 +85,31 @@ except gspread.exceptions.SpreadsheetNotFound:
 #=============================================================================================================================
 
 # Definir funciones a ser usadas:
+try:
+    # Intentar obtener los registros de la hoja al inicio del script
+    existing_data = pd.DataFrame(worksheet.get_all_records())
+
+    # Verificar si el DataFrame está vacío
+    if existing_data.empty:
+        st.warning("La hoja de cálculo está vacía o no contiene registros.")
+        existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío con la columna 'user_id'
+    else:
+        st.write("Datos cargados correctamente:")
+        st.dataframe(existing_data)
+
+except gspread.exceptions.GSpreadException as e:
+    st.error(f"Error al obtener los registros: {str(e)}")
+    existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
 
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
     if df.empty or 'user_id' not in df.columns:
         return 1  # Si el DataFrame está vacío o no tiene la columna, el próximo ID es 1
-    try:
-        # Intentar obtener los registros de la hoja
-        existing_data = pd.DataFrame(worksheet.get_all_records())
-    
-        # Verificar si el DataFrame está vacío
-        if existing_data.empty:
-            st.warning("La hoja de cálculo está vacía o no contiene registros.")
-        else:
-            st.write("Datos cargados correctamente:")
-            st.dataframe(existing_data)
+    return df['user_id'].max() + 1
 
-    except gspread.exceptions.GSpreadException as e:
-        st.error(f"Error al obtener los registros: {str(e)}")
+# Uso de la función para obtener el próximo ID
+nuevo_id = obtener_proximo_id(existing_data)
+st.write(f"El próximo ID disponible es: {nuevo_id}")
 
         
 
