@@ -213,6 +213,15 @@ if action == "Nova ordem de serviço":
                 telefone = st.text_input("Telefone")
             with col32:
                 endereco = st.text_input("Endereço")
+
+         with st.container():    
+            col40, col41, col42 = st.columns([1,5,2])
+            with col40:
+                item_serv_1 = st.text_input("Item")
+            with col41:
+                desc_ser_1 = st.text_input("Telefone")
+            with col42:
+                valor_serv_1 = st.text_input("Endereço")
      
         with st.container():
             col81, col82, col83, col84, col85 = st.columns([1.2, 1.2, 1, 1, 1])
