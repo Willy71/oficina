@@ -214,7 +214,7 @@ if action == "Nova ordem de serviço":
             with col32:
                 endereco = st.text_input("Endereço")
 
-         with st.container():    
+        with st.container():    
             col40, col41, col42 = st.columns(3)
             with col40:
                 item_serv_1 = st.text_input("Item")
