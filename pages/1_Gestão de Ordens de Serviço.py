@@ -83,8 +83,38 @@ try:
 except gspread.exceptions.SpreadsheetNotFound:
     st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
 #=============================================================================================================================
+try:
+    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+    
+    # Verificar si hay contenido en la hoja
+    all_values = worksheet.get_all_values()
+    if not all_values or len(all_values) == 0:
+        st.warning("La hoja de cálculo está vacía o no contiene registros.")
+        existing_data = pd.DataFrame(columns=['user_id'])  # DataFrame vacío con encabezado
+    else:
+        # Verificar si la primera fila contiene encabezados
+        headers = all_values[0]
+        if not headers or all(header == "" for header in headers):
+            st.warning("La hoja de cálculo no contiene encabezados válidos.")
+            existing_data = pd.DataFrame(columns=['user_id'])  # DataFrame vacío con encabezado
+        else:
+            # Cargar los registros en el DataFrame
+            existing_data = pd.DataFrame(worksheet.get_all_records())
+            
+            # Verificar si la columna 'user_id' está en el DataFrame
+            if 'user_id' not in existing_data.columns:
+                st.warning("La hoja de cálculo no contiene la columna 'user_id'. Se creará una columna vacía.")
+                existing_data['user_id'] = None
+            
+            st.write("Datos cargados correctamente:")
+            st.dataframe(existing_data)
 
-# Definir funciones a ser usadas:
+except gspread.exceptions.SpreadsheetNotFound:
+    st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Verifica la clave y los permisos.")
+except gspread.exceptions.GSpreadException as e:
+    st.error(f"Error al obtener los registros: {str(e)}")
+    existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
+:
 
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
