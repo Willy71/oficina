@@ -144,8 +144,18 @@ def obtener_proximo_id(df):
         return 1
     else:
         return df['user_id'].max() + 1
+
+def guardar_nueva_orden(data):
+    try:
+        # Convertir el diccionario en una lista con el mismo orden que los encabezados
+        nueva_fila = [data.get(col, "") for col in existing_data.columns]
         
+        # Agregar la nueva fila al final de la hoja
+        worksheet.append_row(nueva_fila, value_input_option="RAW")
+        st.success("Orden de servicio guardada exitosamente.")
         
+    except gspread.exceptions.GSpreadException as e:
+        st.error(f"Error al guardar la nueva orden: {str(e)}")
 
 def centrar_imagen(imagen, ancho):
     # Aplicar estilo CSS para centrar la imagen con Markdown
@@ -635,16 +645,17 @@ if action == "Nova ordem de serviço":
                     ].index,
                     inplace=True,
                 )
+                guardar_nueva_orden(nueva_orden)
                 # Creating updated data entry
-                updated_vendor_data = pd.DataFrame(data)
+                #updated_vendor_data = pd.DataFrame(data)
                 # Adding updated data to the dataframe
-                updated_df = pd.concat([existing_data, updated_vendor_data], ignore_index=True)
+                #updated_df = pd.concat([existing_data, updated_vendor_data], ignore_index=True)
                 # Reemplazo de valores nulos y conversión a string
-                updated_df = updated_df.fillna("").astype(str)
+                #updated_df = updated_df.fillna("").astype(str)
                 # Actualización en Google Sheets
-                worksheet.update([updated_df.columns.values.tolist()] + updated_df.values.tolist())
-                st.success("Ordem de serviço adicionada com sucesso")
-                df = st.dataframe(existing_data, hide_index=True)
+                #worksheet.update([updated_df.columns.values.tolist()] + updated_df.values.tolist())
+                #st.success("Ordem de serviço adicionada com sucesso")
+                #df = st.dataframe(existing_data, hide_index=True)
 # ____________________________________________________________________________________________________________________________________
 
 elif action == "Atualizar ordem existente":
