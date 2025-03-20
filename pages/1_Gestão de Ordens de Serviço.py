@@ -84,16 +84,16 @@ except gspread.exceptions.SpreadsheetNotFound:
     st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
 #=============================================================================================================================
 
-# Definir funciones a ser usadas:
 try:
-    # Intentar obtener los registros de la hoja al inicio del script
-    existing_data = pd.DataFrame(worksheet.get_all_records())
-
-    # Verificar si el DataFrame está vacío
-    if existing_data.empty:
+    # Obtener todas las celdas y verificar si hay datos
+    all_values = worksheet.get_all_values()
+    
+    if not all_values or len(all_values) == 0:
         st.warning("La hoja de cálculo está vacía o no contiene registros.")
         existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío con la columna 'user_id'
     else:
+        # Cargar los registros en el DataFrame
+        existing_data = pd.DataFrame(worksheet.get_all_records())
         st.write("Datos cargados correctamente:")
         st.dataframe(existing_data)
 
