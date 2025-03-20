@@ -616,6 +616,9 @@ if action == "Nova ordem de serviço":
 
 
                 try:
+                    # Obtener la hoja de cálculo
+                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+                
                     # Limpiar la hoja existente antes de actualizar
                     worksheet.clear()
                 
@@ -626,9 +629,10 @@ if action == "Nova ordem de serviço":
                     for row in updated_df.values.tolist():
                         worksheet.append_row(row)
                 
-                    st.success("Ordem de serviço adicionada com sucesso")
+                    st.success("Reserva adicionada com sucesso")
                 except Exception as e:
-                    st.error(f"Error de atualização: {str(e)}")
+                    st.error(f"Error al actualizar la hoja: {str(e)}")
+
 
                 
                 df = st.dataframe(existing_data, hide_index=True)
