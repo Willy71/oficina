@@ -147,28 +147,30 @@ def obtener_proximo_id(df):
 
 def guardar_o_actualizar_orden(data, vendor_to_update=None):
     try:
-        # Si estamos actualizando, primero eliminamos la fila correspondiente al user_id
+        # Actualizar la hoja si el vendor_to_update no es None
         if vendor_to_update is not None:
-            # Eliminar la fila existente
-            existing_data.drop(
-                existing_data[existing_data["user_id"] == vendor_to_update].index,
-                inplace=True
-            )
+            # Encontrar la fila correspondiente al user_id
+            fila = existing_data[existing_data["user_id"] == vendor_to_update].index
+            
+            # Si la fila existe, eliminarla
+            if len(fila) > 0:
+                worksheet.delete_rows(fila[0] + 2)  # +2 porque la hoja está indexada desde 1 y tiene encabezado
 
-        # Ahora agregamos la nueva fila (o actualizada) al final de la hoja
+        # Preparar la nueva fila en el mismo orden que las columnas de la hoja
         nueva_fila = [data.get(col, "") for col in existing_data.columns]
 
         # Agregar la nueva fila al final de la hoja
         worksheet.append_row(nueva_fila, value_input_option="RAW")
         st.success("Orden de servicio guardada o actualizada exitosamente.")
 
-        # Actualizar los datos que se muestran en la aplicación
+        # Actualizar el DataFrame con los datos recientes
         existing_data = pd.DataFrame(worksheet.get_all_records())
         st.write("Datos actualizados correctamente:")
         st.dataframe(existing_data)
 
     except gspread.exceptions.GSpreadException as e:
         st.error(f"Error al guardar o actualizar la orden: {str(e)}")
+
 
 
 def centrar_imagen(imagen, ancho):
@@ -661,7 +663,7 @@ if action == "Nova ordem de serviço":
                 #)
                 # Llamar a la función para guardar o actualizar
                 # Llamar a la función para guardar o actualizar
-                guardar_o_actualizar_orden(updated_orden, vendor_to_update)
+                guardar_o_actualizar_orden(updated_orden)
                 # Creating updated data entry
                 #updated_vendor_data = pd.DataFrame(data)
                 # Adding updated data to the dataframe
