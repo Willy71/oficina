@@ -629,9 +629,9 @@ if action == "Nova ordem de serviço":
                     for row in updated_df.values.tolist():
                         worksheet.append_row(row)
                 
-                    st.success("Reserva adicionada com sucesso")
+                    st.success("Ordem de serviço adicionada com sucesso")
                 except Exception as e:
-                    st.error(f"Error al actualizar la hoja: {str(e)}")
+                    st.error(f"Erro ao atualizar planilha: {str(e)}")
 
 
                 
