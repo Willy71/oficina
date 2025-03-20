@@ -110,6 +110,9 @@ def cargar_datos():
 
 existing_data = cargar_datos()
 
+
+existing_data = cargar_datos()
+
 try:
     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
     try:
