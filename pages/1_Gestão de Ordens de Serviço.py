@@ -663,7 +663,7 @@ if action == "Nova ordem de serviço":
                 #)
                 # Llamar a la función para guardar o actualizar
                 # Llamar a la función para guardar o actualizar
-                guardar_o_actualizar_orden(updated_orden)
+                guardar_o_actualizar_orden(data)
                 # Creating updated data entry
                 #updated_vendor_data = pd.DataFrame(data)
                 # Adding updated data to the dataframe
