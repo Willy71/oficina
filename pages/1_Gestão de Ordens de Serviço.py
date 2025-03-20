@@ -96,8 +96,8 @@ def cargar_datos():
                 return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío
             else:
                 existing_data = pd.DataFrame(records)
-                st.write("Datos cargados correctamente:")
-                st.dataframe(existing_data)
+                #st.write("Datos cargados correctamente:")
+                #st.dataframe(existing_data)
                 return existing_data
 
     except gspread.exceptions.SpreadsheetNotFound:
