@@ -84,33 +84,15 @@ except gspread.exceptions.SpreadsheetNotFound:
     st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
 #=============================================================================================================================
 
-try:
-    # Obtener todas las celdas y verificar si hay datos
-    all_values = worksheet.get_all_values()
-    
-    if not all_values or len(all_values) == 0:
-        st.warning("La hoja de cálculo está vacía o no contiene registros.")
-        existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío con la columna 'user_id'
-    else:
-        # Cargar los registros en el DataFrame
-        existing_data = pd.DataFrame(worksheet.get_all_records())
-        st.write("Datos cargados correctamente:")
-        st.dataframe(existing_data)
-
-except gspread.exceptions.GSpreadException as e:
-    st.error(f"Error al obtener los registros: {str(e)}")
-    existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
+# Definir funciones a ser usadas:
 
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
-    if df.empty or 'user_id' not in df.columns:
-        return 1  # Si el DataFrame está vacío o no tiene la columna, el próximo ID es 1
-    return df['user_id'].max() + 1
-
-# Uso de la función para obtener el próximo ID
-nuevo_id = obtener_proximo_id(existing_data)
-st.write(f"El próximo ID disponible es: {nuevo_id}")
-
+    if df.empty:
+        return 1
+    else:
+        return df['user_id'].max() + 1
+        
         
 
 def centrar_imagen(imagen, ancho):
