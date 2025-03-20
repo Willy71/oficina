@@ -111,8 +111,7 @@ def cargar_datos():
 existing_data = cargar_datos()
 
 
-except gspread.exceptions.SpreadsheetNotFound:
-    st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
+
 #=============================================================================================================================
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
