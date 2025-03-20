@@ -626,12 +626,11 @@ if action == "Nova ordem de serviço":
                     for row in updated_df.values.tolist():
                         worksheet.append_row(row)
                 
-                    st.success("Reserva adicionada com sucesso")
+                    st.success("Ordem de serviço adicionada com sucesso")
                 except Exception as e:
-                    st.error(f"Error al actualizar la hoja: {str(e)}")
+                    st.error(f"Error de atualização: {str(e)}")
 
                 
-                st.success("Reserva adicionada com sucesso")
                 df = st.dataframe(existing_data, hide_index=True)
 # ____________________________________________________________________________________________________________________________________
 
