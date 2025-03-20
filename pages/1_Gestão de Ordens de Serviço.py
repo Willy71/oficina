@@ -631,7 +631,24 @@ if action == "Nova ordem de serviço":
                 updated_vendor_data = pd.DataFrame(data)
                 # Adding updated data to the dataframe
                 updated_df = pd.concat([existing_data, updated_vendor_data], ignore_index=True)
-                conn.update(worksheet="Hoja1", data=updated_df)
+
+
+                try:
+                    # Limpiar la hoja existente antes de actualizar
+                    worksheet.clear()
+                
+                    # Agregar los encabezados primero
+                    worksheet.append_row(updated_df.columns.tolist())
+                
+                    # Agregar los datos fila por fila
+                    for row in updated_df.values.tolist():
+                        worksheet.append_row(row)
+                
+                    st.success("Reserva adicionada com sucesso")
+                except Exception as e:
+                    st.error(f"Error al actualizar la hoja: {str(e)}")
+
+                
                 st.success("Reserva adicionada com sucesso")
                 df = st.dataframe(existing_data, hide_index=True)
 # ____________________________________________________________________________________________________________________________________
