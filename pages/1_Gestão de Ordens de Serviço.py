@@ -100,77 +100,18 @@ def cargar_datos():
         return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
 
 existing_data = cargar_datos()
-#try:
-#    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-#    existing_data = pd.DataFrame(worksheet.get_all_records())
-#except gspread.exceptions.SpreadsheetNotFound:
-#    st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
-#=============================================================================================================================
 try:
     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-    
-    # Verificar si hay contenido en la hoja
-    all_values = worksheet.get_all_values()
-    if not all_values or len(all_values) == 0:
-        st.warning("La hoja de cálculo está vacía o no contiene registros.")
-        existing_data = pd.DataFrame(columns=['user_id'])  # DataFrame vacío con encabezado
-    else:
-        # Verificar si la primera fila contiene encabezados
-        headers = all_values[0]
-        if not headers or all(header == "" for header in headers):
-            st.warning("La hoja de cálculo no contiene encabezados válidos.")
-            existing_data = pd.DataFrame(columns=['user_id'])  # DataFrame vacío con encabezado
-        else:
-            # Cargar los registros en el DataFrame
-            existing_data = pd.DataFrame(worksheet.get_all_records())
-            
-            # Verificar si la columna 'user_id' está en el DataFrame
-            if 'user_id' not in existing_data.columns:
-                st.warning("La hoja de cálculo no contiene la columna 'user_id'. Se creará una columna vacía.")
-                existing_data['user_id'] = None
-            
-            st.write("Datos cargados correctamente:")
-            st.dataframe(existing_data)
-
+    existing_data = pd.DataFrame(worksheet.get_all_records())
 except gspread.exceptions.SpreadsheetNotFound:
-    st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Verifica la clave y los permisos.")
-except gspread.exceptions.GSpreadException as e:
-    st.error(f"Error al obtener los registros: {str(e)}")
-    existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
-
+    st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
+#=============================================================================================================================
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
     if df.empty:
         return 1
     else:
         return df['user_id'].max() + 1
-
-def guardar_o_actualizar_orden(data, vendor_to_update=None):
-    try:
-        # Actualizar la hoja si el vendor_to_update no es None
-        if vendor_to_update is not None:
-            # Encontrar la fila correspondiente al user_id
-            fila = existing_data[existing_data["user_id"] == vendor_to_update].index
-            
-            # Si la fila existe, eliminarla
-            if len(fila) > 0:
-                worksheet.delete_rows(fila[0] + 2)  # +2 porque la hoja está indexada desde 1 y tiene encabezado
-
-        # Preparar la nueva fila en el mismo orden que las columnas de la hoja
-        nueva_fila = [data.get(col, "") for col in existing_data.columns]
-
-        # Agregar la nueva fila al final de la hoja
-        worksheet.append_row(nueva_fila, value_input_option="RAW")
-        st.success("Orden de servicio guardada o actualizada exitosamente.")
-
-        # Actualizar el DataFrame con los datos recientes
-        existing_data = pd.DataFrame(worksheet.get_all_records())
-        st.write("Datos actualizados correctamente:")
-        st.dataframe(existing_data)
-
-    except gspread.exceptions.GSpreadException as e:
-        st.error(f"Error al guardar o actualizar la orden: {str(e)}")
-
 
 
 def centrar_imagen(imagen, ancho):
@@ -655,25 +596,19 @@ if action == "Nova ordem de serviço":
                     ]
                 )
                 # Removing old entry
-                #existing_data.drop(
-                #    existing_data[
-                #        existing_data["user_id"] == vendor_to_update
-                #    ].index,
-                #    inplace=True,
-                #)
-                # Llamar a la función para guardar o actualizar
-                # Llamar a la función para guardar o actualizar
-                guardar_o_actualizar_orden(data)
+                existing_data.drop(
+                    existing_data[
+                        existing_data["user_id"] == vendor_to_update
+                    ].index,
+                    inplace=True,
+                )
                 # Creating updated data entry
-                #updated_vendor_data = pd.DataFrame(data)
+                updated_vendor_data = pd.DataFrame(data)
                 # Adding updated data to the dataframe
-                #updated_df = pd.concat([existing_data, updated_vendor_data], ignore_index=True)
-                # Reemplazo de valores nulos y conversión a string
-                #updated_df = updated_df.fillna("").astype(str)
-                # Actualización en Google Sheets
-                #worksheet.update([updated_df.columns.values.tolist()] + updated_df.values.tolist())
-                #st.success("Ordem de serviço adicionada com sucesso")
-                #df = st.dataframe(existing_data, hide_index=True)
+                updated_df = pd.concat([existing_data, updated_vendor_data], ignore_index=True)
+                conn.update(worksheet="Hoja1", data=updated_df)
+                st.success("Reserva adicionada com sucesso")
+                df = st.dataframe(existing_data, hide_index=True)
 # ____________________________________________________________________________________________________________________________________
 
 elif action == "Atualizar ordem existente":
