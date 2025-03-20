@@ -90,19 +90,41 @@ def cargar_datos():
             return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío con la columna 'user_id'
         else:
             # Cargar los registros en el DataFrame
-            existing_data = pd.DataFrame(worksheet.get_all_records())
-            st.write("Datos cargados correctamente:")
-            st.dataframe(existing_data)
-            return existing_data
+            records = worksheet.get_all_records()
+            if not records:
+                st.warning("No hay registros en la hoja de cálculo.")
+                return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío
+            else:
+                existing_data = pd.DataFrame(records)
+                st.write("Datos cargados correctamente:")
+                st.dataframe(existing_data)
+                return existing_data
+
+    except gspread.exceptions.SpreadsheetNotFound:
+        st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
+        return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío en caso de error
 
     except gspread.exceptions.GSpreadException as e:
         st.error(f"Error al obtener los registros: {str(e)}")
         return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
 
 existing_data = cargar_datos()
+
 try:
     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-    existing_data = pd.DataFrame(worksheet.get_all_records())
+    try:
+    records = worksheet.get_all_records()
+    if not records:
+        st.warning("No hay registros en la hoja de cálculo.")
+        existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío
+    else:
+        existing_data = pd.DataFrame(records)
+        st.write("Datos cargados correctamente:")
+        st.dataframe(existing_data)
+except Exception as e:
+    st.error(f"Error al cargar los registros: {str(e)}")
+    existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío en caso de error
+
 except gspread.exceptions.SpreadsheetNotFound:
     st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
 #=============================================================================================================================
