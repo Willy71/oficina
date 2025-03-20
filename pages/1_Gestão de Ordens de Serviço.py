@@ -114,7 +114,6 @@ except gspread.exceptions.SpreadsheetNotFound:
 except gspread.exceptions.GSpreadException as e:
     st.error(f"Error al obtener los registros: {str(e)}")
     existing_data = pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
-:
 
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
