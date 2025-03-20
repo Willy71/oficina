@@ -77,11 +77,34 @@ gc = gspread.authorize(credentials)
 SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'  # Reemplaza con la clave de tu documento
 SHEET_NAME = 'Hoja 1'  # Nombre de la hoja dentro del documento
 
-try:
-    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-    existing_data = pd.DataFrame(worksheet.get_all_records())
-except gspread.exceptions.SpreadsheetNotFound:
-    st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
+def cargar_datos():
+    try:
+        # Intentar obtener la hoja de cálculo
+        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+        
+        # Obtener todas las celdas y verificar si hay datos
+        all_values = worksheet.get_all_values()
+        
+        if not all_values or len(all_values) == 0:
+            st.warning("La hoja de cálculo está vacía o no contiene registros.")
+            return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío con la columna 'user_id'
+        else:
+            # Cargar los registros en el DataFrame
+            existing_data = pd.DataFrame(worksheet.get_all_records())
+            st.write("Datos cargados correctamente:")
+            st.dataframe(existing_data)
+            return existing_data
+
+    except gspread.exceptions.GSpreadException as e:
+        st.error(f"Error al obtener los registros: {str(e)}")
+        return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
+
+existing_data = cargar_datos()
+#try:
+#    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+#    existing_data = pd.DataFrame(worksheet.get_all_records())
+#except gspread.exceptions.SpreadsheetNotFound:
+#    st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
 #=============================================================================================================================
 try:
     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
