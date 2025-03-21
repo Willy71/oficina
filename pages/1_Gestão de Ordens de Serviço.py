@@ -615,9 +615,6 @@ if action == "Nova ordem de serviço":
                         }
                     ]
                 )
-
-# Verifica el orden de las columnas
-print(data.columns)
                 # Removing old entry
                 existing_data.drop(
                     existing_data[
