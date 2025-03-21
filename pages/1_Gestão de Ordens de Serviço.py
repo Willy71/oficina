@@ -667,27 +667,17 @@ if action == "Nova ordem de serviço":
                 # Reemplazar NaN con None en el nuevo registro
                 new_record_df = replace_nan_with_none(new_record_df)
             
-                # Combinar los datos existentes con el nuevo registro
-                updated_df = pd.concat([existing_data, new_record_df], ignore_index=True)
-            
                 try:
                     # Obtener la hoja de cálculo
                     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
                     
-                    # Limpiar la hoja existente antes de actualizar
-                    worksheet.clear()
-                    
-                    # Agregar los encabezados primero
-                    worksheet.append_row(updated_df.columns.tolist())
-                    
-                    # Agregar los datos fila por fila
-                    for row in updated_df.values.tolist():
-                        worksheet.append_row(row)
+                    # Agregar el nuevo registro al final de la hoja
+                    worksheet.append_row(new_record_df.values.tolist()[0])
                     
                     st.success("Ordem de serviço adicionada com sucesso")
                     
                     # Actualizar la variable existing_data con los datos actualizados
-                    existing_data = updated_df
+                    existing_data = pd.concat([existing_data, new_record_df], ignore_index=True)
             
                 except Exception as e:
                     st.error(f"Erro ao atualizar planilha: {str(e)}")
