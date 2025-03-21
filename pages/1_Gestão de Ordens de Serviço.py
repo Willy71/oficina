@@ -494,7 +494,7 @@ if action == "Nova ordem de serviço":
         
         # Definir el esquema de columnas en el orden correcto
         columnas_ordenadas = [
-            'user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'ano', 'cor', 'placa', 'km',
+            'user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'cor', 'placa', 'km', 'ano',
             'estado', 'dono_empresa', 'telefone', 'endereco', 'item_serv_1', 'desc_ser_1', 'valor_serv_1',
             'item_serv_2', 'desc_ser_2', 'valor_serv_2', 'item_serv_3', 'desc_ser_3', 'valor_serv_3',
             'item_serv_4', 'desc_ser_4', 'valor_serv_4', 'item_serv_5', 'desc_ser_5', 'valor_serv_5',
