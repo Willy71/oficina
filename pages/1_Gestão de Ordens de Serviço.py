@@ -5,6 +5,10 @@ import re
 import gspread
 from google.oauth2.service_account import Credentials
 import datetime
+import numpy as np  # Asegúrate de importar numpy para manejar NaN
+# Lista de prefijos telefónicos internacionales
+import phonenumbers as pn
+import pycountry
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Colocar nome na pagina, icone e ampliar a tela
@@ -153,14 +157,13 @@ def validar_numero_telefono(numero):
         return True
     else:
         return False
+
+# Función para reemplazar NaN con None
+def replace_nan_with_none(df):
+    return df.replace({np.nan: None})
         
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Constantes
-
-# Lista de prefijos telefónicos internacionales
-import phonenumbers as pn
-import pycountry
-
 prefijos = {c.alpha_2: pn.country_code_for_region(c.alpha_2) for c in pycountry.countries}
 
 # Función para obtener el prefijo seleccionado
@@ -658,6 +661,12 @@ if action == "Nova ordem de serviço":
                 # Convertir el nuevo registro a DataFrame
                 new_record_df = pd.DataFrame([new_record])
             
+                # Asegurar que el nuevo registro tenga todas las columnas en el orden correcto
+                new_record_df = new_record_df.reindex(columns=columnas_ordenadas)
+            
+                # Reemplazar NaN con None en el nuevo registro
+                new_record_df = replace_nan_with_none(new_record_df)
+            
                 # Combinar los datos existentes con el nuevo registro
                 updated_df = pd.concat([existing_data, new_record_df], ignore_index=True)
             
@@ -676,10 +685,15 @@ if action == "Nova ordem de serviço":
                         worksheet.append_row(row)
                     
                     st.success("Ordem de serviço adicionada com sucesso")
+                    
+                    # Actualizar la variable existing_data con los datos actualizados
+                    existing_data = updated_df
+            
                 except Exception as e:
                     st.error(f"Erro ao atualizar planilha: {str(e)}")
+            
+            # Mostrar la tabla actualizada
+            st.dataframe(existing_data, hide_index=True)
 
-                
-                df = st.dataframe(existing_data, hide_index=True)
 # ____________________________________________________________________________________________________________________________________
 
