@@ -519,8 +519,8 @@ columnas_ordenadas = [
     'forma_de_pagamento', 'pagamento_parcial', 'valor_pago_parcial', 'data_prox_pag', 'valor_prox_pag',
     'pag_total', 'valor_pag_total']
 
-        # Asegurar que el DataFrame existente tenga todas las columnas en el orden correcto
-        existing_data = existing_data.reindex(columns=columnas_ordenadas)
+# Asegurar que el DataFrame existente tenga todas las columnas en el orden correcto
+existing_data = existing_data.reindex(columns=columnas_ordenadas)
      
         with st.container():
             col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
