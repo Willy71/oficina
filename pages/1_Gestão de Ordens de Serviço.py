@@ -553,7 +553,7 @@ if action == "Nova ordem de serviço":
                     'quant_peca_1': quant_peca_1 if 'quant_peca_1' in locals() else None,
                     'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
                     'valor_peca_1': valor_peca_1 if 'valor_peca_1' in locals() else None,
-                    'valor_total_peça_1': valor_total_peça_1 if 'valor_total_peça_1' in locals() else None,
+                    'valor_total_peca_1': valor_total_peca_1 if 'valor_total_peca_1' in locals() else None,
                     'quant_peca_2': quant_peca_2 if 'quant_peca_2' in locals() else None,
                     'desc_peca_2': desc_peca_2 if 'desc_peca_2' in locals() else None,
                     'valor_peca_2': valor_peca_2 if 'valor_peca_2' in locals() else None,
