@@ -119,10 +119,21 @@ existing_data = cargar_datos()
 #=============================================================================================================================
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
-    if df.empty:
-        return 1
-    else:
-        return df['user_id'].max() + 1
+    """
+    Obtiene el próximo ID disponible en la columna 'user_id'.
+    Si el DataFrame está vacío o no tiene la columna 'user_id', retorna 1.
+    """
+    if df.empty or 'user_id' not in df.columns:
+        return 1  # Si no hay datos, el primer ID es 1
+    
+    # Convertir la columna 'user_id' a numérica, manejando errores
+    df['user_id'] = pd.to_numeric(df['user_id'], errors='coerce')
+    
+    # Reemplazar NaN con 0 (en caso de que haya valores no numéricos)
+    df['user_id'] = df['user_id'].fillna(0).astype(int)
+    
+    # Calcular el máximo ID y sumar 1
+    return df['user_id'].max() + 1
 
 
 def centrar_imagen(imagen, ancho):
