@@ -742,7 +742,7 @@ if action == "Nova ordem de serviço":
 
 # Código para actualizar una orden de servicio
 if action == "Atualizar ordem existente":
-    centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 3, "yellow")
+    centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 6, "yellow")
     
      # Eliminar filas con NaN en la columna "user_id"
     existing_data = existing_data.dropna(subset=["user_id"])
