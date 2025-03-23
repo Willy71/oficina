@@ -760,18 +760,23 @@ if action == "Atualizar ordem existente":
                 vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
                 vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
             else:
-                placa_to_search = st.text_input("Digite o número da placa")
-                if placa_to_search:
-                    vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
-                    if not vendor_data_filtered.empty:
-                        vendor_data = vendor_data_filtered.iloc[0]
-                        vendor_to_update = vendor_data["user_id"]
-                    else:
-                        st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                        st.stop()  # Detener la ejecución si no se encuentra la placa
-                else:
-                    st.warning("Digite um número de placa para buscar.")
-                    st.stop()  # Detener la ejecución si no se ingresa una placa
+                 with st.container():    
+                    col400, col401, col402= st.columns(3)
+                    with col400:
+                            placa_to_search = st.text_input("Digite o número da placa")
+                            if placa_to_search:
+                                vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
+                                if not vendor_data_filtered.empty:
+                                    vendor_data = vendor_data_filtered.iloc[0]
+                                    vendor_to_update = vendor_data["user_id"]
+                                else:
+                                    with col401:
+                                        st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
+                                        st.stop()  # Detener la ejecución si no se encuentra la placa
+                            else:
+                                with col401:
+                                    st.warning("Digite um número de placa para buscar.")
+                                    st.stop()  # Detener la ejecución si no se ingresa una placa
 
 
     # Mostrar los campos del formulario con los valores actuales
