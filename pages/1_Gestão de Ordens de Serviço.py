@@ -1223,11 +1223,9 @@ if action == "Atualizar ordem existente":
                 # Convertir el registro actualizado a DataFrame
                 updated_record_df = pd.DataFrame([updated_record])
 
-                # Actualizar el DataFrame existente
-                # Actualizar la orden de servicio
-                atualizar_ordem(vendor_to_update, updated_record_df)
-                #existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
-
+               # Actualizar el DataFrame existente
+                existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
+                
                 try:
                     # Obtener la hoja de cálculo
                     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
