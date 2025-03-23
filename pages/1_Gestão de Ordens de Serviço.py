@@ -1098,14 +1098,15 @@ elif action == "Atualizar ordem existente":
         
         # Asegurar que el DataFrame existente tenga todas las columnas en el orden correcto
         existing_data = existing_data.reindex(columns=columnas_ordenadas)
-     
+
         with st.container():
             col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
             with col322:
-                submit_button = st.form_submit_button("Enviar")
-            if submit_button:
+                update_button = st.form_submit_button("Atualizar")
+                
+            if update_button:
                 # Crear un nuevo registro con los datos del formulario
-                new_record = {
+                updated_record = {
                     'user_id': obtener_proximo_id(existing_data),
                     'date_in': data_entrada,
                     'date_prev': previsao_entrega,
