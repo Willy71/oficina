@@ -243,6 +243,9 @@ if action == "Nova ordem de serviço":
             "Concluido",
             "Entregado"
         ]
+
+        centrar_texto("Dados do carro", 3, "yellow")
+        
         with st.container():    
             col20, col21, col22= st.columns(3)
             with col21:
