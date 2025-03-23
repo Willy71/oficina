@@ -757,8 +757,9 @@ if action == "Atualizar ordem existente":
             search_option = st.radio("Buscar por:", ["ID", "Placa"])
             
             if search_option == "ID":
-                vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-                vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
+                with col201:
+                    vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
+                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
             else:
                 with col201:
                     placa_to_search = st.text_input("Digite um número de placa")
