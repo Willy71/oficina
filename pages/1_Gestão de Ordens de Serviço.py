@@ -209,7 +209,7 @@ vendor_to_update = None  # Establecer un valor predeterminado
 if action == "Nova ordem de serviço":
     #st.markdown("Insira os detalhes da nova ordem de serviço")
     with st.form(key="ordem"):
-        centrar_texto("Dados do carro", 2, "lightblue")
+        centrar_texto("Dados do carro", 2, "yellow")
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns(5)
             with col00:
@@ -260,7 +260,7 @@ if action == "Nova ordem de serviço":
                 endereco = st.text_input("Endereço")
 
         line(4, "blue")
-        centrar_texto("Serviços", 2, "lightblue")
+        centrar_texto("Serviços", 2, "yellow")
 
         with st.container():    
             col40, col41, col42 = st.columns([1,5,2])
@@ -371,7 +371,7 @@ if action == "Nova ordem de serviço":
                 valor_serv_12 = st.text_input("12 - Valor do serviço")
                 
         line(4, "blue")
-        centrar_texto("Peças", 2, "lightblue")
+        centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
             col160, col161, col162 = st.columns([1,5,2])
