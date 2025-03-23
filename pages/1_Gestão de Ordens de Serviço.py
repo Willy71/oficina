@@ -716,6 +716,7 @@ if action == "Nova ordem de serviço":
 
 elif action == "Atualizar ordem existente":
     centrar_texto("Selecione o ID da Ordem de serviço que deseja atualizar.", 3, "yellow")
+    
     # Eliminar filas con NaN en la columna "user_id"
     existing_data = existing_data.dropna(subset=["user_id"])
 
@@ -725,5 +726,123 @@ elif action == "Atualizar ordem existente":
     with st.container():    
         col200, col201, col202, col203, col204 = st.columns([2, 2, 2, 1, 3])
         with col200:
-            vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-            vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
+            # Opción para buscar por ID o por placa
+            search_option = st.radio("Buscar por:", ["ID", "Placa"])
+            
+            if search_option == "ID":
+                vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
+                vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
+            else:
+                placa_to_search = st.text_input("Digite o número da placa")
+                if placa_to_search:
+                    vendor_data = existing_data[existing_data["placa"] == placa_to_search]
+                    if not vendor_data.empty:
+                        vendor_data = vendor_data.iloc[0]
+                        vendor_to_update = vendor_data["user_id"]
+                    else:
+                        st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
+                        st.stop()
+
+    # Mostrar los campos del formulario con los valores actuales
+    with st.form(key="update_form"):
+        st.markdown("Atualize os detalhes da ordem de serviço")
+        
+        with st.container():    
+            col00, col01, col02, col03, col04 = st.columns(5)
+            with col00:
+                placa = st.text_input("Placa", value=vendor_data["placa"], key="update_placa")
+            with col02:
+                data_entrada = st.text_input("Data de entrada", value=vendor_data["date_in"], key="update_data_entrada")
+            with col03:
+                previsao_entrega = st.text_input("Previsão de entrega", value=vendor_data["date_prev"], key="update_previsao_entrega")
+            with col04:
+                data_saida = st.text_input("Data de saida", value=vendor_data["date_out"], key="update_data_saida")
+            
+        with st.container():    
+            col10, col11, col12, col13, col14 = st.columns(5)
+            with col10:
+                carro = st.text_input("Marca", value=vendor_data["carro"], key="update_carro")
+            with col11:
+                modelo = st.text_input("Modelo", value=vendor_data["modelo"], key="update_modelo")
+            with col12:
+                ano = st.text_input("Ano", value=vendor_data["ano"], key="update_ano")
+            with col13:
+                cor = st.text_input("Cor", value=vendor_data["cor"], key="update_cor")
+            with col14:
+                km = st.text_input("Km", value=vendor_data["km"], key="update_km")
+
+        # Opciones para el desplegable
+        opciones_estado = [
+            "Entrada",
+            "Em orçamento",
+            "Aguardando aprovação",
+            "Em reparação",
+            "Concluido",
+            "Entregado"
+        ]
+        with st.container():    
+            col20, col21, col22 = st.columns(3)
+            with col21:
+                estado = st.selectbox("Estado do serviço", opciones_estado, index=opciones_estado.index(vendor_data["estado"]), key="update_estado")
+
+        with st.container():    
+            col30, col31, col32 = st.columns(3)
+            with col30:
+                dono_empresa = st.text_input("Dono / Empresa", value=vendor_data["dono_empresa"], key="update_dono_empresa")
+            with col31:
+                telefone = st.text_input("Telefone", value=vendor_data["telefone"], key="update_telefone")
+            with col32:
+                endereco = st.text_input("Endereço", value=vendor_data["endereco"], key="update_endereco")
+
+        # Repite este bloque para todos los campos del formulario...
+        # Asegúrate de agregar un `key` único para cada campo.
+
+        with st.container():
+            col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
+            with col322:
+                update_button = st.form_submit_button("Atualizar")
+
+            if update_button:
+                # Crear un diccionario con los datos actualizados
+                updated_record = {
+                    'user_id': vendor_to_update,
+                    'placa': placa,
+                    'date_in': data_entrada,
+                    'date_prev': previsao_entrega,
+                    'date_out': data_saida,
+                    'carro': carro,
+                    'modelo': modelo,
+                    'ano': ano,
+                    'cor': cor,
+                    'km': km,
+                    'estado': estado,
+                    'dono_empresa': dono_empresa,
+                    'telefone': telefone,
+                    'endereco': endereco,
+                    # Agrega aquí el resto de los campos...
+                }
+
+                # Convertir el registro actualizado a DataFrame
+                updated_record_df = pd.DataFrame([updated_record])
+
+                # Actualizar el DataFrame existente
+                existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
+
+                try:
+                    # Obtener la hoja de cálculo
+                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+                    
+                    # Limpiar la hoja existente antes de actualizar
+                    worksheet.clear()
+                    
+                    # Agregar los encabezados primero
+                    worksheet.append_row(existing_data.columns.tolist())
+                    
+                    # Agregar los datos fila por fila
+                    for row in existing_data.values.tolist():
+                        worksheet.append_row(row)
+                    
+                    st.success("Ordem de serviço atualizada com sucesso")
+                
+                except Exception as e:
+                    st.error(f"Erro ao atualizar planilha: {str(e)}")
