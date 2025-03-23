@@ -1096,7 +1096,7 @@ elif action == "Atualizar ordem existente":
             'forma_de_pagamento', 'pagamento_parcial', 'valor_pago_parcial', 'data_prox_pag', 'valor_prox_pag',
             'pag_total', 'valor_pag_total']
         
-       with st.container():
+        with st.container():
             col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
             with col322:
                 update_button = st.form_submit_button("Atualizar")
