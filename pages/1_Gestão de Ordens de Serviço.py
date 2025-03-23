@@ -67,54 +67,87 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 #=============================================================================================================================
 # Conexion via gspread a traves de https://console.cloud.google.com/ y Google sheets
 
-# Ruta al archivo de credenciales
-SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
-
 # Scopes necesarios
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 
-# Cargar credenciales y autorizar
-credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
-gc = gspread.authorize(credentials)
+# Ruta al archivo de credenciales
+SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
 
 # Clave de la hoja de cálculo (la parte de la URL después de "/d/" y antes de "/edit")
 SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'  # Reemplaza con la clave de tu documento
 SHEET_NAME = 'Hoja 1'  # Nombre de la hoja dentro del documento
 
-def cargar_datos():
+# Cargar credenciales y autorizar
+credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+gc = gspread.authorize(credentials)
+
+def inicializar_hoja():
     try:
-        # Intentar obtener la hoja de cálculo
-        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+        # Abrir la hoja de cálculo
+        spreadsheet = gc.open_by_key(SPREADSHEET_KEY)
         
-        # Obtener todas las celdas y verificar si hay datos
-        all_values = worksheet.get_all_values()
+        # Intentar abrir la hoja específica
+        try:
+            worksheet = spreadsheet.worksheet(SHEET_NAME)
+        except gspread.exceptions.WorksheetNotFound:
+            # Si la hoja no existe, crearla
+            worksheet = spreadsheet.add_worksheet(title=SHEET_NAME, rows=100, cols=50)
+            # Agregar los encabezados de las columnas
+            worksheet.append_row(columnas_ordenadas)  # Asegúrate de definir `columnas_ordenadas`
         
-        if not all_values or len(all_values) == 0:
-            st.warning("La hoja de cálculo está vacía o no contiene registros.")
-            return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío con la columna 'user_id'
+        return worksheet
+    except Exception as e:
+        st.error(f"Erro ao acessar planilha: {str(e)}")
+        return None
+
+# Función para cargar datos desde Google Sheets
+def cargar_datos(worksheet):
+    try:
+        records = worksheet.get_all_records()
+        if not records:
+            # Si no hay registros, crear un DataFrame vacío con las columnas necesarias
+            return pd.DataFrame(columns=columnas_ordenadas)
         else:
-            # Cargar los registros en el DataFrame
-            records = worksheet.get_all_records()
-            if not records:
-                st.warning("No hay registros en la hoja de cálculo.")
-                return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío
-            else:
-                existing_data = pd.DataFrame(records)
-                #st.write("Datos cargados correctamente:")
-                #st.dataframe(existing_data)
-                return existing_data
+            return pd.DataFrame(records)
+    except Exception as e:
+        st.error(f"Erro ao cargar dados: {str(e)}")
+        return pd.DataFrame(columns=columnas_ordenadas)
 
-    except gspread.exceptions.SpreadsheetNotFound:
-        st.error(f"No se encontró la hoja de cálculo con la clave '{SPREADSHEET_KEY}'. Asegúrate de que la clave es correcta y que has compartido la hoja con el correo electrónico del cliente de servicio.")
-        return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío en caso de error
+# Definir las columnas en el orden correcto
+# Definir el esquema de columnas en el orden correcto
+columnas_ordenadas = ['user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'cor', 'placa', 'km', 'ano', 
+                      'estado', 'dono_empresa', 'telefone', 'endereco', 'item_serv_1', 'desc_ser_1', 'valor_serv_1',
+                      'item_serv_2', 'desc_ser_2', 'valor_serv_2', 'item_serv_3', 'desc_ser_3', 'valor_serv_3',
+                      'item_serv_4', 'desc_ser_4', 'valor_serv_4', 'item_serv_5', 'desc_ser_5', 'valor_serv_5',
+                      'item_serv_6', 'desc_ser_6', 'valor_serv_6', 'item_serv_7', 'desc_ser_7', 'valor_serv_7',
+                      'item_serv_8', 'desc_ser_8', 'valor_serv_8', 'item_serv_9', 'desc_ser_9', 'valor_serv_9',
+                      'item_serv_10', 'desc_ser_10', 'valor_serv_10', 'item_serv_11', 'desc_ser_11', 'valor_serv_11',
+                      'item_serv_12', 'desc_ser_12', 'valor_serv_12', 'total_serviço', 
+                      'quant_peca_1', 'desc_peca_1', 'valor_peca_1', 'valor_total_peca_1', 
+                      'quant_peca_2', 'desc_peca_2', 'valor_peca_2', 'valor_total_peca_2',
+                      'quant_peca_3', 'desc_peca_3', 'valor_peca_3', 'valor_total_peca_3',
+                      'quant_peca_4', 'desc_peca_4', 'valor_peca_4', 'valor_total_peca_4',
+                      'quant_peca_5', 'desc_peca_5', 'valor_peca_5', 'valor_total_peca_5',
+                      'quant_peca_6', 'desc_peca_6', 'valor_peca_6', 'valor_total_peca_6',
+                      'quant_peca_7', 'desc_peca_7', 'valor_peca_7', 'valor_total_peca_7',
+                      'quant_peca_8', 'desc_peca_8', 'valor_peca_8', 'valor_total_peca_8',
+                      'quant_peca_9', 'desc_peca_9', 'valor_peca_9', 'valor_total_peca_9',
+                      'quant_peca_10', 'desc_peca_10', 'valor_peca_10', 'valor_total_peca_10',
+                      'quant_peca_11', 'desc_peca_11', 'valor_peca_11', 'valor_total_peca_11',
+                      'quant_peca_12', 'desc_peca_12', 'valor_peca_12', 'valor_total_peca_12',
+                      'quant_peca_13', 'desc_peca_13', 'valor_peca_13', 'valor_total_peca_13',
+                      'quant_peca_14', 'desc_peca_14', 'valor_peca_14', 'valor_total_peca_14',
+                      'quant_peca_15', 'desc_peca_15', 'valor_peca_15', 'valor_total_peca_15',
+                      'quant_peca_16', 'desc_peca_16', 'valor_peca_16', 'valor_total_peca_16',
+                      '30_porc', 'total_valor_pecas', 'forma_de_pagamento', 'pagamento_parcial', 
+                      'valor_pago_parcial', 'data_prox_pag', 'valor_prox_pag', 'pag_total', 'valor_pag_total'
+                     ]
 
-    except gspread.exceptions.GSpreadException as e:
-        st.error(f"Error al obtener los registros: {str(e)}")
-        return pd.DataFrame(columns=['user_id'])  # Crear un DataFrame vacío si falla
+# Inicializar la hoja de cálculo
+worksheet = inicializar_hoja()
 
-existing_data = cargar_datos()
-
-
+# Cargar datos desde Google Sheets
+existing_data = cargar_datos(worksheet)
 
 #=============================================================================================================================
 # Función para obtener el próximo ID disponible
@@ -518,36 +551,6 @@ if action == "Nova ordem de serviço":
                 valor_peca_16 = st.text_input("16 - Valor de cada peça")        
         
         line(4, "blue")
-
-        # Definir el esquema de columnas en el orden correcto
-        columnas_ordenadas = [
-            'user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'cor', 'placa', 'km', 'ano',
-            'estado', 'dono_empresa', 'telefone', 'endereco', 'item_serv_1', 'desc_ser_1', 'valor_serv_1',
-            'item_serv_2', 'desc_ser_2', 'valor_serv_2', 'item_serv_3', 'desc_ser_3', 'valor_serv_3',
-            'item_serv_4', 'desc_ser_4', 'valor_serv_4', 'item_serv_5', 'desc_ser_5', 'valor_serv_5',
-            'item_serv_6', 'desc_ser_6', 'valor_serv_6', 'item_serv_7', 'desc_ser_7', 'valor_serv_7',
-            'item_serv_8', 'desc_ser_8', 'valor_serv_8', 'item_serv_9', 'desc_ser_9', 'valor_serv_9',
-            'item_serv_10', 'desc_ser_10', 'valor_serv_10', 'item_serv_11', 'desc_ser_11', 'valor_serv_11',
-            'item_serv_12', 'desc_ser_12', 'valor_serv_12', 'total_serviço', 
-            'quant_peca_1', 'desc_peca_1', 'valor_peca_1', 'valor_total_peca_1', 
-            'quant_peca_2', 'desc_peca_2', 'valor_peca_2', 'valor_total_peca_2',
-            'quant_peca_3', 'desc_peca_3', 'valor_peca_3', 'valor_total_peca_3',
-            'quant_peca_4', 'desc_peca_4', 'valor_peca_4', 'valor_total_peca_4',
-            'quant_peca_5', 'desc_peca_5', 'valor_peca_5', 'valor_total_peca_5',
-            'quant_peca_6', 'desc_peca_6', 'valor_peca_6', 'valor_total_peca_6',
-            'quant_peca_7', 'desc_peca_7', 'valor_peca_7', 'valor_total_peca_7',
-            'quant_peca_8', 'desc_peca_8', 'valor_peca_8', 'valor_total_peca_8',
-            'quant_peca_9', 'desc_peca_9', 'valor_peca_9', 'valor_total_peca_9',
-            'quant_peca_10', 'desc_peca_10', 'valor_peca_10', 'valor_total_peca_10',
-            'quant_peca_11', 'desc_peca_11', 'valor_peca_11', 'valor_total_peca_11',
-            'quant_peca_12', 'desc_peca_12', 'valor_peca_12', 'valor_total_peca_12',
-            'quant_peca_13', 'desc_peca_13', 'valor_peca_13', 'valor_total_peca_13',
-            'quant_peca_14', 'desc_peca_14', 'valor_peca_14', 'valor_total_peca_14',
-            'quant_peca_15', 'desc_peca_15', 'valor_peca_15', 'valor_total_peca_15',
-            'quant_peca_16', 'desc_peca_16', 'valor_peca_16', 'valor_total_peca_16',
-            '30_porc', 'total_valor_pecas',
-            'forma_de_pagamento', 'pagamento_parcial', 'valor_pago_parcial', 'data_prox_pag', 'valor_prox_pag',
-            'pag_total', 'valor_pag_total']
         
         # Asegurar que el DataFrame existente tenga todas las columnas en el orden correcto
         existing_data = existing_data.reindex(columns=columnas_ordenadas)
