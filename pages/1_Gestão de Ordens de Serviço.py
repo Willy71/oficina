@@ -783,7 +783,14 @@ elif action == "Atualizar ordem existente":
         with st.container():    
             col20, col21, col22 = st.columns(3)
             with col21:
-                estado = st.selectbox("Estado do serviço", opciones_estado, index=opciones_estado.index(vendor_data["estado"]), key="update_estado")
+                # Verificar si el estado actual está en opciones_estado
+                estado_actual = vendor_data["estado"]
+                if estado_actual in opciones_estado:
+                    index_estado = opciones_estado.index(estado_actual)
+                else:
+                    index_estado = 0  # Usar el primer valor de opciones_estado como predeterminado
+        
+        estado = st.selectbox("Estado do serviço", opciones_estado, index=index_estado, key="update_estado")
 
         with st.container():    
             col30, col31, col32 = st.columns(3)
