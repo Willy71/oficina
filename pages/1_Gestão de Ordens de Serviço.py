@@ -751,7 +751,7 @@ if action == "Atualizar ordem existente":
     existing_data["user_id"] = existing_data["user_id"].astype(int)
 
     with st.container():    
-        col200, col201, col202, col203, col204 = st.columns([2, 1.5, 4, 1, 1])
+        col200, col201, col202, col203, col204 = st.columns([2, 1.5, 3, 1, 1])
         with col200:
             # Opción para buscar por ID o por placa
             search_option = st.radio("Buscar por:", ["ID", "Placa"])
@@ -773,7 +773,7 @@ if action == "Atualizar ordem existente":
                                 st.stop()  # Detener la ejecución si no se encuentra la placa
                     else:
                         with col202:
-                            st.warning("                                      Digite um número de placa para buscar.")
+                            st.warning("Digite um número de placa para buscar.")
                             st.stop()  # Detener la ejecución si no se ingresa una placa
 
 
