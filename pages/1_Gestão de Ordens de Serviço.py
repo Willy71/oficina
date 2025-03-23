@@ -172,7 +172,13 @@ def validar_numero_telefono(numero):
 # Función para reemplazar NaN con None
 def replace_nan_with_none(df):
     return df.replace({np.nan: None})
-        
+
+def line(size, color):
+    st.markdown(
+        f"<hr style='height:{size}px;border:none;color:{color};background-color:{color};' />",
+        unsafe_allow_html=True
+    )
+    
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Constantes
 prefijos = {c.alpha_2: pn.country_code_for_region(c.alpha_2) for c in pycountry.countries}
@@ -250,6 +256,8 @@ if action == "Nova ordem de serviço":
                 telefone = st.text_input("Telefone")
             with col32:
                 endereco = st.text_input("Endereço")
+
+        line(4, "blue")
 
         with st.container():    
             col40, col41, col42 = st.columns([1,5,2])
@@ -358,6 +366,8 @@ if action == "Nova ordem de serviço":
                 desc_ser_12 = st.text_input("12 - Descriçao de serviço")
             with col152:
                 valor_serv_12 = st.text_input("12 - Valor do serviço")
+                
+        line(4, "blue")
 
         with st.container():    
             col160, col161, col162 = st.columns([1,5,2])
@@ -501,8 +511,10 @@ if action == "Nova ordem de serviço":
             with col311:
                 desc_peca_16 = st.text_input("16 - Descriçao da peça")
             with col312:
-                valor_peca_16 = st.text_input("16 - Valor de cada peça")
+                valor_peca_16 = st.text_input("16 - Valor de cada peça")        
         
+        line(4, "blue")
+
         # Definir el esquema de columnas en el orden correcto
         columnas_ordenadas = [
             'user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'cor', 'placa', 'km', 'ano',
