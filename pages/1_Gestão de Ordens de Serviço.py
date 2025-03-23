@@ -100,19 +100,6 @@ def inicializar_hoja():
         st.error(f"Erro ao acessar planilha: {str(e)}")
         return None
 
-# Función para cargar datos desde Google Sheets
-def cargar_datos(worksheet):
-    try:
-        records = worksheet.get_all_records()
-        if not records:
-            # Si no hay registros, crear un DataFrame vacío con las columnas necesarias
-            return pd.DataFrame(columns=columnas_ordenadas)
-        else:
-            return pd.DataFrame(records)
-    except Exception as e:
-        st.error(f"Erro ao cargar dados: {str(e)}")
-        return pd.DataFrame(columns=columnas_ordenadas)
-
 # Definir las columnas en el orden correcto
 # Definir el esquema de columnas en el orden correcto
 columnas_ordenadas = ['user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'cor', 'placa', 'km', 'ano', 
@@ -143,6 +130,24 @@ columnas_ordenadas = ['user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'm
                       'valor_pago_parcial', 'data_prox_pag', 'valor_prox_pag', 'pag_total', 'valor_pag_total'
                      ]
 
+# Función para cargar datos desde Google Sheets
+def cargar_datos(worksheet):
+    try:
+        records = worksheet.get_all_records()
+        if not records:
+            # Si no hay registros, crear un DataFrame vacío con las columnas necesarias
+            return pd.DataFrame(columns=columnas_ordenadas)
+        else:
+            # Convertir los registros a DataFrame
+            df = pd.DataFrame(records)
+            # Asegurarse de que la columna 'user_id' sea numérica
+            df['user_id'] = pd.to_numeric(df['user_id'], errors='coerce').fillna(0).astype(int)
+            return df
+    except Exception as e:
+        st.error(f"Erro ao cargar dados: {str(e)}")
+        return pd.DataFrame(columns=columnas_ordenadas)
+
+
 # Inicializar la hoja de cálculo
 worksheet = inicializar_hoja()
 
@@ -152,21 +157,39 @@ existing_data = cargar_datos(worksheet)
 #=============================================================================================================================
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
-    """
-    Obtiene el próximo ID disponible en la columna 'user_id'.
-    Si el DataFrame está vacío o no tiene la columna 'user_id', retorna 1.
-    """
     if df.empty or 'user_id' not in df.columns:
         return 1  # Si no hay datos, el primer ID es 1
-    
-    # Convertir la columna 'user_id' a numérica, manejando errores
-    df['user_id'] = pd.to_numeric(df['user_id'], errors='coerce')
-    
-    # Reemplazar NaN con 0 (en caso de que haya valores no numéricos)
-    df['user_id'] = df['user_id'].fillna(0).astype(int)
-    
-    # Calcular el máximo ID y sumar 1
-    return df['user_id'].max() + 1
+    try:
+        # Calcular el máximo ID y sumar 1
+        return int(df['user_id'].max()) + 1
+    except (ValueError, TypeError):
+        # Si hay algún error (por ejemplo, valores no numéricos), retornar 1
+        return 1
+
+# Función para actualizar una orden de servicio
+def atualizar_ordem(vendor_to_update, updated_record):
+    try:
+        # Obtener la hoja de cálculo
+        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+        
+        # Limpiar la hoja existente antes de actualizar
+        worksheet.clear()
+        
+        # Agregar los encabezados primero
+        worksheet.append_row(columnas_ordenadas)
+        
+        # Actualizar el DataFrame existente
+        existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record.columns] = updated_record.values
+        
+        # Agregar los datos fila por fila
+        for row in existing_data.values.tolist():
+            worksheet.append_row(row)
+        
+        st.success("Ordem de serviço atualizada com sucesso")
+    except Exception as e:
+        st.error(f"Erro ao atualizar planilha: {str(e)}")
+
+#==============================================================================================================================================================
 
 
 def centrar_imagen(imagen, ancho):
@@ -717,8 +740,9 @@ if action == "Nova ordem de serviço":
 
 # ____________________________________________________________________________________________________________________________________
 
-elif action == "Atualizar ordem existente":
-    centrar_texto("Selecione o ID da Ordem de serviço que deseja atualizar.", 3, "yellow")
+# Código para actualizar una orden de servicio
+if action == "Atualizar ordem existente":
+    centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 3, "yellow")
     
     # Eliminar filas con NaN en la columna "user_id"
     existing_data = existing_data.dropna(subset=["user_id"])
