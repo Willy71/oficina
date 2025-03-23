@@ -713,3 +713,17 @@ if action == "Nova ordem de serviço":
             st.dataframe(existing_data, hide_index=True)
 
 # ____________________________________________________________________________________________________________________________________
+
+elif action == "Atualizar ordem existente":
+    centrar_texto("Selecione o ID da Ordem de serviço que deseja atualizar.", 3, "yellow")
+    # Eliminar filas con NaN en la columna "user_id"
+    existing_data = existing_data.dropna(subset=["user_id"])
+
+    # Convertir la columna "user_id" a enteros
+    existing_data["user_id"] = existing_data["user_id"].astype(int)
+
+    with st.container():    
+        col200, col201, col202, col203, col204 = st.columns([2, 2, 2, 1, 3])
+        with col200:
+            vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
+            vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
