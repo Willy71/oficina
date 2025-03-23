@@ -70,7 +70,7 @@ centrar_texto("Guillermo Cerato", 2, "white")
 with st.container():    
     col30, col31, col32, col33, col34, col35 = st.columns(6)
     with col32:
-        photo_link("Whatsapp", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/120px-WhatsApp.svg.png", "https://wa.me/5542991657847", "50px")
+        photo_link("Whatsapp", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/120px-WhatsApp.svg.png", "https://wa.me/5542988736508", "50px")
     with col33:
         centrar_texto("Whatsapp", 4, "white")
 
