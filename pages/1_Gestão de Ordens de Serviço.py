@@ -259,7 +259,7 @@ if action == "Nova ordem de serviço":
             with col32:
                 endereco = st.text_input("Endereço")
 
-        line(4, "lightblue")
+        line(4, "blue")
         centrar_texto("Serviços", 2, "lightblue")
 
         with st.container():    
@@ -370,7 +370,7 @@ if action == "Nova ordem de serviço":
             with col152:
                 valor_serv_12 = st.text_input("12 - Valor do serviço")
                 
-        line(4, "lightblue")
+        line(4, "blue")
         centrar_texto("Peças", 2, "lightblue")
 
         with st.container():    
@@ -517,7 +517,7 @@ if action == "Nova ordem de serviço":
             with col312:
                 valor_peca_16 = st.text_input("16 - Valor de cada peça")        
         
-        line(4, "lightblue")
+        line(4, "blue")
 
         # Definir el esquema de columnas en el orden correcto
         columnas_ordenadas = [
