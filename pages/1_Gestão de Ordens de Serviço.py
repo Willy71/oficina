@@ -207,9 +207,9 @@ action = st.selectbox(
 vendor_to_update = None  # Establecer un valor predeterminado
 
 if action == "Nova ordem de serviço":
-    centrar_texto("Dados do carro", 2, "yellow")
-    st.markdown("Insira os detalhes da nova ordem de serviço")
+    #st.markdown("Insira os detalhes da nova ordem de serviço")
     with st.form(key="ordem"):
+        centrar_texto("Dados do carro", 2, "yellow")
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns(5)
             with col00:
