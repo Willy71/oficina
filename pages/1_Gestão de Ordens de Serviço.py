@@ -745,8 +745,7 @@ elif action == "Atualizar ordem existente":
 
     # Mostrar los campos del formulario con los valores actuales
     with st.form(key="update_form"):
-        st.markdown("Atualize os detalhes da ordem de serviço")
-        
+        st.markdown("Atualize os detalhes da ordem de serviço")       
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns(5)
             with col00:
