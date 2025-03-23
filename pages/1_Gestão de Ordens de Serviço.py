@@ -794,7 +794,7 @@ elif action == "Atualizar ordem existente":
             with col32:
                 endereco = st.text_input("Endereço", value=vendor_data["endereco"], key="update_endereco")
 
-         line(4, "blue")
+        line(4, "blue")
         centrar_texto("Serviços", 2, "yellow")
 
         with st.container():    
