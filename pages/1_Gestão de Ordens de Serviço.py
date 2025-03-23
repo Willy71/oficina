@@ -1102,7 +1102,7 @@ elif action == "Atualizar ordem existente":
         with st.container():
             col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
             with col322:
-                update_button = st.form_submit_button("Atualizar")
+                update_button = st.form_submit_button("Atualizar", key="update_button")  # Clave única para el botón
                 
             if update_button:
                 # Crear un nuevo registro con los datos del formulario
@@ -1234,6 +1234,33 @@ elif action == "Atualizar ordem existente":
                 }
                 # Convertir el registro actualizado a DataFrame
                 updated_record_df = pd.DataFrame([updated_record])
+    
+                # Actualizar el DataFrame existente
+                existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
+    
+                try:
+                    # Obtener la hoja de cálculo
+                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+                    
+                    # Limpiar la hoja existente antes de actualizar
+                    worksheet.clear()
+                    
+                    # Agregar los encabezados primero
+                    worksheet.append_row(existing_data.columns.tolist())
+                    
+                    # Agregar los datos fila por fila
+                    for row in existing_data.values.tolist():
+                        worksheet.append_row(row)
+                    
+                    st.success("Ordem de serviço atualizada com sucesso")
+                
+                except Exception as e:
+                    st.error(f"Erro ao atualizar planilha: {str(e)}")
+
+                #===================================================================================================================================
+                '''
+                # Convertir el registro actualizado a DataFrame
+                updated_record_df = pd.DataFrame([updated_record])
 
                 # Actualizar el DataFrame existente
                 existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
@@ -1256,3 +1283,4 @@ elif action == "Atualizar ordem existente":
                 
                 except Exception as e:
                     st.error(f"Erro ao atualizar planilha: {str(e)}")
+'''
