@@ -768,11 +768,13 @@ if action == "Atualizar ordem existente":
                             vendor_data = vendor_data_filtered.iloc[0]
                             vendor_to_update = vendor_data["user_id"]
                         else:
-                            st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                            st.stop()  # Detener la ejecución si no se encuentra la placa
+                            with col202:
+                                st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
+                                st.stop()  # Detener la ejecución si no se encuentra la placa
                     else:
-                        st.warning("Digite um número de placa para buscar.")
-                        st.stop()  # Detener la ejecución si no se ingresa una placa
+                        with col202:
+                            st.warning("Digite um número de placa para buscar.")
+                            st.stop()  # Detener la ejecución si no se ingresa una placa
 
 
     # Mostrar los campos del formulario con los valores actuales
