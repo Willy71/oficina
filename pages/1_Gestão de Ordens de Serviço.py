@@ -744,7 +744,7 @@ if action == "Nova ordem de serviço":
 if action == "Atualizar ordem existente":
     centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 3, "yellow")
     
-    # Eliminar filas con NaN en la columna "user_id"
+     # Eliminar filas con NaN en la columna "user_id"
     existing_data = existing_data.dropna(subset=["user_id"])
 
     # Convertir la columna "user_id" a enteros
@@ -762,13 +762,17 @@ if action == "Atualizar ordem existente":
             else:
                 placa_to_search = st.text_input("Digite o número da placa")
                 if placa_to_search:
-                    vendor_data = existing_data[existing_data["placa"] == placa_to_search]
-                    if not vendor_data.empty:
-                        vendor_data = vendor_data.iloc[0]
+                    vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
+                    if not vendor_data_filtered.empty:
+                        vendor_data = vendor_data_filtered.iloc[0]
                         vendor_to_update = vendor_data["user_id"]
                     else:
                         st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                        st.stop()
+                        st.stop()  # Detener la ejecución si no se encuentra la placa
+                else:
+                    st.warning("Digite um número de placa para buscar.")
+                    st.stop()  # Detener la ejecución si no se ingresa una placa
+
 
     # Mostrar los campos del formulario con los valores actuales
     with st.form(key="update_form"):
