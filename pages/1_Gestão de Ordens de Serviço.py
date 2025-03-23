@@ -847,7 +847,7 @@ elif action == "Atualizar ordem existente":
             with col90:
                 item_serv_6 = st.text_input("6 - Item", value=vendor_data["item_serv_6"], key="update_item_serv_6")
             with col91:
-                desc_ser_6 = st.text_input("6 - Descriçao de serviço, value=vendor_data["desc_ser_6"], key="update_desc_ser_6")
+                desc_ser_6 = st.text_input("6 - Descriçao de serviço", value=vendor_data["desc_ser_6"], key="update_desc_ser_6")
             with col92:
                 valor_serv_6 = st.text_input("6 - Valor do serviço", value=vendor_data["valor_serv_6"], key="update_valor_serv_6")
         
