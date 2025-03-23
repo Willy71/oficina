@@ -1231,16 +1231,13 @@ if action == "Atualizar ordem existente":
                 try:
                     # Obtener la hoja de cálculo
                     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-                    
-                    # Limpiar la hoja existente antes de actualizar
-                    worksheet.clear()
-                    
-                    # Agregar los encabezados primero
-                    worksheet.append_row(existing_data.columns.tolist())
-                    
-                    # Agregar los datos fila por fila
-                    for row in existing_data.values.tolist():
-                        worksheet.append_row(row)
+                  
+                    # Encontrar la fila que corresponde al user_id que se está actualizando
+                    cell = worksheet.find(str(vendor_to_update))
+                    row_index = cell.row
+
+                    # Actualizar solo la fila correspondiente
+                    worksheet.update(f"A{row_index}", [updated_record_df.values.tolist()[0]])
                     
                     st.success("Ordem de serviço atualizada com sucesso")
                 
