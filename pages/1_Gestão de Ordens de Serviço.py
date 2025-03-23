@@ -1095,7 +1095,7 @@ if action == "Atualizar ordem existente":
             if update_button:
                 # Crear un diccionario con los datos actualizados
                 updated_record = {
-                    'user_id': obtener_proximo_id(existing_data),
+                    'user_id': vendor_to_update,  # Mantener el mismo user_id
                     'date_in': data_entrada,
                     'date_prev': previsao_entrega,
                     'date_out': data_saida,
@@ -1224,7 +1224,9 @@ if action == "Atualizar ordem existente":
                 updated_record_df = pd.DataFrame([updated_record])
 
                 # Actualizar el DataFrame existente
-                existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
+                # Actualizar la orden de servicio
+                atualizar_ordem(vendor_to_update, updated_record_df)
+                #existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
 
                 try:
                     # Obtener la hoja de cálculo
