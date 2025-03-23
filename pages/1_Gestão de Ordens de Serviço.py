@@ -794,6 +794,265 @@ elif action == "Atualizar ordem existente":
             with col32:
                 endereco = st.text_input("Endereço", value=vendor_data["endereco"], key="update_endereco")
 
+         line(4, "blue")
+        centrar_texto("Serviços", 2, "yellow")
+
+        with st.container():    
+            col40, col41, col42 = st.columns([1,5,2])
+            with col40:
+                item_serv_1 = st.text_input("1 - Item")
+            with col41:
+                desc_ser_1 = st.text_input("1 - Descriçao de serviço")
+            with col42:
+                valor_serv_1 = st.text_input("1 - Valor do serviço")
+                
+        with st.container():    
+            col50, col51, col52 = st.columns([1,5,2])
+            with col50:
+                item_serv_2 = st.text_input("2 - Item")
+            with col51:
+                desc_ser_2 = st.text_input("2 -Descriçao de serviço")
+            with col52:
+                valor_serv_2 = st.text_input("2- Valor do serviço")
+
+        with st.container():    
+            col60, col61, col62 = st.columns([1,5,2])
+            with col60:
+                item_serv_3 = st.text_input("3 - Item")
+            with col61:
+                desc_ser_3 = st.text_input("3 -Descriçao de serviço")
+            with col62:
+                valor_serv_3 = st.text_input("3- Valor do serviço")
+
+        with st.container():    
+            col70, col71, col72 = st.columns([1,5,2])
+            with col70:
+                item_serv_4 = st.text_input("4 - Item")
+            with col71:
+                desc_ser_4 = st.text_input("4 -Descriçao de serviço")
+            with col72:
+                valor_serv_4 = st.text_input("4- Valor do serviço")
+
+        with st.container():    
+            col80, col81, col82 = st.columns([1,5,2])
+            with col80:
+                item_serv_5 = st.text_input("5 - Item")
+            with col81:
+                desc_ser_5 = st.text_input("5 - Descriçao de serviço")
+            with col82:
+                valor_serv_5 = st.text_input("5 - Valor do serviço")
+        
+        with st.container():    
+            col90, col91, col92 = st.columns([1,5,2])
+            with col90:
+                item_serv_6 = st.text_input("6 - Item")
+            with col91:
+                desc_ser_6 = st.text_input("6 - Descriçao de serviço")
+            with col92:
+                valor_serv_6 = st.text_input("6 - Valor do serviço")
+        
+        with st.container():    
+            col100, col101, col102 = st.columns([1,5,2])
+            with col100:
+                item_serv_7 = st.text_input("7 - Item")
+            with col101:
+                desc_ser_7 = st.text_input("7 - Descriçao de serviço")
+            with col102:
+                valor_serv_7 = st.text_input("7 - Valor do serviço")
+        
+        with st.container():    
+            col110, col111, col112 = st.columns([1,5,2])
+            with col110:
+                item_serv_8 = st.text_input("8 - Item")
+            with col111:
+                desc_ser_8 = st.text_input("8 - Descriçao de serviço")
+            with col112:
+                valor_serv_8 = st.text_input("8 - Valor do serviço")
+        
+        with st.container():    
+            col120, col121, col122 = st.columns([1,5,2])
+            with col120:
+                item_serv_9 = st.text_input("9 - Item")
+            with col121:
+                desc_ser_9 = st.text_input("9 - Descriçao de serviço")
+            with col122:
+                valor_serv_9 = st.text_input("9 - Valor do serviço")
+        
+        with st.container():    
+            col130, col131, col132 = st.columns([1,5,2])
+            with col130:
+                item_serv_10 = st.text_input("10 - Item")
+            with col131:
+                desc_ser_10 = st.text_input("10 - Descriçao de serviço")
+            with col132:
+                valor_serv_10 = st.text_input("10 - Valor do serviço")
+        
+        with st.container():    
+            col140, col141, col142 = st.columns([1,5,2])
+            with col140:
+                item_serv_11 = st.text_input("11 - Item")
+            with col141:
+                desc_ser_11 = st.text_input("11 - Descriçao de serviço")
+            with col142:
+                valor_serv_11 = st.text_input("11 - Valor do serviço")
+        
+        with st.container():    
+            col150, col151, col152 = st.columns([1,5,2])
+            with col150:
+                item_serv_12 = st.text_input("12 - Item")
+            with col151:
+                desc_ser_12 = st.text_input("12 - Descriçao de serviço")
+            with col152:
+                valor_serv_12 = st.text_input("12 - Valor do serviço")
+                
+        line(4, "blue")
+        centrar_texto("Peças", 2, "yellow")
+
+        with st.container():    
+            col160, col161, col162 = st.columns([1,5,2])
+            with col160:
+                quant_peca_1 = st.text_input("1 - Quant.")
+            with col161:
+                desc_peca_1 = st.text_input("1 - Descriçao da peça")
+            with col162:
+                valor_peca_1 = st.text_input("1 - Valor de cada peça")
+
+        with st.container():    
+            col170, col171, col172 = st.columns([1,5,2])
+            with col170:
+                quant_peca_2 = st.text_input("2 - Quant.")
+            with col171:
+                desc_peca_2 = st.text_input("2 - Descriçao da peça")
+            with col172:
+                valor_peca_2 = st.text_input("2 - Valor de cada peça")
+
+        with st.container():    
+            col180, col181, col182 = st.columns([1,5,2])
+            with col180:
+                quant_peca_3 = st.text_input("3 - Quant.")
+            with col181:
+                desc_peca_3 = st.text_input("3 - Descriçao da peça")
+            with col182:
+                valor_peca_3 = st.text_input("3 - Valor de cada peça")
+        
+        with st.container():    
+            col190, col191, col192 = st.columns([1,5,2])
+            with col190:
+                quant_peca_4 = st.text_input("4 - Quant.")
+            with col191:
+                desc_peca_4 = st.text_input("4 - Descriçao da peça")
+            with col192:
+                valor_peca_4 = st.text_input("4 - Valor de cada peça")
+        
+        with st.container():    
+            col200, col201, col202 = st.columns([1,5,2])
+            with col200:
+                quant_peca_5 = st.text_input("5 - Quant.")
+            with col201:
+                desc_peca_5 = st.text_input("5 - Descriçao da peça")
+            with col202:
+                valor_peca_5 = st.text_input("5 - Valor de cada peça")
+        
+        with st.container():    
+            col210, col211, col212 = st.columns([1,5,2])
+            with col210:
+                quant_peca_6 = st.text_input("6 - Quant.")
+            with col211:
+                desc_peca_6 = st.text_input("6 - Descriçao da peça")
+            with col212:
+                valor_peca_6 = st.text_input("6 - Valor de cada peça")
+        
+        with st.container():    
+            col220, col221, col222 = st.columns([1,5,2])
+            with col220:
+                quant_peca_7 = st.text_input("7 - Quant.")
+            with col221:
+                desc_peca_7 = st.text_input("7 - Descriçao da peça")
+            with col222:
+                valor_peca_7 = st.text_input("7 - Valor de cada peça")
+        
+        with st.container():    
+            col230, col231, col232 = st.columns([1,5,2])
+            with col230:
+                quant_peca_8 = st.text_input("8 - Quant.")
+            with col231:
+                desc_peca_8 = st.text_input("8 - Descriçao da peça")
+            with col232:
+                valor_peca_8 = st.text_input("8 - Valor de cada peça")
+        
+        with st.container():    
+            col240, col241, col242 = st.columns([1,5,2])
+            with col240:
+                quant_peca_9 = st.text_input("9 - Quant.")
+            with col241:
+                desc_peca_9 = st.text_input("9 - Descriçao da peça")
+            with col242:
+                valor_peca_9 = st.text_input("9 - Valor de cada peça")
+        
+        with st.container():    
+            col250, col251, col252 = st.columns([1,5,2])
+            with col250:
+                quant_peca_10 = st.text_input("10 - Quant.")
+            with col251:
+                desc_peca_10 = st.text_input("10 - Descriçao da peça")
+            with col252:
+                valor_peca_10 = st.text_input("10 - Valor de cada peça")
+        
+        with st.container():    
+            col260, col261, col262 = st.columns([1,5,2])
+            with col260:
+                quant_peca_11 = st.text_input("11 - Quant.")
+            with col261:
+                desc_peca_11 = st.text_input("11 - Descriçao da peça")
+            with col262:
+                valor_peca_11 = st.text_input("11 - Valor de cada peça")
+        
+        with st.container():    
+            col270, col271, col272 = st.columns([1,5,2])
+            with col270:
+                quant_peca_12 = st.text_input("12 - Quant.")
+            with col271:
+                desc_peca_12 = st.text_input("12 - Descriçao da peça")
+            with col272:
+                valor_peca_12 = st.text_input("12 - Valor de cada peça")
+        
+        with st.container():    
+            col280, col281, col282 = st.columns([1,5,2])
+            with col280:
+                quant_peca_13 = st.text_input("13 - Quant.")
+            with col281:
+                desc_peca_13 = st.text_input("13 - Descriçao da peça")
+            with col282:
+                valor_peca_13 = st.text_input("13 - Valor de cada peça")
+        
+        with st.container():    
+            col290, col291, col292 = st.columns([1,5,2])
+            with col290:
+                quant_peca_14 = st.text_input("14 - Quant.")
+            with col291:
+                desc_peca_14 = st.text_input("14 - Descriçao da peça")
+            with col292:
+                valor_peca_14 = st.text_input("14 - Valor de cada peça")
+        
+        with st.container():    
+            col300, col301, col302 = st.columns([1,5,2])
+            with col300:
+                quant_peca_15 = st.text_input("15 - Quant.")
+            with col301:
+                desc_peca_15 = st.text_input("15 - Descriçao da peça")
+            with col302:
+                valor_peca_15 = st.text_input("15 - Valor de cada peça")
+        
+        with st.container():    
+            col310, col311, col312 = st.columns([1,5,2])
+            with col310:
+                quant_peca_16 = st.text_input("16 - Quant.")
+            with col311:
+                desc_peca_16 = st.text_input("16 - Descriçao da peça")
+            with col312:
+                valor_peca_16 = st.text_input("16 - Valor de cada peça")        
+        
+        line(4, "blue")
         # Repite este bloque para todos los campos del formulario...
         # Asegúrate de agregar un `key` único para cada campo.
 
@@ -802,26 +1061,171 @@ elif action == "Atualizar ordem existente":
             with col322:
                 update_button = st.form_submit_button("Atualizar")
 
-            if update_button:
-                # Crear un diccionario con los datos actualizados
-                updated_record = {
-                    'user_id': vendor_to_update,
-                    'placa': placa,
+            # Definir el esquema de columnas en el orden correcto
+        columnas_ordenadas = [
+            'user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'cor', 'placa', 'km', 'ano',
+            'estado', 'dono_empresa', 'telefone', 'endereco', 'item_serv_1', 'desc_ser_1', 'valor_serv_1',
+            'item_serv_2', 'desc_ser_2', 'valor_serv_2', 'item_serv_3', 'desc_ser_3', 'valor_serv_3',
+            'item_serv_4', 'desc_ser_4', 'valor_serv_4', 'item_serv_5', 'desc_ser_5', 'valor_serv_5',
+            'item_serv_6', 'desc_ser_6', 'valor_serv_6', 'item_serv_7', 'desc_ser_7', 'valor_serv_7',
+            'item_serv_8', 'desc_ser_8', 'valor_serv_8', 'item_serv_9', 'desc_ser_9', 'valor_serv_9',
+            'item_serv_10', 'desc_ser_10', 'valor_serv_10', 'item_serv_11', 'desc_ser_11', 'valor_serv_11',
+            'item_serv_12', 'desc_ser_12', 'valor_serv_12', 'total_serviço', 
+            'quant_peca_1', 'desc_peca_1', 'valor_peca_1', 'valor_total_peca_1', 
+            'quant_peca_2', 'desc_peca_2', 'valor_peca_2', 'valor_total_peca_2',
+            'quant_peca_3', 'desc_peca_3', 'valor_peca_3', 'valor_total_peca_3',
+            'quant_peca_4', 'desc_peca_4', 'valor_peca_4', 'valor_total_peca_4',
+            'quant_peca_5', 'desc_peca_5', 'valor_peca_5', 'valor_total_peca_5',
+            'quant_peca_6', 'desc_peca_6', 'valor_peca_6', 'valor_total_peca_6',
+            'quant_peca_7', 'desc_peca_7', 'valor_peca_7', 'valor_total_peca_7',
+            'quant_peca_8', 'desc_peca_8', 'valor_peca_8', 'valor_total_peca_8',
+            'quant_peca_9', 'desc_peca_9', 'valor_peca_9', 'valor_total_peca_9',
+            'quant_peca_10', 'desc_peca_10', 'valor_peca_10', 'valor_total_peca_10',
+            'quant_peca_11', 'desc_peca_11', 'valor_peca_11', 'valor_total_peca_11',
+            'quant_peca_12', 'desc_peca_12', 'valor_peca_12', 'valor_total_peca_12',
+            'quant_peca_13', 'desc_peca_13', 'valor_peca_13', 'valor_total_peca_13',
+            'quant_peca_14', 'desc_peca_14', 'valor_peca_14', 'valor_total_peca_14',
+            'quant_peca_15', 'desc_peca_15', 'valor_peca_15', 'valor_total_peca_15',
+            'quant_peca_16', 'desc_peca_16', 'valor_peca_16', 'valor_total_peca_16',
+            '30_porc', 'total_valor_pecas',
+            'forma_de_pagamento', 'pagamento_parcial', 'valor_pago_parcial', 'data_prox_pag', 'valor_prox_pag',
+            'pag_total', 'valor_pag_total']
+        
+        # Asegurar que el DataFrame existente tenga todas las columnas en el orden correcto
+        existing_data = existing_data.reindex(columns=columnas_ordenadas)
+     
+        with st.container():
+            col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
+            with col322:
+                submit_button = st.form_submit_button("Enviar")
+            if submit_button:
+                # Crear un nuevo registro con los datos del formulario
+                new_record = {
+                    'user_id': obtener_proximo_id(existing_data),
                     'date_in': data_entrada,
                     'date_prev': previsao_entrega,
                     'date_out': data_saida,
                     'carro': carro,
                     'modelo': modelo,
-                    'ano': ano,
                     'cor': cor,
+                    'placa': placa,
                     'km': km,
+                    'ano': ano,
                     'estado': estado,
                     'dono_empresa': dono_empresa,
                     'telefone': telefone,
                     'endereco': endereco,
-                    # Agrega aquí el resto de los campos...
+                    'item_serv_1': item_serv_1 if 'item_serv_1' in locals() else None,
+                    'desc_ser_1': desc_ser_1 if 'desc_ser_1' in locals() else None,
+                    'valor_serv_1': valor_serv_1 if 'valor_serv_1' in locals() else None,
+                    'item_serv_2': item_serv_2 if 'item_serv_2' in locals() else None,
+                    'desc_ser_2': desc_ser_2 if 'desc_ser_2' in locals() else None,
+                    'valor_serv_2': valor_serv_2 if 'valor_serv_2' in locals() else None,
+                    'item_serv_3': item_serv_3 if 'item_serv_3' in locals() else None,
+                    'desc_ser_3': desc_ser_3 if 'desc_ser_3' in locals() else None,
+                    'valor_serv_3': valor_serv_3 if 'valor_serv_3' in locals() else None,
+                    'item_serv_4': item_serv_4 if 'item_serv_4' in locals() else None,
+                    'desc_ser_4': desc_ser_4 if 'desc_ser_4' in locals() else None,
+                    'valor_serv_4': valor_serv_4 if 'valor_serv_4' in locals() else None,
+                    'item_serv_5': item_serv_5 if 'item_serv_5' in locals() else None,
+                    'desc_ser_5': desc_ser_5 if 'desc_ser_5' in locals() else None,
+                    'valor_serv_5': valor_serv_5 if 'valor_serv_5' in locals() else None,
+                    'item_serv_6': item_serv_6 if 'item_serv_6' in locals() else None,
+                    'desc_ser_6': desc_ser_6 if 'desc_ser_6' in locals() else None,
+                    'valor_serv_6': valor_serv_6 if 'valor_serv_6' in locals() else None,
+                    'item_serv_7': item_serv_7 if 'item_serv_7' in locals() else None,
+                    'desc_ser_7': desc_ser_7 if 'desc_ser_7' in locals() else None,
+                    'valor_serv_7': valor_serv_7 if 'valor_serv_7' in locals() else None,
+                    'item_serv_8': item_serv_8 if 'item_serv_8' in locals() else None,
+                    'desc_ser_8': desc_ser_8 if 'desc_ser_8' in locals() else None,
+                    'valor_serv_8': valor_serv_8 if 'valor_serv_8' in locals() else None,
+                    'item_serv_9': item_serv_9 if 'item_serv_9' in locals() else None,
+                    'desc_ser_9': desc_ser_9 if 'desc_ser_9' in locals() else None,
+                    'valor_serv_9': valor_serv_9 if 'valor_serv_9' in locals() else None,
+                    'item_serv_10': item_serv_10 if 'item_serv_10' in locals() else None,
+                    'desc_ser_10': desc_ser_10 if 'desc_ser_10' in locals() else None,
+                    'valor_serv_10': valor_serv_10 if 'valor_serv_10' in locals() else None,
+                    'item_serv_11': item_serv_11 if 'item_serv_11' in locals() else None,
+                    'desc_ser_11': desc_ser_11 if 'desc_ser_11' in locals() else None,
+                    'valor_serv_11': valor_serv_11 if 'valor_serv_11' in locals() else None,
+                    'item_serv_12': item_serv_12 if 'item_serv_12' in locals() else None,
+                    'desc_ser_12': desc_ser_12 if 'desc_ser_12' in locals() else None,
+                    'valor_serv_12': valor_serv_12 if 'valor_serv_12' in locals() else None,
+                    'total_serviço': None,
+                    'quant_peca_1': quant_peca_1 if 'quant_peca_1' in locals() else None,
+                    'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
+                    'valor_peca_1': valor_peca_1 if 'valor_peca_1' in locals() else None,
+                    'valor_total_peca_1': valor_total_peca_1 if 'valor_total_peca_1' in locals() else None,
+                    'quant_peca_2': quant_peca_2 if 'quant_peca_2' in locals() else None,
+                    'desc_peca_2': desc_peca_2 if 'desc_peca_2' in locals() else None,
+                    'valor_peca_2': valor_peca_2 if 'valor_peca_2' in locals() else None,
+                    'valor_total_peça_2': valor_total_peça_2 if 'valor_total_peça_2' in locals() else None,
+                    'quant_peca_3': quant_peca_3 if 'quant_peca_3' in locals() else None,
+                    'desc_peca_3': desc_peca_3 if 'desc_peca_3' in locals() else None,
+                    'valor_peca_3': valor_peca_3 if 'valor_peca_3' in locals() else None,
+                    'valor_total_peça_3': valor_total_peça_3 if 'valor_total_peça_3' in locals() else None,
+                    'quant_peca_4': quant_peca_4 if 'quant_peca_4' in locals() else None,
+                    'desc_peca_4': desc_peca_4 if 'desc_peca_4' in locals() else None,
+                    'valor_peca_4': valor_peca_4 if 'valor_peca_4' in locals() else None,
+                    'valor_total_peça_4': valor_total_peça_4 if 'valor_total_peça_4' in locals() else None,
+                    'quant_peca_5': quant_peca_5 if 'quant_peca_5' in locals() else None,
+                    'desc_peca_5': desc_peca_5 if 'desc_peca_5' in locals() else None,
+                    'valor_peca_5': valor_peca_5 if 'valor_peca_5' in locals() else None,
+                    'valor_total_peça_5': valor_total_peça_5 if 'valor_total_peça_5' in locals() else None,
+                    'quant_peca_6': quant_peca_6 if 'quant_peca_6' in locals() else None,
+                    'desc_peca_6': desc_peca_6 if 'desc_peca_6' in locals() else None,
+                    'valor_peca_6': valor_peca_6 if 'valor_peca_6' in locals() else None,
+                    'valor_total_peça_6': valor_total_peça_6 if 'valor_total_peça_6' in locals() else None,
+                    'quant_peca_7': quant_peca_7 if 'quant_peca_7' in locals() else None,
+                    'desc_peca_7': desc_peca_7 if 'desc_peca_7' in locals() else None,
+                    'valor_peca_7': valor_peca_7 if 'valor_peca_7' in locals() else None,
+                    'valor_total_peça_7': valor_total_peça_7 if 'valor_total_peça_7' in locals() else None,
+                    'quant_peca_8': quant_peca_8 if 'quant_peca_8' in locals() else None,
+                    'desc_peca_8': desc_peca_8 if 'desc_peca_8' in locals() else None,
+                    'valor_peca_8': valor_peca_8 if 'valor_peca_8' in locals() else None,
+                    'valor_total_peça_8': valor_total_peça_8 if 'valor_total_peça_8' in locals() else None,
+                    'quant_peca_9': quant_peca_9 if 'quant_peca_9' in locals() else None,
+                    'desc_peca_9': desc_peca_9 if 'desc_peca_9' in locals() else None,
+                    'valor_peca_9': valor_peca_9 if 'valor_peca_9' in locals() else None,
+                    'valor_total_peça_9': valor_total_peça_9 if 'valor_total_peça_9' in locals() else None,
+                    'quant_peca_10': quant_peca_10 if 'quant_peca_10' in locals() else None,
+                    'desc_peca_10': desc_peca_10 if 'desc_peca_10' in locals() else None,
+                    'valor_peca_10': valor_peca_10 if 'valor_peca_10' in locals() else None,
+                    'valor_total_peça_10': valor_total_peça_10 if 'valor_total_peça_10' in locals() else None,
+                    'quant_peca_11': quant_peca_11 if 'quant_peca_11' in locals() else None,
+                    'desc_peca_11': desc_peca_11 if 'desc_peca_11' in locals() else None,
+                    'valor_peca_11': valor_peca_11 if 'valor_peca_11' in locals() else None,
+                    'valor_total_peça_11': valor_total_peça_11 if 'valor_total_peça_11' in locals() else None,
+                    'quant_peca_12': quant_peca_12 if 'quant_peca_12' in locals() else None,
+                    'desc_peca_12': desc_peca_12 if 'desc_peca_12' in locals() else None,
+                    'valor_peca_12': valor_peca_12 if 'valor_peca_12' in locals() else None,
+                    'valor_total_peça_12': valor_total_peça_12 if 'valor_total_peça_12' in locals() else None,
+                    'quant_peca_13': quant_peca_13 if 'quant_peca_13' in locals() else None,
+                    'desc_peca_13': desc_peca_13 if 'desc_peca_13' in locals() else None,
+                    'valor_peca_13': valor_peca_13 if 'valor_peca_13' in locals() else None,
+                    'valor_total_peça_13': valor_total_peça_13 if 'valor_total_peça_13' in locals() else None,
+                    'quant_peca_14': quant_peca_14 if 'quant_peca_14' in locals() else None,
+                    'desc_peca_14': desc_peca_14 if 'desc_peca_14' in locals() else None,
+                    'valor_peca_14': valor_peca_14 if 'valor_peca_14' in locals() else None,
+                    'valor_total_peça_14': valor_total_peça_14 if 'valor_total_peça_14' in locals() else None,
+                    'quant_peca_15': quant_peca_15 if 'quant_peca_15' in locals() else None,
+                    'desc_peca_15': desc_peca_15 if 'desc_peca_15' in locals() else None,
+                    'valor_peca_15': valor_peca_15 if 'valor_peca_15' in locals() else None,
+                    'valor_total_peça_15': valor_total_peça_15 if 'valor_total_peça_15' in locals() else None,
+                    'quant_peca_16': quant_peca_16 if 'quant_peca_16' in locals() else None,
+                    'desc_peca_16': desc_peca_16 if 'desc_peca_16' in locals() else None,
+                    'valor_peca_16': valor_peca_16 if 'valor_peca_16' in locals() else None,
+                    'valor_total_peça_16': valor_total_peça_16 if 'valor_total_peça_16' in locals() else None,
+                    '30_porc': None,
+                    'total_valor_pecas': None,
+                    'forma_de_pagamento': None,
+                    'pagamento_parcial': None,
+                    'valor_pago_parcial': None,
+                    'data_prox_pag': None,
+                    'valor_prox_pag': None,
+                    'pag_total': None,
+                    'valor_pag_total': None
                 }
-
                 # Convertir el registro actualizado a DataFrame
                 updated_record_df = pd.DataFrame([updated_record])
 
