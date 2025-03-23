@@ -715,7 +715,7 @@ if action == "Nova ordem de serviço":
 # ____________________________________________________________________________________________________________________________________
 
 elif action == "Atualizar ordem existente":
-    centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 3, "white")
+    centrar_texto("Selecione o ID da Ordem de serviço que deseja atualizar.", 3, "yellow")
     
     # Eliminar filas con NaN en la columna "user_id"
     existing_data = existing_data.dropna(subset=["user_id"])
@@ -745,7 +745,7 @@ elif action == "Atualizar ordem existente":
 
     # Mostrar los campos del formulario con los valores actuales
     with st.form(key="update_form"):
-        centrar_texto("Dados do carro", 2, "yellow")
+        st.markdown("Atualize os detalhes da ordem de serviço")
         
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns(5)
@@ -1096,16 +1096,13 @@ elif action == "Atualizar ordem existente":
             'forma_de_pagamento', 'pagamento_parcial', 'valor_pago_parcial', 'data_prox_pag', 'valor_prox_pag',
             'pag_total', 'valor_pag_total']
         
-        # Asegurar que el DataFrame existente tenga todas las columnas en el orden correcto
-        existing_data = existing_data.reindex(columns=columnas_ordenadas)
-
-        with st.container():
+       with st.container():
             col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
             with col322:
-                update_button = st.form_submit_button("Atualizar", key="update_button")  # Clave única para el botón
-                
+                update_button = st.form_submit_button("Atualizar")
+
             if update_button:
-                # Crear un nuevo registro con los datos del formulario
+                # Crear un diccionario con los datos actualizados
                 updated_record = {
                     'user_id': obtener_proximo_id(existing_data),
                     'date_in': data_entrada,
@@ -1234,33 +1231,6 @@ elif action == "Atualizar ordem existente":
                 }
                 # Convertir el registro actualizado a DataFrame
                 updated_record_df = pd.DataFrame([updated_record])
-    
-                # Actualizar el DataFrame existente
-                existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
-    
-                try:
-                    # Obtener la hoja de cálculo
-                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-                    
-                    # Limpiar la hoja existente antes de actualizar
-                    worksheet.clear()
-                    
-                    # Agregar los encabezados primero
-                    worksheet.append_row(existing_data.columns.tolist())
-                    
-                    # Agregar los datos fila por fila
-                    for row in existing_data.values.tolist():
-                        worksheet.append_row(row)
-                    
-                    st.success("Ordem de serviço atualizada com sucesso")
-                
-                except Exception as e:
-                    st.error(f"Erro ao atualizar planilha: {str(e)}")
-
-                #===================================================================================================================================
-                '''
-                # Convertir el registro actualizado a DataFrame
-                updated_record_df = pd.DataFrame([updated_record])
 
                 # Actualizar el DataFrame existente
                 existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
@@ -1283,4 +1253,5 @@ elif action == "Atualizar ordem existente":
                 
                 except Exception as e:
                     st.error(f"Erro ao atualizar planilha: {str(e)}")
-'''
+
+            
