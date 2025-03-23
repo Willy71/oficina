@@ -715,7 +715,7 @@ if action == "Nova ordem de serviço":
 # ____________________________________________________________________________________________________________________________________
 
 elif action == "Atualizar ordem existente":
-    centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 2, "yellow")
+    centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 3, "white")
     
     # Eliminar filas con NaN en la columna "user_id"
     existing_data = existing_data.dropna(subset=["user_id"])
@@ -745,7 +745,7 @@ elif action == "Atualizar ordem existente":
 
     # Mostrar los campos del formulario con los valores actuales
     with st.form(key="update_form"):
-        centrar_texto("Atualize os detalhes da ordem de serviço", 4, "white")
+        centrar_texto("Dados do carro", 2, "yellow")
         
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns(5)
