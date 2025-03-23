@@ -1061,11 +1061,6 @@ elif action == "Atualizar ordem existente":
         
         line(4, "blue")
 
-        with st.container():
-            col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
-            with col322:
-                update_button = st.form_submit_button("Atualizar")
-
             # Definir el esquema de columnas en el orden correcto
         columnas_ordenadas = [
             'user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'cor', 'placa', 'km', 'ano',
