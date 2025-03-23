@@ -261,6 +261,8 @@ if action == "Nova ordem de serviço":
 
         line(4, "blue")
 
+        centrar_texto("Serviços", 2, "yellow")
+
         with st.container():    
             col40, col41, col42 = st.columns([1,5,2])
             with col40:
@@ -370,6 +372,7 @@ if action == "Nova ordem de serviço":
                 valor_serv_12 = st.text_input("12 - Valor do serviço")
                 
         line(4, "blue")
+        centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
             col160, col161, col162 = st.columns([1,5,2])
