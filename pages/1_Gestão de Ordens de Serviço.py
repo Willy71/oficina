@@ -257,6 +257,7 @@ action = st.selectbox(
         "Apagar ordem de serviço", # Delete
     ],
 )
+
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Formulario
 
@@ -741,7 +742,7 @@ if action == "Nova ordem de serviço":
 # ____________________________________________________________________________________________________________________________________
 
 # Código para actualizar una orden de servicio
-if action == "Atualizar ordem existente":
+elif action == "Atualizar ordem existente":
     centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 6, "yellow")
     
      # Eliminar filas con NaN en la columna "user_id"
@@ -1249,5 +1250,32 @@ if action == "Atualizar ordem existente":
                 
                 except Exception as e:
                     st.error(f"Erro ao atualizar planilha: {str(e)}")
+
+#===================================================================================================================================================================
+# --- Nueva Opción 3: Ver todas las órdenes ---
+elif action == "Ver todos as ordens de serviço":
+    st.header("📋 Lista completa de órdenes de servicio")
+    
+    # Mostrar el DataFrame con mejor formato
+    st.dataframe(
+        existing_data,
+        use_container_width=True,  # Ajusta el ancho al contenedor
+        hide_index=True,            # Oculta el índice numérico
+        column_config={            # Personaliza columnas (opcional)
+            "date_in": "Data de entrada",
+            "placa": "Placa",
+            "user_id": "N° Ordem"
+        }
+    )
+    
+    # Opción para exportar a CSV (opcional)
+    if st.button("Exportar para CSV"):
+        csv = existing_data.to_csv(index=False)
+        st.download_button(
+            label="Baixar arquivo",
+            data=csv,
+            file_name="ordens_de_servico.csv",
+            mime="text/csv"
+        )
 
             
