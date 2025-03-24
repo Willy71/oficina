@@ -53,7 +53,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 #=============================================================================================================================
 # Título de la página
-st.title("Consulta de Vehículos por Patente")
+st.title("Consulta de Veículos por placa")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Conexión a Google Sheets (usando tu misma configuración)
@@ -64,7 +64,7 @@ gc = gspread.authorize(credentials)
 
 # Usamos la misma hoja de cálculo que en tu código original
 SPREADSHEET_KEY = '1ndVk4efZZN74serPvDpN6tcm2NamLqKlcYfz2-y156g'
-SHEET_NAME = 'Veiculos'  # Cambia esto al nombre de tu hoja de vehículos
+SHEET_NAME = 'Hoja 1'  # Cambia esto al nombre de tu hoja de vehículos
 
 try:
     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
