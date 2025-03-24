@@ -1278,17 +1278,11 @@ elif action == "Ver todos as ordens de serviço":
             mime="text/csv"
         )
 #===================================================================================================================================================================
-# ____________________________________________
-# Delete Vendor by user_id or placa
 elif action == "Apagar ordem de serviço":
     st.header("🗑️ Apagar Ordem de Serviço")
     
-    # Opción para buscar por ID o Placa
-    search_option = st.radio(
-        "Buscar por:", 
-        ["ID", "Placa"],
-        horizontal=True
-    )
+    # 1. Selección por ID/Placa (tu código existente)
+    search_option = st.radio("Buscar por:", ["ID", "Placa"], horizontal=True)
     
     if search_option == "ID":
         user_id_to_delete = st.selectbox(
@@ -1302,31 +1296,48 @@ elif action == "Apagar ordem de serviço":
         )
         user_id_to_delete = existing_data[existing_data["placa"] == placa_to_delete]["user_id"].values[0]
     
-    # Mostrar detalles de la orden antes de borrar
+    # 2. Mostrar detalles
     st.markdown("**Detalhes da ordem selecionada:**")
     ordem_to_delete = existing_data[existing_data["user_id"] == user_id_to_delete].iloc[0]
     st.json(ordem_to_delete.to_dict())
     
-    # --- Doble confirmación aquí ---
+    # 3. Doble confirmación (FUNCIONA CORRECTAMENTE)
     st.warning("⚠️ Esta ação não pode ser desfeita!")
     
-    if st.checkbox("✅ Marque esta caixa para confirmar a exclusão"):
-        if st.button("CONFIRMAR EXCLUSÃO", 
-                    type="primary", 
-                    disabled=not st.session_state.get("confirmado", False)):
-            
-            # --- Código de eliminación ---
-            existing_data = existing_data[existing_data["user_id"] != user_id_to_delete]
-            existing_data.reset_index(drop=True, inplace=True)
-            
-            try:
-                conn.update(worksheet="Hoja1", data=existing_data)
-                st.success("Ordem apagada com sucesso!")
-                st.balloons()
-            except Exception as e:
-                st.error(f"Erro ao atualizar planilha: {str(e)}")
+    # Usamos session_state para rastrear el checkbox
+    if 'confirmado' not in st.session_state:
+        st.session_state.confirmado = False
     
-    # Mostrar dataframe actualizado
+    # Checkbox que actualiza session_state
+    confirmado = st.checkbox(
+        "✅ Marque esta caixa para confirmar a exclusão",
+        value=st.session_state.confirmado,
+        key='confirm_checkbox'
+    )
+    
+    # Actualizamos el estado cuando cambia el checkbox
+    if confirmado != st.session_state.confirmado:
+        st.session_state.confirmado = confirmado
+        st.rerun()  # Fuerza la actualización
+    
+    # Botón que depende del estado
+    if st.button(
+        "CONFIRMAR EXCLUSÃO",
+        type="primary",
+        disabled=not st.session_state.confirmado
+    ):
+        # 4. Código de eliminación
+        existing_data = existing_data[existing_data["user_id"] != user_id_to_delete]
+        existing_data.reset_index(drop=True, inplace=True)
+        
+        try:
+            conn.update(worksheet="Hoja1", data=existing_data)
+            st.success("Ordem apagada com sucesso!")
+            st.session_state.confirmado = False  # Resetear estado
+            st.balloons()
+        except Exception as e:
+            st.error(f"Erro ao atualizar planilha: {str(e)}")
+    
+    # 5. Mostrar datos actualizados
     st.markdown("### Ordens restantes:")
     st.dataframe(existing_data, hide_index=True, use_container_width=True)
-            
