@@ -148,43 +148,79 @@ if buscar:
                     with cols[2]:
                         st.metric("Endereço", veiculo.get('endereco', 'N/A'))
                 
+                             # Función para formatear valores numéricos
+                def formatar_valor(valor):
+                    try:
+                        # Convertir a float, redondear a 2 decimales y formatear con coma como separador decimal
+                        valor_float = float(valor)
+                        return f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
+                    except (ValueError, TypeError):
+                        return "0,00"
+
                 # Mostrar servicios con expanders
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
+                    total_servicos = 0.0
+                    
                     for i in range(1, 13):
                         item = veiculo.get(f'item_serv_{i}', '')
                         desc = veiculo.get(f'desc_ser_{i}', '')
                         valor = veiculo.get(f'valor_serv_{i}', '')
+                        
                         if pd.notna(item) or pd.notna(desc) or pd.notna(valor):
+                            valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
+                            valor_float = float(valor) if pd.notna(valor) else 0.0
+                            total_servicos += valor_float
+                            
                             servicos.append({
                                 'Item': item if pd.notna(item) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
-                                'Valor': valor if pd.notna(valor) else ''
+                                'Valor (R$)': valor_formatado
                             })
                     
                     if servicos:
-                        st.table(pd.DataFrame(servicos))
+                        df_servicos = pd.DataFrame(servicos)
+                        st.dataframe(df_servicos, hide_index=True, use_container_width=True)
+                        
+                        # Mostrar total de servicios
+                        st.markdown(f"**Total Serviços:** R$ {formatar_valor(total_servicos)}")
                     else:
                         st.info("Nenhum serviço registrado")
                 
                 # Mostrar peças com expanders
                 with st.expander("🔧 Peças Utilizadas", expanded=False):
                     pecas = []
+                    total_pecas = 0.0
+                    
                     for i in range(1, 17):
                         quant = veiculo.get(f'quant_peca_{i}', '')
                         desc = veiculo.get(f'desc_peca_{i}', '')
                         valor = veiculo.get(f'valor_peca_{i}', '')
+                        
                         if pd.notna(quant) or pd.notna(desc) or pd.notna(valor):
+                            valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
+                            valor_float = float(valor) if pd.notna(valor) else 0.0
+                            total_pecas += valor_float
+                            
                             pecas.append({
                                 'Quant.': quant if pd.notna(quant) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
-                                'Valor Unit.': valor if pd.notna(valor) else ''
+                                'Valor Unit. (R$)': valor_formatado
                             })
                     
                     if pecas:
-                        st.table(pd.DataFrame(pecas))
+                        df_pecas = pd.DataFrame(pecas)
+                        st.dataframe(df_pecas, hide_index=True, use_container_width=True)
+                        
+                        # Mostrar total de piezas
+                        st.markdown(f"**Total Peças:** R$ {formatar_valor(total_pecas)}")
                     else:
                         st.info("Nenhuma peça registrada")
+
+                # Mostrar el gran total después de ambas secciones
+                if 'total_servicos' in locals() and 'total_pecas' in locals():
+                    total_geral = total_servicos + total_pecas
+                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
                 
                 # Mostrar todos los datos en formato JSON
                 with st.expander("📄 Ver todos os dados técnicos", expanded=False):
