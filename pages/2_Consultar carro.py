@@ -1,31 +1,26 @@
+# 2_Consultar_carro.py
 import streamlit as st
-from datetime import datetime, timedelta
 import pandas as pd
-import re
 import gspread
 from google.oauth2.service_account import Credentials
 
-# Colocar nome na pagina, icone e ampliar a tela
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Configuración de página (igual que en tu código original)
 st.set_page_config(
-    page_title="Consultas",
-    page_icon=":car",
+    page_title="Consultar Veículo",
+    page_icon=":car:",
     layout="wide"
 )
 
-# We reduced the empty space at the beginning of the streamlit
-reduce_space ="""
+reduce_space = """
             <style type="text/css">
-            /* Remueve el espacio en el encabezado por defecto de las apps de Streamlit */
             div[data-testid="stAppViewBlockContainer"]{
                 padding-top:30px;
             }
             </style>
             """
-# We load reduce_space
 st.html(reduce_space)
 
-# ----------------------------------------------------------------------------------------------------------------------------
-# Colocar el background y definir los colores del sidebar
 page_bg_img = f"""
 <style>
 [data-testid="stAppViewContainer"] > .main {{
@@ -50,10 +45,10 @@ background: rgba(0,0,0,0);
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
+# ----------------------------------------------------------------------------------------------------------------------------------
 
-#=============================================================================================================================
 # Título de la página
-st.title("Consulta de Veículos por placa")
+st.title("Consultar Veículo por Placa")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Conexión a Google Sheets (usando tu misma configuración)
@@ -62,25 +57,28 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapi
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 
-# Usamos la misma hoja de cálculo que en tu código original
 SPREADSHEET_KEY = '1ndVk4efZZN74serPvDpN6tcm2NamLqKlcYfz2-y156g'
-SHEET_NAME = 'Hoja 1'  # Cambia esto al nombre de tu hoja de vehículos
+SHEET_NAME = 'Hoja1'  # Usamos la misma hoja que en tu gestión de reservas
 
 try:
     worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-    veiculos_data = pd.DataFrame(worksheet.get_all_records())
-except gspread.exceptions.SpreadsheetNotFound:
-    st.error("No se encontró la hoja de cálculo. Verifica la clave y los permisos.")
-except gspread.exceptions.WorksheetNotFound:
-    st.error(f"No se encontró la hoja '{SHEET_NAME}' en el documento.")
+    dados = pd.DataFrame(worksheet.get_all_records())
+    
+    # Verificamos si la columna de placas existe
+    if 'Placa' not in dados.columns:
+        st.error("A coluna 'Placa' não foi encontrada na planilha.")
+        dados = pd.DataFrame()  # DataFrame vazio para evitar erro
+except Exception as e:
+    st.error(f"Erro ao acessar a planilha: {e}")
+    dados = pd.DataFrame()  # DataFrame vazio para evitar erro
 
 # ----------------------------------------------------------------------------------------------------------------------------------
-# Función para buscar vehículo por patente
-def buscar_por_patente(patente):
-    if not veiculos_data.empty:
-        # Busca coincidencias exactas (ajusta según tu estructura de datos)
-        resultado = veiculos_data[veiculos_data['Patente'].str.upper() == patente.upper()]
-        return None if resultado.empty else resultado.iloc[0].to_dict()
+# Função para buscar veículo por placa
+def buscar_por_placa(placa):
+    if not dados.empty and 'Placa' in dados.columns:
+        # Busca coincidencias exactas (ignorando mayúsculas/minúsculas)
+        resultado = dados[dados['Placa'].astype(str).str.upper() == placa.upper()]
+        return None if resultado.empty else resultado.iloc[0]
     return None
 
 # ----------------------------------------------------------------------------------------------------------------------------------
@@ -88,48 +86,52 @@ def buscar_por_patente(patente):
 with st.container():
     col1, col2, col3 = st.columns([2, 3, 1])
     with col1:
-        patente = st.text_input("Ingrese la patente del vehículo:", "").strip().upper()
+        placa = st.text_input("Digite a placa do veículo:", "").strip().upper()
     
     with col2:
         st.write("")  # Espaciador
-        buscar = st.button("Buscar Vehículo")
+        buscar = st.button("Buscar Veículo")
 
-if buscar and patente:
-    with st.spinner("Buscando vehículo..."):
-        vehiculo = buscar_por_patente(patente)
-        
-        if vehiculo:
-            st.success("Vehículo encontrado:")
+if buscar and placa:
+    if not placa.isalnum():  # Validación básica de placa
+        st.warning("Por favor, insira uma placa válida (apenas letras e números)")
+    else:
+        with st.spinner("Buscando veículo..."):
+            veiculo = buscar_por_placa(placa)
             
-            # Mostrar los datos en formato de tarjetas (similar a tu estilo)
-            with st.container():
-                cols = st.columns(4)
-                with cols[0]:
-                    st.metric("Patente", vehiculo.get('Patente', 'N/A'))
-                with cols[1]:
-                    st.metric("Marca", vehiculo.get('Marca', 'N/A'))
-                with cols[2]:
-                    st.metric("Modelo", vehiculo.get('Modelo', 'N/A'))
-                with cols[3]:
-                    st.metric("Año", vehiculo.get('Año', 'N/A'))
-            
-            with st.container():
-                cols = st.columns(3)
-                with cols[0]:
-                    st.metric("Dueño", vehiculo.get('Dueño', 'N/A'))
-                with cols[1]:
-                    st.metric("Teléfono", vehiculo.get('Teléfono', 'N/A'))
-                with cols[2]:
-                    st.metric("Último Servicio", vehiculo.get('Último_Servicio', 'N/A'))
-            
-            # Mostrar historial completo (si existe)
-            if 'Historial' in vehiculo:
-                st.subheader("Historial de Servicios")
-                st.write(vehiculo['Historial'])
-        else:
-            st.warning("No se encontró ningún vehículo con esa patente")
+            if veiculo is not None:
+                st.success("Veículo encontrado:")
+                
+                # Mostrar los datos en formato de tarjetas
+                with st.container():
+                    cols = st.columns(4)
+                    with cols[0]:
+                        st.metric("Placa", veiculo.get('Placa', 'N/A'))
+                    with cols[1]:
+                        st.metric("Marca", veiculo.get('Marca', 'N/A'))
+                    with cols[2]:
+                        st.metric("Modelo", veiculo.get('Modelo', 'N/A'))
+                    with cols[3]:
+                        st.metric("Ano", veiculo.get('Ano', 'N/A'))
+                
+                with st.container():
+                    cols = st.columns(3)
+                    with cols[0]:
+                        st.metric("Proprietário", veiculo.get('Proprietário', 'N/A'))
+                    with cols[1]:
+                        st.metric("Telefone", veiculo.get('Telefone', 'N/A'))
+                    with cols[2]:
+                        st.metric("Última Revisão", veiculo.get('Última_Revisão', 'N/A'))
+                
+                # Mostrar todos los datos disponibles
+                with st.expander("Ver todos os detalhes"):
+                    st.json(veiculo.to_dict())
+            else:
+                st.warning("Nenhum veículo encontrado com esta placa")
 
-# ----------------------------------------------------------------------------------------------------------------------------------
-# Opción para ver todos los vehículos
-with st.expander("Ver todos los vehículos registrados"):
-    st.dataframe(veiculos_data, hide_index=True)
+# Mostrar todos los vehículos si hay datos
+if not dados.empty and 'Placa' in dados.columns:
+    with st.expander("Ver todos os veículos registrados"):
+        st.dataframe(dados[['Placa', 'Marca', 'Modelo', 'Proprietário']], hide_index=True)
+else:
+    st.info("Nenhum dado de veículo disponível na planilha")
