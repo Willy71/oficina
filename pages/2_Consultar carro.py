@@ -3,11 +3,13 @@ import streamlit as st
 import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
+import numpy as np
 
+# ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
 st.set_page_config(
     page_title="Consultar Veículo",
-    page_icon=":car:",
+    page_icon="🚗",
     layout="wide"
 )
 
@@ -47,85 +49,209 @@ background: rgba(0,0,0,0);
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Título de la página
-st.title("🔍 Consultar Veículo")
+st.title("🔍 Consultar Veículo por Placa")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Conexión a Google Sheets (mismo método que usas)
-SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
+SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
+SHEET_NAME = 'Hoja 1'
+
+# Cargar credenciales y autorizar
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 
-SPREADSHEET_KEY = '1ndVk4efZZN74serPvDpN6tcm2NamLqKlcYfz2-y156g'
-SHEET_NAME = 'Hoja1'
-
-try:
-    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-    dados = pd.DataFrame(worksheet.get_all_records())
-    
-    # Verificamos columnas disponibles para identificar vehículos
-    colunas_disponiveis = dados.columns.tolist()
-    
-    # Sugerimos columnas que podrían contener la placa
-    possiveis_colunas_placa = [col for col in colunas_disponiveis if 'placa' in col.lower() or 'matrícula' in col.lower() or 'patente' in col.lower()]
-    
-    if not possiveis_colunas_placa:
-        st.warning("Não foi encontrada uma coluna específica para placas de veículos.")
-        st.info("Colunas disponíveis na planilha: " + ", ".join(colunas_disponiveis))
+def cargar_datos():
+    try:
+        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+        records = worksheet.get_all_records()
+        df = pd.DataFrame(records)
         
-except Exception as e:
-    st.error(f"Erro ao acessar a planilha: {e}")
-    dados = pd.DataFrame()
+        # Asegurar que la columna 'placa' existe y tiene datos
+        if 'placa' not in df.columns:
+            st.error("A coluna 'placa' não foi encontrada na planilha.")
+            return pd.DataFrame()
+            
+        # Limpiar datos - reemplazar strings vacíos con NaN
+        df.replace('', np.nan, inplace=True)
+        return df
+    except Exception as e:
+        st.error(f"Erro ao cargar dados: {str(e)}")
+        return pd.DataFrame()
+
+# Cargar datos
+dados = cargar_datos()
 
 # ----------------------------------------------------------------------------------------------------------------------------------
-# Interfaz de usuario mejorada
-with st.container():
-    col1, col2 = st.columns([3, 1])
-    with col1:
-        # Si encontramos posibles columnas de placa
-        if 'possiveis_colunas_placa' in locals() and possiveis_colunas_placa:
-            coluna_placa = st.selectbox(
-                "Selecione a coluna que contém as placas:",
-                options=possiveis_colunas_placa,
-                index=0
-            )
-            placa = st.text_input(f"Digite a placa do veículo ({coluna_placa}):", "").strip().upper()
-        else:
-            placa = st.text_input("Digite a placa/identificação do veículo:", "").strip().upper()
+# Función para buscar vehículo por placa
+def buscar_por_placa(placa, df):
+    if df.empty:
+        return None
     
+    # Buscar coincidencias exactas (ignorando mayúsculas/minúsculas y espacios)
+    resultado = df[df['placa'].astype(str).str.upper().str.strip() == placa.upper().strip()]
+    
+    if not resultado.empty:
+        return resultado.iloc[0].to_dict()
+    return None
+
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Interfaz de usuario
+with st.container():
+    col1, col2, col3 = st.columns([3, 2, 1])
+    with col1:
+        placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
     with col2:
         st.write("")  # Espaciador
-        buscar = st.button("Buscar Veículo")
+        buscar = st.button("Buscar Veículo", key="buscar_btn")
 
-if buscar and placa:
-    if not dados.empty:
-        try:
-            # Buscamos en la columna seleccionada o en todas las columnas posibles
-            resultados = []
-            if 'coluna_placa' in locals():
-                resultados = dados[dados[coluna_placa].astype(str).str.upper() == placa.upper()]
-            else:
-                # Búsqueda en todas las columnas si no se identificó columna de placa
-                for col in dados.columns:
-                    if dados[col].dtype == object:
-                        resultados.extend(dados[dados[col].astype(str).str.upper() == placa.upper()].to_dict('records'))
-            
-            if len(resultados) > 0:
-                st.success("Registro(s) encontrado(s):")
-                for i, registro in enumerate(resultados[:3]):  # Mostramos máximo 3 resultados
-                    with st.expander(f"Registro {i+1}"):
-                        st.json(registro)
-            else:
-                st.warning("Nenhum registro encontrado com esta identificação")
-                
-        except Exception as e:
-            st.error(f"Erro na busca: {e}")
+if buscar:
+    if not placa:
+        st.warning("Por favor, digite uma placa para buscar")
     else:
-        st.warning("Nenhum dado disponível para busca")
+        with st.spinner("Buscando veículo..."):
+            veiculo = buscar_por_placa(placa, dados)
+            
+            if veiculo:
+                st.success("✅ Veículo encontrado!")
+                
+                # Mostrar información principal en cards
+                with st.container():
+                    cols = st.columns(4)
+                    with cols[0]:
+                        st.metric("Placa", veiculo.get('placa', 'N/A'))
+                    with cols[1]:
+                        st.metric("Marca", veiculo.get('carro', 'N/A'))
+                    with cols[2]:
+                        st.metric("Modelo", veiculo.get('modelo', 'N/A'))
+                    with cols[3]:
+                        st.metric("Ano", veiculo.get('ano', 'N/A'))
+                
+                # Mostrar detalles del estado y fechas
+                with st.container():
+                    cols = st.columns(3)
+                    with cols[0]:
+                        st.metric("Estado", veiculo.get('estado', 'N/A'))
+                    with cols[1]:
+                        st.metric("Data Entrada", veiculo.get('date_in', 'N/A'))
+                    with cols[2]:
+                        st.metric("Previsão Entrega", veiculo.get('date_prev', 'N/A'))
+                
+                # Mostrar información del dueño
+                with st.container():
+                    cols = st.columns(3)
+                    with cols[0]:
+                        st.metric("Proprietário", veiculo.get('dono_empresa', 'N/A'))
+                    with cols[1]:
+                        st.metric("Telefone", veiculo.get('telefone', 'N/A'))
+                    with cols[2]:
+                        st.metric("Endereço", veiculo.get('endereco', 'N/A'))
+                
+                # Mostrar servicios con expanders
+                with st.expander("📋 Serviços Realizados", expanded=False):
+                    servicos = []
+                    for i in range(1, 13):
+                        item = veiculo.get(f'item_serv_{i}', '')
+                        desc = veiculo.get(f'desc_ser_{i}', '')
+                        valor = veiculo.get(f'valor_serv_{i}', '')
+                        if pd.notna(item) or pd.notna(desc) or pd.notna(valor):
+                            servicos.append({
+                                'Item': item if pd.notna(item) else '',
+                                'Descrição': desc if pd.notna(desc) else '',
+                                'Valor': valor if pd.notna(valor) else ''
+                            })
+                    
+                    if servicos:
+                        st.table(pd.DataFrame(servicos))
+                    else:
+                        st.info("Nenhum serviço registrado")
+                
+                # Mostrar peças com expanders
+                with st.expander("🔧 Peças Utilizadas", expanded=False):
+                    pecas = []
+                    for i in range(1, 17):
+                        quant = veiculo.get(f'quant_peca_{i}', '')
+                        desc = veiculo.get(f'desc_peca_{i}', '')
+                        valor = veiculo.get(f'valor_peca_{i}', '')
+                        if pd.notna(quant) or pd.notna(desc) or pd.notna(valor):
+                            pecas.append({
+                                'Quant.': quant if pd.notna(quant) else '',
+                                'Descrição': desc if pd.notna(desc) else '',
+                                'Valor Unit.': valor if pd.notna(valor) else ''
+                            })
+                    
+                    if pecas:
+                        st.table(pd.DataFrame(pecas))
+                    else:
+                        st.info("Nenhuma peça registrada")
+                
+                # Mostrar todos los datos en formato JSON
+                with st.expander("📄 Ver todos os dados técnicos", expanded=False):
+                    st.json(veiculo)
+            else:
+                st.warning("Nenhum veículo encontrado com esta placa")
 
-# Mostrar todos los datos disponibles (con precaución)
-if not dados.empty:
-    with st.expander("⚠️ Visualizar todos os registros (cuidado com datos sensíveis)"):
-        st.dataframe(dados, hide_index=True)
-else:
-    st.info("Nenhum dado disponível na planilha")
+# Mostrar todos los vehículos registrados
+with st.expander("🚗 Ver todos os veículos registrados", expanded=False):
+    if not dados.empty:
+        # Mostrar solo columnas relevantes para mejor visualización
+        cols_to_show = ['user_id', 'placa', 'carro', 'modelo', 'ano', 'estado', 'date_in', 'date_prev']
+        st.dataframe(
+            dados[cols_to_show],
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                "user_id": "N° Ordem",
+                "placa": "Placa",
+                "carro": "Marca",
+                "modelo": "Modelo",
+                "ano": "Ano",
+                "estado": "Estado",
+                "date_in": "Data Entrada",
+                "date_prev": "Previsão Saída"
+            }
+        )
+    else:
+        st.info("Nenhum veículo registrado na base de dados")
+
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Opción para buscar por otros criterios
+with st.expander("🔎 Busca Avançada", expanded=False):
+    with st.form(key="busca_avancada"):
+        col1, col2 = st.columns(2)
+        with col1:
+            marca = st.text_input("Marca (opcional)", "")
+        with col2:
+            modelo = st.text_input("Modelo (opcional)", "")
+        
+        col3, col4 = st.columns(2)
+        with col3:
+            estado_options = ["Todos"] + dados['estado'].dropna().unique().tolist() if not dados.empty else []
+            estado = st.selectbox("Estado (opcional)", estado_options)
+        with col4:
+            ano = st.text_input("Ano (opcional)", "")
+        
+        buscar_avancado = st.form_submit_button("Buscar")
+        
+        if buscar_avancado:
+            filtrados = dados.copy()
+            
+            if marca:
+                filtrados = filtrados[filtrados['carro'].astype(str).str.contains(marca, case=False)]
+            if modelo:
+                filtrados = filtrados[filtrados['modelo'].astype(str).str.contains(modelo, case=False)]
+            if estado and estado != "Todos":
+                filtrados = filtrados[filtrados['estado'] == estado]
+            if ano:
+                filtrados = filtrados[filtrados['ano'].astype(str).str.contains(ano)]
+            
+            if not filtrados.empty:
+                st.success(f"🚙 {len(filtrados)} veículos encontrados")
+                st.dataframe(
+                    filtrados[['placa', 'carro', 'modelo', 'ano', 'estado']],
+                    use_container_width=True,
+                    hide_index=True
+                )
+            else:
+                st.warning("Nenhum veículo encontrado com os critérios especificados")
