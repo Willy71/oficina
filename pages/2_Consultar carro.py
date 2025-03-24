@@ -65,8 +65,8 @@ try:
     dados = pd.DataFrame(worksheet.get_all_records())
     
     # Verificamos si la columna de placas existe
-    if 'Placa' not in dados.columns:
-        st.error("A coluna 'Placa' não foi encontrada na planilha.")
+    if 'placa' not in dados.columns:
+        st.error("A coluna 'placa' não foi encontrada na planilha.")
         dados = pd.DataFrame()  # DataFrame vazio para evitar erro
 except Exception as e:
     st.error(f"Erro ao acessar a planilha: {e}")
