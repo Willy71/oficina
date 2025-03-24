@@ -52,55 +52,6 @@ background: rgba(0,0,0,0);
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 #=============================================================================================================================
-# 2_Consulta_veiculos.py
-import streamlit as st
-import pandas as pd
-import gspread
-from google.oauth2.service_account import Credentials
-
-# ----------------------------------------------------------------------------------------------------------------------------------
-# Configuración de página (igual que en tu código original)
-st.set_page_config(
-    page_title="Consulta de Vehículos",
-    page_icon=":car:",
-    layout="wide"
-)
-
-reduce_space = """
-            <style type="text/css">
-            div[data-testid="stAppViewBlockContainer"]{
-                padding-top:30px;
-            }
-            </style>
-            """
-st.html(reduce_space)
-
-page_bg_img = f"""
-<style>
-[data-testid="stAppViewContainer"] > .main {{
-background-image: url("https://i.postimg.cc/jdtSsJ9t/jr-korpa-H-BJWTh-ZRok-unsplash.jpg");
-background-size: 180%;
-background-position: top left;
-background-repeat: repeat;
-background-attachment: local;
-}}
-
-[data-testid="stHeader"] {{
-background: rgba(0,0,0,0);
-}}
-
-[data-testid="stToolbar"] {{
-right: 2rem;
-}}
-
-[data-testid="stSidebar"] {{
-background: rgba(0,0,0,0);
-}}
-</style>
-"""
-st.markdown(page_bg_img, unsafe_allow_html=True)
-# ----------------------------------------------------------------------------------------------------------------------------------
-
 # Título de la página
 st.title("Consulta de Vehículos por Patente")
 
