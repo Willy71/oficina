@@ -1277,5 +1277,56 @@ elif action == "Ver todos as ordens de serviço":
             file_name="ordens_de_servico.csv",
             mime="text/csv"
         )
-
+#===================================================================================================================================================================
+# ____________________________________________
+# Delete Vendor by user_id or placa
+elif action == "Apagar ordem de serviço":
+    st.header("🗑️ Apagar Ordem de Serviço")
+    
+    # Opción para buscar por ID o Placa
+    search_option = st.radio(
+        "Buscar por:", 
+        ["ID", "Placa"],
+        horizontal=True
+    )
+    
+    if search_option == "ID":
+        user_id_to_delete = st.selectbox(
+            "Selecione o ID da ordem para apagar",
+            options=existing_data["user_id"].astype(int).tolist()
+        )
+    else:
+        placa_to_delete = st.selectbox(
+            "Selecione a placa para apagar",
+            options=existing_data["placa"].unique().tolist()
+        )
+        user_id_to_delete = existing_data[existing_data["placa"] == placa_to_delete]["user_id"].values[0]
+    
+    # Mostrar detalles de la orden antes de borrar
+    st.markdown("**Detalhes da ordem selecionada:**")
+    ordem_to_delete = existing_data[existing_data["user_id"] == user_id_to_delete].iloc[0]
+    st.json(ordem_to_delete.to_dict())
+    
+    # --- Doble confirmación aquí ---
+    st.warning("⚠️ Esta ação não pode ser desfeita!")
+    
+    if st.checkbox("✅ Marque esta caixa para confirmar a exclusão"):
+        if st.button("CONFIRMAR EXCLUSÃO", 
+                    type="primary", 
+                    disabled=not st.session_state.get("confirmado", False)):
+            
+            # --- Código de eliminación ---
+            existing_data = existing_data[existing_data["user_id"] != user_id_to_delete]
+            existing_data.reset_index(drop=True, inplace=True)
+            
+            try:
+                conn.update(worksheet="Hoja1", data=existing_data)
+                st.success("Ordem apagada com sucesso!")
+                st.balloons()
+            except Exception as e:
+                st.error(f"Erro ao atualizar planilha: {str(e)}")
+    
+    # Mostrar dataframe actualizado
+    st.markdown("### Ordens restantes:")
+    st.dataframe(existing_data, hide_index=True, use_container_width=True)
             
