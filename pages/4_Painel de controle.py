@@ -128,7 +128,7 @@ else:
     # Mostrar datos por estado en tabs
     st.subheader("Detalhe por Estado")
     
-    tabs = st.tabs(["📋 Todos", "⏳ Pendentes", "🛠️ Em Reparação", "✅ Promtos", "🚗 Entregue"])
+    tabs = st.tabs(["📋 Todos", "⏳ Pendentes", "🛠️ Em Reparação", "✅ Prontos", "🚗 Entregue"])
     
     with tabs[0]:  # Todos
         st.dataframe(
