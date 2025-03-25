@@ -76,7 +76,7 @@ def load_data():
         return pd.DataFrame()
 
 # Título del dashboard
-st.title("📊 Dashboard de Vehículos en Taller")
+st.title("📊 Painel de Controle de Veículos na Oficina")
 
 # Cargar datos
 data = load_data()
