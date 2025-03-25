@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Configuración de página
 st.set_page_config(
-    page_title="Dashboard Vehículos",
+    page_title="Painel de controle",
     page_icon="📊",
     layout="wide"
 )
@@ -82,14 +82,14 @@ st.title("📊 Dashboard de Vehículos en Taller")
 data = load_data()
 
 if data.empty:
-    st.warning("No se encontraron datos de vehículos")
+    st.warning("Nenhum dado do veículo encontrado")
 else:
     # Filtros en sidebar
     st.sidebar.header("Filtros")
     
     # Filtro por estado
     estados_disponibles = ["Todos"] + sorted(data['estado'].dropna().unique().tolist())
-    estado_seleccionado = st.sidebar.selectbox("Estado del vehículo", estados_disponibles)
+    estado_seleccionado = st.sidebar.selectbox("Estado do veículo", estados_disponibles)
     
     # Filtro por fecha
     min_date = data['date_in'].min().date()
@@ -113,22 +113,22 @@ else:
     ]
     
     # Mostrar métricas generales
-    st.subheader("Resumen General")
+    st.subheader("Resumo Geral")
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Vehículos en Taller", len(data))
+        st.metric("Veículos na Oficina", len(data))
     with col2:
-        st.metric("Pendientes Orçamento", len(data[data['estado'] == "Em orçamento"]))
+        st.metric("Pendentes de Orçamento", len(data[data['estado'] == "Em orçamento"]))
     with col3:
-        st.metric("En Reparación", len(data[data['estado'] == "Em reparação"]))
+        st.metric("Em Reparação", len(data[data['estado'] == "Em reparação"]))
     with col4:
-        st.metric("Listos para Entrega", len(data[data['estado'] == "Concluido"]))
+        st.metric("Pronto para entrega", len(data[data['estado'] == "Concluido"]))
     
     # Mostrar datos por estado en tabs
-    st.subheader("Detalle por Estado")
+    st.subheader("Detalhe por Estado")
     
-    tabs = st.tabs(["📋 Todos", "⏳ Pendientes", "🛠️ En Reparación", "✅ Listos", "🚗 Entregados"])
+    tabs = st.tabs(["📋 Todos", "⏳ Pendentes", "🛠️ Em Reparação", "✅ Promtos", "🚗 Entregue"])
     
     with tabs[0]:  # Todos
         st.dataframe(
@@ -171,11 +171,11 @@ else:
         )
     
     with tabs[3]:  # Listos
-        listos = filtered_data[filtered_data['estado'] == "Concluido"]
+        listos = filtered_data[filtered_data['estado'] == "Concluído"]
         st.dataframe(
             listos[['date_in', 'placa', 'carro', 'modelo', 'dono_empresa', 'date_out']],
             column_config={
-                "date_out": "Fecha Terminado"
+                "date_out": "Data de conclusão"
             },
             hide_index=True,
             use_container_width=True
@@ -186,13 +186,13 @@ else:
         st.dataframe(
             entregados[['date_in', 'placa', 'carro', 'modelo', 'dono_empresa', 'date_out']],
             column_config={
-                "date_out": "Fecha Entrega"
+                "date_out": "Data de entrega"
             },
             hide_index=True,
             use_container_width=True
         )
     
     # Gráfico de distribución por estado
-    st.subheader("Distribución por Estado")
+    st.subheader("Distribuição por Estado")
     estado_counts = data['estado'].value_counts()
     st.bar_chart(estado_counts)
