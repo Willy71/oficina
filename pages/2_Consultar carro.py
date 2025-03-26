@@ -118,14 +118,18 @@ if buscar:
                 
                 # Mostrar información principal en cards
                 with st.container():
-                    cols = st.columns(4)
+                    cols = st.columns(2)
                     with cols[0]:
                         st.metric("Placa", veiculo.get('placa', 'N/A'))
                     with cols[1]:
                         st.metric("Marca", veiculo.get('carro', 'N/A'))
-                    with cols[2]:
+
+                 # Mostrar información principal en cards
+                with st.container():
+                    cols = st.columns(2)
+                    with cols[0]:
                         st.metric("Modelo", veiculo.get('modelo', 'N/A'))
-                    with cols[3]:
+                    with cols[1]:
                         st.metric("Ano", veiculo.get('ano', 'N/A'))
                 
                 # Mostrar detalles del estado y fechas
