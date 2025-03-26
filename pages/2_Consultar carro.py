@@ -67,8 +67,6 @@ def cargar_datos():
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         records = worksheet.get_all_records()
         df = pd.DataFrame(records)
-        # Reemplazar NaN con cadena vacía
-        df = df.fillna("")
         
         # Asegurar que la columna 'placa' existe y tiene datos
         if 'placa' not in df.columns:
@@ -77,6 +75,8 @@ def cargar_datos():
             
         # Limpiar datos - reemplazar strings vacíos con NaN
         df.replace('', np.nan, inplace=True)
+        # Reemplazar NaN con cadenas vacías ("")
+        df.fillna("", inplace=True)
         return df
     except Exception as e:
         st.error(f"Erro ao cargar dados: {str(e)}")
