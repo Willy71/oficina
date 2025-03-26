@@ -228,36 +228,7 @@ if buscar:
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
 # ----------------------------------------------------------------------------------------------------------------------------------
-def export_to_google_sheets(vehicle_data):
-    try:
-        # 1. Abrir la plantilla en Google Sheets
-        template_id = 'Hoja 2'  # Reemplaza con el ID de tu plantilla
-        sheet = gc.open_by_key(template_id)
-        worksheet = sheet.get_worksheet(0)  # Primera hoja
-        
-        # 2. Mapear datos a celdas específicas en la plantilla
-        mapping = {
-            'F7': vehicle_data.get('date_in', ''),
-            'C9': vehicle_data.get('placa', ''),
-            'E9': vehicle_data.get('carro', ''),
-            # Agrega más mapeos según tu plantilla
-        }
-        
-        # 3. Actualizar celdas
-        for cell, value in mapping.items():
-            worksheet.update_acell(cell, value)
-        
-        # 4. Copiar a nuevo archivo (opcional)
-        new_sheet = sheet.copy(title=f"Ordem_{vehicle_data.get('placa', '')}")
-        st.success("Ordem exportada para Google Sheets com sucesso!")
-        st.markdown(f"[Abrir no Google Sheets]({new_sheet.url})")
-        
-    except Exception as e:
-        st.error(f"Erro ao exportar: {str(e)}")
 
-# En tu aplicación:
-if st.button('Exportar para Google Sheets'):
-    export_to_google_sheets(veiculo)
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Opción para buscar por otros criterios
