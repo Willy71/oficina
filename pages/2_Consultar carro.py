@@ -74,7 +74,7 @@ def cargar_datos():
             return pd.DataFrame()
             
         # Limpiar datos - reemplazar strings vacíos con NaN
-        df.replace('', np.nan, inplace=True)
+        df.replace('', np.nan, inplace=False)
         return df
     except Exception as e:
         st.error(f"Erro ao cargar dados: {str(e)}")
