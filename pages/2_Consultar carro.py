@@ -4,7 +4,10 @@ import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
-import os
+from fpdf import FPDF
+import requests
+from io import BytesIO
+import traceback
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
@@ -243,6 +246,25 @@ def cargar_logo():
     except Exception as e:
         st.error(f"Error al cargar el logo: {str(e)}")
         return None
+        
+# Asegúrate de tener datos de ejemplo o capturados del usuario
+if 'veiculo' not in st.session_state:
+    st.session_state.veiculo = {
+        'placa': 'ABC1234',
+        'carro': 'Fiat',
+        'modelo': 'Uno',
+        'ano': '2020',
+        'cor': 'Vermelho',
+        'km': '50000',
+        'dono_empresa': 'Cliente Exemplo',
+        # Agrega algunos servicios y piezas de ejemplo
+        'item_serv_1': 'Troca de óleo',
+        'desc_ser_1': 'Óleo sintético',
+        'valor_serv_1': '150.00',
+        'quant_peca_1': '1',
+        'desc_peca_1': 'Filtro de óleo',
+        'valor_peca_1': '30.00'
+    }
 
 # --- Sección de Generación de PDF Profesional ---
 st.markdown("---")
@@ -390,23 +412,23 @@ def criar_pdf_profissional(dados_veiculo):
 
 
 
-# En tu página, solo muestra el botón de generación:
-if 'veiculo' in locals() or 'veiculo' in globals():
-    if st.button("🖨️ Gerar Ordem de Serviço em PDF", type="primary"):
-        with st.spinner("Gerando PDF..."):
-            try:
-                pdf_data = criar_pdf_profissional(veiculo)
-                st.success("PDF gerado com sucesso!")
-                
-                st.download_button(
-                    label="⬇️ Baixar Ordem de Serviço",
-                    data=pdf_data,
-                    file_name=f"ordem_servico_{veiculo.get('placa', '')}.pdf",
-                    mime="application/pdf"
-                )
-            except Exception as e:
-                st.error(f"Erro ao gerar PDF: {str(e)}")
+if st.button("🖨️ Gerar Ordem de Serviço em PDF", type="primary"):
+    with st.spinner("Gerando PDF..."):
+        try:
+            pdf_data = criar_pdf_profissional(st.session_state.veiculo)
+            st.success("PDF gerado com sucesso!")
+            
+            st.download_button(
+                label="⬇️ Baixar Ordem de Serviço",
+                data=pdf_data,
+                file_name=f"ordem_servico_{st.session_state.veiculo.get('placa', '')}.pdf",
+                mime="application/pdf"
+            )
+        except Exception as e:
+            st.error(f"Erro ao gerar PDF: {str(e)}")
+            st.error(traceback.format_exc())
 
+#==============================================================================================================================================
 
 # Mostrar todos los vehículos registrados
 with st.expander("🚗 Ver todos os veículos registrados", expanded=False):
