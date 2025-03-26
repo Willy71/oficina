@@ -4,6 +4,7 @@ import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
+import os
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
@@ -223,10 +224,199 @@ if buscar:
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
                 
                 # Mostrar todos los datos en formato JSON
-                with st.expander("📄 Ver todos os dados técnicos", expanded=False):
-                    st.json(veiculo)
+                #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
+                    #st.json(veiculo)
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
+
+# En tu archivo 2_Consultar_carro.py (agrega esto después de mostrar los datos del vehículo)
+
+# --- Sección de Generación de PDF Profesional ---
+st.markdown("---")
+st.subheader("Gerar Ordem de Serviço em PDF")
+
+# Configuración del PDF profesional
+def criar_pdf_profissional(dados_veiculo, logo_path=None):
+    pdf = FPDF()
+    pdf.add_page()
+    
+    # Estilo profesional
+    pdf.set_margins(20, 15, 20)
+    pdf.set_auto_page_break(auto=True, margin=15)
+    
+    # --- Encabezado con logo ---
+    if logo_path and os.path.exists(logo_path):
+        pdf.image(logo_path, x=20, y=10, w=30)  # Ajusta tamaño/posición según tu logo
+        pdf.set_xy(50, 15)
+    else:
+        pdf.set_xy(20, 15)
+    
+    pdf.set_font("Arial", 'B', 16)
+    pdf.cell(0, 10, "ORDEM DE SERVIÇO", 0, 1, 'C')
+    
+    # Línea decorativa
+    pdf.set_draw_color(0, 80, 180)
+    pdf.set_line_width(0.5)
+    pdf.line(20, 30, 190, 30)
+    
+    # --- Información del Vehículo ---
+    pdf.set_font("Arial", 'B', 12)
+    pdf.set_y(40)
+    pdf.cell(0, 10, "DADOS DO VEÍCULO", 0, 1)
+    
+    pdf.set_font("Arial", '', 10)
+    info_veiculo = [
+        ("Placa", dados_veiculo.get('placa', 'N/A')),
+        ("Marca/Modelo", f"{dados_veiculo.get('carro', '')} {dados_veiculo.get('modelo', '')}"),
+        ("Ano/Cor", f"{dados_veiculo.get('ano', '')} - {dados_veiculo.get('cor', '')}"),
+        ("KM", dados_veiculo.get('km', 'N/A')),
+        ("Cliente", dados_veiculo.get('dono_empresa', 'N/A'))
+    ]
+    
+    for label, value in info_veiculo:
+        pdf.cell(40, 8, label + ":", 0, 0)
+        pdf.cell(0, 8, str(value), 0, 1)
+    
+    # --- Serviços Realizados ---
+    pdf.set_font("Arial", 'B', 12)
+    pdf.set_y(80)
+    pdf.cell(0, 10, "SERVIÇOS REALIZADOS", 0, 1)
+    
+    pdf.set_font("Arial", '', 10)
+    col_widths = [80, 60, 30]
+    
+    # Cabecera de tabla
+    pdf.set_fill_color(200, 220, 255)
+    pdf.cell(col_widths[0], 8, "Descrição", 1, 0, 'C', 1)
+    pdf.cell(col_widths[1], 8, "Item", 1, 0, 'C', 1)
+    pdf.cell(col_widths[2], 8, "Valor (R$)", 1, 1, 'C', 1)
+    
+    # Contenido de tabla
+    pdf.set_fill_color(255, 255, 255)
+    total_servicos = 0.0
+    
+    for i in range(1, 13):
+        item = dados_veiculo.get(f'item_serv_{i}', '')
+        desc = dados_veiculo.get(f'desc_ser_{i}', '')
+        valor = dados_veiculo.get(f'valor_serv_{i}', '0')
+        
+        if item or desc:
+            try:
+                valor_float = float(valor)
+                total_servicos += valor_float
+                valor_formatado = f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
+            except:
+                valor_formatado = "0,00"
+            
+            pdf.cell(col_widths[0], 8, desc, 1, 0)
+            pdf.cell(col_widths[1], 8, item, 1, 0)
+            pdf.cell(col_widths[2], 8, valor_formatado, 1, 1, 'R')
+    
+    # Total servicios
+    pdf.set_font("Arial", 'B', 10)
+    pdf.cell(sum(col_widths[:-1]), 8, "TOTAL SERVIÇOS:", 1, 0, 'R')
+    pdf.cell(col_widths[2], 8, f"{total_servicos:,.2f}".replace(".", "X").replace(",", ".").replace("X", ","), 1, 1, 'R')
+    
+    # --- Peças Utilizadas ---
+    pdf.set_font("Arial", 'B', 12)
+    pdf.set_y(140)
+    pdf.cell(0, 10, "PEÇAS UTILIZADAS", 0, 1)
+    
+    pdf.set_font("Arial", '', 10)
+    col_widths_pecas = [20, 70, 40, 30, 30]
+    
+    # Cabecera de tabla
+    pdf.set_fill_color(200, 220, 255)
+    pdf.cell(col_widths_pecas[0], 8, "Quant.", 1, 0, 'C', 1)
+    pdf.cell(col_widths_pecas[1], 8, "Descrição", 1, 0, 'C', 1)
+    pdf.cell(col_widths_pecas[2], 8, "Código", 1, 0, 'C', 1)
+    pdf.cell(col_widths_pecas[3], 8, "Unit. (R$)", 1, 0, 'C', 1)
+    pdf.cell(col_widths_pecas[4], 8, "Total (R$)", 1, 1, 'C', 1)
+    
+    # Contenido de tabla
+    pdf.set_fill_color(255, 255, 255)
+    total_pecas = 0.0
+    
+    for i in range(1, 17):
+        quant = dados_veiculo.get(f'quant_peca_{i}', '')
+        desc = dados_veiculo.get(f'desc_peca_{i}', '')
+        valor = dados_veiculo.get(f'valor_peca_{i}', '0')
+        
+        if quant or desc:
+            try:
+                quant_float = float(quant) if quant else 0
+                valor_float = float(valor) if valor else 0
+                total_item = quant_float * valor_float
+                total_pecas += total_item
+                
+                valor_formatado = f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
+                total_formatado = f"{total_item:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
+            except:
+                valor_formatado = "0,00"
+                total_formatado = "0,00"
+            
+            pdf.cell(col_widths_pecas[0], 8, str(quant), 1, 0, 'C')
+            pdf.cell(col_widths_pecas[1], 8, desc, 1, 0)
+            pdf.cell(col_widths_pecas[2], 8, "", 1, 0)  # Código (puedes agregar este campo si lo tienes)
+            pdf.cell(col_widths_pecas[3], 8, valor_formatado, 1, 0, 'R')
+            pdf.cell(col_widths_pecas[4], 8, total_formatado, 1, 1, 'R')
+    
+    # Total peças
+    pdf.set_font("Arial", 'B', 10)
+    pdf.cell(sum(col_widths_pecas[:-1]), 8, "TOTAL PEÇAS:", 1, 0, 'R')
+    pdf.cell(col_widths_pecas[4], 8, f"{total_pecas:,.2f}".replace(".", "X").replace(",", ".").replace("X", ","), 1, 1, 'R')
+    
+    # --- Total Geral ---
+    pdf.set_y(pdf.get_y() + 5)
+    pdf.set_font("Arial", 'B', 12)
+    total_geral = total_servicos + total_pecas
+    pdf.cell(0, 10, f"TOTAL GERAL: R$ {total_geral:,.2f}".replace(".", "X").replace(",", ".").replace("X", ","), 0, 1, 'R')
+    
+    # --- Rodapé ---
+    pdf.set_y(270)
+    pdf.set_font("Arial", 'I', 8)
+    pdf.cell(0, 5, "Oficina Mecânica XYZ - Tel: (11) 1234-5678 - Rua Exemplo, 123 - São Paulo/SP", 0, 1, 'C')
+    
+    return pdf.output(dest='S').encode('latin1')
+
+# En tu página, después de mostrar los datos del vehículo:
+if 'veiculo' in locals() or 'veiculo' in globals():
+    col1, col2 = st.columns([1, 2])
+    
+    with col1:
+        # Campo para subir logo (opcional)
+        logo_file = st.file_uploader("Carregar logo para o PDF (opcional)", type=['png', 'jpg'])
+        
+    with col2:
+        if st.button("🖨️ Gerar Ordem de Serviço em PDF", type="primary"):
+            with st.spinner("Gerando PDF profissional..."):
+                try:
+                    # Guardar temporalmente el logo si se subió
+                    logo_path = None
+                    if logo_file:
+                        logo_path = f"temp_logo.{logo_file.type.split('/')[-1]}"
+                        with open(logo_path, "wb") as f:
+                            f.write(logo_file.getbuffer())
+                    
+                    pdf_data = criar_pdf_profissional(veiculo, logo_path)
+                    
+                    # Limpiar archivo temporal
+                    if logo_path and os.path.exists(logo_path):
+                        os.remove(logo_path)
+                    
+                    st.success("PDF gerado com sucesso!")
+                    st.download_button(
+                        label="⬇️ Baixar Ordem de Serviço",
+                        data=pdf_data,
+                        file_name=f"ordem_servico_{veiculo.get('placa', '')}.pdf",
+                        mime="application/pdf"
+                    )
+                except Exception as e:
+                    st.error(f"Erro ao gerar PDF: {str(e)}")
+                    if 'logo_path' in locals() and logo_path and os.path.exists(logo_path):
+                        os.remove(logo_path)
+
+
 
 # Mostrar todos los vehículos registrados
 with st.expander("🚗 Ver todos os veículos registrados", expanded=False):
