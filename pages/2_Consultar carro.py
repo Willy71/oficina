@@ -5,6 +5,9 @@ import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
 import os
+import requests
+from io import BytesIO
+from PIL import Image
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
