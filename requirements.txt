@@ -5,10 +5,7 @@ datetime
 phonenumbers
 pycountry
 numpy==1.26.4
-os
-requests
-io 
-PIL
+
 
 
 
