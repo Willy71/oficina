@@ -232,6 +232,45 @@ if buscar:
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
 
+#=================================================================================================================
+# funciones para cargar el logo y generar el pdf
+# Función para cargar el logo una sola vez
+
+@st.cache_resource
+def cargar_logo():
+    try:
+        logo_url = "https://github.com/Willy71/oficina/blob/main/pictures/Logo%20oficina%20001.jpeg?raw=true"
+        response = requests.get(logo_url)
+        response.raise_for_status()
+        return BytesIO(response.content)
+    except Exception as e:
+        st.error(f"Error al cargar el logo: {str(e)}")
+        return None
+
+# Función modificada para PDF con logo precargado
+def criar_pdf_profissional(dados_veiculo):
+    pdf = FPDF()
+    pdf.add_page()
+    
+    # Configuración de márgenes
+    pdf.set_margins(20, 15, 20)
+    pdf.set_auto_page_break(auto=True, margin=15)
+    
+    # --- Encabezado con logo ---
+    logo = cargar_logo()
+    if logo:
+        try:
+            # Procesar la imagen para ajustar tamaño
+            img = Image.open(logo)
+            img.thumbnail((500, 500))  # Tamaño máximo
+            logo_path = "temp_logo.jpg"
+            img.save(logo_path, "JPEG")
+            
+            pdf.image(logo_path, x=20, y=10, w=30)  # Ajusta tamaño según necesidad
+            os.remove(logo_path)  # Limpiar temporal
+        except Exception as e:
+            st.error(f"Error al procesar logo: {str(e)}")
+
 # En tu archivo 2_Consultar_carro.py (agrega esto después de mostrar los datos del vehículo)
 
 # --- Sección de Generación de PDF Profesional ---
@@ -382,43 +421,22 @@ def criar_pdf_profissional(dados_veiculo, logo_path=None):
     
     return pdf.output(dest='S').encode('latin1')
 
-# En tu página, después de mostrar los datos del vehículo:
+# En tu página, simplifica el botón de generación:
 if 'veiculo' in locals() or 'veiculo' in globals():
-    col1, col2 = st.columns([1, 2])
-    
-    with col1:
-        # Campo para subir logo (opcional)
-        logo_file = st.file_uploader("Carregar logo para o PDF (opcional)", type=['png', 'jpg'])
-        
-    with col2:
-        if st.button("🖨️ Gerar Ordem de Serviço em PDF", type="primary"):
-            with st.spinner("Gerando PDF profissional..."):
-                try:
-                    # Guardar temporalmente el logo si se subió
-                    logo_path = None
-                    if logo_file:
-                        logo_path = f"temp_logo.{logo_file.type.split('/')[-1]}"
-                        with open(logo_path, "wb") as f:
-                            f.write(logo_file.getbuffer())
-                    
-                    pdf_data = criar_pdf_profissional(veiculo, logo_path)
-                    
-                    # Limpiar archivo temporal
-                    if logo_path and os.path.exists(logo_path):
-                        os.remove(logo_path)
-                    
-                    st.success("PDF gerado com sucesso!")
-                    st.download_button(
-                        label="⬇️ Baixar Ordem de Serviço",
-                        data=pdf_data,
-                        file_name=f"ordem_servico_{veiculo.get('placa', '')}.pdf",
-                        mime="application/pdf"
-                    )
-                except Exception as e:
-                    st.error(f"Erro ao gerar PDF: {str(e)}")
-                    if 'logo_path' in locals() and logo_path and os.path.exists(logo_path):
-                        os.remove(logo_path)
-
+    if st.button("🖨️ Gerar Ordem de Serviço em PDF", type="primary"):
+        with st.spinner("Gerando PDF profissional..."):
+            try:
+                pdf_data = criar_pdf_profissional(veiculo)
+                st.success("PDF gerado com sucesso!")
+                
+                st.download_button(
+                    label="⬇️ Baixar Ordem de Serviço",
+                    data=pdf_data,
+                    file_name=f"ordem_servico_{veiculo.get('placa', '')}.pdf",
+                    mime="application/pdf"
+                )
+            except Exception as e:
+                st.error(f"Erro ao gerar PDF: {str(e)}")
 
 
 # Mostrar todos los vehículos registrados
