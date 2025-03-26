@@ -5,9 +5,6 @@ import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
 import os
-import requests
-from io import BytesIO
-from PIL import Image
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
@@ -247,52 +244,20 @@ def cargar_logo():
         st.error(f"Error al cargar el logo: {str(e)}")
         return None
 
-# Función modificada para PDF con logo precargado
-def criar_pdf_profissional(dados_veiculo):
-    pdf = FPDF()
-    pdf.add_page()
-    
-    # Configuración de márgenes
-    pdf.set_margins(20, 15, 20)
-    pdf.set_auto_page_break(auto=True, margin=15)
-    
-    # --- Encabezado con logo ---
-    logo = cargar_logo()
-    if logo:
-        try:
-            # Procesar la imagen para ajustar tamaño
-            img = Image.open(logo)
-            img.thumbnail((500, 500))  # Tamaño máximo
-            logo_path = "temp_logo.jpg"
-            img.save(logo_path, "JPEG")
-            
-            pdf.image(logo_path, x=20, y=10, w=30)  # Ajusta tamaño según necesidad
-            os.remove(logo_path)  # Limpiar temporal
-        except Exception as e:
-            st.error(f"Error al procesar logo: {str(e)}")
-
-# En tu archivo 2_Consultar_carro.py (agrega esto después de mostrar los datos del vehículo)
-
 # --- Sección de Generación de PDF Profesional ---
 st.markdown("---")
 st.subheader("Gerar Ordem de Serviço em PDF")
 
-# Configuración del PDF profesional
-def criar_pdf_profissional(dados_veiculo, logo_path=None):
+def criar_pdf_profissional(dados_veiculo):
     pdf = FPDF()
     pdf.add_page()
     
-    # Estilo profesional
+    # Configuración básica
     pdf.set_margins(20, 15, 20)
     pdf.set_auto_page_break(auto=True, margin=15)
     
-    # --- Encabezado con logo ---
-    if logo_path and os.path.exists(logo_path):
-        pdf.image(logo_path, x=20, y=10, w=30)  # Ajusta tamaño/posición según tu logo
-        pdf.set_xy(50, 15)
-    else:
-        pdf.set_xy(20, 15)
-    
+    # --- Encabezado sin logo (pero con espacio para agregarlo después) ---
+    pdf.set_y(15)
     pdf.set_font("Arial", 'B', 16)
     pdf.cell(0, 10, "ORDEM DE SERVIÇO", 0, 1, 'C')
     
@@ -319,7 +284,8 @@ def criar_pdf_profissional(dados_veiculo, logo_path=None):
         pdf.cell(40, 8, label + ":", 0, 0)
         pdf.cell(0, 8, str(value), 0, 1)
     
-    # --- Serviços Realizados ---
+    # --- Serviços Realizados (se mantiene igual) ---
+     # --- Serviços Realizados ---
     pdf.set_font("Arial", 'B', 12)
     pdf.set_y(80)
     pdf.cell(0, 10, "SERVIÇOS REALIZADOS", 0, 1)
@@ -413,18 +379,21 @@ def criar_pdf_profissional(dados_veiculo, logo_path=None):
     pdf.set_font("Arial", 'B', 12)
     total_geral = total_servicos + total_pecas
     pdf.cell(0, 10, f"TOTAL GERAL: R$ {total_geral:,.2f}".replace(".", "X").replace(",", ".").replace("X", ","), 0, 1, 'R')
+  
     
-    # --- Rodapé ---
+    # --- Rodapé básico ---
     pdf.set_y(270)
     pdf.set_font("Arial", 'I', 8)
-    pdf.cell(0, 5, "Oficina Mecânica XYZ - Tel: (11) 1234-5678 - Rua Exemplo, 123 - São Paulo/SP", 0, 1, 'C')
+    pdf.cell(0, 5, "Oficina Mecânica XYZ - Tel: (11) 1234-5678", 0, 1, 'C')
     
     return pdf.output(dest='S').encode('latin1')
 
-# En tu página, simplifica el botón de generación:
+
+
+# En tu página, solo muestra el botón de generación:
 if 'veiculo' in locals() or 'veiculo' in globals():
     if st.button("🖨️ Gerar Ordem de Serviço em PDF", type="primary"):
-        with st.spinner("Gerando PDF profissional..."):
+        with st.spinner("Gerando PDF..."):
             try:
                 pdf_data = criar_pdf_profissional(veiculo)
                 st.success("PDF gerado com sucesso!")
