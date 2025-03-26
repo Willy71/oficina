@@ -75,8 +75,6 @@ def cargar_datos():
             
         # Limpiar datos - reemplazar strings vacíos con NaN
         df.replace('', np.nan, inplace=True)
-        # Reemplazar NaN con cadenas vacías ("")
-        df.fillna("", inplace=True)
         return df
     except Exception as e:
         st.error(f"Erro ao cargar dados: {str(e)}")
