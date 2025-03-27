@@ -744,38 +744,36 @@ if action == "Nova ordem de serviço":
 elif action == "Atualizar ordem existente":
     centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 6, "yellow")
     
-    # Eliminar filas con NaN en la columna "user_id" y convertir a int
+    # Limpieza y preparación de datos
     existing_data = existing_data.dropna(subset=["user_id"])
-    existing_data["user_id"] = existing_data["user_id"].astype(int)
-
+    existing_data['user_id'] = existing_data['user_id'].astype(int)
+    
     with st.container():    
-        col200, col201, col202, col203, col204 = st.columns([2, 1.5, 2, 1, 1])
+        col200, col201, col202 = st.columns([2, 2, 3])
         with col200:
-            search_option = st.radio("Buscar por:", ["ID", "Placa"])
+            search_option = st.radio("Buscar por:", ["ID", "Placa"], horizontal=True)
             
+        with col201:
             if search_option == "ID":
-                with col201:
-                    vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
+                vendor_to_update = st.selectbox(
+                    "Selecione o ID", 
+                    options=sorted(existing_data["user_id"].unique()),
+                    index=0
+                )
+                vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
             else:
-                with col201:
-                    placa_to_search = st.text_input("Digite um número de placa")
-                    if placa_to_search:
-                        # Ordenar por fecha de entrada descendente y tomar el más reciente
-                        vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
-                        if not vendor_data_filtered.empty:
-                            vendor_data_filtered = vendor_data_filtered.sort_values("date_in", ascending=False)
-                            vendor_data = vendor_data_filtered.iloc[0]
-                            vendor_to_update = vendor_data["user_id"]
-                            st.info(f"Selecionado registro mais recente (ID: {vendor_to_update}) para a placa {placa_to_search}")
-                        else:
-                            with col202:
-                                st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                                st.stop()
-                    else:
-                        with col202:
-                            st.warning("Digite um número de placa para buscar.")
-                            st.stop()
+                placa_to_search = st.selectbox(
+                    "Selecione a Placa", 
+                    options=sorted(existing_data["placa"].unique()),
+                    index=0
+                )
+                # Obtenemos el registro MÁS RECIENTE para esa placa
+                vendor_data = existing_data[existing_data["placa"] == placa_to_search].sort_values('date_in', ascending=False).iloc[0]
+                vendor_to_update = vendor_data["user_id"]
+                st.info(f"Editando registro ID: {vendor_to_update}")
+
+    # Mostramos el ID actual como referencia (no editable)
+    st.markdown(f"**Editando Ordem N°:** `{vendor_to_update}`")
 
 
     # Mostrar el formulario con los datos actuales
@@ -1103,11 +1101,11 @@ elif action == "Atualizar ordem existente":
         with st.container():
             col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
             with col322:
-                update_button = st.form_submit_button("Atualizar")
+                update_button = st.form_submit_button("Atualizar registro")
 
                 if update_button:
                     # Crear un diccionario con los datos actualizados
-                    updated_record = {
+                    updated_values = {
                         'user_id': vendor_to_update,  # Mantener el mismo user_id
                         'date_in': data_entrada,
                         'date_prev': previsao_entrega,
@@ -1233,31 +1231,33 @@ elif action == "Atualizar ordem existente":
                         'pag_total': None,
                         'valor_pag_total': None
                     }
-                    # Convertir a DataFrame
-                    updated_record_df = pd.DataFrame([updated_record])
+                    # 2. Localizar la fila en Google Sheets
+                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+                    cell = worksheet.find(str(vendor_to_update), in_column=1)  # Busca solo en la columna A (user_id)
+                    row_num = cell.row
                     
-                    try:
-                        # Obtener la hoja de cálculo
-                        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-                        
-                        # Encontrar la fila a actualizar
-                        cell = worksheet.find(str(vendor_to_update))
-                        row_index = cell.row
-                        
-                        # Actualizar solo esa fila
-                        worksheet.update(
-                            f"A{row_index}",
-                            [updated_record_df.values.tolist()[0]],
-                            value_input_option="USER_ENTERED"
-                        )
-                        
-                        st.success("Ordem de serviço atualizada com sucesso!")
-                        
-                        # Actualizar el DataFrame en memoria
-                        existing_data.loc[existing_data["user_id"] == vendor_to_update] = updated_record_df.values
-                        
-                    except Exception as e:
-                        st.error(f"Erro ao atualizar planilha: {str(e)}")
+                    # 3. Preparar los valores en el orden correcto
+                    row_values = []
+                    for col in columnas_ordenadas:
+                        row_values.append(updated_values.get(col, vendor_data.get(col, "")))
+                    
+                    # 4. Actualizar SOLO ESA FILA
+                    worksheet.update(
+                        f"A{row_num}", 
+                        [row_values],
+                        value_input_option="USER_ENTERED"
+                    )
+                    
+                    # 5. Actualizar el DataFrame local
+                    for col, val in updated_values.items():
+                        existing_data.loc[existing_data['user_id'] == vendor_to_update, col] = val
+                    
+                    st.success("✅ Registro atualizado com sucesso!")
+                    st.balloons()
+                    
+                except Exception as e:
+                    st.error(f"Erro na atualização: {str(e)}")
+                    st.error(f"Verifique se o registro com ID {vendor_to_update} existe na planilha.")
 #===================================================================================================================================================================
 # --- Nueva Opción 3: Ver todas las órdenes ---
 elif action == "Ver todos as ordens de serviço":
