@@ -155,39 +155,55 @@ worksheet = inicializar_hoja()
 existing_data = cargar_datos(worksheet)
 
 #=============================================================================================================================
-# Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
     if df.empty or 'user_id' not in df.columns:
-        return 1  # Si no hay datos, el primer ID es 1
+        return 1
+        
     try:
-        # Calcular el máximo ID y sumar 1
-        return int(df['user_id'].max()) + 1
-    except (ValueError, TypeError):
-        # Si hay algún error (por ejemplo, valores no numéricos), retornar 1
+        # Filtramos solo IDs numéricos válidos
+        valid_ids = pd.to_numeric(df['user_id'], errors='coerce').dropna()
+        if valid_ids.empty:
+            return 1
+        return int(valid_ids.max()) + 1
+    except Exception:
         return 1
 
 # Función para actualizar una orden de servicio
 def atualizar_ordem(vendor_to_update, updated_record):
     try:
-        # Obtener la hoja de cálculo
+        # 1. Obtener la hoja de cálculo
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         
-        # Limpiar la hoja existente antes de actualizar
-        worksheet.clear()
+        # 2. Encontrar la fila exacta del registro a actualizar
+        cell = worksheet.find(str(int(vendor_to_update)))
+        row_number = cell.row
         
-        # Agregar los encabezados primero
-        worksheet.append_row(columnas_ordenadas)
+        # 3. Preparar los valores en el orden correcto
+        updated_values = []
+        for col in columnas_ordenadas:
+            if col in updated_record.columns:
+                updated_values.append(updated_record[col].values[0])
+            else:
+                # Mantener el valor existente si no está en la actualización
+                updated_values.append(worksheet.cell(row_number, columnas_ordenadas.index(col)+1).value)
         
-        # Actualizar el DataFrame existente
-        existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record.columns] = updated_record.values
+        # 4. Actualizar SOLO la fila específica
+        worksheet.update(
+            f"A{row_number}",
+            [updated_values],
+            value_input_option="USER_ENTERED"
+        )
         
-        # Agregar los datos fila por fila
-        for row in existing_data.values.tolist():
-            worksheet.append_row(row)
+        # 5. Actualizar el DataFrame local
+        for col in updated_record.columns:
+            existing_data.loc[existing_data["user_id"] == vendor_to_update, col] = updated_record[col].values[0]
         
-        st.success("Ordem de serviço atualizada com sucesso")
+        st.success("✅ Ordem atualizada com sucesso!")
+        return True
+        
     except Exception as e:
-        st.error(f"Erro ao atualizar planilha: {str(e)}")
+        st.error(f"Erro ao atualizar: {str(e)}")
+        return False
 
 #==============================================================================================================================================================
 
