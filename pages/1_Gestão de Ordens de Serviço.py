@@ -155,65 +155,39 @@ worksheet = inicializar_hoja()
 existing_data = cargar_datos(worksheet)
 
 #=============================================================================================================================
+# Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
     if df.empty or 'user_id' not in df.columns:
-        return 1
-        
+        return 1  # Si no hay datos, el primer ID es 1
     try:
-        # Filtramos solo IDs numéricos válidos
-        valid_ids = pd.to_numeric(df['user_id'], errors='coerce').dropna()
-        if valid_ids.empty:
-            return 1
-        return int(valid_ids.max()) + 1
-    except Exception:
+        # Calcular el máximo ID y sumar 1
+        return int(df['user_id'].max()) + 1
+    except (ValueError, TypeError):
+        # Si hay algún error (por ejemplo, valores no numéricos), retornar 1
         return 1
 
+# Función para actualizar una orden de servicio
 def atualizar_ordem(vendor_to_update, updated_record):
     try:
-        # 1. Conexión segura a la hoja
+        # Obtener la hoja de cálculo
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         
-        # 2. Encontrar la fila EXACTA usando API batch
-        records = worksheet.get_all_records()
-        row_num = None
-        for i, record in enumerate(records, start=2):  # start=2 porque la fila 1 son headers
-            if str(record.get('user_id')) == str(vendor_to_update):
-                row_num = i
-                break
+        # Limpiar la hoja existente antes de actualizar
+        worksheet.clear()
         
-        if not row_num:
-            st.error(f"ID {vendor_to_update} no encontrado")
-            return False
-
-        # 3. Preparar datos actualizados (manteniendo valores existentes)
-        existing_values = worksheet.row_values(row_num)
-        new_values = []
+        # Agregar los encabezados primero
+        worksheet.append_row(columnas_ordenadas)
         
-        for i, col in enumerate(columnas_ordenadas):
-            if col in updated_record.columns:
-                new_values.append(str(updated_record[col].values[0]))
-            elif i < len(existing_values):
-                new_values.append(existing_values[i])
-            else:
-                new_values.append('')  # Para columnas nuevas
-
-        # 4. Actualización ATÓMICA con batch_update
-        worksheet.batch_update([{
-            'range': f"A{row_num}:{chr(65+len(columnas_ordenadas)-1)}{row_num}",
-            'values': [new_values]
-        }])
-
-        # 5. Actualizar DataFrame local
-        mask = existing_data["user_id"] == vendor_to_update
-        for col in updated_record.columns:
-            existing_data.loc[mask, col] = updated_record[col].values[0]
-
-        st.success(f"✅ Registro ID {vendor_to_update} actualizado en fila {row_num}")
-        return True
-
+        # Actualizar el DataFrame existente
+        existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record.columns] = updated_record.values
+        
+        # Agregar los datos fila por fila
+        for row in existing_data.values.tolist():
+            worksheet.append_row(row)
+        
+        st.success("Ordem de serviço atualizada com sucesso")
     except Exception as e:
-        st.error(f"🚨 Error: {str(e)}")
-        return False
+        st.error(f"Erro ao atualizar planilha: {str(e)}")
 
 #==============================================================================================================================================================
 
@@ -770,405 +744,399 @@ if action == "Nova ordem de serviço":
 elif action == "Atualizar ordem existente":
     st.header("🔧 Atualizar Ordem Existente")
     
-    # 1. Selección del registro a actualizar
+    # 1. Selección del registro a actualizar (versión mejorada)
     search_col, display_col = st.columns(2)
     
     with search_col:
-        search_by = st.radio("Buscar por:", ["ID", "Placa"], horizontal=True, key="search_by")
+        search_by = st.radio("Buscar por:", ["ID", "Placa"], horizontal=True)
         
         if search_by == "ID":
             selected_id = st.selectbox(
                 "Selecione o ID:", 
-                options=sorted(existing_data["user_id"].dropna().astype(int).unique()),
-                key="id_select"
+                options=sorted(existing_data["user_id"].dropna().astype(int).unique())
             )
             record_to_update = existing_data[existing_data["user_id"] == selected_id].iloc[0]
         else:
-            # Nuevo sistema de búsqueda por placa
-            placa_input = st.text_input("Digite a Placa:", key="placa_input")
-            buscar_btn = st.button("Buscar", key="buscar_btn")
-            
-            if buscar_btn:
-                if not placa_input:
-                    st.warning("Por favor, digite uma placa para buscar")
-                    st.stop()
-                
-                # Buscar coincidencias (case insensitive)
-                matching_records = existing_data[
-                    existing_data["placa"].str.lower() == placa_input.lower()
-                ]
-                
-                if not matching_records.empty:
-                    record_to_update = matching_records.sort_values("date_in", ascending=False).iloc[0]
-                    selected_id = record_to_update["user_id"]
-                else:
-                    st.error("Nenhuma ordem encontrada com esta placa!")
-                    st.stop()
+            selected_placa = st.selectbox(
+                "Selecione a Placa:", 
+                options=sorted(existing_data["placa"].dropna().unique())
+            )
+            # Tomar el registro más reciente para esa placa
+            record_to_update = existing_data[existing_data["placa"] == selected_placa] \
+                             .sort_values("date_in", ascending=False) \
+                             .iloc[0]
+            selected_id = record_to_update["user_id"]
+    
+    with display_col:
+        st.markdown(f"**Editando Ordem N°:** `{int(selected_id)}`")
+        st.markdown(f"**Placa:** `{record_to_update['placa']}`")
+        st.markdown(f"**Data de Entrada:** `{record_to_update['date_in']}`")
 
-    # Mostrar información del registro encontrado
-    if 'record_to_update' in locals():
-        with display_col:
-            st.markdown(f"**Editando Ordem N°:** `{int(selected_id)}`")
-            st.markdown(f"**Placa:** `{record_to_update['placa']}`")
-            st.markdown(f"**Data de Entrada:** `{record_to_update['date_in']}`")
+
+    # Mostrar el formulario con los datos actuales
+    with st.form(key="update_form"):
+        st.markdown("Atualize os detalhes da ordem de serviço")
         
-        # Formulario de actualización
-        with st.form(key="update_form"):
-            st.markdown("Atualize os detalhes da ordem de serviço")
+        # Mostrar el ID como texto (no editable)
+        st.text_input("ID da Ordem", value=vendor_to_update, disabled=True, key="display_user_id")
         
-            # Mostrar el ID como texto (no editable)
-            st.text_input("ID da Ordem", value=vendor_to_update, disabled=True, key="display_user_id")
+        # Resto del formulario (igual que antes)
+        with st.container():    
+            col00, col01, col02, col03, col04 = st.columns(5)
+            with col00:
+                placa = st.text_input("Placa", value=record_to_update["placa"], key="update_placa")
+            with col02:
+                data_entrada = st.text_input("Data de entrada", value=record_to_update["date_in"], key="update_data_entrada")
+            with col03:
+                previsao_entrega = st.text_input("Previsão de entrega", value=record_to_update["date_prev"], key="update_previsao_entrega")
+            with col04:
+                data_saida = st.text_input("Data de saida", value=record_to_update["date_out"], key="update_data_saida")
             
-            # Resto del formulario (igual que antes)
-            with st.container():    
-                col00, col01, col02, col03, col04 = st.columns(5)
-                with col00:
-                    placa = st.text_input("Placa", value=record_to_update["placa"], key="update_placa")
-                with col02:
-                    data_entrada = st.text_input("Data de entrada", value=record_to_update["date_in"], key="update_data_entrada")
-                with col03:
-                    previsao_entrega = st.text_input("Previsão de entrega", value=record_to_update["date_prev"], key="update_previsao_entrega")
-                with col04:
-                    data_saida = st.text_input("Data de saida", value=record_to_update["date_out"], key="update_data_saida")
-                
-            with st.container():    
-                col10, col11, col12, col13, col14 = st.columns(5)
-                with col10:
-                    carro = st.text_input("Marca", value=record_to_update["carro"], key="update_carro")
-                with col11:
-                    modelo = st.text_input("Modelo", value=record_to_update["modelo"], key="update_modelo")
-                with col12:
-                    ano = st.text_input("Ano", value=record_to_update["ano"], key="update_ano")
-                with col13:
-                    cor = st.text_input("Cor", value=record_to_update["cor"], key="update_cor")
-                with col14:
-                    km = st.text_input("Km", value=record_to_update["km"], key="update_km")
-    
-            # Opciones para el desplegable
-            opciones_estado = [
-                "Entrada",
-                "Em orçamento",
-                "Aguardando aprovação",
-                "Em reparação",
-                "Concluido",
-                "Entregado"
-            ]
-            with st.container():    
-                col20, col21, col22 = st.columns(3)
-                with col21:
-                    # Verificar si el estado actual está en opciones_estado
-                    estado_actual = record_to_update["estado"]
-                    if estado_actual in opciones_estado:
-                        index_estado = opciones_estado.index(estado_actual)
-                    else:
-                        index_estado = 0  # Usar el primer valor de opciones_estado como predeterminado
-            
-            estado = st.selectbox("Estado do serviço", opciones_estado, index=index_estado, key="update_estado")
-    
-            with st.container():    
-                col30, col31, col32 = st.columns(3)
-                with col30:
-                    dono_empresa = st.text_input("Dono / Empresa", value=record_to_update["dono_empresa"], key="update_dono_empresa")
-                with col31:
-                    telefone = st.text_input("Telefone", value=record_to_update["telefone"], key="update_telefone")
-                with col32:
-                    endereco = st.text_input("Endereço", value=record_to_update["endereco"], key="update_endereco")
-    
-            line(4, "blue")
-            centrar_texto("Serviços", 2, "yellow")
-    
-            with st.container():    
-                col40, col41, col42 = st.columns([1,5,2])
-                with col40:
-                    item_serv_1 = st.text_input("1 - Item",  value=record_to_update["item_serv_1"], key="update_item_serv_1")
-                with col41:
-                    desc_ser_1 = st.text_input("1 - Descriçao de serviço",  value=record_to_update["desc_ser_1"], key="update_desc_ser_1")
-                with col42:
-                    valor_serv_1 = st.text_input("1 - Valor do serviço",  value=record_to_update["valor_serv_1"], key="update_valor_serv_1")
-                    
-            with st.container():    
-                col50, col51, col52 = st.columns([1,5,2])
-                with col50:
-                    item_serv_2 = st.text_input("2 - Item",  value=record_to_update["item_serv_2"], key="update_item_serv_2")
-                with col51:
-                    desc_ser_2 = st.text_input("2 -Descriçao de serviço",  value=record_to_update["desc_ser_2"], key="update_desc_ser_2")
-                with col52:
-                    valor_serv_2 = st.text_input("2- Valor do serviço",  value=record_to_update["valor_serv_2"], key="update_valor_serv_2")
-    
-            with st.container():    
-                col60, col61, col62 = st.columns([1,5,2])
-                with col60:
-                    item_serv_3 = st.text_input("3 - Item",  value=record_to_update["item_serv_3"], key="update_item_serv_3")
-                with col61:
-                    desc_ser_3 = st.text_input("3 -Descriçao de serviço",  value=record_to_update["desc_ser_3"], key="update_desc_ser_3")
-                with col62:
-                    valor_serv_3 = st.text_input("3- Valor do serviço",  value=record_to_update["valor_serv_3"], key="update_valor_serv_3")
-    
-            with st.container():    
-                col70, col71, col72 = st.columns([1,5,2])
-                with col70:
-                    item_serv_4 = st.text_input("4 - Item",  value=record_to_update["item_serv_4"], key="update_item_serv_4")
-                with col71:
-                    desc_ser_4 = st.text_input("4 -Descriçao de serviço",  value=record_to_update["desc_ser_4"], key="update_desc_ser_4")
-                with col72:
-                    valor_serv_4 = st.text_input("4- Valor do serviço", value=record_to_update["valor_serv_4"], key="update_valor_serv_4")
-    
-            with st.container():    
-                col80, col81, col82 = st.columns([1,5,2])
-                with col80:
-                    item_serv_5 = st.text_input("5 - Item", value=record_to_update["item_serv_5"], key="update_item_serv_5")
-                with col81:
-                    desc_ser_5 = st.text_input("5 - Descriçao de serviço", value=record_to_update["desc_ser_5"], key="update_desc_ser_5")
-                with col82:
-                    valor_serv_5 = st.text_input("5 - Valor do serviço", value=record_to_update["valor_serv_5"], key="update_valor_serv_5")
-            
-            with st.container():    
-                col90, col91, col92 = st.columns([1,5,2])
-                with col90:
-                    item_serv_6 = st.text_input("6 - Item", value=record_to_update["item_serv_6"], key="update_item_serv_6")
-                with col91:
-                    desc_ser_6 = st.text_input("6 - Descriçao de serviço", value=record_to_update["desc_ser_6"], key="update_desc_ser_6")
-                with col92:
-                    valor_serv_6 = st.text_input("6 - Valor do serviço", value=record_to_update["valor_serv_6"], key="update_valor_serv_6")
-            
-            with st.container():    
-                col100, col101, col102 = st.columns([1,5,2])
-                with col100:
-                    item_serv_7 = st.text_input("7 - Item", value=record_to_update["item_serv_7"], key="update_item_serv_7")
-                with col101:
-                    desc_ser_7 = st.text_input("7 - Descriçao de serviço", value=record_to_update["desc_ser_7"], key="update_desc_ser_7")
-                with col102:
-                    valor_serv_7 = st.text_input("7 - Valor do serviço", value=record_to_update["valor_serv_7"], key="update_valor_serv_7")
-            
-            with st.container():    
-                col110, col111, col112 = st.columns([1,5,2])
-                with col110:
-                    item_serv_8 = st.text_input("8 - Item", value=record_to_update["item_serv_8"], key="update_item_serv_8")
-                with col111:
-                    desc_ser_8 = st.text_input("8 - Descriçao de serviço", value=record_to_update["desc_ser_8"], key="update_desc_ser_8")
-                with col112:
-                    valor_serv_8 = st.text_input("8 - Valor do serviço", value=record_to_update["valor_serv_8"], key="update_valor_serv_8")
-            
-            with st.container():    
-                col120, col121, col122 = st.columns([1,5,2])
-                with col120:
-                    item_serv_9 = st.text_input("9 - Item", value=record_to_update["item_serv_9"], key="update_item_serv_9")
-                with col121:
-                    desc_ser_9 = st.text_input("9 - Descriçao de serviço", value=record_to_update["desc_ser_9"], key="update_desc_ser_9")
-                with col122:
-                    valor_serv_9 = st.text_input("9 - Valor do serviço", value=record_to_update["valor_serv_9"], key="update_valor_serv_9")
-            
-            with st.container():    
-                col130, col131, col132 = st.columns([1,5,2])
-                with col130:
-                    item_serv_10 = st.text_input("10 - Item", value=record_to_update["item_serv_10"], key="update_item_serv_10")
-                with col131:
-                    desc_ser_10 = st.text_input("10 - Descriçao de serviço", value=record_to_update["desc_ser_10"], key="update_desc_ser_10")
-                with col132:
-                    valor_serv_10 = st.text_input("10 - Valor do serviço", value=record_to_update["valor_serv_10"], key="update_valor_serv_10")
-            
-            with st.container():    
-                col140, col141, col142 = st.columns([1,5,2])
-                with col140:
-                    item_serv_11 = st.text_input("11 - Item", value=record_to_update["item_serv_11"], key="update_item_serv_11")
-                with col141:
-                    desc_ser_11 = st.text_input("11 - Descriçao de serviço", value=record_to_update["desc_ser_11"], key="update_desc_ser_11")
-                with col142:
-                    valor_serv_11 = st.text_input("11 - Valor do serviço", value=record_to_update["valor_serv_11"], key="update_valor_serv_11")
-            
-            with st.container():    
-                col150, col151, col152 = st.columns([1,5,2])
-                with col150:
-                    item_serv_12 = st.text_input("12 - Item", value=record_to_update["item_serv_12"], key="update_item_serv_12")
-                with col151:
-                    desc_ser_12 = st.text_input("12 - Descriçao de serviço", value=record_to_update["desc_ser_12"], key="update_desc_ser_12")
-                with col152:
-                    valor_serv_12 = st.text_input("12 - Valor do serviço", value=record_to_update["valor_serv_12"], key="update_valor_serv_12")
-                    
-            line(4, "blue")
-            centrar_texto("Peças", 2, "yellow")
-    
-            with st.container():    
-                col160, col161, col162 = st.columns([1,5,2])
-                with col160:
-                    quant_peca_1 = st.text_input("1 - Quant.", value=record_to_update["quant_peca_1"], key="update_quant_peca_1")
-                with col161:
-                    desc_peca_1 = st.text_input("1 - Descriçao da peça", value=record_to_update["desc_peca_1"], key="update_desc_peca_1")
-                with col162:
-                    valor_peca_1 = st.text_input("1 - Valor de cada peça", value=record_to_update["valor_peca_1"], key="update_valor_peca_1")
-    
-            with st.container():    
-                col170, col171, col172 = st.columns([1,5,2])
-                with col170:
-                    quant_peca_2 = st.text_input("2 - Quant.", value=record_to_update["quant_peca_2"], key="update_quant_peca_2")
-                with col171:
-                    desc_peca_2 = st.text_input("2 - Descriçao da peça", value=record_to_update["desc_peca_2"], key="update_desc_peca_2")
-                with col172:
-                    valor_peca_2 = st.text_input("2 - Valor de cada peça", value=record_to_update["valor_peca_2"], key="update_valor_peca_2")
-    
-            with st.container():    
-                col180, col181, col182 = st.columns([1,5,2])
-                with col180:
-                    quant_peca_3 = st.text_input("3 - Quant.", value=record_to_update["quant_peca_3"], key="update_quant_peca_3")
-                with col181:
-                    desc_peca_3 = st.text_input("3 - Descriçao da peça", value=record_to_update["desc_peca_3"], key="update_desc_peca_3")
-                with col182:
-                    valor_peca_3 = st.text_input("3 - Valor de cada peça", value=record_to_update["valor_peca_3"], key="update_valor_peca_3")
-            
-            with st.container():    
-                col190, col191, col192 = st.columns([1,5,2])
-                with col190:
-                    quant_peca_4 = st.text_input("4 - Quant.", value=record_to_update["quant_peca_4"], key="update_quant_peca_4")
-                with col191:
-                    desc_peca_4 = st.text_input("4 - Descriçao da peça", value=record_to_update["desc_peca_4"], key="update_desc_peca_4")
-                with col192:
-                    valor_peca_4 = st.text_input("4 - Valor de cada peça", value=record_to_update["valor_peca_4"], key="update_valor_peca_4")
-            
-            with st.container():    
-                col200, col201, col202 = st.columns([1,5,2])
-                with col200:
-                    quant_peca_5 = st.text_input("5 - Quant.", value=record_to_update["quant_peca_5"], key="update_quant_peca_5")
-                with col201:
-                    desc_peca_5 = st.text_input("5 - Descriçao da peça", value=record_to_update["desc_peca_5"], key="update_desc_peca_5")
-                with col202:
-                    valor_peca_5 = st.text_input("5 - Valor de cada peça", value=record_to_update["valor_peca_5"], key="update_valor_peca_5")
-            
-            with st.container():    
-                col210, col211, col212 = st.columns([1,5,2])
-                with col210:
-                    quant_peca_6 = st.text_input("6 - Quant.", value=record_to_update["quant_peca_6"], key="update_quant_peca_6")
-                with col211:
-                    desc_peca_6 = st.text_input("6 - Descriçao da peça", value=record_to_update["desc_peca_6"], key="update_desc_peca_6")
-                with col212:
-                    valor_peca_6 = st.text_input("6 - Valor de cada peça", value=record_to_update["valor_peca_6"], key="update_valor_peca_6")
-            
-            with st.container():    
-                col220, col221, col222 = st.columns([1,5,2])
-                with col220:
-                    quant_peca_7 = st.text_input("7 - Quant.", value=record_to_update["quant_peca_7"], key="update_quant_peca_7")
-                with col221:
-                    desc_peca_7 = st.text_input("7 - Descriçao da peça", value=record_to_update["desc_peca_7"], key="update_desc_peca_7")
-                with col222:
-                    valor_peca_7 = st.text_input("7 - Valor de cada peça", value=record_to_update["valor_peca_7"], key="update_valor_peca_7")
-            
-            with st.container():    
-                col230, col231, col232 = st.columns([1,5,2])
-                with col230:
-                    quant_peca_8 = st.text_input("8 - Quant.", value=record_to_update["quant_peca_8"], key="update_quant_peca_8")
-                with col231:
-                    desc_peca_8 = st.text_input("8 - Descriçao da peça", value=record_to_update["desc_peca_8"], key="update_desc_peca_8")
-                with col232:
-                    valor_peca_8 = st.text_input("8 - Valor de cada peça", value=record_to_update["valor_peca_8"], key="update_valor_peca_8")
-            
-            with st.container():    
-                col240, col241, col242 = st.columns([1,5,2])
-                with col240:
-                    quant_peca_9 = st.text_input("9 - Quant.", value=record_to_update["quant_peca_9"], key="update_quant_peca_9")
-                with col241:
-                    desc_peca_9 = st.text_input("9 - Descriçao da peça", value=record_to_update["desc_peca_9"], key="update_desc_peca_9")
-                with col242:
-                    valor_peca_9 = st.text_input("9 - Valor de cada peça", value=record_to_update["valor_peca_9"], key="update_valor_peca_9")
-            
-            with st.container():    
-                col250, col251, col252 = st.columns([1,5,2])
-                with col250:
-                    quant_peca_10 = st.text_input("10 - Quant.", value=record_to_update["quant_peca_10"], key="update_quant_peca_10")
-                with col251:
-                    desc_peca_10 = st.text_input("10 - Descriçao da peça", value=record_to_update["desc_peca_10"], key="update_desc_peca_10")
-                with col252:
-                    valor_peca_10 = st.text_input("10 - Valor de cada peça", value=record_to_update["valor_peca_10"], key="update_valor_peca_10")
-            
-            with st.container():    
-                col260, col261, col262 = st.columns([1,5,2])
-                with col260:
-                    quant_peca_11 = st.text_input("11 - Quant.", value=record_to_update["quant_peca_11"], key="update_quant_peca_11")
-                with col261:
-                    desc_peca_11 = st.text_input("11 - Descriçao da peça", value=record_to_update["desc_peca_11"], key="update_desc_peca_11")
-                with col262:
-                    valor_peca_11 = st.text_input("11 - Valor de cada peça", value=record_to_update["valor_peca_11"], key="update_valor_peca_11")
-            
-            with st.container():    
-                col270, col271, col272 = st.columns([1,5,2])
-                with col270:
-                    quant_peca_12 = st.text_input("12 - Quant.", value=record_to_update["quant_peca_12"], key="update_quant_peca_12")
-                with col271:
-                    desc_peca_12 = st.text_input("12 - Descriçao da peça", value=record_to_update["desc_peca_12"], key="update_desc_peca_12")
-                with col272:
-                    valor_peca_12 = st.text_input("12 - Valor de cada peça", value=record_to_update["valor_peca_12"], key="update_valor_peca_12")
-            
-            with st.container():    
-                col280, col281, col282 = st.columns([1,5,2])
-                with col280:
-                    quant_peca_13 = st.text_input("13 - Quant.", value=record_to_update["quant_peca_13"], key="update_quant_peca_13")
-                with col281:
-                    desc_peca_13 = st.text_input("13 - Descriçao da peça", value=record_to_update["desc_peca_13"], key="update_desc_peca_13")
-                with col282:
-                    valor_peca_13 = st.text_input("13 - Valor de cada peça", value=record_to_update["valor_peca_13"], key="update_valor_peca_13")
-            
-            with st.container():    
-                col290, col291, col292 = st.columns([1,5,2])
-                with col290:
-                    quant_peca_14 = st.text_input("14 - Quant.", value=record_to_update["quant_peca_14"], key="update_quant_peca_14")
-                with col291:
-                    desc_peca_14 = st.text_input("14 - Descriçao da peça", value=record_to_update["desc_peca_14"], key="update_desc_peca_14")
-                with col292:
-                    valor_peca_14 = st.text_input("14 - Valor de cada peça", value=record_to_update["valor_peca_14"], key="update_valor_peca_14")
-            
-            with st.container():    
-                col300, col301, col302 = st.columns([1,5,2])
-                with col300:
-                    quant_peca_15 = st.text_input("15 - Quant.", value=record_to_update["quant_peca_15"], key="update_quant_peca_15")
-                with col301:
-                    desc_peca_15 = st.text_input("15 - Descriçao da peça", value=record_to_update["desc_peca_15"], key="update_desc_peca_15")
-                with col302:
-                    valor_peca_15 = st.text_input("15 - Valor de cada peça", value=record_to_update["valor_peca_15"], key="update_valor_peca_15")
-            
-            with st.container():    
-                col310, col311, col312 = st.columns([1,5,2])
-                with col310:
-                    quant_peca_16 = st.text_input("16 - Quant.", value=record_to_update["quant_peca_16"], key="update_quant_peca_16")
-                with col311:
-                    desc_peca_16 = st.text_input("16 - Descriçao da peça", value=record_to_update["desc_peca_16"], key="update_desc_peca_16")
-                with col312:
-                    valor_peca_16 = st.text_input("16 - Valor de cada peça", value=record_to_update["valor_peca_16"], key="update_valor_peca_16")     
-            
-            line(4, "blue")
-            
-            with st.container():
-                    col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
-                    with col322:
-                         # Botón de confirmación CORREGIDO
-                        if st.form_submit_button("Confirmar Atualização"):
-                            try:
-                                # Conexión a Google Sheets
-                                gc = gspread.authorize(credentials)
-                                spreadsheet = gc.open_by_key(SPREADSHEET_KEY)
-                                worksheet = spreadsheet.worksheet(SHEET_NAME)
-                                
-                                # Encontrar la fila exacta
-                                cell = worksheet.find(str(int(selected_id)))
-                                row_number = cell.row
-                                
-                                # Preparar valores actualizados
-                                updated_values = {
-                                    'date_in': data_entrada,
-                                    'date_prev': previsao_entrega,
-                                    # [Agregar aquí todos los campos a actualizar]
-                                }
-                                
-                                # Actualizar solo los campos modificados
-                                for col, value in updated_values.items():
-                                    if value is not None:  # Solo actualizar si hay valor
-                                        worksheet.update_cell(row_number, columnas_ordenadas.index(col)+1, value)
-                                
-                                st.success("✅ Atualização concluída com sucesso!")
-                                st.balloons()
-                                
-                            except Exception as e:
-                                st.error(f"Erro ao atualizar: {str(e)}")
+        with st.container():    
+            col10, col11, col12, col13, col14 = st.columns(5)
+            with col10:
+                carro = st.text_input("Marca", value=record_to_update["carro"], key="update_carro")
+            with col11:
+                modelo = st.text_input("Modelo", value=record_to_update["modelo"], key="update_modelo")
+            with col12:
+                ano = st.text_input("Ano", value=record_to_update["ano"], key="update_ano")
+            with col13:
+                cor = st.text_input("Cor", value=record_to_update["cor"], key="update_cor")
+            with col14:
+                km = st.text_input("Km", value=record_to_update["km"], key="update_km")
+
+        # Opciones para el desplegable
+        opciones_estado = [
+            "Entrada",
+            "Em orçamento",
+            "Aguardando aprovação",
+            "Em reparação",
+            "Concluido",
+            "Entregado"
+        ]
+        with st.container():    
+            col20, col21, col22 = st.columns(3)
+            with col21:
+                # Verificar si el estado actual está en opciones_estado
+                estado_actual = vendor_data["estado"]
+                if estado_actual in opciones_estado:
+                    index_estado = opciones_estado.index(estado_actual)
                 else:
-                    with display_col:
-                        st.info("Selecione um registro para editar")
+                    index_estado = 0  # Usar el primer valor de opciones_estado como predeterminado
+        
+        estado = st.selectbox("Estado do serviço", opciones_estado, index=index_estado, key="update_estado")
+
+        with st.container():    
+            col30, col31, col32 = st.columns(3)
+            with col30:
+                dono_empresa = st.text_input("Dono / Empresa", value=record_to_update["dono_empresa"], key="update_dono_empresa")
+            with col31:
+                telefone = st.text_input("Telefone", value=record_to_update["telefone"], key="update_telefone")
+            with col32:
+                endereco = st.text_input("Endereço", value=record_to_update["endereco"], key="update_endereco")
+
+        line(4, "blue")
+        centrar_texto("Serviços", 2, "yellow")
+
+        with st.container():    
+            col40, col41, col42 = st.columns([1,5,2])
+            with col40:
+                item_serv_1 = st.text_input("1 - Item",  value=record_to_update["item_serv_1"], key="update_item_serv_1")
+            with col41:
+                desc_ser_1 = st.text_input("1 - Descriçao de serviço",  value=record_to_update["desc_ser_1"], key="update_desc_ser_1")
+            with col42:
+                valor_serv_1 = st.text_input("1 - Valor do serviço",  value=record_to_update["valor_serv_1"], key="update_valor_serv_1")
+                
+        with st.container():    
+            col50, col51, col52 = st.columns([1,5,2])
+            with col50:
+                item_serv_2 = st.text_input("2 - Item",  value=record_to_update["item_serv_2"], key="update_item_serv_2")
+            with col51:
+                desc_ser_2 = st.text_input("2 -Descriçao de serviço",  value=record_to_update["desc_ser_2"], key="update_desc_ser_2")
+            with col52:
+                valor_serv_2 = st.text_input("2- Valor do serviço",  value=record_to_update["valor_serv_2"], key="update_valor_serv_2")
+
+        with st.container():    
+            col60, col61, col62 = st.columns([1,5,2])
+            with col60:
+                item_serv_3 = st.text_input("3 - Item",  value=record_to_update["item_serv_3"], key="update_item_serv_3")
+            with col61:
+                desc_ser_3 = st.text_input("3 -Descriçao de serviço",  value=record_to_update["desc_ser_3"], key="update_desc_ser_3")
+            with col62:
+                valor_serv_3 = st.text_input("3- Valor do serviço",  value=record_to_update["valor_serv_3"], key="update_valor_serv_3")
+
+        with st.container():    
+            col70, col71, col72 = st.columns([1,5,2])
+            with col70:
+                item_serv_4 = st.text_input("4 - Item",  value=record_to_update["item_serv_4"], key="update_item_serv_4")
+            with col71:
+                desc_ser_4 = st.text_input("4 -Descriçao de serviço",  value=record_to_update["desc_ser_4"], key="update_desc_ser_4")
+            with col72:
+                valor_serv_4 = st.text_input("4- Valor do serviço", value=record_to_update["valor_serv_4"], key="update_valor_serv_4")
+
+        with st.container():    
+            col80, col81, col82 = st.columns([1,5,2])
+            with col80:
+                item_serv_5 = st.text_input("5 - Item", value=record_to_update["item_serv_5"], key="update_item_serv_5")
+            with col81:
+                desc_ser_5 = st.text_input("5 - Descriçao de serviço", value=record_to_update["desc_ser_5"], key="update_desc_ser_5")
+            with col82:
+                valor_serv_5 = st.text_input("5 - Valor do serviço", value=record_to_update["valor_serv_5"], key="update_valor_serv_5")
+        
+        with st.container():    
+            col90, col91, col92 = st.columns([1,5,2])
+            with col90:
+                item_serv_6 = st.text_input("6 - Item", value=record_to_update["item_serv_6"], key="update_item_serv_6")
+            with col91:
+                desc_ser_6 = st.text_input("6 - Descriçao de serviço", value=record_to_update["desc_ser_6"], key="update_desc_ser_6")
+            with col92:
+                valor_serv_6 = st.text_input("6 - Valor do serviço", value=record_to_update["valor_serv_6"], key="update_valor_serv_6")
+        
+        with st.container():    
+            col100, col101, col102 = st.columns([1,5,2])
+            with col100:
+                item_serv_7 = st.text_input("7 - Item", value=record_to_update["item_serv_7"], key="update_item_serv_7")
+            with col101:
+                desc_ser_7 = st.text_input("7 - Descriçao de serviço", value=record_to_update["desc_ser_7"], key="update_desc_ser_7")
+            with col102:
+                valor_serv_7 = st.text_input("7 - Valor do serviço", value=record_to_update["valor_serv_7"], key="update_valor_serv_7")
+        
+        with st.container():    
+            col110, col111, col112 = st.columns([1,5,2])
+            with col110:
+                item_serv_8 = st.text_input("8 - Item", value=record_to_update["item_serv_8"], key="update_item_serv_8")
+            with col111:
+                desc_ser_8 = st.text_input("8 - Descriçao de serviço", value=record_to_update["desc_ser_8"], key="update_desc_ser_8")
+            with col112:
+                valor_serv_8 = st.text_input("8 - Valor do serviço", value=record_to_update["valor_serv_8"], key="update_valor_serv_8")
+        
+        with st.container():    
+            col120, col121, col122 = st.columns([1,5,2])
+            with col120:
+                item_serv_9 = st.text_input("9 - Item", value=record_to_update["item_serv_9"], key="update_item_serv_9")
+            with col121:
+                desc_ser_9 = st.text_input("9 - Descriçao de serviço", value=record_to_update["desc_ser_9"], key="update_desc_ser_9")
+            with col122:
+                valor_serv_9 = st.text_input("9 - Valor do serviço", value=record_to_update["valor_serv_9"], key="update_valor_serv_9")
+        
+        with st.container():    
+            col130, col131, col132 = st.columns([1,5,2])
+            with col130:
+                item_serv_10 = st.text_input("10 - Item", value=record_to_update["item_serv_10"], key="update_item_serv_10")
+            with col131:
+                desc_ser_10 = st.text_input("10 - Descriçao de serviço", value=record_to_update["desc_ser_10"], key="update_desc_ser_10")
+            with col132:
+                valor_serv_10 = st.text_input("10 - Valor do serviço", value=record_to_update["valor_serv_10"], key="update_valor_serv_10")
+        
+        with st.container():    
+            col140, col141, col142 = st.columns([1,5,2])
+            with col140:
+                item_serv_11 = st.text_input("11 - Item", value=record_to_update["item_serv_11"], key="update_item_serv_11")
+            with col141:
+                desc_ser_11 = st.text_input("11 - Descriçao de serviço", value=record_to_update["desc_ser_11"], key="update_desc_ser_11")
+            with col142:
+                valor_serv_11 = st.text_input("11 - Valor do serviço", value=record_to_update["valor_serv_11"], key="update_valor_serv_11")
+        
+        with st.container():    
+            col150, col151, col152 = st.columns([1,5,2])
+            with col150:
+                item_serv_12 = st.text_input("12 - Item", value=record_to_update["item_serv_12"], key="update_item_serv_12")
+            with col151:
+                desc_ser_12 = st.text_input("12 - Descriçao de serviço", value=record_to_update["desc_ser_12"], key="update_desc_ser_12")
+            with col152:
+                valor_serv_12 = st.text_input("12 - Valor do serviço", value=record_to_update["valor_serv_12"], key="update_valor_serv_12")
+                
+        line(4, "blue")
+        centrar_texto("Peças", 2, "yellow")
+
+        with st.container():    
+            col160, col161, col162 = st.columns([1,5,2])
+            with col160:
+                quant_peca_1 = st.text_input("1 - Quant.", value=record_to_update["quant_peca_1"], key="update_quant_peca_1")
+            with col161:
+                desc_peca_1 = st.text_input("1 - Descriçao da peça", value=record_to_update["desc_peca_1"], key="update_desc_peca_1")
+            with col162:
+                valor_peca_1 = st.text_input("1 - Valor de cada peça", value=record_to_update["valor_peca_1"], key="update_valor_peca_1")
+
+        with st.container():    
+            col170, col171, col172 = st.columns([1,5,2])
+            with col170:
+                quant_peca_2 = st.text_input("2 - Quant.", value=record_to_update["quant_peca_2"], key="update_quant_peca_2")
+            with col171:
+                desc_peca_2 = st.text_input("2 - Descriçao da peça", value=record_to_update["desc_peca_2"], key="update_desc_peca_2")
+            with col172:
+                valor_peca_2 = st.text_input("2 - Valor de cada peça", value=record_to_update["valor_peca_2"], key="update_valor_peca_2")
+
+        with st.container():    
+            col180, col181, col182 = st.columns([1,5,2])
+            with col180:
+                quant_peca_3 = st.text_input("3 - Quant.", value=record_to_update["quant_peca_3"], key="update_quant_peca_3")
+            with col181:
+                desc_peca_3 = st.text_input("3 - Descriçao da peça", value=record_to_update["desc_peca_3"], key="update_desc_peca_3")
+            with col182:
+                valor_peca_3 = st.text_input("3 - Valor de cada peça", value=record_to_update["valor_peca_3"], key="update_valor_peca_3")
+        
+        with st.container():    
+            col190, col191, col192 = st.columns([1,5,2])
+            with col190:
+                quant_peca_4 = st.text_input("4 - Quant.", value=record_to_update["quant_peca_4"], key="update_quant_peca_4")
+            with col191:
+                desc_peca_4 = st.text_input("4 - Descriçao da peça", value=record_to_update["desc_peca_4"], key="update_desc_peca_4")
+            with col192:
+                valor_peca_4 = st.text_input("4 - Valor de cada peça", value=record_to_update["valor_peca_4"], key="update_valor_peca_4")
+        
+        with st.container():    
+            col200, col201, col202 = st.columns([1,5,2])
+            with col200:
+                quant_peca_5 = st.text_input("5 - Quant.", value=record_to_update["quant_peca_5"], key="update_quant_peca_5")
+            with col201:
+                desc_peca_5 = st.text_input("5 - Descriçao da peça", value=record_to_update["desc_peca_5"], key="update_desc_peca_5")
+            with col202:
+                valor_peca_5 = st.text_input("5 - Valor de cada peça", value=record_to_update["valor_peca_5"], key="update_valor_peca_5")
+        
+        with st.container():    
+            col210, col211, col212 = st.columns([1,5,2])
+            with col210:
+                quant_peca_6 = st.text_input("6 - Quant.", value=record_to_update["quant_peca_6"], key="update_quant_peca_6")
+            with col211:
+                desc_peca_6 = st.text_input("6 - Descriçao da peça", value=record_to_update["desc_peca_6"], key="update_desc_peca_6")
+            with col212:
+                valor_peca_6 = st.text_input("6 - Valor de cada peça", value=record_to_update["valor_peca_6"], key="update_valor_peca_6")
+        
+        with st.container():    
+            col220, col221, col222 = st.columns([1,5,2])
+            with col220:
+                quant_peca_7 = st.text_input("7 - Quant.", value=record_to_update["quant_peca_7"], key="update_quant_peca_7")
+            with col221:
+                desc_peca_7 = st.text_input("7 - Descriçao da peça", value=record_to_update["desc_peca_7"], key="update_desc_peca_7")
+            with col222:
+                valor_peca_7 = st.text_input("7 - Valor de cada peça", value=record_to_update["valor_peca_7"], key="update_valor_peca_7")
+        
+        with st.container():    
+            col230, col231, col232 = st.columns([1,5,2])
+            with col230:
+                quant_peca_8 = st.text_input("8 - Quant.", value=record_to_update["quant_peca_8"], key="update_quant_peca_8")
+            with col231:
+                desc_peca_8 = st.text_input("8 - Descriçao da peça", value=record_to_update["desc_peca_8"], key="update_desc_peca_8")
+            with col232:
+                valor_peca_8 = st.text_input("8 - Valor de cada peça", value=record_to_update["valor_peca_8"], key="update_valor_peca_8")
+        
+        with st.container():    
+            col240, col241, col242 = st.columns([1,5,2])
+            with col240:
+                quant_peca_9 = st.text_input("9 - Quant.", value=record_to_update["quant_peca_9"], key="update_quant_peca_9")
+            with col241:
+                desc_peca_9 = st.text_input("9 - Descriçao da peça", value=record_to_update["desc_peca_9"], key="update_desc_peca_9")
+            with col242:
+                valor_peca_9 = st.text_input("9 - Valor de cada peça", value=record_to_update["valor_peca_9"], key="update_valor_peca_9")
+        
+        with st.container():    
+            col250, col251, col252 = st.columns([1,5,2])
+            with col250:
+                quant_peca_10 = st.text_input("10 - Quant.", value=record_to_update["quant_peca_10"], key="update_quant_peca_10")
+            with col251:
+                desc_peca_10 = st.text_input("10 - Descriçao da peça", value=record_to_update["desc_peca_10"], key="update_desc_peca_10")
+            with col252:
+                valor_peca_10 = st.text_input("10 - Valor de cada peça", value=record_to_update["valor_peca_10"], key="update_valor_peca_10")
+        
+        with st.container():    
+            col260, col261, col262 = st.columns([1,5,2])
+            with col260:
+                quant_peca_11 = st.text_input("11 - Quant.", value=record_to_update["quant_peca_11"], key="update_quant_peca_11")
+            with col261:
+                desc_peca_11 = st.text_input("11 - Descriçao da peça", value=record_to_update["desc_peca_11"], key="update_desc_peca_11")
+            with col262:
+                valor_peca_11 = st.text_input("11 - Valor de cada peça", value=record_to_update["valor_peca_11"], key="update_valor_peca_11")
+        
+        with st.container():    
+            col270, col271, col272 = st.columns([1,5,2])
+            with col270:
+                quant_peca_12 = st.text_input("12 - Quant.", value=record_to_update["quant_peca_12"], key="update_quant_peca_12")
+            with col271:
+                desc_peca_12 = st.text_input("12 - Descriçao da peça", value=record_to_update["desc_peca_12"], key="update_desc_peca_12")
+            with col272:
+                valor_peca_12 = st.text_input("12 - Valor de cada peça", value=record_to_update["valor_peca_12"], key="update_valor_peca_12")
+        
+        with st.container():    
+            col280, col281, col282 = st.columns([1,5,2])
+            with col280:
+                quant_peca_13 = st.text_input("13 - Quant.", value=record_to_update["quant_peca_13"], key="update_quant_peca_13")
+            with col281:
+                desc_peca_13 = st.text_input("13 - Descriçao da peça", value=record_to_update["desc_peca_13"], key="update_desc_peca_13")
+            with col282:
+                valor_peca_13 = st.text_input("13 - Valor de cada peça", value=record_to_update["valor_peca_13"], key="update_valor_peca_13")
+        
+        with st.container():    
+            col290, col291, col292 = st.columns([1,5,2])
+            with col290:
+                quant_peca_14 = st.text_input("14 - Quant.", value=record_to_update["quant_peca_14"], key="update_quant_peca_14")
+            with col291:
+                desc_peca_14 = st.text_input("14 - Descriçao da peça", value=record_to_update["desc_peca_14"], key="update_desc_peca_14")
+            with col292:
+                valor_peca_14 = st.text_input("14 - Valor de cada peça", value=record_to_update["valor_peca_14"], key="update_valor_peca_14")
+        
+        with st.container():    
+            col300, col301, col302 = st.columns([1,5,2])
+            with col300:
+                quant_peca_15 = st.text_input("15 - Quant.", value=record_to_update["quant_peca_15"], key="update_quant_peca_15")
+            with col301:
+                desc_peca_15 = st.text_input("15 - Descriçao da peça", value=record_to_update["desc_peca_15"], key="update_desc_peca_15")
+            with col302:
+                valor_peca_15 = st.text_input("15 - Valor de cada peça", value=record_to_update["valor_peca_15"], key="update_valor_peca_15")
+        
+        with st.container():    
+            col310, col311, col312 = st.columns([1,5,2])
+            with col310:
+                quant_peca_16 = st.text_input("16 - Quant.", value=record_to_update["quant_peca_16"], key="update_quant_peca_16")
+            with col311:
+                desc_peca_16 = st.text_input("16 - Descriçao da peça", value=record_to_update["desc_peca_16"], key="update_desc_peca_16")
+            with col312:
+                valor_peca_16 = st.text_input("16 - Valor de cada peça", value=record_to_update["valor_peca_16"], key="update_valor_peca_16")     
+        
+        line(4, "blue")
+        
+        with st.container():
+            col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
+            with col322:
+                update_button = st.form_submit_button("Atualizar registro")
+
+               if st.form_submit_button("Confirmar Atualização"):
+                    try:
+                        # Conexión a Google Sheets
+                        gc = gspread.authorize(credentials)
+                        spreadsheet = gc.open_by_key(SPREADSHEET_KEY)
+                        worksheet = spreadsheet.worksheet(SHEET_NAME)
+                        
+                        # Encontrar la fila EXACTA que coincide con el ID
+                        cell = worksheet.find(str(int(selected_id)))  # Busca el ID exacto
+                        row_number = cell.row
+                        
+                        # Preparar los nuevos valores (en el ORDEN de las columnas)
+                        new_values = []
+                        for column in columnas_ordenadas:
+                            if column == "user_id":
+                                new_values.append(int(selected_id))  # Mantener el ID original
+                            else:
+                                # Usar el valor del formulario o el original si no existe
+                                new_values.append(locals().get(column, record_to_update[column]))
+                        
+                        # Actualizar SOLO ESA FILA
+                        worksheet.update(
+                            f"A{row_number}",
+                            [new_values],
+                            value_input_option="USER_ENTERED"
+                        )
+                        
+                        # Actualizar el DataFrame local
+                        for i, col in enumerate(columnas_ordenadas):
+                            existing_data.loc[existing_data["user_id"] == selected_id, col] = new_values[i]
+                        
+                        st.success("✅ Atualização concluída com sucesso!")
+                        st.balloons()
+                        
+                    except Exception as e:
+                        st.error(f"Erro crítico: {str(e)}")
+                        st.error("Recomendo recarregar a página e tentar novamente.")
 #===================================================================================================================================================================
 # --- Nueva Opción 3: Ver todas las órdenes ---
 elif action == "Ver todos as ordens de serviço":
