@@ -14,7 +14,7 @@ import pycountry
 # Colocar nome na pagina, icone e ampliar a tela
 st.set_page_config(
     page_title="Gestão de ordens",
-    page_icon=":car",
+    page_icon="🚗",
     layout="wide"
 )
 
