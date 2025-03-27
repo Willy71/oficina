@@ -761,6 +761,9 @@ elif action == "Atualizar ordem existente":
     centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 6, "yellow")
     
     # 1. Primero seleccionar el registro
+    vendor_to_update = None
+    vendor_data = None
+    
     with st.container():    
         col200, col201, col202 = st.columns([2, 3, 2])
         with col200:
@@ -771,7 +774,7 @@ elif action == "Atualizar ordem existente":
                 if not existing_data.empty:
                     vendor_to_update = st.selectbox(
                         "Selecione o ID",
-                        options=sorted(existing_data["user_id"].unique().tolist()),  # Remove this extra parenthesis
+                        options=sorted(existing_data["user_id"].unique().tolist()),
                         key="id_selector"
                     )
                     vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
@@ -783,9 +786,9 @@ elif action == "Atualizar ordem existente":
                         vendor_data_filtered = vendor_data_filtered.sort_values('date_in', ascending=False)
                         vendor_data = vendor_data_filtered.iloc[0]
                         vendor_to_update = vendor_data["user_id"]
-    
+
     # 2. Solo mostrar el formulario si se encontró un registro
-    if 'vendor_data' in locals() and vendor_data is not None:
+    if vendor_data is not None:
         with st.form(key="update_form"):
             st.markdown("Atualize os detalhes da ordem de serviço")
             
@@ -1109,10 +1112,9 @@ elif action == "Atualizar ordem existente":
                     with col322:
                         update_button = st.form_submit_button("Atualizar")
             
-                if update_button:
-                    # Código para procesar la actualización...
+                if st.form_submit_button("Atualizar"):
                     try:
-                        # Crear un diccionario con los datos actualizados
+                        # Lógica para actualizar el registro
                         updated_record = {
                                 'user_id': vendor_to_update,  # Mantener el mismo user_id
                                 'date_in': data_entrada,
@@ -1249,9 +1251,8 @@ elif action == "Atualizar ordem existente":
                             st.success("Ordem atualizada com sucesso!")
                         except Exception as e:
                             st.error(f"Erro ao atualizar: {str(e)}")
-            else:
-                if search_option == "Placa" and placa_to_search and 'vendor_data' not in locals():
-                    st.error("Placa não encontrada ou dados inválidos")
+            elif search_option == "Placa" and 'placa_to_search' in locals() and placa_to_search:
+                st.error("Placa não encontrada ou dados inválidos")
 
 #===================================================================================================================================================================
 # --- Nueva Opción 3: Ver todas las órdenes ---
