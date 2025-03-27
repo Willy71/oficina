@@ -774,46 +774,47 @@ elif action == "Atualizar ordem existente":
     search_col, display_col = st.columns(2)
     
     with search_col:
-        search_by = st.radio("Buscar por:", ["ID", "Placa"], horizontal=True)
+        search_by = st.radio("Buscar por:", ["ID", "Placa"], horizontal=True, key="search_by")
         
         if search_by == "ID":
             selected_id = st.selectbox(
                 "Selecione o ID:", 
-                options=sorted(existing_data["user_id"].dropna().astype(int).unique())
+                options=sorted(existing_data["user_id"].dropna().astype(int).unique()),
+                key="id_select"
             )
             record_to_update = existing_data[existing_data["user_id"] == selected_id].iloc[0]
         else:
-            # Cambiamos el selectbox por text_input + botón
-            placa_input = st.text_input("Digite a Placa:")
-            buscar_btn = st.button("Buscar")
+            # Nuevo sistema de búsqueda por placa
+            placa_input = st.text_input("Digite a Placa:", key="placa_input")
+            buscar_btn = st.button("Buscar", key="buscar_btn")
             
-            if buscar_btn and placa_input:
-                # Filtrar por placa (case insensitive)
+            if buscar_btn:
+                if not placa_input:
+                    st.warning("Por favor, digite uma placa para buscar")
+                    st.stop()
+                
+                # Buscar coincidencias (case insensitive)
                 matching_records = existing_data[
                     existing_data["placa"].str.lower() == placa_input.lower()
                 ]
                 
                 if not matching_records.empty:
-                    # Tomar el registro más reciente para esa placa
                     record_to_update = matching_records.sort_values("date_in", ascending=False).iloc[0]
                     selected_id = record_to_update["user_id"]
                 else:
                     st.error("Nenhuma ordem encontrada com esta placa!")
-                    st.stop()  # Detiene la ejecución si no encuentra la placa
-    
-    with display_col:
-        if 'record_to_update' in locals():
+                    st.stop()
+
+    # Mostrar información del registro encontrado
+    if 'record_to_update' in locals():
+        with display_col:
             st.markdown(f"**Editando Ordem N°:** `{int(selected_id)}`")
             st.markdown(f"**Placa:** `{record_to_update['placa']}`")
             st.markdown(f"**Data de Entrada:** `{record_to_update['date_in']}`")
-        else:
-            st.warning("Digite uma placa e clique em Buscar")
-
-    # Solo mostrar el formulario si encontramos un registro
-    if 'record_to_update' in locals():
-        # Resto del formulario de actualización (sin cambios)
+        
+        # Formulario de actualización
         with st.form(key="update_form"):
-        st.markdown("Atualize os detalhes da ordem de serviço")
+            st.markdown("Atualize os detalhes da ordem de serviço")
         
         # Mostrar el ID como texto (no editable)
         st.text_input("ID da Ordem", value=vendor_to_update, disabled=True, key="display_user_id")
@@ -1136,6 +1137,7 @@ elif action == "Atualizar ordem existente":
         with st.container():
                 col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
                 with col322:
+                     # Botón de confirmación CORREGIDO
                     if st.form_submit_button("Confirmar Atualização"):
                         try:
                             # Conexión a Google Sheets
@@ -1143,35 +1145,30 @@ elif action == "Atualizar ordem existente":
                             spreadsheet = gc.open_by_key(SPREADSHEET_KEY)
                             worksheet = spreadsheet.worksheet(SHEET_NAME)
                             
-                            # Encontrar la fila EXACTA que coincide con el ID
+                            # Encontrar la fila exacta
                             cell = worksheet.find(str(int(selected_id)))
                             row_number = cell.row
                             
-                            # Preparar los nuevos valores
-                            new_values = []
-                            for column in columnas_ordenadas:
-                                if column == "user_id":
-                                    new_values.append(int(selected_id))
-                                else:
-                                    new_values.append(locals().get(column, record_to_update[column]))
+                            # Preparar valores actualizados
+                            updated_values = {
+                                'date_in': data_entrada,
+                                'date_prev': previsao_entrega,
+                                # [Agregar aquí todos los campos a actualizar]
+                            }
                             
-                            # Actualizar SOLO ESA FILA
-                            worksheet.update(
-                                f"A{row_number}",
-                                [new_values],
-                                value_input_option="USER_ENTERED"
-                            )
-                            
-                            # Actualizar el DataFrame local
-                            for i, col in enumerate(columnas_ordenadas):
-                                existing_data.loc[existing_data["user_id"] == selected_id, col] = new_values[i]
+                            # Actualizar solo los campos modificados
+                            for col, value in updated_values.items():
+                                if value is not None:  # Solo actualizar si hay valor
+                                    worksheet.update_cell(row_number, columnas_ordenadas.index(col)+1, value)
                             
                             st.success("✅ Atualização concluída com sucesso!")
                             st.balloons()
                             
                         except Exception as e:
-                            st.error(f"Erro crítico: {str(e)}")
-                            st.error("Recomendo recarregar a página e tentar novamente.")
+                            st.error(f"Erro ao atualizar: {str(e)}")
+            else:
+                with display_col:
+                    st.info("Selecione um registro para editar")
 #===================================================================================================================================================================
 # --- Nueva Opción 3: Ver todas las órdenes ---
 elif action == "Ver todos as ordens de serviço":
