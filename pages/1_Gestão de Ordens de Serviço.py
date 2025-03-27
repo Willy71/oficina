@@ -783,29 +783,23 @@ elif action == "Atualizar ordem existente":
                         vendor_data_filtered = vendor_data_filtered.sort_values('date_in', ascending=False)
                         vendor_data = vendor_data_filtered.iloc[0]
                         vendor_to_update = vendor_data["user_id"]
-                    else:
-                        st.warning("Nenhuma ordem encontrada com esta placa.")
     
     # 2. Solo mostrar el formulario si se encontró un registro
     if 'vendor_data' in locals() and vendor_data is not None:
         with st.form(key="update_form"):
             st.markdown("Atualize os detalhes da ordem de serviço")
-
-            # [Aquí va todo tu formulario de actualización...]
             
-            if st.form_submit_button("Atualizar"):
-   
-                st.markdown("Atualize os detalhes da ordem de serviço")       
-                with st.container():    
-                    col00, col01, col02, col03, col04 = st.columns(5)
-                    with col00:
-                        placa = st.text_input("Placa", value=vendor_data["placa"], key="update_placa")
-                    with col02:
-                        data_entrada = st.text_input("Data de entrada", value=vendor_data["date_in"], key="update_data_entrada")
-                    with col03:
-                        previsao_entrega = st.text_input("Previsão de entrega", value=vendor_data["date_prev"], key="update_previsao_entrega")
-                    with col04:
-                        data_saida = st.text_input("Data de saida", value=vendor_data["date_out"], key="update_data_saida")
+            with st.container():    
+                col00, col01, col02, col03, col04 = st.columns(5)
+                with col00:
+                    placa = st.text_input("Placa", value=vendor_data["placa"], key="update_placa")
+                with col02:
+                    data_entrada = st.text_input("Data de entrada", value=vendor_data["date_in"], key="update_data_entrada")
+                with col03:
+                    previsao_entrega = st.text_input("Previsão de entrega", value=vendor_data["date_prev"], key="update_previsao_entrega")
+                with col04:
+                    data_saida = st.text_input("Data de saida", value=vendor_data["date_out"], key="update_data_saida")
+                
                     
                 with st.container():    
                     col10, col11, col12, col13, col14 = st.columns(5)
@@ -1114,12 +1108,12 @@ elif action == "Atualizar ordem existente":
                     col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
                     with col322:
                         update_button = st.form_submit_button("Atualizar")
-        
-                    if update_button:
-                        # [Código para procesar la actualización...]
-                        try:
-                            # Crear un diccionario con los datos actualizados
-                            updated_record = {
+            
+                if update_button:
+                    # Código para procesar la actualización...
+                    try:
+                        # Crear un diccionario con los datos actualizados
+                        updated_record = {
                                 'user_id': vendor_to_update,  # Mantener el mismo user_id
                                 'date_in': data_entrada,
                                 'date_prev': previsao_entrega,
@@ -1245,19 +1239,18 @@ elif action == "Atualizar ordem existente":
                                 'pag_total': None,
                                 'valor_pag_total': None
                             }
-                            # Convertir a DataFrame
-                            updated_record_df = pd.DataFrame([updated_record])
+                           
                             
                             # Actualizar Google Sheets
                             worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
                             cell = worksheet.find(str(vendor_to_update))
-                            worksheet.update(f"A{cell.row}", [updated_record_df.values.tolist()[0]])
+                            worksheet.update(f"A{cell.row}", [list(updated_record.values())])
                             
                             st.success("Ordem atualizada com sucesso!")
                         except Exception as e:
                             st.error(f"Erro ao atualizar: {str(e)}")
             else:
-                if search_option == "Placa" and placa_to_search and vendor_data is None:
+                if search_option == "Placa" and placa_to_search and 'vendor_data' not in locals():
                     st.error("Placa não encontrada ou dados inválidos")
 
 #===================================================================================================================================================================
