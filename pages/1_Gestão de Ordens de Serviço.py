@@ -168,29 +168,29 @@ def obtener_proximo_id(df):
     except Exception:
         return 1
 
-# Función para actualizar una orden de servicio
 def atualizar_ordem(vendor_to_update, updated_record):
     try:
-        # 1. Obtener la hoja de cálculo
+        # 1. Conexión a la hoja
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         
-        # 2. Encontrar la fila exacta del registro a actualizar
+        # 2. Encontrar la fila EXACTA del registro
         cell = worksheet.find(str(int(vendor_to_update)))
-        row_number = cell.row
+        row_num = cell.row
         
-        # 3. Preparar los valores en el orden correcto
-        updated_values = []
+        # 3. Preparar valores actualizados (en orden de columnas)
+        new_values = []
         for col in columnas_ordenadas:
             if col in updated_record.columns:
-                updated_values.append(updated_record[col].values[0])
+                new_values.append(updated_record[col].values[0])
             else:
-                # Mantener el valor existente si no está en la actualización
-                updated_values.append(worksheet.cell(row_number, columnas_ordenadas.index(col)+1).value)
+                # Mantener valor existente si no se está actualizando
+                existing_value = worksheet.cell(row_num, columnas_ordenadas.index(col)+1).value
+                new_values.append(existing_value)
         
-        # 4. Actualizar SOLO la fila específica
+        # 4. Actualizar SOLO ESA FILA (¡sin borrar nada más!)
         worksheet.update(
-            f"A{row_number}",
-            [updated_values],
+            f"A{row_num}",
+            [new_values],
             value_input_option="USER_ENTERED"
         )
         
@@ -198,11 +198,11 @@ def atualizar_ordem(vendor_to_update, updated_record):
         for col in updated_record.columns:
             existing_data.loc[existing_data["user_id"] == vendor_to_update, col] = updated_record[col].values[0]
         
-        st.success("✅ Ordem atualizada com sucesso!")
+        st.success("✅ Registro atualizado sem reorganizar a planilha!")
         return True
         
     except Exception as e:
-        st.error(f"Erro ao atualizar: {str(e)}")
+        st.error(f"Erro direto: {str(e)}")
         return False
 
 #==============================================================================================================================================================
