@@ -1299,71 +1299,60 @@ elif action == "Ver todos as ordens de serviço":
 elif action == "Apagar ordem de serviço":
     st.header("🗑️ Apagar Ordem de Serviço")
     
-    # 1. Selección por ID/Placa (tu código existente)
+    # 1. Selección por ID/Placa
     search_option = st.radio("Buscar por:", ["ID", "Placa"], horizontal=True)
     
+    vendor_to_delete = None
+    vendor_data = None
+    
     if search_option == "ID":
-        with col201:
-            vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-            vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
+        if not existing_data.empty:
+            vendor_to_delete = st.selectbox(
+                "Selecione o ID",
+                options=sorted(existing_data["user_id"].unique().tolist())
+            )
+            vendor_data = existing_data[existing_data["user_id"] == vendor_to_delete].iloc[0]
     else:
-        with col201:
-            placa_to_search = st.text_input("Digite um número de placa")
-            if placa_to_search:
-                # Ordenar por fecha de entrada descendente y tomar el primero
-                vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
-                if not vendor_data_filtered.empty:
-                    # Ordenar por fecha de entrada descendente y tomar el más reciente
-                    vendor_data_filtered = vendor_data_filtered.sort_values('date_in', ascending=False)
-                    vendor_data = vendor_data_filtered.iloc[0]
-                    vendor_to_update = vendor_data["user_id"]
-                else:
-                    with col202:
-                        st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                        st.stop()
+        placa_to_search = st.text_input("Digite a placa")
+        if placa_to_search:
+            vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
+            if not vendor_data_filtered.empty:
+                vendor_data_filtered = vendor_data_filtered.sort_values('date_in', ascending=False)
+                vendor_data = vendor_data_filtered.iloc[0]
+                vendor_to_delete = vendor_data["user_id"]
+            else:
+                st.warning("Nenhuma ordem encontrada com esta placa.")
     
-    # 2. Mostrar detalles
-    st.markdown("**Detalhes da ordem selecionada:**")
-    ordem_to_delete = existing_data[existing_data["user_id"] == user_id_to_delete].iloc[0]
-    st.json(ordem_to_delete.to_dict())
-    
-    # 3. Doble confirmación (FUNCIONA CORRECTAMENTE)
-    st.warning("⚠️ Esta ação não pode ser desfeita!")
-    
-    # Usamos session_state para rastrear el checkbox
-    if 'confirmado' not in st.session_state:
-        st.session_state.confirmado = False
-    
-    # Checkbox que actualiza session_state
-    confirmado = st.checkbox(
-        "✅ Marque esta caixa para confirmar a exclusão",
-        value=st.session_state.confirmado,
-        key='confirm_checkbox'
-    )
-    
-    # Actualizamos el estado cuando cambia el checkbox
-    if confirmado != st.session_state.confirmado:
-        st.session_state.confirmado = confirmado
-        st.rerun()  # Fuerza la actualización
-    
-    # Botón que depende del estado
-    if st.button(
-        "CONFIRMAR EXCLUSÃO",
-        type="primary",
-        disabled=not st.session_state.confirmado
-    ):
-        # 4. Código de eliminación
-        existing_data = existing_data[existing_data["user_id"] != user_id_to_delete]
-        existing_data.reset_index(drop=True, inplace=True)
+    # 2. Mostrar detalles si se encontró un registro
+    if vendor_data is not None and vendor_to_delete is not None:
+        st.markdown("**Detalhes da ordem selecionada:**")
+        st.write(f"ID: {vendor_data['user_id']}")
+        st.write(f"Placa: {vendor_data['placa']}")
+        st.write(f"Carro: {vendor_data['carro']} {vendor_data['modelo']}")
+        st.write(f"Estado: {vendor_data['estado']}")
         
-        try:
-            conn.update(worksheet="Hoja1", data=existing_data)
-            st.success("Ordem apagada com sucesso!")
-            st.session_state.confirmado = False  # Resetear estado
-            st.balloons()
-        except Exception as e:
-            st.error(f"Erro ao atualizar planilha: {str(e)}")
-    
-    # 5. Mostrar datos actualizados
-    st.markdown("### Ordens restantes:")
-    st.dataframe(existing_data, hide_index=True, use_container_width=True)
+        # 3. Confirmación
+        st.warning("⚠️ Esta ação não pode ser desfeita!")
+        confirmado = st.checkbox("✅ Confirmo que desejo apagar esta ordem")
+        
+        if confirmado:
+            if st.button("CONFIRMAR EXCLUSÃO", type="primary"):
+                try:
+                    # Obtener la hoja de cálculo
+                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+                    
+                    # Encontrar la fila que corresponde al user_id
+                    cell = worksheet.find(str(vendor_to_delete))
+                    row_index = cell.row
+                    
+                    # Eliminar la fila
+                    worksheet.delete_rows(row_index)
+                    
+                    # Actualizar los datos locales
+                    existing_data = existing_data[existing_data['user_id'] != vendor_to_delete]
+                    
+                    st.success("Ordem apagada com sucesso!")
+                    st.balloons()
+                except Exception as e:
+                    st.error(f"Erro ao apagar ordem: {str(e)}")
+#===================================================================================================================================================================
