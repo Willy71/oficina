@@ -844,7 +844,7 @@ elif action == "Atualizar ordem existente":
             col20, col21, col22 = st.columns(3)
             with col21:
                 # Verificar si el estado actual está en opciones_estado
-                estado_actual = vendor_data["estado"]
+                estado_actual = record_to_update["estado"]
                 if estado_actual in opciones_estado:
                     index_estado = opciones_estado.index(estado_actual)
                 else:
