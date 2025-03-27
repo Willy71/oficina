@@ -170,50 +170,49 @@ def obtener_proximo_id(df):
 
 def atualizar_ordem(vendor_to_update, updated_record):
     try:
-        # 1. Conexión directa a la hoja
+        # 1. Conexión segura a la hoja
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         
-        # 2. Encontrar la fila EXACTA usando el ID (búsqueda segura)
-        try:
-            cell = worksheet.find(str(int(vendor_to_update)), in_column=1)  # Busca solo en la columna A (ID)
-            row_num = cell.row
-        except gspread.exceptions.CellNotFound:
-            st.error(f"❌ ID {vendor_to_update} no encontrado en la hoja")
+        # 2. Encontrar la fila EXACTA usando API batch
+        records = worksheet.get_all_records()
+        row_num = None
+        for i, record in enumerate(records, start=2):  # start=2 porque la fila 1 son headers
+            if str(record.get('user_id')) == str(vendor_to_update):
+                row_num = i
+                break
+        
+        if not row_num:
+            st.error(f"ID {vendor_to_update} no encontrado")
             return False
 
-        # 3. Construir la fila actualizada (MANTIENE valores existentes si no se modifican)
-        existing_row = worksheet.row_values(row_num)
-        updated_row = []
+        # 3. Preparar datos actualizados (manteniendo valores existentes)
+        existing_values = worksheet.row_values(row_num)
+        new_values = []
         
         for i, col in enumerate(columnas_ordenadas):
             if col in updated_record.columns:
-                # Usar el valor actualizado
-                updated_row.append(updated_record[col].values[0])
+                new_values.append(str(updated_record[col].values[0]))
+            elif i < len(existing_values):
+                new_values.append(existing_values[i])
             else:
-                # Mantener el valor existente (asegurar que hay suficientes columnas)
-                if i < len(existing_row):
-                    updated_row.append(existing_row[i])
-                else:
-                    updated_row.append("")  # Valor por defecto si la columna no existe
+                new_values.append('')  # Para columnas nuevas
 
-        # 4. Actualización ATÓMICA (solo esa fila)
-        worksheet.update(
-            f"A{row_num}:{gspread.utils.rowcol_to_a1(row_num, len(columnas_ordenadas))}",
-            [updated_row],
-            value_input_option="USER_ENTERED"
-        )
+        # 4. Actualización ATÓMICA con batch_update
+        worksheet.batch_update([{
+            'range': f"A{row_num}:{chr(65+len(columnas_ordenadas)-1)}{row_num}",
+            'values': [new_values]
+        }])
 
-        # 5. Actualizar el DataFrame local
+        # 5. Actualizar DataFrame local
         mask = existing_data["user_id"] == vendor_to_update
         for col in updated_record.columns:
             existing_data.loc[mask, col] = updated_record[col].values[0]
 
-        st.success(f"✅ Registro ID {vendor_to_update} actualizado en su posición original (fila {row_num})")
+        st.success(f"✅ Registro ID {vendor_to_update} actualizado en fila {row_num}")
         return True
 
     except Exception as e:
-        st.error(f"🚨 Error crítico: {str(e)}")
-        st.error("Recomiendo: 1) Verificar permisos, 2) Revisar formato de datos")
+        st.error(f"🚨 Error: {str(e)}")
         return False
 
 #==============================================================================================================================================================
