@@ -776,6 +776,7 @@ elif action == "Atualizar ordem existente":
                     vendor_to_update = st.selectbox(
                         "Selecione o ID",
                         options=sorted(existing_data["user_id"].unique().tolist())
+                    )  # <-- Este paréntesis estaba faltando
                     vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
             else:
                 placa_to_search = st.text_input("Digite a placa")
