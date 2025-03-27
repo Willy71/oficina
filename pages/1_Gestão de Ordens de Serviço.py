@@ -1124,9 +1124,9 @@ elif action == "Atualizar ordem existente":
         with st.container():
             col320, col321, col322, col323, col324 = st.columns([1.2, 1.2, 1, 1, 1])
             with col322:
-                update_button = st.form_submit_button("Atualizar registro")
+                update_button = st.form_submit_button("Confirmar Atualização")
 
-               if st.form_submit_button("Confirmar Atualização"):
+               if st.form_submit_button("Confirmar Atualização):
                     try:
                         # Conexión a Google Sheets
                         gc = gspread.authorize(credentials)
