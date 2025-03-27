@@ -771,7 +771,7 @@ elif action == "Atualizar ordem existente":
                 if not existing_data.empty:
                     vendor_to_update = st.selectbox(
                         "Selecione o ID",
-                        options=sorted(existing_data["user_id"].unique().tolist()),
+                        options=sorted(existing_data["user_id"].unique().tolist()),  # Remove this extra parenthesis
                         key="id_selector"
                     )
                     vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
