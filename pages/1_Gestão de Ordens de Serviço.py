@@ -1285,16 +1285,24 @@ elif action == "Apagar ordem de serviço":
     search_option = st.radio("Buscar por:", ["ID", "Placa"], horizontal=True)
     
     if search_option == "ID":
-        user_id_to_delete = st.selectbox(
-            "Selecione o ID da ordem para apagar",
-            options=existing_data["user_id"].astype(int).tolist()
-        )
+        with col201:
+            vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
+            vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
     else:
-        placa_to_delete = st.selectbox(
-            "Selecione a placa para apagar",
-            options=existing_data["placa"].unique().tolist()
-        )
-        user_id_to_delete = existing_data[existing_data["placa"] == placa_to_delete]["user_id"].values[0]
+        with col201:
+            placa_to_search = st.text_input("Digite um número de placa")
+            if placa_to_search:
+                # Ordenar por fecha de entrada descendente y tomar el primero
+                vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
+                if not vendor_data_filtered.empty:
+                    # Ordenar por fecha de entrada descendente y tomar el más reciente
+                    vendor_data_filtered = vendor_data_filtered.sort_values('date_in', ascending=False)
+                    vendor_data = vendor_data_filtered.iloc[0]
+                    vendor_to_update = vendor_data["user_id"]
+                else:
+                    with col202:
+                        st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
+                        st.stop()
     
     # 2. Mostrar detalles
     st.markdown("**Detalhes da ordem selecionada:**")
