@@ -187,6 +187,15 @@ def atualizar_ordem(vendor_to_update, updated_record):
         st.success("Ordem de serviço atualizada com sucesso")
     except Exception as e:
         st.error(f"Erro ao atualizar planilha: {str(e)}")
+
+def reparar_ids_duplicados():
+    # Eliminar duplicados manteniendo el último registro
+    existing_data.drop_duplicates(subset='user_id', keep='last', inplace=True)
+    # Reescribir toda la hoja (solo para corrección de emergencia)
+    worksheet.clear()
+    worksheet.append_row(columnas_ordenadas)
+    for _, row in existing_data.iterrows():
+        worksheet.append_row(row[columnas_ordenadas].tolist())
 #==============================================================================================================================================================
 
 
@@ -741,33 +750,43 @@ if action == "Nova ordem de serviço":
 
 # Código para actualizar una orden de servicio
 elif action == "Atualizar ordem existente":
-    centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 6, "yellow")
+    # [Código previo de selección de ID/placa...]
     
-    # Inicializar vendor_data como None
-    vendor_data = None
-    
-    with st.container():    
-        col200, col201, col202, col203, col204 = st.columns([2, 1.5, 2, 1, 1])
-        with col200:
-            search_option = st.radio("Buscar por:", ["ID", "Placa"])
+    if vendor_data is not None:
+        with st.form(key="update_form"):
+            # [Todos tus campos del formulario...]
             
-            if search_option == "ID":
-                with col201:
-                    vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
-            else:
-                with col201:
-                    placa_to_search = st.text_input("Digite um número de placa")
-                    if placa_to_search:
-                        vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
-                        if not vendor_data_filtered.empty:
-                            vendor_data_filtered = vendor_data_filtered.sort_values('date_in', ascending=False)
-                            vendor_data = vendor_data_filtered.iloc[0]
-                            vendor_to_update = vendor_data["user_id"]
-                        else:
-                            with col202:
-                                st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                                st.stop()
+            if update_button:
+                # 1. Encontrar la fila exacta en el DataFrame
+                row_index = existing_data[existing_data['user_id'] == vendor_to_update].index[0]
+                
+                # 2. Actualizar solo esa fila en el DataFrame
+                for col in updated_record:
+                    existing_data.at[row_index, col] = updated_record[col]
+                
+                try:
+                    # 3. Actualizar Google Sheets correctamente
+                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+                    
+                    # Encontrar la fila exacta en Google Sheets (sumar 2 porque la fila 1 es encabezado)
+                    cell = worksheet.find(str(vendor_to_update))
+                    if cell:
+                        # Calcular rango exacto (desde columna A hasta la última)
+                        start_cell = f"A{cell.row}"
+                        end_col = chr(64 + len(columnas_ordenadas))  # Convertir número a letra de columna
+                        end_cell = f"{end_col}{cell.row}"
+                        
+                        # Actualizar solo esa fila
+                        worksheet.update(
+                            f"{start_cell}:{end_cell}",
+                            [existing_data.loc[row_index, columnas_ordenadas].tolist()]
+                        )
+                        st.success("Ordem atualizada corretamente sem duplicar ID!")
+                    else:
+                        st.error("Não foi possível encontrar a linha para atualização")
+                
+                except Exception as e:
+                    st.error(f"Erro ao atualizar: {str(e)}")
     
     # Solo mostrar el formulario si vendor_data fue encontrado
     if vendor_data is not None:
