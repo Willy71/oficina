@@ -154,6 +154,11 @@ worksheet = inicializar_hoja()
 # Cargar datos desde Google Sheets
 existing_data = cargar_datos(worksheet)
 
+# --- AGREGAR AQUÍ EL CÓDIGO DE VERIFICACIÓN ---
+if existing_data['user_id'].duplicated().any():
+    st.warning("⚠️ Atenção: Existem IDs duplicados na base de dados!")
+    st.write("IDs duplicados encontrados:", existing_data[existing_data['user_id'].duplicated(keep=False)]['user_id'].unique())
+
 #=============================================================================================================================
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
@@ -252,7 +257,11 @@ def obtener_prefijo(pais):
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Titulo de la pagina
 centrar_texto("Gestão de Ordens de Serviço", 1, "white")
-    
+
+# --- O TAMBIÉN PUEDES COLOCARLO AQUÍ ---
+if not existing_data.empty and 'user_id' in existing_data.columns:
+    if existing_data['user_id'].duplicated().any():
+        st.warning("⚠️ IDs duplicados detectados! Verifique os registros antes de continuar.")
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Seleccion de la opcion de CRUD
 action = st.selectbox(
