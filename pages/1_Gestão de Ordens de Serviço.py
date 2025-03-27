@@ -741,20 +741,16 @@ if action == "Nova ordem de serviço":
 
 # ____________________________________________________________________________________________________________________________________
 
-# Código para actualizar una orden de servicio
 elif action == "Atualizar ordem existente":
     centrar_texto("Selecione o ID ou PLACA da Ordem de serviço que deseja atualizar.", 6, "yellow")
     
-     # Eliminar filas con NaN en la columna "user_id"
+    # Eliminar filas con NaN en la columna "user_id" y convertir a int
     existing_data = existing_data.dropna(subset=["user_id"])
-
-    # Convertir la columna "user_id" a enteros
     existing_data["user_id"] = existing_data["user_id"].astype(int)
 
     with st.container():    
         col200, col201, col202, col203, col204 = st.columns([2, 1.5, 2, 1, 1])
         with col200:
-            # Opción para buscar por ID o por placa
             search_option = st.radio("Buscar por:", ["ID", "Placa"])
             
             if search_option == "ID":
@@ -765,23 +761,31 @@ elif action == "Atualizar ordem existente":
                 with col201:
                     placa_to_search = st.text_input("Digite um número de placa")
                     if placa_to_search:
+                        # Ordenar por fecha de entrada descendente y tomar el más reciente
                         vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
                         if not vendor_data_filtered.empty:
+                            vendor_data_filtered = vendor_data_filtered.sort_values("date_in", ascending=False)
                             vendor_data = vendor_data_filtered.iloc[0]
                             vendor_to_update = vendor_data["user_id"]
+                            st.info(f"Selecionado registro mais recente (ID: {vendor_to_update}) para a placa {placa_to_search}")
                         else:
                             with col202:
                                 st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                                st.stop()  # Detener la ejecución si no se encuentra la placa
+                                st.stop()
                     else:
                         with col202:
                             st.warning("Digite um número de placa para buscar.")
-                            st.stop()  # Detener la ejecución si no se ingresa una placa
+                            st.stop()
 
 
-    # Mostrar los campos del formulario con los valores actuales
+    # Mostrar el formulario con los datos actuales
     with st.form(key="update_form"):
-        st.markdown("Atualize os detalhes da ordem de serviço")       
+        st.markdown("Atualize os detalhes da ordem de serviço")
+        
+        # Mostrar el ID como texto (no editable)
+        st.text_input("ID da Ordem", value=vendor_to_update, disabled=True, key="display_user_id")
+        
+        # Resto del formulario (igual que antes)
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns(5)
             with col00:
@@ -1101,156 +1105,159 @@ elif action == "Atualizar ordem existente":
             with col322:
                 update_button = st.form_submit_button("Atualizar")
 
-            if update_button:
-                # Crear un diccionario con los datos actualizados
-                updated_record = {
-                    'user_id': vendor_to_update,  # Mantener el mismo user_id
-                    'date_in': data_entrada,
-                    'date_prev': previsao_entrega,
-                    'date_out': data_saida,
-                    'carro': carro,
-                    'modelo': modelo,
-                    'cor': cor,
-                    'placa': placa,
-                    'km': km,
-                    'ano': ano,
-                    'estado': estado,
-                    'dono_empresa': dono_empresa,
-                    'telefone': telefone,
-                    'endereco': endereco,
-                    'item_serv_1': item_serv_1 if 'item_serv_1' in locals() else None,
-                    'desc_ser_1': desc_ser_1 if 'desc_ser_1' in locals() else None,
-                    'valor_serv_1': valor_serv_1 if 'valor_serv_1' in locals() else None,
-                    'item_serv_2': item_serv_2 if 'item_serv_2' in locals() else None,
-                    'desc_ser_2': desc_ser_2 if 'desc_ser_2' in locals() else None,
-                    'valor_serv_2': valor_serv_2 if 'valor_serv_2' in locals() else None,
-                    'item_serv_3': item_serv_3 if 'item_serv_3' in locals() else None,
-                    'desc_ser_3': desc_ser_3 if 'desc_ser_3' in locals() else None,
-                    'valor_serv_3': valor_serv_3 if 'valor_serv_3' in locals() else None,
-                    'item_serv_4': item_serv_4 if 'item_serv_4' in locals() else None,
-                    'desc_ser_4': desc_ser_4 if 'desc_ser_4' in locals() else None,
-                    'valor_serv_4': valor_serv_4 if 'valor_serv_4' in locals() else None,
-                    'item_serv_5': item_serv_5 if 'item_serv_5' in locals() else None,
-                    'desc_ser_5': desc_ser_5 if 'desc_ser_5' in locals() else None,
-                    'valor_serv_5': valor_serv_5 if 'valor_serv_5' in locals() else None,
-                    'item_serv_6': item_serv_6 if 'item_serv_6' in locals() else None,
-                    'desc_ser_6': desc_ser_6 if 'desc_ser_6' in locals() else None,
-                    'valor_serv_6': valor_serv_6 if 'valor_serv_6' in locals() else None,
-                    'item_serv_7': item_serv_7 if 'item_serv_7' in locals() else None,
-                    'desc_ser_7': desc_ser_7 if 'desc_ser_7' in locals() else None,
-                    'valor_serv_7': valor_serv_7 if 'valor_serv_7' in locals() else None,
-                    'item_serv_8': item_serv_8 if 'item_serv_8' in locals() else None,
-                    'desc_ser_8': desc_ser_8 if 'desc_ser_8' in locals() else None,
-                    'valor_serv_8': valor_serv_8 if 'valor_serv_8' in locals() else None,
-                    'item_serv_9': item_serv_9 if 'item_serv_9' in locals() else None,
-                    'desc_ser_9': desc_ser_9 if 'desc_ser_9' in locals() else None,
-                    'valor_serv_9': valor_serv_9 if 'valor_serv_9' in locals() else None,
-                    'item_serv_10': item_serv_10 if 'item_serv_10' in locals() else None,
-                    'desc_ser_10': desc_ser_10 if 'desc_ser_10' in locals() else None,
-                    'valor_serv_10': valor_serv_10 if 'valor_serv_10' in locals() else None,
-                    'item_serv_11': item_serv_11 if 'item_serv_11' in locals() else None,
-                    'desc_ser_11': desc_ser_11 if 'desc_ser_11' in locals() else None,
-                    'valor_serv_11': valor_serv_11 if 'valor_serv_11' in locals() else None,
-                    'item_serv_12': item_serv_12 if 'item_serv_12' in locals() else None,
-                    'desc_ser_12': desc_ser_12 if 'desc_ser_12' in locals() else None,
-                    'valor_serv_12': valor_serv_12 if 'valor_serv_12' in locals() else None,
-                    'total_serviço': None,
-                    'quant_peca_1': quant_peca_1 if 'quant_peca_1' in locals() else None,
-                    'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
-                    'valor_peca_1': valor_peca_1 if 'valor_peca_1' in locals() else None,
-                    'valor_total_peca_1': valor_total_peca_1 if 'valor_total_peca_1' in locals() else None,
-                    'quant_peca_2': quant_peca_2 if 'quant_peca_2' in locals() else None,
-                    'desc_peca_2': desc_peca_2 if 'desc_peca_2' in locals() else None,
-                    'valor_peca_2': valor_peca_2 if 'valor_peca_2' in locals() else None,
-                    'valor_total_peça_2': valor_total_peça_2 if 'valor_total_peça_2' in locals() else None,
-                    'quant_peca_3': quant_peca_3 if 'quant_peca_3' in locals() else None,
-                    'desc_peca_3': desc_peca_3 if 'desc_peca_3' in locals() else None,
-                    'valor_peca_3': valor_peca_3 if 'valor_peca_3' in locals() else None,
-                    'valor_total_peça_3': valor_total_peça_3 if 'valor_total_peça_3' in locals() else None,
-                    'quant_peca_4': quant_peca_4 if 'quant_peca_4' in locals() else None,
-                    'desc_peca_4': desc_peca_4 if 'desc_peca_4' in locals() else None,
-                    'valor_peca_4': valor_peca_4 if 'valor_peca_4' in locals() else None,
-                    'valor_total_peça_4': valor_total_peça_4 if 'valor_total_peça_4' in locals() else None,
-                    'quant_peca_5': quant_peca_5 if 'quant_peca_5' in locals() else None,
-                    'desc_peca_5': desc_peca_5 if 'desc_peca_5' in locals() else None,
-                    'valor_peca_5': valor_peca_5 if 'valor_peca_5' in locals() else None,
-                    'valor_total_peça_5': valor_total_peça_5 if 'valor_total_peça_5' in locals() else None,
-                    'quant_peca_6': quant_peca_6 if 'quant_peca_6' in locals() else None,
-                    'desc_peca_6': desc_peca_6 if 'desc_peca_6' in locals() else None,
-                    'valor_peca_6': valor_peca_6 if 'valor_peca_6' in locals() else None,
-                    'valor_total_peça_6': valor_total_peça_6 if 'valor_total_peça_6' in locals() else None,
-                    'quant_peca_7': quant_peca_7 if 'quant_peca_7' in locals() else None,
-                    'desc_peca_7': desc_peca_7 if 'desc_peca_7' in locals() else None,
-                    'valor_peca_7': valor_peca_7 if 'valor_peca_7' in locals() else None,
-                    'valor_total_peça_7': valor_total_peça_7 if 'valor_total_peça_7' in locals() else None,
-                    'quant_peca_8': quant_peca_8 if 'quant_peca_8' in locals() else None,
-                    'desc_peca_8': desc_peca_8 if 'desc_peca_8' in locals() else None,
-                    'valor_peca_8': valor_peca_8 if 'valor_peca_8' in locals() else None,
-                    'valor_total_peça_8': valor_total_peça_8 if 'valor_total_peça_8' in locals() else None,
-                    'quant_peca_9': quant_peca_9 if 'quant_peca_9' in locals() else None,
-                    'desc_peca_9': desc_peca_9 if 'desc_peca_9' in locals() else None,
-                    'valor_peca_9': valor_peca_9 if 'valor_peca_9' in locals() else None,
-                    'valor_total_peça_9': valor_total_peça_9 if 'valor_total_peça_9' in locals() else None,
-                    'quant_peca_10': quant_peca_10 if 'quant_peca_10' in locals() else None,
-                    'desc_peca_10': desc_peca_10 if 'desc_peca_10' in locals() else None,
-                    'valor_peca_10': valor_peca_10 if 'valor_peca_10' in locals() else None,
-                    'valor_total_peça_10': valor_total_peça_10 if 'valor_total_peça_10' in locals() else None,
-                    'quant_peca_11': quant_peca_11 if 'quant_peca_11' in locals() else None,
-                    'desc_peca_11': desc_peca_11 if 'desc_peca_11' in locals() else None,
-                    'valor_peca_11': valor_peca_11 if 'valor_peca_11' in locals() else None,
-                    'valor_total_peça_11': valor_total_peça_11 if 'valor_total_peça_11' in locals() else None,
-                    'quant_peca_12': quant_peca_12 if 'quant_peca_12' in locals() else None,
-                    'desc_peca_12': desc_peca_12 if 'desc_peca_12' in locals() else None,
-                    'valor_peca_12': valor_peca_12 if 'valor_peca_12' in locals() else None,
-                    'valor_total_peça_12': valor_total_peça_12 if 'valor_total_peça_12' in locals() else None,
-                    'quant_peca_13': quant_peca_13 if 'quant_peca_13' in locals() else None,
-                    'desc_peca_13': desc_peca_13 if 'desc_peca_13' in locals() else None,
-                    'valor_peca_13': valor_peca_13 if 'valor_peca_13' in locals() else None,
-                    'valor_total_peça_13': valor_total_peça_13 if 'valor_total_peça_13' in locals() else None,
-                    'quant_peca_14': quant_peca_14 if 'quant_peca_14' in locals() else None,
-                    'desc_peca_14': desc_peca_14 if 'desc_peca_14' in locals() else None,
-                    'valor_peca_14': valor_peca_14 if 'valor_peca_14' in locals() else None,
-                    'valor_total_peça_14': valor_total_peça_14 if 'valor_total_peça_14' in locals() else None,
-                    'quant_peca_15': quant_peca_15 if 'quant_peca_15' in locals() else None,
-                    'desc_peca_15': desc_peca_15 if 'desc_peca_15' in locals() else None,
-                    'valor_peca_15': valor_peca_15 if 'valor_peca_15' in locals() else None,
-                    'valor_total_peça_15': valor_total_peça_15 if 'valor_total_peça_15' in locals() else None,
-                    'quant_peca_16': quant_peca_16 if 'quant_peca_16' in locals() else None,
-                    'desc_peca_16': desc_peca_16 if 'desc_peca_16' in locals() else None,
-                    'valor_peca_16': valor_peca_16 if 'valor_peca_16' in locals() else None,
-                    'valor_total_peça_16': valor_total_peça_16 if 'valor_total_peça_16' in locals() else None,
-                    '30_porc': None,
-                    'total_valor_pecas': None,
-                    'forma_de_pagamento': None,
-                    'pagamento_parcial': None,
-                    'valor_pago_parcial': None,
-                    'data_prox_pag': None,
-                    'valor_prox_pag': None,
-                    'pag_total': None,
-                    'valor_pag_total': None
-                }
-                # Convertir el registro actualizado a DataFrame
-                updated_record_df = pd.DataFrame([updated_record])
-
-               # Actualizar el DataFrame existente
-                existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
-                
-                try:
-                    # Obtener la hoja de cálculo
-                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-                  
-                    # Encontrar la fila que corresponde al user_id que se está actualizando
-                    cell = worksheet.find(str(vendor_to_update))
-                    row_index = cell.row
-
-                    # Actualizar solo la fila correspondiente
-                    worksheet.update(f"A{row_index}", [updated_record_df.values.tolist()[0]])
+                if update_button:
+                    # Crear un diccionario con los datos actualizados
+                    updated_record = {
+                        'user_id': vendor_to_update,  # Mantener el mismo user_id
+                        'date_in': data_entrada,
+                        'date_prev': previsao_entrega,
+                        'date_out': data_saida,
+                        'carro': carro,
+                        'modelo': modelo,
+                        'cor': cor,
+                        'placa': placa,
+                        'km': km,
+                        'ano': ano,
+                        'estado': estado,
+                        'dono_empresa': dono_empresa,
+                        'telefone': telefone,
+                        'endereco': endereco,
+                        'item_serv_1': item_serv_1 if 'item_serv_1' in locals() else None,
+                        'desc_ser_1': desc_ser_1 if 'desc_ser_1' in locals() else None,
+                        'valor_serv_1': valor_serv_1 if 'valor_serv_1' in locals() else None,
+                        'item_serv_2': item_serv_2 if 'item_serv_2' in locals() else None,
+                        'desc_ser_2': desc_ser_2 if 'desc_ser_2' in locals() else None,
+                        'valor_serv_2': valor_serv_2 if 'valor_serv_2' in locals() else None,
+                        'item_serv_3': item_serv_3 if 'item_serv_3' in locals() else None,
+                        'desc_ser_3': desc_ser_3 if 'desc_ser_3' in locals() else None,
+                        'valor_serv_3': valor_serv_3 if 'valor_serv_3' in locals() else None,
+                        'item_serv_4': item_serv_4 if 'item_serv_4' in locals() else None,
+                        'desc_ser_4': desc_ser_4 if 'desc_ser_4' in locals() else None,
+                        'valor_serv_4': valor_serv_4 if 'valor_serv_4' in locals() else None,
+                        'item_serv_5': item_serv_5 if 'item_serv_5' in locals() else None,
+                        'desc_ser_5': desc_ser_5 if 'desc_ser_5' in locals() else None,
+                        'valor_serv_5': valor_serv_5 if 'valor_serv_5' in locals() else None,
+                        'item_serv_6': item_serv_6 if 'item_serv_6' in locals() else None,
+                        'desc_ser_6': desc_ser_6 if 'desc_ser_6' in locals() else None,
+                        'valor_serv_6': valor_serv_6 if 'valor_serv_6' in locals() else None,
+                        'item_serv_7': item_serv_7 if 'item_serv_7' in locals() else None,
+                        'desc_ser_7': desc_ser_7 if 'desc_ser_7' in locals() else None,
+                        'valor_serv_7': valor_serv_7 if 'valor_serv_7' in locals() else None,
+                        'item_serv_8': item_serv_8 if 'item_serv_8' in locals() else None,
+                        'desc_ser_8': desc_ser_8 if 'desc_ser_8' in locals() else None,
+                        'valor_serv_8': valor_serv_8 if 'valor_serv_8' in locals() else None,
+                        'item_serv_9': item_serv_9 if 'item_serv_9' in locals() else None,
+                        'desc_ser_9': desc_ser_9 if 'desc_ser_9' in locals() else None,
+                        'valor_serv_9': valor_serv_9 if 'valor_serv_9' in locals() else None,
+                        'item_serv_10': item_serv_10 if 'item_serv_10' in locals() else None,
+                        'desc_ser_10': desc_ser_10 if 'desc_ser_10' in locals() else None,
+                        'valor_serv_10': valor_serv_10 if 'valor_serv_10' in locals() else None,
+                        'item_serv_11': item_serv_11 if 'item_serv_11' in locals() else None,
+                        'desc_ser_11': desc_ser_11 if 'desc_ser_11' in locals() else None,
+                        'valor_serv_11': valor_serv_11 if 'valor_serv_11' in locals() else None,
+                        'item_serv_12': item_serv_12 if 'item_serv_12' in locals() else None,
+                        'desc_ser_12': desc_ser_12 if 'desc_ser_12' in locals() else None,
+                        'valor_serv_12': valor_serv_12 if 'valor_serv_12' in locals() else None,
+                        'total_serviço': None,
+                        'quant_peca_1': quant_peca_1 if 'quant_peca_1' in locals() else None,
+                        'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
+                        'valor_peca_1': valor_peca_1 if 'valor_peca_1' in locals() else None,
+                        'valor_total_peca_1': valor_total_peca_1 if 'valor_total_peca_1' in locals() else None,
+                        'quant_peca_2': quant_peca_2 if 'quant_peca_2' in locals() else None,
+                        'desc_peca_2': desc_peca_2 if 'desc_peca_2' in locals() else None,
+                        'valor_peca_2': valor_peca_2 if 'valor_peca_2' in locals() else None,
+                        'valor_total_peça_2': valor_total_peça_2 if 'valor_total_peça_2' in locals() else None,
+                        'quant_peca_3': quant_peca_3 if 'quant_peca_3' in locals() else None,
+                        'desc_peca_3': desc_peca_3 if 'desc_peca_3' in locals() else None,
+                        'valor_peca_3': valor_peca_3 if 'valor_peca_3' in locals() else None,
+                        'valor_total_peça_3': valor_total_peça_3 if 'valor_total_peça_3' in locals() else None,
+                        'quant_peca_4': quant_peca_4 if 'quant_peca_4' in locals() else None,
+                        'desc_peca_4': desc_peca_4 if 'desc_peca_4' in locals() else None,
+                        'valor_peca_4': valor_peca_4 if 'valor_peca_4' in locals() else None,
+                        'valor_total_peça_4': valor_total_peça_4 if 'valor_total_peça_4' in locals() else None,
+                        'quant_peca_5': quant_peca_5 if 'quant_peca_5' in locals() else None,
+                        'desc_peca_5': desc_peca_5 if 'desc_peca_5' in locals() else None,
+                        'valor_peca_5': valor_peca_5 if 'valor_peca_5' in locals() else None,
+                        'valor_total_peça_5': valor_total_peça_5 if 'valor_total_peça_5' in locals() else None,
+                        'quant_peca_6': quant_peca_6 if 'quant_peca_6' in locals() else None,
+                        'desc_peca_6': desc_peca_6 if 'desc_peca_6' in locals() else None,
+                        'valor_peca_6': valor_peca_6 if 'valor_peca_6' in locals() else None,
+                        'valor_total_peça_6': valor_total_peça_6 if 'valor_total_peça_6' in locals() else None,
+                        'quant_peca_7': quant_peca_7 if 'quant_peca_7' in locals() else None,
+                        'desc_peca_7': desc_peca_7 if 'desc_peca_7' in locals() else None,
+                        'valor_peca_7': valor_peca_7 if 'valor_peca_7' in locals() else None,
+                        'valor_total_peça_7': valor_total_peça_7 if 'valor_total_peça_7' in locals() else None,
+                        'quant_peca_8': quant_peca_8 if 'quant_peca_8' in locals() else None,
+                        'desc_peca_8': desc_peca_8 if 'desc_peca_8' in locals() else None,
+                        'valor_peca_8': valor_peca_8 if 'valor_peca_8' in locals() else None,
+                        'valor_total_peça_8': valor_total_peça_8 if 'valor_total_peça_8' in locals() else None,
+                        'quant_peca_9': quant_peca_9 if 'quant_peca_9' in locals() else None,
+                        'desc_peca_9': desc_peca_9 if 'desc_peca_9' in locals() else None,
+                        'valor_peca_9': valor_peca_9 if 'valor_peca_9' in locals() else None,
+                        'valor_total_peça_9': valor_total_peça_9 if 'valor_total_peça_9' in locals() else None,
+                        'quant_peca_10': quant_peca_10 if 'quant_peca_10' in locals() else None,
+                        'desc_peca_10': desc_peca_10 if 'desc_peca_10' in locals() else None,
+                        'valor_peca_10': valor_peca_10 if 'valor_peca_10' in locals() else None,
+                        'valor_total_peça_10': valor_total_peça_10 if 'valor_total_peça_10' in locals() else None,
+                        'quant_peca_11': quant_peca_11 if 'quant_peca_11' in locals() else None,
+                        'desc_peca_11': desc_peca_11 if 'desc_peca_11' in locals() else None,
+                        'valor_peca_11': valor_peca_11 if 'valor_peca_11' in locals() else None,
+                        'valor_total_peça_11': valor_total_peça_11 if 'valor_total_peça_11' in locals() else None,
+                        'quant_peca_12': quant_peca_12 if 'quant_peca_12' in locals() else None,
+                        'desc_peca_12': desc_peca_12 if 'desc_peca_12' in locals() else None,
+                        'valor_peca_12': valor_peca_12 if 'valor_peca_12' in locals() else None,
+                        'valor_total_peça_12': valor_total_peça_12 if 'valor_total_peça_12' in locals() else None,
+                        'quant_peca_13': quant_peca_13 if 'quant_peca_13' in locals() else None,
+                        'desc_peca_13': desc_peca_13 if 'desc_peca_13' in locals() else None,
+                        'valor_peca_13': valor_peca_13 if 'valor_peca_13' in locals() else None,
+                        'valor_total_peça_13': valor_total_peça_13 if 'valor_total_peça_13' in locals() else None,
+                        'quant_peca_14': quant_peca_14 if 'quant_peca_14' in locals() else None,
+                        'desc_peca_14': desc_peca_14 if 'desc_peca_14' in locals() else None,
+                        'valor_peca_14': valor_peca_14 if 'valor_peca_14' in locals() else None,
+                        'valor_total_peça_14': valor_total_peça_14 if 'valor_total_peça_14' in locals() else None,
+                        'quant_peca_15': quant_peca_15 if 'quant_peca_15' in locals() else None,
+                        'desc_peca_15': desc_peca_15 if 'desc_peca_15' in locals() else None,
+                        'valor_peca_15': valor_peca_15 if 'valor_peca_15' in locals() else None,
+                        'valor_total_peça_15': valor_total_peça_15 if 'valor_total_peça_15' in locals() else None,
+                        'quant_peca_16': quant_peca_16 if 'quant_peca_16' in locals() else None,
+                        'desc_peca_16': desc_peca_16 if 'desc_peca_16' in locals() else None,
+                        'valor_peca_16': valor_peca_16 if 'valor_peca_16' in locals() else None,
+                        'valor_total_peça_16': valor_total_peça_16 if 'valor_total_peça_16' in locals() else None,
+                        '30_porc': None,
+                        'total_valor_pecas': None,
+                        'forma_de_pagamento': None,
+                        'pagamento_parcial': None,
+                        'valor_pago_parcial': None,
+                        'data_prox_pag': None,
+                        'valor_prox_pag': None,
+                        'pag_total': None,
+                        'valor_pag_total': None
+                    }
+                    # Convertir a DataFrame
+                    updated_record_df = pd.DataFrame([updated_record])
                     
-                    st.success("Ordem de serviço atualizada com sucesso")
-                
-                except Exception as e:
-                    st.error(f"Erro ao atualizar planilha: {str(e)}")
-
+                    try:
+                        # Obtener la hoja de cálculo
+                        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+                        
+                        # Encontrar la fila a actualizar
+                        cell = worksheet.find(str(vendor_to_update))
+                        row_index = cell.row
+                        
+                        # Actualizar solo esa fila
+                        worksheet.update(
+                            f"A{row_index}",
+                            [updated_record_df.values.tolist()[0]],
+                            value_input_option="USER_ENTERED"
+                        )
+                        
+                        st.success("Ordem de serviço atualizada com sucesso!")
+                        
+                        # Actualizar el DataFrame en memoria
+                        existing_data.loc[existing_data["user_id"] == vendor_to_update] = updated_record_df.values
+                        
+                    except Exception as e:
+                        st.error(f"Erro ao atualizar planilha: {str(e)}")
 #===================================================================================================================================================================
 # --- Nueva Opción 3: Ver todas las órdenes ---
 elif action == "Ver todos as ordens de serviço":
