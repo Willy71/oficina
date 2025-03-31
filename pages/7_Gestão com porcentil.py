@@ -476,16 +476,6 @@ if action == "Nova ordem de serviço":
             with col172:
                 valor_peca_2 = st.text_input("2 - Custo")
             with col173:
-                # Mostrar costo inicil (calculado como quant * valor unitario)
-                if quant_peca_2 and valor_peca_2:
-                    try:
-                        costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
-                        st.text(f"R$ {costo_inicial_2:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
-            with col174:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_2 and valor_peca_2 and porcentaje_adicional:
                     try:
