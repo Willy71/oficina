@@ -455,7 +455,7 @@ if action == "Nova ordem de serviço":
             with col161:
                 desc_peca_1 = st.text_input("1 - Descriçao da peça")
             with col162:
-                valor_peca_1 = st.text_input("1 - Costo")
+                valor_peca_1 = st.text_input("1 - Custo")
             with col163:
                 # Mostrar costo inicial (calculado como quant * valor unitario)
                 if quant_peca_1 and valor_peca_1:
@@ -484,7 +484,7 @@ if action == "Nova ordem de serviço":
             with col171:
                 desc_peca_2 = st.text_input("2 - Descriçao da peça")
             with col172:
-                valor_peca_2 = st.text_input("2 - Costo")
+                valor_peca_2 = st.text_input("2 - Custo")
             with col173:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_2 and valor_peca_2:
@@ -515,7 +515,7 @@ if action == "Nova ordem de serviço":
             with col181:
                 desc_peca_3 = st.text_input("3 - Descriçao da peça")
             with col182:
-                valor_peca_3 = st.text_input("3 - Costo")
+                valor_peca_3 = st.text_input("3 - Custo")
             with col183:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_3 and valor_peca_3:
@@ -544,7 +544,7 @@ if action == "Nova ordem de serviço":
             with col191:
                 desc_peca_4 = st.text_input("4 - Descriçao da peça")
             with col192:
-                valor_peca_4 = st.text_input("4 - Costo")
+                valor_peca_4 = st.text_input("4 - Custo")
             with col193:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_4 and valor_peca_4:
@@ -573,7 +573,7 @@ if action == "Nova ordem de serviço":
             with col201:
                 desc_peca_5 = st.text_input("5 - Descriçao da peça")
             with col202:
-                valor_peca_5 = st.text_input("5 - Costo")
+                valor_peca_5 = st.text_input("5 - Custo")
             with col203:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_2 and valor_peca_2:
@@ -602,7 +602,7 @@ if action == "Nova ordem de serviço":
             with col211:
                 desc_peca_6 = st.text_input("6 - Descriçao da peça")
             with col212:
-                valor_peca_6 = st.text_input("6 - Costo")
+                valor_peca_6 = st.text_input("6 - Custo")
             with col213:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_6 and valor_peca_6:
@@ -632,7 +632,7 @@ if action == "Nova ordem de serviço":
             with col221:
                 desc_peca_7 = st.text_input("7 - Descriçao da peça")
             with col222:
-                valor_peca_7 = st.text_input("7 - Costo")
+                valor_peca_7 = st.text_input("7 - Custo")
             with col223:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_7 and valor_peca_7:
@@ -661,7 +661,7 @@ if action == "Nova ordem de serviço":
             with col231:
                 desc_peca_8 = st.text_input("8 - Descriçao da peça")
             with col232:
-                valor_peca_8 = st.text_input("8 - Costo")
+                valor_peca_8 = st.text_input("8 - Custo")
             with col233:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_8 and valor_peca_8:
@@ -690,7 +690,7 @@ if action == "Nova ordem de serviço":
             with col241:
                 desc_peca_9 = st.text_input("9 - Descriçao da peça")
             with col242:
-                valor_peca_9 = st.text_input("9 - Costo")
+                valor_peca_9 = st.text_input("9 - Custo")
             with col243:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_9 and valor_peca_9:
@@ -719,7 +719,7 @@ if action == "Nova ordem de serviço":
             with col251:
                 desc_peca_10 = st.text_input("10 - Descriçao da peça")
             with col252:
-                valor_peca_10 = st.text_input("10 - Costo")
+                valor_peca_10 = st.text_input("10 - Custo")
             with col253:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_10 and valor_peca_10:
@@ -748,7 +748,7 @@ if action == "Nova ordem de serviço":
             with col261:
                 desc_peca_11 = st.text_input("11 - Descriçao da peça")
             with col262:
-                valor_peca_11 = st.text_input("11 - Costo")
+                valor_peca_11 = st.text_input("11 - Custo")
             with col263:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_11 and valor_peca_11:
@@ -777,7 +777,7 @@ if action == "Nova ordem de serviço":
             with col271:
                 desc_peca_12 = st.text_input("12 - Descriçao da peça")
             with col272:
-                valor_peca_12 = st.text_input("12 - Costo")
+                valor_peca_12 = st.text_input("12 - Custo")
             with col273:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_12 and valor_peca_12:
@@ -806,7 +806,7 @@ if action == "Nova ordem de serviço":
             with col281:
                 desc_peca_13 = st.text_input("13 - Descriçao da peça")
             with col282:
-                valor_peca_13 = st.text_input("13 - Costo")
+                valor_peca_13 = st.text_input("13 - Custo")
             with col283:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_13 and valor_peca_13:
@@ -835,7 +835,7 @@ if action == "Nova ordem de serviço":
             with col291:
                 desc_peca_14 = st.text_input("14 - Descriçao da peça")
             with col292:
-                valor_peca_14 = st.text_input("14 - Costo")
+                valor_peca_14 = st.text_input("14 - Custo")
             with col293:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_14 and valor_peca_14:
@@ -864,7 +864,7 @@ if action == "Nova ordem de serviço":
             with col301:
                 desc_peca_15 = st.text_input("15 - Descriçao da peça")
             with col302:
-                valor_peca_15 = st.text_input("15 - Costo")
+                valor_peca_15 = st.text_input("15 - Custo")
             with col303:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_15 and valor_peca_15:
@@ -893,7 +893,7 @@ if action == "Nova ordem de serviço":
             with col311:
                 desc_peca_16 = st.text_input("16 - Descriçao da peça")
             with col312:
-                valor_peca_16 = st.text_input("16 - Costo")
+                valor_peca_16 = st.text_input("16 - Custo")
             with col313:
                 # Mostrar costo inicil (calculado como quant * valor unitario)
                 if quant_peca_16 and valor_peca_16:
@@ -1316,7 +1316,7 @@ elif action == "Atualizar ordem existente":
             with col161:
                 desc_peca_1 = st.text_input("1 - Descriçao da peça", value=vendor_data["desc_peca_1"], key="update_desc_peca_1")
             with col162:
-                valor_peca_1 = st.text_input("1 - Costo", value=vendor_data["valor_peca_1"], key="update_valor_peca_1")
+                valor_peca_1 = st.text_input("1 - Custo", value=vendor_data["valor_peca_1"], key="update_valor_peca_1")
             with col163:
                 # Mostrar costo inicial
                 custo_inicial_1 = float(vendor_data.get("costo_inicial_peca_1", 0))
@@ -1333,7 +1333,7 @@ elif action == "Atualizar ordem existente":
             with col171:
                 desc_peca_2 = st.text_input("2 - Descriçao da peça", value=vendor_data["desc_peca_2"], key="update_desc_peca_2")
             with col172:
-                valor_peca_2 = st.text_input("2 - Costo", value=vendor_data["valor_peca_2"], key="update_valor_peca_2")
+                valor_peca_2 = st.text_input("2 - Custo", value=vendor_data["valor_peca_2"], key="update_valor_peca_2")
             with col173:
                 # Mostrar costo inicial
                 custo_inicial_2 = float(vendor_data.get("costo_inicial_peca_2", 0))
@@ -1350,7 +1350,7 @@ elif action == "Atualizar ordem existente":
             with col181:
                 desc_peca_3 = st.text_input("3 - Descriçao da peça", value=vendor_data["desc_peca_3"], key="update_desc_peca_3")
             with col182:
-                valor_peca_3 = st.text_input("3 - Costo", value=vendor_data["valor_peca_3"], key="update_valor_peca_3")
+                valor_peca_3 = st.text_input("3 - Custo", value=vendor_data["valor_peca_3"], key="update_valor_peca_3")
             with col183:
                 # Mostrar costo inicial
                 custo_inicial_3 = float(vendor_data.get("costo_inicial_peca_3", 0))
@@ -1367,7 +1367,7 @@ elif action == "Atualizar ordem existente":
             with col191:
                 desc_peca_4 = st.text_input("4 - Descriçao da peça", value=vendor_data["desc_peca_4"], key="update_desc_peca_4")
             with col192:
-                valor_peca_4 = st.text_input("4 - Costo", value=vendor_data["valor_peca_4"], key="update_valor_peca_4")
+                valor_peca_4 = st.text_input("4 - Custo", value=vendor_data["valor_peca_4"], key="update_valor_peca_4")
             with col193:
                 # Mostrar costo inicial
                 custo_inicial_4 = float(vendor_data.get("costo_inicial_peca_4", 0))
@@ -1384,7 +1384,7 @@ elif action == "Atualizar ordem existente":
             with col201:
                 desc_peca_5 = st.text_input("5 - Descriçao da peça", value=vendor_data["desc_peca_5"], key="update_desc_peca_5")
             with col202:
-                valor_peca_5 = st.text_input("5 - Costo", value=vendor_data["valor_peca_5"], key="update_valor_peca_5")
+                valor_peca_5 = st.text_input("5 - Custo", value=vendor_data["valor_peca_5"], key="update_valor_peca_5")
             with col203:
                 # Mostrar costo inicial
                 custo_inicial_5 = float(vendor_data.get("costo_inicial_peca_5", 0))
@@ -1401,7 +1401,7 @@ elif action == "Atualizar ordem existente":
             with col211:
                 desc_peca_6 = st.text_input("6 - Descriçao da peça", value=vendor_data["desc_peca_6"], key="update_desc_peca_6")
             with col212:
-                valor_peca_6 = st.text_input("6 - Costo", value=vendor_data["valor_peca_6"], key="update_valor_peca_6")
+                valor_peca_6 = st.text_input("6 - Custo", value=vendor_data["valor_peca_6"], key="update_valor_peca_6")
             with col213:
                 # Mostrar costo inicial
                 custo_inicial_6 = float(vendor_data.get("costo_inicial_peca_6", 0))
@@ -1418,7 +1418,7 @@ elif action == "Atualizar ordem existente":
             with col221:
                 desc_peca_7 = st.text_input("7 - Descriçao da peça", value=vendor_data["desc_peca_7"], key="update_desc_peca_7")
             with col222:
-                valor_peca_7 = st.text_input("7 - Costo", value=vendor_data["valor_peca_7"], key="update_valor_peca_7")
+                valor_peca_7 = st.text_input("7 - Custo", value=vendor_data["valor_peca_7"], key="update_valor_peca_7")
             with col223:
                 # Mostrar costo inicial
                 custo_inicial_7 = float(vendor_data.get("costo_inicial_peca_7", 0))
@@ -1435,7 +1435,7 @@ elif action == "Atualizar ordem existente":
             with col231:
                 desc_peca_8 = st.text_input("8 - Descriçao da peça", value=vendor_data["desc_peca_8"], key="update_desc_peca_8")
             with col232:
-                valor_peca_8 = st.text_input("8 - Costo", value=vendor_data["valor_peca_8"], key="update_valor_peca_8")
+                valor_peca_8 = st.text_input("8 - Custo", value=vendor_data["valor_peca_8"], key="update_valor_peca_8")
             with col233:
                 # Mostrar costo inicial
                 custo_inicial_8 = float(vendor_data.get("costo_inicial_peca_8", 0))
@@ -1452,7 +1452,7 @@ elif action == "Atualizar ordem existente":
             with col241:
                 desc_peca_9 = st.text_input("9 - Descriçao da peça", value=vendor_data["desc_peca_9"], key="update_desc_peca_9")
             with col242:
-                valor_peca_9 = st.text_input("9 - Costo", value=vendor_data["valor_peca_9"], key="update_valor_peca_9")
+                valor_peca_9 = st.text_input("9 - Custo", value=vendor_data["valor_peca_9"], key="update_valor_peca_9")
             with col243:
                 # Mostrar costo inicial
                 custo_inicial_9 = float(vendor_data.get("costo_inicial_peca_9", 0))
@@ -1471,7 +1471,7 @@ elif action == "Atualizar ordem existente":
             with col251:
                 desc_peca_10 = st.text_input("10 - Descriçao da peça", value=vendor_data["desc_peca_10"], key="update_desc_peca_10")
             with col252:
-                valor_peca_10 = st.text_input("10 - Costo", value=vendor_data["valor_peca_10"], key="update_valor_peca_10")
+                valor_peca_10 = st.text_input("10 - Custo", value=vendor_data["valor_peca_10"], key="update_valor_peca_10")
             with col253:
                 # Mostrar costo inicial
                 custo_inicial_10 = float(vendor_data.get("costo_inicial_peca_10", 0))
@@ -1488,7 +1488,7 @@ elif action == "Atualizar ordem existente":
             with col261:
                 desc_peca_11 = st.text_input("11 - Descriçao da peça", value=vendor_data["desc_peca_11"], key="update_desc_peca_11")
             with col262:
-                valor_peca_11 = st.text_input("11 - Costo", value=vendor_data["valor_peca_11"], key="update_valor_peca_11")
+                valor_peca_11 = st.text_input("11 - Custo", value=vendor_data["valor_peca_11"], key="update_valor_peca_11")
             with col263:
                 # Mostrar costo inicial
                 custo_inicial_11 = float(vendor_data.get("costo_inicial_peca_11", 0))
@@ -1505,7 +1505,7 @@ elif action == "Atualizar ordem existente":
             with col271:
                 desc_peca_12 = st.text_input("12 - Descriçao da peça", value=vendor_data["desc_peca_12"], key="update_desc_peca_12")
             with col272:
-                valor_peca_12 = st.text_input("12 - Costo", value=vendor_data["valor_peca_12"], key="update_valor_peca_12")
+                valor_peca_12 = st.text_input("12 - Custo", value=vendor_data["valor_peca_12"], key="update_valor_peca_12")
             with col273:
                 # Mostrar costo inicial
                 custo_inicial_12 = float(vendor_data.get("costo_inicial_peca_12", 0))
@@ -1523,7 +1523,7 @@ elif action == "Atualizar ordem existente":
             with col281:
                 desc_peca_13 = st.text_input("13 - Descriçao da peça", value=vendor_data["desc_peca_13"], key="update_desc_peca_13")
             with col282:
-                valor_peca_13 = st.text_input("13 - Costo", value=vendor_data["valor_peca_13"], key="update_valor_peca_13")
+                valor_peca_13 = st.text_input("13 - Custo", value=vendor_data["valor_peca_13"], key="update_valor_peca_13")
             with col283:
                 # Mostrar costo inicial
                 custo_inicial_13 = float(vendor_data.get("costo_inicial_peca_13", 0))
@@ -1541,7 +1541,7 @@ elif action == "Atualizar ordem existente":
             with col291:
                 desc_peca_14 = st.text_input("14 - Descriçao da peça", value=vendor_data["desc_peca_14"], key="update_desc_peca_14")
             with col292:
-                valor_peca_14 = st.text_input("14 - Costo", value=vendor_data["valor_peca_14"], key="update_valor_peca_14")
+                valor_peca_14 = st.text_input("14 - Custo", value=vendor_data["valor_peca_14"], key="update_valor_peca_14")
             with col293:
                 # Mostrar costo inicial
                 custo_inicial_14 = float(vendor_data.get("costo_inicial_peca_14", 0))
@@ -1558,7 +1558,7 @@ elif action == "Atualizar ordem existente":
             with col301:
                 desc_peca_15 = st.text_input("15 - Descriçao da peça", value=vendor_data["desc_peca_15"], key="update_desc_peca_15")
             with col302:
-                valor_peca_15 = st.text_input("15 - Costo", value=vendor_data["valor_peca_15"], key="update_valor_peca_15")
+                valor_peca_15 = st.text_input("15 - Custo", value=vendor_data["valor_peca_15"], key="update_valor_peca_15")
             with col303:
                 # Mostrar costo inicial
                 custo_inicial_15 = float(vendor_data.get("costo_inicial_peca_15", 0))
@@ -1575,7 +1575,7 @@ elif action == "Atualizar ordem existente":
             with col311:
                 desc_peca_16 = st.text_input("16 - Descriçao da peça", value=vendor_data["desc_peca_16"], key="update_desc_peca_16")
             with col312:
-                valor_peca_16 = st.text_input("16 - Costo", value=vendor_data["valor_peca_16"], key="update_valor_peca_16") 
+                valor_peca_16 = st.text_input("16 - Custo", value=vendor_data["valor_peca_16"], key="update_valor_peca_16") 
             with col313:
                 # Mostrar costo inicial
                 custo_inicial_16 = float(vendor_data.get("costo_inicial_peca_16", 0))
