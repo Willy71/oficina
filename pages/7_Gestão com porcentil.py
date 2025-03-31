@@ -1166,7 +1166,7 @@ elif action == "Atualizar ordem existente":
             with col163:
                 # Mostrar costo final
                 custo_final_1 = float(vendor_data.get("costo_final_peca_1", 0))
-                st.text(f"Total: R$ {custo_final_1:.2f}")
+                st.text(f"Valor {custo_final_1:.2f}")
 
         with st.container():    
             col170, col171, col172, col173 = st.columns([1, 6, 1, 1])
@@ -1179,7 +1179,7 @@ elif action == "Atualizar ordem existente":
             with col173:
                 # Mostrar costo final
                 custo_final_2 = float(vendor_data.get("costo_final_peca_2", 0))
-                st.text(f"Total: R$ {custo_final_2:.2f}")
+                st.text(f"Valor {custo_final_2:.2f}")
 
         with st.container():    
             col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
@@ -1192,7 +1192,7 @@ elif action == "Atualizar ordem existente":
             with col183:
                 # Mostrar costo final
                 custo_final_3 = float(vendor_data.get("costo_final_peca_3", 0))
-                st.text(f"Total: R$ {custo_final_3:.2f}")
+                st.text(f"Valor {custo_final_3:.2f}")
         
         with st.container():    
             col190, col191, col192, col193 = st.columns([1, 6, 1, 1])
@@ -1205,7 +1205,7 @@ elif action == "Atualizar ordem existente":
             with col193:
                 # Mostrar costo final
                 custo_final_4 = float(vendor_data.get("costo_final_peca_4", 0))
-                st.text(f"Total: R$ {custo_final_4:.2f}")
+                st.text(f"Valor {custo_final_4:.2f}")
         
         with st.container():    
             col200, col201, col202, col203, col204 = st.columns([1, 5, 2, 2, 2])
@@ -1222,7 +1222,7 @@ elif action == "Atualizar ordem existente":
             with col204:
                 # Mostrar costo final
                 custo_final_5 = float(vendor_data.get("costo_final_peca_5", 0))
-                st.text(f"Total: R$ {custo_final_5:.2f}")
+                st.text(f"Valor {custo_final_5:.2f}")
         
         with st.container():    
             col210, col211, col212, col213, col214 = st.columns([1, 5, 2, 2, 2])
@@ -1239,7 +1239,7 @@ elif action == "Atualizar ordem existente":
             with col214:
                 # Mostrar costo final
                 custo_final_6 = float(vendor_data.get("costo_final_peca_6", 0))
-                st.text(f"Total: R$ {custo_final_6:.2f}")
+                st.text(f"Valor {custo_final_6:.2f}")
         
         with st.container():    
             col220, col221, col222, col223, col224 = st.columns([1, 5, 2, 2, 2])
@@ -1256,7 +1256,7 @@ elif action == "Atualizar ordem existente":
             with col224:
                 # Mostrar costo final
                 custo_final_7 = float(vendor_data.get("costo_final_peca_7", 0))
-                st.text(f"Total: R$ {custo_final_7:.2f}")
+                st.text(f"Valor {custo_final_7:.2f}")
         
         with st.container():    
             col230, col231, col232, col233, col234 = st.columns([1, 5, 2, 2, 2])
@@ -1273,7 +1273,7 @@ elif action == "Atualizar ordem existente":
             with col234:
                 # Mostrar costo final
                 custo_final_8 = float(vendor_data.get("costo_final_peca_8", 0))
-                st.text(f"Total: R$ {custo_final_8:.2f}")
+                st.text(f"Valor {custo_final_8:.2f}")
         
         with st.container():    
             col240, col241, col242, col243, col244 = st.columns([1, 5, 2, 2, 2])
@@ -1290,7 +1290,7 @@ elif action == "Atualizar ordem existente":
             with col244:
                 # Mostrar costo final
                 custo_final_9 = float(vendor_data.get("costo_final_peca_9", 0))
-                st.text(f"Total: R$ {custo_final_9:.2f}")
+                st.text(f"Valor {custo_final_9:.2f}")
 
             
         
@@ -1309,7 +1309,7 @@ elif action == "Atualizar ordem existente":
             with col254:
                 # Mostrar costo final
                 custo_final_10 = float(vendor_data.get("costo_final_peca_10", 0))
-                st.text(f"Total: R$ {custo_final_10:.2f}")
+                st.text(f"Valor {custo_final_10:.2f}")
         
         with st.container():    
             col260, col261, col262, col263, col264 = st.columns([1, 5, 2, 2, 2])
@@ -1326,7 +1326,7 @@ elif action == "Atualizar ordem existente":
             with col264:
                 # Mostrar costo final
                 custo_final_11 = float(vendor_data.get("costo_final_peca_11", 0))
-                st.text(f"Total: R$ {custo_final_11:.2f}")
+                st.text(f"Valor {custo_final_11:.2f}")
         
         with st.container():    
             col270, col271, col272, col273, col274 = st.columns([1, 5, 2, 2, 2])
@@ -1343,7 +1343,7 @@ elif action == "Atualizar ordem existente":
             with col274:
                 # Mostrar costo final
                 custo_final_12 = float(vendor_data.get("costo_final_peca_12", 0))
-                st.text(f"Total: R$ {custo_final_12:.2f}")
+                st.text(f"Valor {custo_final_12:.2f}")
 
         
         with st.container():    
@@ -1361,7 +1361,7 @@ elif action == "Atualizar ordem existente":
             with col284:
                 # Mostrar costo final
                 custo_final_13 = float(vendor_data.get("costo_final_peca_13", 0))
-                st.text(f"Total: R$ {custo_final_13:.2f}")
+                st.text(f"Valor {custo_final_13:.2f}")
 
         
         with st.container():    
@@ -1379,7 +1379,7 @@ elif action == "Atualizar ordem existente":
             with col294:
                 # Mostrar costo final
                 custo_final_14 = float(vendor_data.get("costo_final_peca_14", 0))
-                st.text(f"Total: R$ {custo_final_14:.2f}")
+                st.text(f"Valor {custo_final_14:.2f}")
         
         with st.container():    
             col300, col301, col302, col303, col304 = st.columns([1, 5, 2, 2, 2])
@@ -1396,7 +1396,7 @@ elif action == "Atualizar ordem existente":
             with col304:
                 # Mostrar costo final
                 custo_final_15 = float(vendor_data.get("costo_final_peca_15", 0))
-                st.text(f"Total: R$ {custo_final_15:.2f}")
+                st.text(f"Valor {custo_final_15:.2f}")
         
         with st.container():    
             col310, col311, col312, col313, col314 = st.columns([1, 5, 2, 2, 2])
@@ -1413,7 +1413,7 @@ elif action == "Atualizar ordem existente":
             with col314:
                 # Mostrar costo final
                 custo_final_16 = float(vendor_data.get("costo_final_peca_16", 0))
-                st.text(f"Total: R$ {custo_final_16:.2f}")
+                st.text(f"Valor {custo_final_16:.2f}")
         
         line(4, "blue")
         
