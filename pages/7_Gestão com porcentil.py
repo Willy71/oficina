@@ -455,12 +455,12 @@ if action == "Nova ordem de serviço":
             with col161:
                 desc_peca_1 = st.text_input("1 - Descriçao da peça")
             with col162:
-                valor_peca_1 = st.text_input("1 - Custo")
+                valor_peca_1 = st.text_input("Valor Unit")
             with col163:  # ⚠️ COLUMNA A ELIMINAR (Costo)
                 if quant_peca_1 and valor_peca_1:
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
-                        centrar_texto("Unit", 7,"yellow")
+                        centrar_texto("Sub Total", 8,"white")
                         st.markdown(
                         f'<div style="display: flex; align-items: center; height: 38px;">'
                         f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_inicial:.2f}</span>'
@@ -487,7 +487,7 @@ if action == "Nova ordem de serviço":
                 if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
                     try:
                         costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
-                        centrar_texto("Final", 7,"yellow")
+                        centrar_texto("Total", 8,"white")
                         st.markdown(
                         f'<div style="display: flex; align-items: center; height: 38px;">'
                         f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_final_1:.2f}</span>'
