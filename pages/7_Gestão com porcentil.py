@@ -1328,7 +1328,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_1:.2f}")
 
         with st.container():    
-            col170, col171, col172, col173, col174 = = st.columns([1, 5, 2, 2, 2])
+            col170, col171, col172, col173, col174 = st.columns([1, 5, 2, 2, 2])
             with col170:
                 quant_peca_2 = st.text_input("2 - Quant.", value=vendor_data["quant_peca_2"], key="update_quant_peca_2")
             with col171:
