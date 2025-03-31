@@ -1156,7 +1156,7 @@ elif action == "Atualizar ordem existente":
         centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
-            col160, col161, col162, col163, col164 = st.columns([1, 5, 2, 2, 2])
+            col160, col161, col162, col163 = st.columns([1, 6, 1, 1])
             with col160:
                 quant_peca_1 = st.text_input("1", value=vendor_data["quant_peca_1"], key="update_quant_peca_1")
             with col161:
@@ -1164,10 +1164,6 @@ elif action == "Atualizar ordem existente":
             with col162:
                 valor_peca_1 = st.text_input("1 - Custo", value=vendor_data["valor_peca_1"], key="update_valor_peca_1")
             with col163:
-                # Mostrar costo inicial
-                custo_inicial_1 = float(vendor_data.get("costo_inicial_peca_1", 0))
-                st.text(f"Custo: R$ {custo_inicial_1:.2f}")
-            with col164:
                 # Mostrar costo final
                 custo_final_1 = float(vendor_data.get("costo_final_peca_1", 0))
                 st.text(f"Total: R$ {custo_final_1:.2f}")
