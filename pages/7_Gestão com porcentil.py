@@ -509,7 +509,7 @@ if action == "Nova ordem de serviço":
             
 
         with st.container():    
-            col180, col181, col182, col183, col184 = = st.columns([1, 5, 2, 2, 2])
+            col180, col181, col182, col183, col184 = st.columns([1, 5, 2, 2, 2])
             with col180:
                 quant_peca_3 = st.text_input("3 - Quant.")
             with col181:
@@ -538,7 +538,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col190, col191, col192, col193, col194 = = st.columns([1, 5, 2, 2, 2])
+            col190, col191, col192, col193, col194 = st.columns([1, 5, 2, 2, 2])
             with col190:
                 quant_peca_4 = st.text_input("4 - Quant.")
             with col191:
@@ -567,7 +567,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col200, col201, col202, col203, col204 = = st.columns([1, 5, 2, 2, 2])
+            col200, col201, col202, col203, col204 = st.columns([1, 5, 2, 2, 2])
             with col200:
                 quant_peca_5 = st.text_input("5 - Quant.")
             with col201:
@@ -596,7 +596,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col210, col211, col212, col213, col214 = = st.columns([1, 5, 2, 2, 2])
+            col210, col211, col212, col213, col214 = st.columns([1, 5, 2, 2, 2])
             with col210:
                 quant_peca_6 = st.text_input("6 - Quant.")
             with col211:
@@ -626,7 +626,7 @@ if action == "Nova ordem de serviço":
                 
         
         with st.container():    
-            col220, col221, col222, col223, col224 = = st.columns([1, 5, 2, 2, 2])
+            col220, col221, col222, col223, col224 = st.columns([1, 5, 2, 2, 2])
             with col220:
                 quant_peca_7 = st.text_input("7 - Quant.")
             with col221:
@@ -655,7 +655,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col230, col231, col232, col233, col234 = = st.columns([1, 5, 2, 2, 2])
+            col230, col231, col232, col233, col234 = st.columns([1, 5, 2, 2, 2])
             with col230:
                 quant_peca_8 = st.text_input("8 - Quant.")
             with col231:
@@ -684,7 +684,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col240, col241, col242, col243, col244 = = st.columns([1, 5, 2, 2, 2])
+            col240, col241, col242, col243, col244 = st.columns([1, 5, 2, 2, 2])
             with col240:
                 quant_peca_9 = st.text_input("9 - Quant.")
             with col241:
@@ -713,7 +713,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col250, col251, col252, col253, col254 = = st.columns([1, 5, 2, 2, 2])
+            col250, col251, col252, col253, col254 = st.columns([1, 5, 2, 2, 2])
             with col250:
                 quant_peca_10 = st.text_input("10 - Quant.")
             with col251:
@@ -742,7 +742,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col260, col261, col262, col263, col264 = = st.columns([1, 5, 2, 2, 2])
+            col260, col261, col262, col263, col264 = st.colmns([1, 5, 2, 2, 2])
             with col260:
                 quant_peca_11 = st.text_input("11 - Quant.")
             with col261:
@@ -771,7 +771,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col270, col271, col272, col273, col274 = = st.columns([1, 5, 2, 2, 2])
+            col270, col271, col272, col273, col274 = st.columns([1, 5, 2, 2, 2])
             with col270:
                 quant_peca_12 = st.text_input("12 - Quant.")
             with col271:
@@ -800,7 +800,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col280, col281, col282, col283, col284 = = st.columns([1, 5, 2, 2, 2])
+            col280, col281, col282, col283, col284 = st.columns([1, 5, 2, 2, 2])
             with col280:
                 quant_peca_13 = st.text_input("13 - Quant.")
             with col281:
@@ -829,7 +829,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col290, col291, col292, col293, col294 = = st.columns([1, 5, 2, 2, 2])
+            col290, col291, col292, col293, col294 = st.columns([1, 5, 2, 2, 2])
             with col290:
                 quant_peca_14 = st.text_input("14 - Quant.")
             with col291:
@@ -858,7 +858,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col300, col301, col302, col303, col304 = = st.columns([1, 5, 2, 2, 2])
+            col300, col301, col302, col303, col304 = st.columns([1, 5, 2, 2, 2])
             with col300:
                 quant_peca_15 = st.text_input("15 - Quant.")
             with col301:
@@ -887,7 +887,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col310, col311, col312, col313, col314 = = st.columns([1, 5, 2, 2, 2])
+            col310, col311, col312, col313, col314 = st.columns([1, 5, 2, 2, 2])
             with col310:
                 quant_peca_16 = st.text_input("16 - Quant.")
             with col311:
@@ -1344,7 +1344,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_2:.2f}")
 
         with st.container():    
-            col180, col181, col182, col183, col184 = = st.columns([1, 5, 2, 2, 2])
+            col180, col181, col182, col183, col184 = st.columns([1, 5, 2, 2, 2])
             with col180:
                 quant_peca_3 = st.text_input("3 - Quant.", value=vendor_data["quant_peca_3"], key="update_quant_peca_3")
             with col181:
@@ -1361,7 +1361,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_3:.2f}")
         
         with st.container():    
-            col190, col191, col192, col193, col194 = = st.columns([1, 5, 2, 2, 2])
+            col190, col191, col192, col193, col194 = st.columns([1, 5, 2, 2, 2])
             with col190:
                 quant_peca_4 = st.text_input("4 - Quant.", value=vendor_data["quant_peca_4"], key="update_quant_peca_4")
             with col191:
@@ -1378,7 +1378,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_4:.2f}")
         
         with st.container():    
-            col200, col201, col202, col203, col204 = = st.columns([1, 5, 2, 2, 2])
+            col200, col201, col202, col203, col204 = st.columns([1, 5, 2, 2, 2])
             with col200:
                 quant_peca_5 = st.text_input("5 - Quant.", value=vendor_data["quant_peca_5"], key="update_quant_peca_5")
             with col201:
@@ -1395,7 +1395,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_5:.2f}")
         
         with st.container():    
-            col210, col211, col212, col213, col214 = = st.columns([1, 5, 2, 2, 2])
+            col210, col211, col212, col213, col214 = st.columns([1, 5, 2, 2, 2])
             with col210:
                 quant_peca_6 = st.text_input("6 - Quant.", value=vendor_data["quant_peca_6"], key="update_quant_peca_6")
             with col211:
@@ -1412,7 +1412,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_6:.2f}")
         
         with st.container():    
-            col220, col221, col222, col223, col224 = = st.columns([1, 5, 2, 2, 2])
+            col220, col221, col222, col223, col224 = st.columns([1, 5, 2, 2, 2])
             with col220:
                 quant_peca_7 = st.text_input("7 - Quant.", value=vendor_data["quant_peca_7"], key="update_quant_peca_7")
             with col221:
@@ -1429,7 +1429,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_7:.2f}")
         
         with st.container():    
-            col230, col231, col232, col233, col234 = = st.columns([1, 5, 2, 2, 2])
+            col230, col231, col232, col233, col234 = st.columns([1, 5, 2, 2, 2])
             with col230:
                 quant_peca_8 = st.text_input("8 - Quant.", value=vendor_data["quant_peca_8"], key="update_quant_peca_8")
             with col231:
@@ -1446,7 +1446,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_8:.2f}")
         
         with st.container():    
-            col240, col241, col242, col243, col244 = = st.columns([1, 5, 2, 2, 2])
+            col240, col241, col242, col243, col244 = st.columns([1, 5, 2, 2, 2])
             with col240:
                 quant_peca_9 = st.text_input("9 - Quant.", value=vendor_data["quant_peca_9"], key="update_quant_peca_9")
             with col241:
@@ -1465,7 +1465,7 @@ elif action == "Atualizar ordem existente":
             
         
         with st.container():    
-            col250, col251, col252, col253, col254 = = st.columns([1, 5, 2, 2, 2])
+            col250, col251, col252, col253, col254 = st.columns([1, 5, 2, 2, 2])
             with col250:
                 quant_peca_10 = st.text_input("10 - Quant.", value=vendor_data["quant_peca_10"], key="update_quant_peca_10")
             with col251:
@@ -1482,7 +1482,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_10:.2f}")
         
         with st.container():    
-            col260, col261, col262, col263, col264 = = st.columns([1, 5, 2, 2, 2])
+            col260, col261, col262, col263, col264 = st.columns([1, 5, 2, 2, 2])
             with col260:
                 quant_peca_11 = st.text_input("11 - Quant.", value=vendor_data["quant_peca_11"], key="update_quant_peca_11")
             with col261:
@@ -1499,7 +1499,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_11:.2f}")
         
         with st.container():    
-            col270, col271, col272, col273, col274 = = st.columns([1, 5, 2, 2, 2])
+            col270, col271, col272, col273, col274 = st.columns([1, 5, 2, 2, 2])
             with col270:
                 quant_peca_12 = st.text_input("12 - Quant.", value=vendor_data["quant_peca_12"], key="update_quant_peca_12")
             with col271:
@@ -1517,7 +1517,7 @@ elif action == "Atualizar ordem existente":
 
         
         with st.container():    
-            col280, col281, col282, col283, col284 = = st.columns([1, 5, 2, 2, 2])
+            col280, col281, col282, col283, col284 = st.columns([1, 5, 2, 2, 2])
             with col280:
                 quant_peca_13 = st.text_input("13 - Quant.", value=vendor_data["quant_peca_13"], key="update_quant_peca_13")
             with col281:
@@ -1535,7 +1535,7 @@ elif action == "Atualizar ordem existente":
 
         
         with st.container():    
-            col290, col291, col292, col293, col294 = = st.columns([1, 5, 2, 2, 2])
+            col290, col291, col292, col293, col294 = st.columns([1, 5, 2, 2, 2])
             with col290:
                 quant_peca_14 = st.text_input("14 - Quant.", value=vendor_data["quant_peca_14"], key="update_quant_peca_14")
             with col291:
@@ -1552,7 +1552,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_14:.2f}")
         
         with st.container():    
-            col300, col301, col302, col303, col304 = = st.columns([1, 5, 2, 2, 2])
+            col300, col301, col302, col303, col304 = st.columns([1, 5, 2, 2, 2])
             with col300:
                 quant_peca_15 = st.text_input("15 - Quant.", value=vendor_data["quant_peca_15"], key="update_quant_peca_15")
             with col301:
@@ -1569,7 +1569,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_15:.2f}")
         
         with st.container():    
-            col310, col311, col312, col313, col314 = = st.columns([1, 5, 2, 2, 2])
+            col310, col311, col312, col313, col314 = st.columns([1, 5, 2, 2, 2])
             with col310:
                 quant_peca_16 = st.text_input("16 - Quant.", value=vendor_data["quant_peca_16"], key="update_quant_peca_16")
             with col311:
