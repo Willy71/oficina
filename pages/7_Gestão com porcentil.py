@@ -449,14 +449,14 @@ if action == "Nova ordem de serviço":
         centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
-            col160, col161, col162, col163, col164 = st.columns([1, 5, 2, 2, 2])
+            col160, col161, col162, col163 = st.columns([1, 6, 1, 1])
             with col160:
                 quant_peca_1 = st.text_input("1")
             with col161:
                 desc_peca_1 = st.text_input("1 - Descriçao da peça")
             with col162:
                 valor_peca_1 = st.text_input("1 - Custo")
-            with col164:
+            with col163:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
                     try:
