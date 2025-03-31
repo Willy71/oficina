@@ -234,7 +234,28 @@ def line(size, color):
         f"<hr style='height:{size}px;border:none;color:{color};background-color:{color};' />",
         unsafe_allow_html=True
     )
-    
+
+
+# 1. Inicialización de session_state (para persistencia)
+if 'subtotales' not in st.session_state:
+    st.session_state.subtotales = {
+        'costo_inicial_1': 0,
+        'costo_final_1': 0
+    }
+
+# 2. Función de cálculo reactivo
+def calcular_subtotales():
+    try:
+        # Accede a los valores directamente desde st.session_state
+        quant = float(st.session_state.quant_peca_1) if st.session_state.quant_peca_1 else 0
+        valor = float(st.session_state.valor_peca_1) if st.session_state.valor_peca_1 else 0
+        porcentaje = float(st.session_state.porcentaje_adicional) if 'porcentaje_adicional' in st.session_state else 30
+        
+        # Actualiza los subtotales
+        st.session_state.subtotales['costo_inicial_1'] = quant * valor
+        st.session_state.subtotales['costo_final_1'] = quant * valor * (1 + porcentaje/100)
+    except:
+        st.session_state.subtotales = {'costo_inicial_1': 0, 'costo_final_1': 0}
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Constantes
 prefijos = {c.alpha_2: pn.country_code_for_region(c.alpha_2) for c in pycountry.countries}
@@ -432,6 +453,7 @@ if action == "Nova ordem de serviço":
 
         # En la sección "Nova ordem de serviço", antes de la sección de peças:
         centrar_texto("Configuración de Costos", 2, "yellow")
+
         
         with st.container():
             col_perc, col_empty = st.columns([2, 5])
@@ -451,61 +473,24 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col160, col161, col162, col163, col164 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
             with col160:
-                quant_peca_1 = st.text_input("1")
+                quant_peca_1 = st.text_input("Quant.", key="quant_peca_1", on_change=calcular_subtotales)
             with col161:
-                desc_peca_1 = st.text_input("1 - Descriçao da peça")
+                desc_peca_1 = st.text_input("Descrição", key="desc_peca_1")
             with col162:
-                valor_peca_1 = st.text_input("Valor Unit")
-            with col163:  # ⚠️ COLUMNA A ELIMINAR (Costo)
-                if quant_peca_1 and valor_peca_1:
-                    try:
-                        costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
-                        st.text("Sub Total")
-                        st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 38px;">'
-                        f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_inicial:.2f}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )
-                        #st.text(f"R$ {costo_inicial_1:.2f}") 
-                    except:
-                        st.text("Sub Total")
-                        st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
-                else:
-                    st.text("Sub Total")
-                    st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
-            with col164:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
-                    try:
-                        costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
-                        st.text("Total")
-                        st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 38px;">'
-                        f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_final_1:.2f}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )
-                    except:
-                        st.text("Total")
-                        st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
-                else:
-                    st.text("Total")
+                valor_peca_1 = st.text_input("Valor Unit.", key="valor_peca_1", on_change=calcular_subtotales)
+            with col163:
+                # Muestra el subtotal reactivo (amarillo/negrita)
+                st.markdown(
+                    f"""
+                    <div style="display: flex; align-items: center; height: 38px;">
+                        <span style="color: #FFD700; font-weight: bold;">
+                            R$ {st.session_state.subtotales['costo_final_1']:.2f}
+                        </span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+       
         
 
 
