@@ -742,7 +742,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col260, col261, col262, col263, col264 = st.colmns([1, 5, 2, 2, 2])
+            col260, col261, col262, col263, col264 = st.columns([1, 5, 2, 2, 2])
             with col260:
                 quant_peca_11 = st.text_input("11 - Quant.")
             with col261:
