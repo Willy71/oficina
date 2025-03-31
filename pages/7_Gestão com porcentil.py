@@ -463,9 +463,9 @@ if action == "Nova ordem de serviço":
                         costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_1:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor total")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor total")
 
         with st.container():    
             col170, col171, col172, col173, col174 = st.columns([1, 5, 2, 2, 2])
