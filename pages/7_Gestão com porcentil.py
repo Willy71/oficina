@@ -1236,7 +1236,7 @@ elif action == "Atualizar ordem existente":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col200, col201, col202, col203, col204 = st.columns([1, 6, 1, 1])
+            col200, col201, col202, col203 = st.columns([1, 6, 1, 1])
             with col200:
                 quant_peca_5 = st.text_input("5", value=vendor_data["quant_peca_5"], key="update_quant_peca_5")
             with col201:
@@ -1256,7 +1256,7 @@ elif action == "Atualizar ordem existente":
                     st.text("R$ 0.00")
         
         with st.container():    
-            col210, col211, col212, col213, col214 = st.columns([1, 6, 1, 1])
+            col210, col211, col212, col213 = st.columns([1, 6, 1, 1])
             with col210:
                 quant_peca_6 = st.text_input("6", value=vendor_data["quant_peca_6"], key="update_quant_peca_6")
             with col211:
