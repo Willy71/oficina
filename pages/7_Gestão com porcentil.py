@@ -1164,13 +1164,12 @@ elif action == "Atualizar ordem existente":
             with col162:
                 valor_peca_1 = st.text_input("1 - Custo", value=vendor_data["valor_peca_1"], key="update_valor_peca_1")
             with col163:
-                # Calcular y mostrar valor final en tiempo real
+                # Cálculo directo usando el porcentaje_adicional ya definido
                 try:
-                    quant = float(quant_peca_1) if quant_peca_1 else 0
-                    valor = float(valor_peca_1) if valor_peca_1 else 0
-                    porcentaje = float(vendor_data.get("porcentaje_adicional", 30))
-                    custo_final = quant * valor * (1 + porcentaje/100)
-                    st.text(f"R$ {costo_final:.2f}")
+                    quantidade = float(quant_peca_1) if quant_peca_1 else 0
+                    custo_unitario = float(valor_peca_1) if valor_peca_1 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text(f"R$ {valor_final:.2f}")
                 except:
                     st.text("R$ 0.00")
 
