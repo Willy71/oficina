@@ -1042,10 +1042,9 @@ if action == "Nova ordem de serviço":
                     'quant_peca_16': quant_peca_16 if 'quant_peca_16' in locals() else None,
                     'desc_peca_16': desc_peca_16 if 'desc_peca_16' in locals() else None,
                     'valor_peca_16': costo_inicial_16 if 'costo_inicial_16' in locals() else 0,
-                    'valor_total_peca_16': costo_final_16 if 'costo_final_16' in locals() else 0,
+                    'valor_total_peca_16': costo_final_16 if 'costo_final_16' in locals() else 0,                    
                     'total_costo_inicial': sum([v for k, v in locals().items() if k.startswith('costo_inicial_')]),
                     'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')])
-                    '30_porc': None,
                     'total_valor_pecas': None,
                     'forma_de_pagamento': None,
                     'pagamento_parcial': None,
@@ -1291,152 +1290,301 @@ elif action == "Atualizar ordem existente":
             with col152:
                 valor_serv_12 = st.text_input("12 - Valor do serviço", value=vendor_data["valor_serv_12"], key="update_valor_serv_12")
                 
+        # En la sección "Atualizar ordem existente":
+
+        line(4, "blue")
+        centrar_texto("Configuración de Costos", 2, "yellow")
+        
+        with st.container():
+            col_perc, col_empty = st.columns([2, 5])
+            with col_perc:
+                porcentaje_adicional = st.number_input(
+                    "Porcentaje adicional para costos (%)",
+                    min_value=0.0,
+                    max_value=100.0,
+                    value=float(vendor_data.get("porcentaje_adicional", 30.0)),
+                    step=0.5,
+                    key="update_porcentaje_adicional"
+                )
+        
         line(4, "blue")
         centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
-            col160, col161, col162 = st.columns([1,5,2])
+            col160, col161, col162, col163, col164 = st.columns([1, 5, 2, 2, 2])
             with col160:
                 quant_peca_1 = st.text_input("1 - Quant.", value=vendor_data["quant_peca_1"], key="update_quant_peca_1")
             with col161:
                 desc_peca_1 = st.text_input("1 - Descriçao da peça", value=vendor_data["desc_peca_1"], key="update_desc_peca_1")
             with col162:
                 valor_peca_1 = st.text_input("1 - Valor de cada peça", value=vendor_data["valor_peca_1"], key="update_valor_peca_1")
+            with col163:
+                # Mostrar costo inicial
+                custo_inicial_1 = float(vendor_data.get("costo_inicial_peca_1", 0))
+                st.text(f"Custo: R$ {custo_inicial_1:.2f}")
+            with col164:
+                # Mostrar costo final
+                custo_final_1 = float(vendor_data.get("costo_final_peca_1", 0))
+                st.text(f"Total: R$ {custo_final_1:.2f}")
 
         with st.container():    
-            col170, col171, col172 = st.columns([1,5,2])
+            col170, col171, col172, col173, col174 = = st.columns([1, 5, 2, 2, 2])
             with col170:
                 quant_peca_2 = st.text_input("2 - Quant.", value=vendor_data["quant_peca_2"], key="update_quant_peca_2")
             with col171:
                 desc_peca_2 = st.text_input("2 - Descriçao da peça", value=vendor_data["desc_peca_2"], key="update_desc_peca_2")
             with col172:
                 valor_peca_2 = st.text_input("2 - Valor de cada peça", value=vendor_data["valor_peca_2"], key="update_valor_peca_2")
+            with col173:
+                # Mostrar costo inicial
+                custo_inicial_2 = float(vendor_data.get("costo_inicial_peca_2", 0))
+                st.text(f"Custo: R$ {custo_inicial_2:.2f}")
+            with col174:
+                # Mostrar costo final
+                custo_final_2 = float(vendor_data.get("costo_final_peca_2", 0))
+                st.text(f"Total: R$ {custo_final_2:.2f}")
 
         with st.container():    
-            col180, col181, col182 = st.columns([1,5,2])
+            col180, col181, col182, col183, col184 = = st.columns([1, 5, 2, 2, 2])
             with col180:
                 quant_peca_3 = st.text_input("3 - Quant.", value=vendor_data["quant_peca_3"], key="update_quant_peca_3")
             with col181:
                 desc_peca_3 = st.text_input("3 - Descriçao da peça", value=vendor_data["desc_peca_3"], key="update_desc_peca_3")
             with col182:
                 valor_peca_3 = st.text_input("3 - Valor de cada peça", value=vendor_data["valor_peca_3"], key="update_valor_peca_3")
+            with col183:
+                # Mostrar costo inicial
+                custo_inicial_3 = float(vendor_data.get("costo_inicial_peca_3", 0))
+                st.text(f"Custo: R$ {custo_inicial_3:.2f}")
+            with col184:
+                # Mostrar costo final
+                custo_final_3 = float(vendor_data.get("costo_final_peca_3", 0))
+                st.text(f"Total: R$ {custo_final_3:.2f}")
         
         with st.container():    
-            col190, col191, col192 = st.columns([1,5,2])
+            col190, col191, col192, col193, col194 = = st.columns([1, 5, 2, 2, 2])
             with col190:
                 quant_peca_4 = st.text_input("4 - Quant.", value=vendor_data["quant_peca_4"], key="update_quant_peca_4")
             with col191:
                 desc_peca_4 = st.text_input("4 - Descriçao da peça", value=vendor_data["desc_peca_4"], key="update_desc_peca_4")
             with col192:
                 valor_peca_4 = st.text_input("4 - Valor de cada peça", value=vendor_data["valor_peca_4"], key="update_valor_peca_4")
+            with col193:
+                # Mostrar costo inicial
+                custo_inicial_4 = float(vendor_data.get("costo_inicial_peca_4", 0))
+                st.text(f"Custo: R$ {custo_inicial_4:.2f}")
+            with col194:
+                # Mostrar costo final
+                custo_final_4 = float(vendor_data.get("costo_final_peca_4", 0))
+                st.text(f"Total: R$ {custo_final_4:.2f}")
         
         with st.container():    
-            col200, col201, col202 = st.columns([1,5,2])
+            col200, col201, col202, col203, col204 = = st.columns([1, 5, 2, 2, 2])
             with col200:
                 quant_peca_5 = st.text_input("5 - Quant.", value=vendor_data["quant_peca_5"], key="update_quant_peca_5")
             with col201:
                 desc_peca_5 = st.text_input("5 - Descriçao da peça", value=vendor_data["desc_peca_5"], key="update_desc_peca_5")
             with col202:
                 valor_peca_5 = st.text_input("5 - Valor de cada peça", value=vendor_data["valor_peca_5"], key="update_valor_peca_5")
+            with col203:
+                # Mostrar costo inicial
+                custo_inicial_5 = float(vendor_data.get("costo_inicial_peca_5", 0))
+                st.text(f"Custo: R$ {custo_inicial_5:.2f}")
+            with col204:
+                # Mostrar costo final
+                custo_final_5 = float(vendor_data.get("costo_final_peca_5", 0))
+                st.text(f"Total: R$ {custo_final_5:.2f}")
         
         with st.container():    
-            col210, col211, col212 = st.columns([1,5,2])
+            col210, col211, col212, col213, col214 = = st.columns([1, 5, 2, 2, 2])
             with col210:
                 quant_peca_6 = st.text_input("6 - Quant.", value=vendor_data["quant_peca_6"], key="update_quant_peca_6")
             with col211:
                 desc_peca_6 = st.text_input("6 - Descriçao da peça", value=vendor_data["desc_peca_6"], key="update_desc_peca_6")
             with col212:
                 valor_peca_6 = st.text_input("6 - Valor de cada peça", value=vendor_data["valor_peca_6"], key="update_valor_peca_6")
+            with col213:
+                # Mostrar costo inicial
+                custo_inicial_6 = float(vendor_data.get("costo_inicial_peca_6", 0))
+                st.text(f"Custo: R$ {custo_inicial_6:.2f}")
+            with col214:
+                # Mostrar costo final
+                custo_final_6 = float(vendor_data.get("costo_final_peca_6", 0))
+                st.text(f"Total: R$ {custo_final_6:.2f}")
         
         with st.container():    
-            col220, col221, col222 = st.columns([1,5,2])
+            col220, col221, col222, col223, col224 = = st.columns([1, 5, 2, 2, 2])
             with col220:
                 quant_peca_7 = st.text_input("7 - Quant.", value=vendor_data["quant_peca_7"], key="update_quant_peca_7")
             with col221:
                 desc_peca_7 = st.text_input("7 - Descriçao da peça", value=vendor_data["desc_peca_7"], key="update_desc_peca_7")
             with col222:
                 valor_peca_7 = st.text_input("7 - Valor de cada peça", value=vendor_data["valor_peca_7"], key="update_valor_peca_7")
+            with col223:
+                # Mostrar costo inicial
+                custo_inicial_7 = float(vendor_data.get("costo_inicial_peca_7", 0))
+                st.text(f"Custo: R$ {custo_inicial_7:.2f}")
+            with col224:
+                # Mostrar costo final
+                custo_final_7 = float(vendor_data.get("costo_final_peca_7", 0))
+                st.text(f"Total: R$ {custo_final_7:.2f}")
         
         with st.container():    
-            col230, col231, col232 = st.columns([1,5,2])
+            col230, col231, col232, col233, col234 = = st.columns([1, 5, 2, 2, 2])
             with col230:
                 quant_peca_8 = st.text_input("8 - Quant.", value=vendor_data["quant_peca_8"], key="update_quant_peca_8")
             with col231:
                 desc_peca_8 = st.text_input("8 - Descriçao da peça", value=vendor_data["desc_peca_8"], key="update_desc_peca_8")
             with col232:
                 valor_peca_8 = st.text_input("8 - Valor de cada peça", value=vendor_data["valor_peca_8"], key="update_valor_peca_8")
+            with col233:
+                # Mostrar costo inicial
+                custo_inicial_8 = float(vendor_data.get("costo_inicial_peca_8", 0))
+                st.text(f"Custo: R$ {custo_inicial_8:.2f}")
+            with col234:
+                # Mostrar costo final
+                custo_final_8 = float(vendor_data.get("costo_final_peca_8", 0))
+                st.text(f"Total: R$ {custo_final_8:.2f}")
         
         with st.container():    
-            col240, col241, col242 = st.columns([1,5,2])
+            col240, col241, col242, col243, col244 = = st.columns([1, 5, 2, 2, 2])
             with col240:
                 quant_peca_9 = st.text_input("9 - Quant.", value=vendor_data["quant_peca_9"], key="update_quant_peca_9")
             with col241:
                 desc_peca_9 = st.text_input("9 - Descriçao da peça", value=vendor_data["desc_peca_9"], key="update_desc_peca_9")
             with col242:
                 valor_peca_9 = st.text_input("9 - Valor de cada peça", value=vendor_data["valor_peca_9"], key="update_valor_peca_9")
+            with col243:
+                # Mostrar costo inicial
+                custo_inicial_9 = float(vendor_data.get("costo_inicial_peca_9", 0))
+                st.text(f"Custo: R$ {custo_inicial_9:.2f}")
+            with col244:
+                # Mostrar costo final
+                custo_final_9 = float(vendor_data.get("costo_final_peca_9", 0))
+                st.text(f"Total: R$ {custo_final_9:.2f}")
+
+            
         
         with st.container():    
-            col250, col251, col252 = st.columns([1,5,2])
+            col250, col251, col252, col253, col254 = = st.columns([1, 5, 2, 2, 2])
             with col250:
                 quant_peca_10 = st.text_input("10 - Quant.", value=vendor_data["quant_peca_10"], key="update_quant_peca_10")
             with col251:
                 desc_peca_10 = st.text_input("10 - Descriçao da peça", value=vendor_data["desc_peca_10"], key="update_desc_peca_10")
             with col252:
                 valor_peca_10 = st.text_input("10 - Valor de cada peça", value=vendor_data["valor_peca_10"], key="update_valor_peca_10")
+            with col253:
+                # Mostrar costo inicial
+                custo_inicial_10 = float(vendor_data.get("costo_inicial_peca_10", 0))
+                st.text(f"Custo: R$ {custo_inicial_10:.2f}")
+            with col254:
+                # Mostrar costo final
+                custo_final_10 = float(vendor_data.get("costo_final_peca_10", 0))
+                st.text(f"Total: R$ {custo_final_10:.2f}")
         
         with st.container():    
-            col260, col261, col262 = st.columns([1,5,2])
+            col260, col261, col262, col263, col264 = = st.columns([1, 5, 2, 2, 2])
             with col260:
                 quant_peca_11 = st.text_input("11 - Quant.", value=vendor_data["quant_peca_11"], key="update_quant_peca_11")
             with col261:
                 desc_peca_11 = st.text_input("11 - Descriçao da peça", value=vendor_data["desc_peca_11"], key="update_desc_peca_11")
             with col262:
                 valor_peca_11 = st.text_input("11 - Valor de cada peça", value=vendor_data["valor_peca_11"], key="update_valor_peca_11")
+            with col263:
+                # Mostrar costo inicial
+                custo_inicial_11 = float(vendor_data.get("costo_inicial_peca_11", 0))
+                st.text(f"Custo: R$ {custo_inicial_11:.2f}")
+            with col264:
+                # Mostrar costo final
+                custo_final_11 = float(vendor_data.get("costo_final_peca_11", 0))
+                st.text(f"Total: R$ {custo_final_11:.2f}")
         
         with st.container():    
-            col270, col271, col272 = st.columns([1,5,2])
+            col270, col271, col272, col273, col274 = = st.columns([1, 5, 2, 2, 2])
             with col270:
                 quant_peca_12 = st.text_input("12 - Quant.", value=vendor_data["quant_peca_12"], key="update_quant_peca_12")
             with col271:
                 desc_peca_12 = st.text_input("12 - Descriçao da peça", value=vendor_data["desc_peca_12"], key="update_desc_peca_12")
             with col272:
                 valor_peca_12 = st.text_input("12 - Valor de cada peça", value=vendor_data["valor_peca_12"], key="update_valor_peca_12")
+            with col273:
+                # Mostrar costo inicial
+                custo_inicial_12 = float(vendor_data.get("costo_inicial_peca_12", 0))
+                st.text(f"Custo: R$ {custo_inicial_12:.2f}")
+            with col274:
+                # Mostrar costo final
+                custo_final_12 = float(vendor_data.get("costo_final_peca_12", 0))
+                st.text(f"Total: R$ {custo_final_12:.2f}")
+
         
         with st.container():    
-            col280, col281, col282 = st.columns([1,5,2])
+            col280, col281, col282, col283, col284 = = st.columns([1, 5, 2, 2, 2])
             with col280:
                 quant_peca_13 = st.text_input("13 - Quant.", value=vendor_data["quant_peca_13"], key="update_quant_peca_13")
             with col281:
                 desc_peca_13 = st.text_input("13 - Descriçao da peça", value=vendor_data["desc_peca_13"], key="update_desc_peca_13")
             with col282:
                 valor_peca_13 = st.text_input("13 - Valor de cada peça", value=vendor_data["valor_peca_13"], key="update_valor_peca_13")
+            with col283:
+                # Mostrar costo inicial
+                custo_inicial_13 = float(vendor_data.get("costo_inicial_peca_13", 0))
+                st.text(f"Custo: R$ {custo_inicial_13:.2f}")
+            with col284:
+                # Mostrar costo final
+                custo_final_13 = float(vendor_data.get("costo_final_peca_13", 0))
+                st.text(f"Total: R$ {custo_final_13:.2f}")
+
         
         with st.container():    
-            col290, col291, col292 = st.columns([1,5,2])
+            col290, col291, col292, col293, col294 = = st.columns([1, 5, 2, 2, 2])
             with col290:
                 quant_peca_14 = st.text_input("14 - Quant.", value=vendor_data["quant_peca_14"], key="update_quant_peca_14")
             with col291:
                 desc_peca_14 = st.text_input("14 - Descriçao da peça", value=vendor_data["desc_peca_14"], key="update_desc_peca_14")
             with col292:
                 valor_peca_14 = st.text_input("14 - Valor de cada peça", value=vendor_data["valor_peca_14"], key="update_valor_peca_14")
+            with col293:
+                # Mostrar costo inicial
+                custo_inicial_14 = float(vendor_data.get("costo_inicial_peca_14", 0))
+                st.text(f"Custo: R$ {custo_inicial_14:.2f}")
+            with col294:
+                # Mostrar costo final
+                custo_final_14 = float(vendor_data.get("costo_final_peca_14", 0))
+                st.text(f"Total: R$ {custo_final_14:.2f}")
         
         with st.container():    
-            col300, col301, col302 = st.columns([1,5,2])
+            col300, col301, col302, col303, col304 = = st.columns([1, 5, 2, 2, 2])
             with col300:
                 quant_peca_15 = st.text_input("15 - Quant.", value=vendor_data["quant_peca_15"], key="update_quant_peca_15")
             with col301:
                 desc_peca_15 = st.text_input("15 - Descriçao da peça", value=vendor_data["desc_peca_15"], key="update_desc_peca_15")
             with col302:
                 valor_peca_15 = st.text_input("15 - Valor de cada peça", value=vendor_data["valor_peca_15"], key="update_valor_peca_15")
+            with col303:
+                # Mostrar costo inicial
+                custo_inicial_15 = float(vendor_data.get("costo_inicial_peca_15", 0))
+                st.text(f"Custo: R$ {custo_inicial_15:.2f}")
+            with col304:
+                # Mostrar costo final
+                custo_final_15 = float(vendor_data.get("costo_final_peca_15", 0))
+                st.text(f"Total: R$ {custo_final_15:.2f}")
         
         with st.container():    
-            col310, col311, col312 = st.columns([1,5,2])
+            col310, col311, col312, col313, col314 = = st.columns([1, 5, 2, 2, 2])
             with col310:
                 quant_peca_16 = st.text_input("16 - Quant.", value=vendor_data["quant_peca_16"], key="update_quant_peca_16")
             with col311:
                 desc_peca_16 = st.text_input("16 - Descriçao da peça", value=vendor_data["desc_peca_16"], key="update_desc_peca_16")
             with col312:
-                valor_peca_16 = st.text_input("16 - Valor de cada peça", value=vendor_data["valor_peca_16"], key="update_valor_peca_16")     
+                valor_peca_16 = st.text_input("16 - Valor de cada peça", value=vendor_data["valor_peca_16"], key="update_valor_peca_16") 
+            with col313:
+                # Mostrar costo inicial
+                custo_inicial_16 = float(vendor_data.get("costo_inicial_peca_16", 0))
+                st.text(f"Custo: R$ {custo_inicial_16:.2f}")
+            with col314:
+                # Mostrar costo final
+                custo_final_16 = float(vendor_data.get("costo_final_peca_16", 0))
+                st.text(f"Total: R$ {custo_final_16:.2f}")
         
         line(4, "blue")
         
@@ -1502,70 +1650,68 @@ elif action == "Atualizar ordem existente":
                     'porcentaje_adicional': porcentaje_adicional,
                     'quant_peca_1': quant_peca_1 if 'quant_peca_1' in locals() else None,
                     'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
-                    'valor_peca_1': valor_peca_1 if 'valor_peca_1' in locals() else None,
-                    'valor_total_peca_1': valor_total_peca_1 if 'valor_total_peca_1' in locals() else None,
+                    'valor_peca_1': costo_inicial_1 if 'costo_inicial_1' in locals() else 0,
+                    'valor_total_peca_1': costo_final_1 if 'costo_final_1' in locals() else 0,                   
                     'quant_peca_2': quant_peca_2 if 'quant_peca_2' in locals() else None,
                     'desc_peca_2': desc_peca_2 if 'desc_peca_2' in locals() else None,
-                    'valor_peca_2': valor_peca_2 if 'valor_peca_2' in locals() else None,
-                    'valor_total_peça_2': valor_total_peça_2 if 'valor_total_peça_2' in locals() else None,
+                    'valor_peca_2': costo_inicial_2 if 'costo_inicial_2' in locals() else 0,
+                    'valor_total_peca_2': costo_final_2 if 'costo_final_2' in locals() else 0,                
                     'quant_peca_3': quant_peca_3 if 'quant_peca_3' in locals() else None,
                     'desc_peca_3': desc_peca_3 if 'desc_peca_3' in locals() else None,
-                    'valor_peca_3': valor_peca_3 if 'valor_peca_3' in locals() else None,
-                    'valor_total_peça_3': valor_total_peça_3 if 'valor_total_peça_3' in locals() else None,
+                    'valor_peca_3': costo_inicial_3 if 'costo_inicial_3' in locals() else 0,
+                    'valor_total_peca_3': costo_final_3 if 'costo_final_3' in locals() else 0,                   
                     'quant_peca_4': quant_peca_4 if 'quant_peca_4' in locals() else None,
                     'desc_peca_4': desc_peca_4 if 'desc_peca_4' in locals() else None,
-                    'valor_peca_4': valor_peca_4 if 'valor_peca_4' in locals() else None,
-                    'valor_total_peça_4': valor_total_peça_4 if 'valor_total_peça_4' in locals() else None,
+                    'valor_peca_4': costo_inicial_4 if 'costo_inicial_4' in locals() else 0,
+                    'valor_total_peca_4': costo_final_4 if 'costo_final_4' in locals() else 0,                    
                     'quant_peca_5': quant_peca_5 if 'quant_peca_5' in locals() else None,
                     'desc_peca_5': desc_peca_5 if 'desc_peca_5' in locals() else None,
-                    'valor_peca_5': valor_peca_5 if 'valor_peca_5' in locals() else None,
-                    'valor_total_peça_5': valor_total_peça_5 if 'valor_total_peça_5' in locals() else None,
+                    'valor_peca_5': costo_inicial_5 if 'costo_inicial_5' in locals() else 0,
+                    'valor_total_peca_5': costo_final_5 if 'costo_final_5' in locals() else 0,                    
                     'quant_peca_6': quant_peca_6 if 'quant_peca_6' in locals() else None,
                     'desc_peca_6': desc_peca_6 if 'desc_peca_6' in locals() else None,
-                    'valor_peca_6': valor_peca_6 if 'valor_peca_6' in locals() else None,
-                    'valor_total_peça_6': valor_total_peça_6 if 'valor_total_peça_6' in locals() else None,
+                    'valor_peca_6': costo_inicial_6 if 'costo_inicial_6' in locals() else 0,
+                    'valor_total_peca_6': costo_final_6 if 'costo_final_6' in locals() else 0,                    
                     'quant_peca_7': quant_peca_7 if 'quant_peca_7' in locals() else None,
                     'desc_peca_7': desc_peca_7 if 'desc_peca_7' in locals() else None,
-                    'valor_peca_7': valor_peca_7 if 'valor_peca_7' in locals() else None,
-                    'valor_total_peça_7': valor_total_peça_7 if 'valor_total_peça_7' in locals() else None,
+                    'valor_peca_7': costo_inicial_7 if 'costo_inicial_7' in locals() else 0,
+                    'valor_total_peca_7': costo_final_7 if 'costo_final_7' in locals() else 0,                    
                     'quant_peca_8': quant_peca_8 if 'quant_peca_8' in locals() else None,
                     'desc_peca_8': desc_peca_8 if 'desc_peca_8' in locals() else None,
-                    'valor_peca_8': valor_peca_8 if 'valor_peca_8' in locals() else None,
-                    'valor_total_peça_8': valor_total_peça_8 if 'valor_total_peça_8' in locals() else None,
-                    'quant_peca_9': quant_peca_9 if 'quant_peca_9' in locals() else None,
-                    'desc_peca_9': desc_peca_9 if 'desc_peca_9' in locals() else None,
-                    'valor_peca_9': valor_peca_9 if 'valor_peca_9' in locals() else None,
-                    'valor_total_peça_9': valor_total_peça_9 if 'valor_total_peça_9' in locals() else None,
+                    'valor_peca_8': costo_inicial_8 if 'costo_inicial_8' in locals() else 0,
+                    'valor_total_peca_8': costo_final_8 if 'costo_final_8' in locals() else 0,                    
+                    'valor_peca_9': costo_inicial_9 if 'costo_inicial_9' in locals() else 0,
+                    'valor_total_peca_9': costo_final_9 if 'costo_final_9' in locals() else 0,               
                     'quant_peca_10': quant_peca_10 if 'quant_peca_10' in locals() else None,
                     'desc_peca_10': desc_peca_10 if 'desc_peca_10' in locals() else None,
-                    'valor_peca_10': valor_peca_10 if 'valor_peca_10' in locals() else None,
-                    'valor_total_peça_10': valor_total_peça_10 if 'valor_total_peça_10' in locals() else None,
+                    'valor_peca_10': costo_inicial_10 if 'costo_inicial_10' in locals() else 0,
+                    'valor_total_peca_10': costo_final_10 if 'costo_final_10' in locals() else 0,                   
                     'quant_peca_11': quant_peca_11 if 'quant_peca_11' in locals() else None,
                     'desc_peca_11': desc_peca_11 if 'desc_peca_11' in locals() else None,
-                    'valor_peca_11': valor_peca_11 if 'valor_peca_11' in locals() else None,
-                    'valor_total_peça_11': valor_total_peça_11 if 'valor_total_peça_11' in locals() else None,
+                    'valor_peca_11': costo_inicial_11 if 'costo_inicial_11' in locals() else 0,
+                    'valor_total_peca_11': costo_final_11 if 'costo_final_11' in locals() else 0,                  
                     'quant_peca_12': quant_peca_12 if 'quant_peca_12' in locals() else None,
                     'desc_peca_12': desc_peca_12 if 'desc_peca_12' in locals() else None,
-                    'valor_peca_12': valor_peca_12 if 'valor_peca_12' in locals() else None,
-                    'valor_total_peça_12': valor_total_peça_12 if 'valor_total_peça_12' in locals() else None,
+                    'valor_peca_12': costo_inicial_12 if 'costo_inicial_12' in locals() else 0,
+                    'valor_total_peca_12': costo_final_12 if 'costo_final_12' in locals() else 0,             
                     'quant_peca_13': quant_peca_13 if 'quant_peca_13' in locals() else None,
                     'desc_peca_13': desc_peca_13 if 'desc_peca_13' in locals() else None,
-                    'valor_peca_13': valor_peca_13 if 'valor_peca_13' in locals() else None,
-                    'valor_total_peça_13': valor_total_peça_13 if 'valor_total_peça_13' in locals() else None,
+                    'valor_peca_13': costo_inicial_13 if 'costo_inicial_13' in locals() else 0,
+                    'valor_total_peca_13': costo_final_13 if 'costo_final_13' in locals() else 0,                   
                     'quant_peca_14': quant_peca_14 if 'quant_peca_14' in locals() else None,
                     'desc_peca_14': desc_peca_14 if 'desc_peca_14' in locals() else None,
-                    'valor_peca_14': valor_peca_14 if 'valor_peca_14' in locals() else None,
-                    'valor_total_peça_14': valor_total_peça_14 if 'valor_total_peça_14' in locals() else None,
+                    'valor_peca_14': costo_inicial_14 if 'costo_inicial_14' in locals() else 0,
+                    'valor_total_peca_14': costo_final_14 if 'costo_final_14' in locals() else 0,          
                     'quant_peca_15': quant_peca_15 if 'quant_peca_15' in locals() else None,
                     'desc_peca_15': desc_peca_15 if 'desc_peca_15' in locals() else None,
-                    'valor_peca_15': valor_peca_15 if 'valor_peca_15' in locals() else None,
-                    'valor_total_peça_15': valor_total_peça_15 if 'valor_total_peça_15' in locals() else None,
+                    'valor_peca_15': costo_inicial_15 if 'costo_inicial_15' in locals() else 0,
+                    'valor_total_peca_15': costo_final_15 if 'costo_final_15' in locals() else 0,
                     'quant_peca_16': quant_peca_16 if 'quant_peca_16' in locals() else None,
                     'desc_peca_16': desc_peca_16 if 'desc_peca_16' in locals() else None,
-                    'valor_peca_16': valor_peca_16 if 'valor_peca_16' in locals() else None,
-                    'valor_total_peça_16': valor_total_peça_16 if 'valor_total_peça_16' in locals() else None,
-                    '30_porc': None,
-                    'total_valor_pecas': None,
+                    'valor_peca_16': costo_inicial_16 if 'costo_inicial_16' in locals() else 0,
+                    'valor_total_peca_16': costo_final_16 if 'costo_final_16' in locals() else 0,
+                    'total_costo_inicial': sum([v for k, v in locals().items() if k.startswith('costo_inicial_')]),
+                    'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')])
                     'forma_de_pagamento': None,
                     'pagamento_parcial': None,
                     'valor_pago_parcial': None,
