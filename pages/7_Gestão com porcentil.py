@@ -1199,9 +1199,9 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_2) if quant_peca_2 else 0
                     custo_unitario = float(valor_peca_2) if valor_peca_2 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
-                    centrar_texto("Valor", 11, "white")
+                    centrar_texto("", 7,"white")
                     st.markdown(
                         f'<div style="display: flex; align-items: center; height: 38px;">'
                         f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
@@ -1209,7 +1209,7 @@ elif action == "Atualizar ordem existente":
                         unsafe_allow_html=True
                     )
                 except:
-                    centrar_texto("Valor", 11, "white")
+                    centrar_texto("", 7,"white")
                     st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
                         '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
@@ -1232,7 +1232,7 @@ elif action == "Atualizar ordem existente":
                     custo_unitario = float(valor_peca_3) if valor_peca_3 else 0
                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
-                    centrar_texto("Valor", 11, "white")
+                    centrar_texto("", 7,"white")
                     st.markdown(
                         f'<div style="display: flex; align-items: center; height: 38px;">'
                         f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
@@ -1240,7 +1240,7 @@ elif action == "Atualizar ordem existente":
                         unsafe_allow_html=True
                     )
                 except:
-                    centrar_texto("Valor", 11, "white")
+                    centrar_texto("", 7,"white")
                     st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
                         '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
@@ -1261,9 +1261,9 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_4) if quant_peca_4 else 0
                     custo_unitario = float(valor_peca_4) if valor_peca_4 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
-                    centrar_texto("Valor", 11, "white")
+                    centrar_texto("", 7,"white")
                     st.markdown(
                         f'<div style="display: flex; align-items: center; height: 38px;">'
                         f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
@@ -1271,7 +1271,7 @@ elif action == "Atualizar ordem existente":
                         unsafe_allow_html=True
                     )
                 except:
-                    centrar_texto("Valor", 11, "white")
+                    centrar_texto("", 7,"white")
                     st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
                         '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
@@ -1292,12 +1292,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_5) if quant_peca_5 else 0
                     custo_unitario = float(valor_peca_5) if valor_peca_5 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col210, col211, col212, col213 = st.columns([1, 6, 1, 1])
@@ -1312,12 +1323,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_6) if quant_peca_6 else 0
                     custo_unitario = float(valor_peca_6) if valor_peca_6 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col220, col221, col222, col223 = st.columns([1, 6, 1, 1])
@@ -1332,12 +1354,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_7) if quant_peca_7 else 0
                     custo_unitario = float(valor_peca_7) if valor_peca_7 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col230, col231, col232, col233 = st.columns([1, 6, 1, 1])
@@ -1352,12 +1385,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_8) if quant_peca_8 else 0
                     custo_unitario = float(valor_peca_8) if valor_peca_8 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col240, col241, col242, col243 = st.columns([1, 6, 1, 1])
@@ -1372,12 +1416,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_9) if quant_peca_9 else 0
                     custo_unitario = float(valor_peca_9) if valor_peca_9 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
 
             
         
@@ -1394,12 +1449,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_10) if quant_peca_10 else 0
                     custo_unitario = float(valor_peca_10) if valor_peca_10 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col260, col261, col262, col263 = st.columns([1, 6, 1, 1])
@@ -1414,12 +1480,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_11) if quant_peca_11 else 0
                     custo_unitario = float(valor_peca_11) if valor_peca_11 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col270, col271, col272, col273 = st.columns([1, 6, 1, 1])
@@ -1434,12 +1511,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_12) if quant_peca_12 else 0
                     custo_unitario = float(valor_peca_12) if valor_peca_12 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
 
         
         with st.container():    
@@ -1455,12 +1543,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_13) if quant_peca_13 else 0
                     custo_unitario = float(valor_peca_13) if valor_peca_13 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
 
         
         with st.container():    
@@ -1476,12 +1575,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_14) if quant_peca_14 else 0
                     custo_unitario = float(valor_peca_14) if valor_peca_14 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col300, col301, col302, col303 = st.columns([1, 6, 1, 1])
@@ -1496,12 +1606,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_15) if quant_peca_15 else 0
                     custo_unitario = float(valor_peca_15) if valor_peca_15 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col310, col311, col312, col313 = st.columns([1, 6, 1, 1])
@@ -1516,12 +1637,23 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_16) if quant_peca_16 else 0
                     custo_unitario = float(valor_peca_16) if valor_peca_16 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    # Texto unificado con estilo
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("", 7,"white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         line(4, "blue")
         
