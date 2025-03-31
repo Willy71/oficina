@@ -466,25 +466,25 @@ if action == "Nova ordem de serviço":
         centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
-            col160, col161, col162, col163, col164 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
+            col160, col161, col162, col163 = st.columns([1, 6, 1, 1])
             with col160:
-                st.text_input("Quant.", key="quant_peca_1", on_change=calcular_subtotales)
+                quant_peca_1 = st.text_input("2")
             with col161:
-                st.text_input("Descrição", key="desc_peca_1")
+                desc_peca_1 = st.text_input("2 - Descriçao da peça")
             with col162:
-                st.text_input("Valor Unit.", key="valor_peca_1", on_change=calcular_subtotales)
+                valor_peca_1 = st.text_input("2 - Custo")
             with col163:
-                # Muestra el subtotal reactivo (amarillo/negrita)
-                st.markdown(
-                    f"""
-                    <div style="display: flex; align-items: center; height: 38px;">
-                        <span style="color: #FFD700; font-weight: bold;">
-                            R$ {st.session_state.subtotales['costo_final_1']:.2f}
-                        </span>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                # Mostrar costo final (con porcentaje aplicado)
+                if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
+                    try:
+                        costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
+                        st.text(f"R$ {costo_final_1:.2f}")
+                    except:
+                        st.text("Valor")
+                else:
+                    st.text("Valor")
+
+       
        
         
 
