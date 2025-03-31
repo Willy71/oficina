@@ -1183,9 +1183,15 @@ elif action == "Atualizar ordem existente":
             with col172:
                 valor_peca_2 = st.text_input("2 - Custo", value=vendor_data["valor_peca_2"], key="update_valor_peca_2")
             with col173:
-                # Mostrar costo final
-                custo_final_2 = float(vendor_data.get("costo_final_peca_2", 0))
-                st.text(f"Valor {custo_final_2:.2f}")
+                 # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_2) if quant_peca_2 else 0
+                    custo_unitario = float(valor_peca_2) if valor_peca_2 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
 
         with st.container():    
             col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
@@ -1196,9 +1202,15 @@ elif action == "Atualizar ordem existente":
             with col182:
                 valor_peca_3 = st.text_input("3 - Custo", value=vendor_data["valor_peca_3"], key="update_valor_peca_3")
             with col183:
-                # Mostrar costo final
-                custo_final_3 = float(vendor_data.get("costo_final_peca_3", 0))
-                st.text(f"Valor {custo_final_3:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_3) if quant_peca_3 else 0
+                    custo_unitario = float(valor_peca_3) if valor_peca_3 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
             col190, col191, col192, col193 = st.columns([1, 6, 1, 1])
@@ -1209,12 +1221,18 @@ elif action == "Atualizar ordem existente":
             with col192:
                 valor_peca_4 = st.text_input("4 - Custo", value=vendor_data["valor_peca_4"], key="update_valor_peca_4")
             with col193:
-                # Mostrar costo final
-                custo_final_4 = float(vendor_data.get("costo_final_peca_4", 0))
-                st.text(f"Valor {custo_final_4:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_4) if quant_peca_4 else 0
+                    custo_unitario = float(valor_peca_4) if valor_peca_4 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
-            col200, col201, col202, col203, col204 = st.columns([1, 5, 2, 2, 2])
+            col200, col201, col202, col203, col204 = st.columns([1, 6, 1, 1])
             with col200:
                 quant_peca_5 = st.text_input("5", value=vendor_data["quant_peca_5"], key="update_quant_peca_5")
             with col201:
@@ -1222,16 +1240,18 @@ elif action == "Atualizar ordem existente":
             with col202:
                 valor_peca_5 = st.text_input("5 - Custo", value=vendor_data["valor_peca_5"], key="update_valor_peca_5")
             with col203:
-                # Mostrar costo inicial
-                custo_inicial_5 = float(vendor_data.get("costo_inicial_peca_5", 0))
-                st.text(f"Custo: R$ {custo_inicial_5:.2f}")
-            with col204:
-                # Mostrar costo final
-                custo_final_5 = float(vendor_data.get("costo_final_peca_5", 0))
-                st.text(f"Valor {custo_final_5:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_5) if quant_peca_5 else 0
+                    custo_unitario = float(valor_peca_5) if valor_peca_5 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
-            col210, col211, col212, col213, col214 = st.columns([1, 5, 2, 2, 2])
+            col210, col211, col212, col213, col214 = st.columns([1, 6, 1, 1])
             with col210:
                 quant_peca_6 = st.text_input("6", value=vendor_data["quant_peca_6"], key="update_quant_peca_6")
             with col211:
@@ -1239,16 +1259,18 @@ elif action == "Atualizar ordem existente":
             with col212:
                 valor_peca_6 = st.text_input("6 - Custo", value=vendor_data["valor_peca_6"], key="update_valor_peca_6")
             with col213:
-                # Mostrar costo inicial
-                custo_inicial_6 = float(vendor_data.get("costo_inicial_peca_6", 0))
-                st.text(f"Custo: R$ {custo_inicial_6:.2f}")
-            with col214:
-                # Mostrar costo final
-                custo_final_6 = float(vendor_data.get("costo_final_peca_6", 0))
-                st.text(f"Valor {custo_final_6:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_6) if quant_peca_6 else 0
+                    custo_unitario = float(valor_peca_6) if valor_peca_6 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
-            col220, col221, col222, col223, col224 = st.columns([1, 5, 2, 2, 2])
+            col220, col221, col222, col223 = st.columns([1, 6, 1, 1])
             with col220:
                 quant_peca_7 = st.text_input("7", value=vendor_data["quant_peca_7"], key="update_quant_peca_7")
             with col221:
@@ -1256,16 +1278,18 @@ elif action == "Atualizar ordem existente":
             with col222:
                 valor_peca_7 = st.text_input("7 - Custo", value=vendor_data["valor_peca_7"], key="update_valor_peca_7")
             with col223:
-                # Mostrar costo inicial
-                custo_inicial_7 = float(vendor_data.get("costo_inicial_peca_7", 0))
-                st.text(f"Custo: R$ {custo_inicial_7:.2f}")
-            with col224:
-                # Mostrar costo final
-                custo_final_7 = float(vendor_data.get("costo_final_peca_7", 0))
-                st.text(f"Valor {custo_final_7:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_7) if quant_peca_7 else 0
+                    custo_unitario = float(valor_peca_7) if valor_peca_7 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
-            col230, col231, col232, col233, col234 = st.columns([1, 5, 2, 2, 2])
+            col230, col231, col232, col233 = st.columns([1, 6, 1, 1])
             with col230:
                 quant_peca_8 = st.text_input("8", value=vendor_data["quant_peca_8"], key="update_quant_peca_8")
             with col231:
@@ -1273,16 +1297,18 @@ elif action == "Atualizar ordem existente":
             with col232:
                 valor_peca_8 = st.text_input("8 - Custo", value=vendor_data["valor_peca_8"], key="update_valor_peca_8")
             with col233:
-                # Mostrar costo inicial
-                custo_inicial_8 = float(vendor_data.get("costo_inicial_peca_8", 0))
-                st.text(f"Custo: R$ {custo_inicial_8:.2f}")
-            with col234:
-                # Mostrar costo final
-                custo_final_8 = float(vendor_data.get("costo_final_peca_8", 0))
-                st.text(f"Valor {custo_final_8:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_8) if quant_peca_8 else 0
+                    custo_unitario = float(valor_peca_8) if valor_peca_8 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
-            col240, col241, col242, col243, col244 = st.columns([1, 5, 2, 2, 2])
+            col240, col241, col242, col243 = st.columns([1, 6, 1, 1])
             with col240:
                 quant_peca_9 = st.text_input("9", value=vendor_data["quant_peca_9"], key="update_quant_peca_9")
             with col241:
@@ -1290,18 +1316,20 @@ elif action == "Atualizar ordem existente":
             with col242:
                 valor_peca_9 = st.text_input("9 - Custo", value=vendor_data["valor_peca_9"], key="update_valor_peca_9")
             with col243:
-                # Mostrar costo inicial
-                custo_inicial_9 = float(vendor_data.get("costo_inicial_peca_9", 0))
-                st.text(f"Custo: R$ {custo_inicial_9:.2f}")
-            with col244:
-                # Mostrar costo final
-                custo_final_9 = float(vendor_data.get("costo_final_peca_9", 0))
-                st.text(f"Valor {custo_final_9:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_9) if quant_peca_9 else 0
+                    custo_unitario = float(valor_peca_9) if valor_peca_9 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
 
             
         
         with st.container():    
-            col250, col251, col252, col253, col254 = st.columns([1, 5, 2, 2, 2])
+            col250, col251, col252, col253 = st.columns([1, 6, 1, 1])
             with col250:
                 quant_peca_10 = st.text_input("10", value=vendor_data["quant_peca_10"], key="update_quant_peca_10")
             with col251:
@@ -1309,16 +1337,19 @@ elif action == "Atualizar ordem existente":
             with col252:
                 valor_peca_10 = st.text_input("10 - Custo", value=vendor_data["valor_peca_10"], key="update_valor_peca_10")
             with col253:
-                # Mostrar costo inicial
-                custo_inicial_10 = float(vendor_data.get("costo_inicial_peca_10", 0))
-                st.text(f"Custo: R$ {custo_inicial_10:.2f}")
-            with col254:
-                # Mostrar costo final
-                custo_final_10 = float(vendor_data.get("costo_final_peca_10", 0))
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_10) if quant_peca_10 else 0
+                    custo_unitario = float(valor_peca_10) if valor_peca_10 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")"costo_final_peca_10", 0))
                 st.text(f"Valor {custo_final_10:.2f}")
         
         with st.container():    
-            col260, col261, col262, col263, col264 = st.columns([1, 5, 2, 2, 2])
+            col260, col261, col262, col263 = st.columns([1, 6, 1, 1])
             with col260:
                 quant_peca_11 = st.text_input("11", value=vendor_data["quant_peca_11"], key="update_quant_peca_11")
             with col261:
@@ -1326,16 +1357,18 @@ elif action == "Atualizar ordem existente":
             with col262:
                 valor_peca_11 = st.text_input("11 - Custo", value=vendor_data["valor_peca_11"], key="update_valor_peca_11")
             with col263:
-                # Mostrar costo inicial
-                custo_inicial_11 = float(vendor_data.get("costo_inicial_peca_11", 0))
-                st.text(f"Custo: R$ {custo_inicial_11:.2f}")
-            with col264:
-                # Mostrar costo final
-                custo_final_11 = float(vendor_data.get("costo_final_peca_11", 0))
-                st.text(f"Valor {custo_final_11:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_11) if quant_peca_11 else 0
+                    custo_unitario = float(valor_peca_11) if valor_peca_11 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
-            col270, col271, col272, col273, col274 = st.columns([1, 5, 2, 2, 2])
+            col270, col271, col272, col273 = st.columns([1, 6, 1, 1])
             with col270:
                 quant_peca_12 = st.text_input("12", value=vendor_data["quant_peca_12"], key="update_quant_peca_12")
             with col271:
@@ -1343,17 +1376,19 @@ elif action == "Atualizar ordem existente":
             with col272:
                 valor_peca_12 = st.text_input("12 - Custo", value=vendor_data["valor_peca_12"], key="update_valor_peca_12")
             with col273:
-                # Mostrar costo inicial
-                custo_inicial_12 = float(vendor_data.get("costo_inicial_peca_12", 0))
-                st.text(f"Custo: R$ {custo_inicial_12:.2f}")
-            with col274:
-                # Mostrar costo final
-                custo_final_12 = float(vendor_data.get("costo_final_peca_12", 0))
-                st.text(f"Valor {custo_final_12:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_12) if quant_peca_12 else 0
+                    custo_unitario = float(valor_peca_12) if valor_peca_12 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
 
         
         with st.container():    
-            col280, col281, col282, col283, col284 = st.columns([1, 5, 2, 2, 2])
+            col280, col281, col282, col283 = st.columns([1, 6, 1, 1])
             with col280:
                 quant_peca_13 = st.text_input("13", value=vendor_data["quant_peca_13"], key="update_quant_peca_13")
             with col281:
@@ -1361,17 +1396,19 @@ elif action == "Atualizar ordem existente":
             with col282:
                 valor_peca_13 = st.text_input("13 - Custo", value=vendor_data["valor_peca_13"], key="update_valor_peca_13")
             with col283:
-                # Mostrar costo inicial
-                custo_inicial_13 = float(vendor_data.get("costo_inicial_peca_13", 0))
-                st.text(f"Custo: R$ {custo_inicial_13:.2f}")
-            with col284:
-                # Mostrar costo final
-                custo_final_13 = float(vendor_data.get("costo_final_peca_13", 0))
-                st.text(f"Valor {custo_final_13:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_13) if quant_peca_13 else 0
+                    custo_unitario = float(valor_peca_13) if valor_peca_13 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
 
         
         with st.container():    
-            col290, col291, col292, col293, col294 = st.columns([1, 5, 2, 2, 2])
+            col290, col291, col292, col293 = st.columns([1, 6, 1, 1])
             with col290:
                 quant_peca_14 = st.text_input("14", value=vendor_data["quant_peca_14"], key="update_quant_peca_14")
             with col291:
@@ -1379,16 +1416,18 @@ elif action == "Atualizar ordem existente":
             with col292:
                 valor_peca_14 = st.text_input("14 - Custo", value=vendor_data["valor_peca_14"], key="update_valor_peca_14")
             with col293:
-                # Mostrar costo inicial
-                custo_inicial_14 = float(vendor_data.get("costo_inicial_peca_14", 0))
-                st.text(f"Custo: R$ {custo_inicial_14:.2f}")
-            with col294:
-                # Mostrar costo final
-                custo_final_14 = float(vendor_data.get("costo_final_peca_14", 0))
-                st.text(f"Valor {custo_final_14:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_14) if quant_peca_14 else 0
+                    custo_unitario = float(valor_peca_14) if valor_peca_14 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
-            col300, col301, col302, col303, col304 = st.columns([1, 5, 2, 2, 2])
+            col300, col301, col302, col303 = st.columns([1, 6, 1, 1])
             with col300:
                 quant_peca_15 = st.text_input("15", value=vendor_data["quant_peca_15"], key="update_quant_peca_15")
             with col301:
@@ -1396,16 +1435,18 @@ elif action == "Atualizar ordem existente":
             with col302:
                 valor_peca_15 = st.text_input("15 - Custo", value=vendor_data["valor_peca_15"], key="update_valor_peca_15")
             with col303:
-                # Mostrar costo inicial
-                custo_inicial_15 = float(vendor_data.get("costo_inicial_peca_15", 0))
-                st.text(f"Custo: R$ {custo_inicial_15:.2f}")
-            with col304:
-                # Mostrar costo final
-                custo_final_15 = float(vendor_data.get("costo_final_peca_15", 0))
-                st.text(f"Valor {custo_final_15:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_15) if quant_peca_15 else 0
+                    custo_unitario = float(valor_peca_15) if valor_peca_15 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         with st.container():    
-            col310, col311, col312, col313, col314 = st.columns([1, 5, 2, 2, 2])
+            col310, col311, col312, col313 = st.columns([1, 6, 1, 1])
             with col310:
                 quant_peca_16 = st.text_input("16", value=vendor_data["quant_peca_16"], key="update_quant_peca_16")
             with col311:
@@ -1413,13 +1454,15 @@ elif action == "Atualizar ordem existente":
             with col312:
                 valor_peca_16 = st.text_input("16 - Custo", value=vendor_data["valor_peca_16"], key="update_valor_peca_16") 
             with col313:
-                # Mostrar costo inicial
-                custo_inicial_16 = float(vendor_data.get("costo_inicial_peca_16", 0))
-                st.text(f"Custo: R$ {custo_inicial_16:.2f}")
-            with col314:
-                # Mostrar costo final
-                custo_final_16 = float(vendor_data.get("costo_final_peca_16", 0))
-                st.text(f"Valor {custo_final_16:.2f}")
+                # Cálculo directo usando el porcentaje_adicional ya definido
+                try:
+                    quantidade = float(quant_peca_16) if quant_peca_16 else 0
+                    custo_unitario = float(valor_peca_16) if valor_peca_16 else 0
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    st.text("Valor")
+                    st.text(f"R$ {valor_final:.2f}")
+                except:
+                    st.text("R$ 0.00")
         
         line(4, "blue")
         
