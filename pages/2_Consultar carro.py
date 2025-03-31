@@ -184,36 +184,49 @@ if buscar:
                         st.markdown(f"**Total Serviços:** R$ {formatar_valor(total_servicos)}")
                     else:
                         st.info("Nenhum serviço registrado")
-                
-                # Mostrar peças com expanders
+
+                # Mostrar peças con expanders
                 with st.expander("🔧 Peças Utilizadas", expanded=False):
                     pecas = []
                     total_pecas = 0.0
+                    total_pecas_final = 0.0
                     
                     for i in range(1, 17):
                         quant = veiculo.get(f'quant_peca_{i}', '')
                         desc = veiculo.get(f'desc_peca_{i}', '')
                         valor = veiculo.get(f'valor_peca_{i}', '')
+                        valor_total = veiculo.get(f'valor_total_peca_{i}', '')
+                        porcentaje = veiculo.get('porcentaje_adicional', 0)
                         
                         if pd.notna(quant) or pd.notna(desc) or pd.notna(valor):
                             valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
+                            valor_total_formatado = formatar_valor(valor_total) if pd.notna(valor_total) else "0,00"
                             valor_float = float(valor) if pd.notna(valor) else 0.0
+                            valor_total_float = float(valor_total) if pd.notna(valor_total) else 0.0
                             total_pecas += valor_float
+                            total_pecas_final += valor_total_float
                             
                             pecas.append({
                                 'Quant.': quant if pd.notna(quant) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
-                                'Valor Unit. (R$)': valor_formatado
+                                'Custo Unit. (R$)': valor_formatado,
+                                '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
+                                'Valor Final (R$)': valor_total_formatado
                             })
                     
                     if pecas:
                         df_pecas = pd.DataFrame(pecas)
                         st.dataframe(df_pecas, hide_index=True, use_container_width=True)
                         
-                        # Mostrar total de piezas
-                        st.markdown(f"**Total Peças:** R$ {formatar_valor(total_pecas)}")
+                        # Mostrar totales
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            st.markdown(f"**Total Costo Peças:** R$ {formatar_valor(total_pecas)}")
+                        with col2:
+                            st.markdown(f"**Total Final Peças:** R$ {formatar_valor(total_pecas_final)}")
                     else:
                         st.info("Nenhuma peça registrada")
+                
 
                 # Mostrar el gran total después de ambas secciones
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
