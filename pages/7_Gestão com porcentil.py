@@ -1195,7 +1195,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_3:.2f}")
         
         with st.container():    
-            col190, col191, col192, col193, col194 = st.columns([1, 5, 2, 2, 2])
+            col190, col191, col192, col193 = st.columns([1, 6, 1, 1])
             with col190:
                 quant_peca_4 = st.text_input("4", value=vendor_data["quant_peca_4"], key="update_quant_peca_4")
             with col191:
@@ -1203,10 +1203,6 @@ elif action == "Atualizar ordem existente":
             with col192:
                 valor_peca_4 = st.text_input("4 - Custo", value=vendor_data["valor_peca_4"], key="update_valor_peca_4")
             with col193:
-                # Mostrar costo inicial
-                custo_inicial_4 = float(vendor_data.get("costo_inicial_peca_4", 0))
-                st.text(f"Custo: R$ {custo_inicial_4:.2f}")
-            with col194:
                 # Mostrar costo final
                 custo_final_4 = float(vendor_data.get("costo_final_peca_4", 0))
                 st.text(f"Total: R$ {custo_final_4:.2f}")
