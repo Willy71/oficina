@@ -1045,7 +1045,6 @@ if action == "Nova ordem de serviço":
                     'valor_total_peca_16': costo_final_16 if 'costo_final_16' in locals() else 0,                    
                     'total_costo_inicial': sum([v for k, v in locals().items() if k.startswith('costo_inicial_')]),
                     'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')]),
-                    'total_valor_pecas': None,
                     'forma_de_pagamento': None,
                     'pagamento_parcial': None,
                     'valor_pago_parcial': None,
