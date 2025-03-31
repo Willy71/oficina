@@ -1199,7 +1199,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_2) if quant_peca_2 else 0
                     custo_unitario = float(valor_peca_2) if valor_peca_2 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1261,7 +1261,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_4) if quant_peca_4 else 0
                     custo_unitario = float(valor_peca_4) if valor_peca_4 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1292,7 +1292,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_5) if quant_peca_5 else 0
                     custo_unitario = float(valor_peca_5) if valor_peca_5 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1323,7 +1323,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_6) if quant_peca_6 else 0
                     custo_unitario = float(valor_peca_6) if valor_peca_6 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1354,7 +1354,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_7) if quant_peca_7 else 0
                     custo_unitario = float(valor_peca_7) if valor_peca_7 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1385,7 +1385,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_8) if quant_peca_8 else 0
                     custo_unitario = float(valor_peca_8) if valor_peca_8 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1416,7 +1416,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_9) if quant_peca_9 else 0
                     custo_unitario = float(valor_peca_9) if valor_peca_9 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1449,7 +1449,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_10) if quant_peca_10 else 0
                     custo_unitario = float(valor_peca_10) if valor_peca_10 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1480,7 +1480,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_11) if quant_peca_11 else 0
                     custo_unitario = float(valor_peca_11) if valor_peca_11 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1511,7 +1511,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_12) if quant_peca_12 else 0
                     custo_unitario = float(valor_peca_12) if valor_peca_12 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1543,7 +1543,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_13) if quant_peca_13 else 0
                     custo_unitario = float(valor_peca_13) if valor_peca_13 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1575,7 +1575,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_14) if quant_peca_14 else 0
                     custo_unitario = float(valor_peca_14) if valor_peca_14 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1606,7 +1606,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_15) if quant_peca_15 else 0
                     custo_unitario = float(valor_peca_15) if valor_peca_15 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
@@ -1637,7 +1637,7 @@ elif action == "Atualizar ordem existente":
                 try:
                     quantidade = float(quant_peca_16) if quant_peca_16 else 0
                     custo_unitario = float(valor_peca_16) if valor_peca_16 else 0
-                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
+                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     centrar_texto("", 7,"white")
                     st.markdown(
