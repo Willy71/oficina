@@ -478,7 +478,7 @@ if action == "Nova ordem de serviço":
                     st.text("R$ 0.00")
 
         with st.container():    
-            col170, col171, col172, col173, col174 = = st.columns([1, 5, 2, 2, 2])
+            col170, col171, col172, col173, col174 = st.columns([1, 5, 2, 2, 2])
             with col170:
                 quant_peca_2 = st.text_input("2 - Quant.")
             with col171:
@@ -1044,7 +1044,7 @@ if action == "Nova ordem de serviço":
                     'valor_peca_16': costo_inicial_16 if 'costo_inicial_16' in locals() else 0,
                     'valor_total_peca_16': costo_final_16 if 'costo_final_16' in locals() else 0,                    
                     'total_costo_inicial': sum([v for k, v in locals().items() if k.startswith('costo_inicial_')]),
-                    'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')])
+                    'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')]),
                     'total_valor_pecas': None,
                     'forma_de_pagamento': None,
                     'pagamento_parcial': None,
@@ -1711,7 +1711,7 @@ elif action == "Atualizar ordem existente":
                     'valor_peca_16': costo_inicial_16 if 'costo_inicial_16' in locals() else 0,
                     'valor_total_peca_16': costo_final_16 if 'costo_final_16' in locals() else 0,
                     'total_costo_inicial': sum([v for k, v in locals().items() if k.startswith('costo_inicial_')]),
-                    'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')])
+                    'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')]),
                     'forma_de_pagamento': None,
                     'pagamento_parcial': None,
                     'valor_pago_parcial': None,
