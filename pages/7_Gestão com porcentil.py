@@ -449,7 +449,7 @@ if action == "Nova ordem de serviço":
         centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
-            col160, col161, col162, col163, col164 = st.columns([0.8, 4, 1, 0.8, 0.8])
+            col160, col161, col162, col163, col164 = st.columns([0.5, 3.5, 0.5, 0.7, 0.7])
             with col160:
                 quant_peca_1 = st.text_input("1")
             with col161:
