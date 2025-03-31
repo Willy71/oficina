@@ -1200,11 +1200,22 @@ elif action == "Atualizar ordem existente":
                     quantidade = float(quant_peca_2) if quant_peca_2 else 0
                     custo_unitario = float(valor_peca_2) if valor_peca_2 else 0
                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                    # Texto unificado con estilo
+                    centrar_texto("Valor", 11, "white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("Valor", 11, "white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
 
         with st.container():    
             col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
@@ -1220,11 +1231,22 @@ elif action == "Atualizar ordem existente":
                     quantidade = float(quant_peca_3) if quant_peca_3 else 0
                     custo_unitario = float(valor_peca_3) if valor_peca_3 else 0
                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                    # Texto unificado con estilo
+                    centrar_texto("Valor", 11, "white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("Valor", 11, "white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col190, col191, col192, col193 = st.columns([1, 6, 1, 1])
@@ -1240,11 +1262,22 @@ elif action == "Atualizar ordem existente":
                     quantidade = float(quant_peca_4) if quant_peca_4 else 0
                     custo_unitario = float(valor_peca_4) if valor_peca_4 else 0
                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    st.text("Valor")
-                    st.text(f"R$ {valor_final:.2f}")
+                    # Texto unificado con estilo
+                    centrar_texto("Valor", 11, "white")
+                    st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                 except:
-                    st.text("Valor")
-                    st.text("R$ 0.00")
+                    centrar_texto("Valor", 11, "white")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
         with st.container():    
             col200, col201, col202, col203 = st.columns([1, 6, 1, 1])
