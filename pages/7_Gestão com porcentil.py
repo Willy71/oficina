@@ -449,14 +449,23 @@ if action == "Nova ordem de serviço":
         centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
-            col160, col161, col162, col163 = st.columns([1, 6, 1, 1])
+            col160, col161, col162, col163 = st.columns([1, 5, 1, 1, 1])
             with col160:
                 quant_peca_1 = st.text_input("1")
             with col161:
                 desc_peca_1 = st.text_input("1 - Descriçao da peça")
             with col162:
                 valor_peca_1 = st.text_input("1 - Custo")
-            with col163:
+            with col163:  # ⚠️ COLUMNA A ELIMINAR (Costo)
+                if quant_peca_1 and valor_peca_1:
+                    try:
+                        costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
+                        st.text(f"R$ {costo_inicial_1:.2f}")  # <-- Esto no se mostrará
+                    except:
+                        st.text("R$ 0.00")
+                else:
+                    st.text("R$ 0.00")
+            with col164:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
                     try:
