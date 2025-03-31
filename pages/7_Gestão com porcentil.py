@@ -463,12 +463,12 @@ if action == "Nova ordem de serviço":
                         costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_1:.2f}")
                     except:
-                        st.text("Valor total")
+                        st.text("Valor")
                 else:
-                    st.text("Valor total")
+                    st.text("Valor")
 
         with st.container():    
-            col170, col171, col172, col173, col174 = st.columns([1, 5, 2, 2, 2])
+            col170, col171, col172, col173 = st.columns([1, 6, 1, 1])
             with col170:
                 quant_peca_2 = st.text_input("2")
             with col171:
@@ -482,9 +482,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
                         st.text(f"R$ {costo_inicial_2:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col174:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_2 and valor_peca_2 and porcentaje_adicional:
@@ -492,9 +492,9 @@ if action == "Nova ordem de serviço":
                         costo_final_2 = float(quant_peca_2) * float(valor_peca_2) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_2:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
 
             
 
@@ -513,9 +513,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_3 = float(quant_peca_3) * float(valor_peca_3)
                         st.text(f"R$ {costo_inicial_3:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col184:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_3 and valor_peca_3 and porcentaje_adicional:
@@ -523,9 +523,9 @@ if action == "Nova ordem de serviço":
                         costo_final_3 = float(quant_peca_3) * float(valor_peca_3) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_3:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col190, col191, col192, col193, col194 = st.columns([1, 5, 2, 2, 2])
@@ -542,9 +542,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_4 = float(quant_peca_4) * float(valor_peca_4)
                         st.text(f"R$ {costo_inicial_4:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col194:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_4 and valor_peca_4 and porcentaje_adicional:
@@ -552,9 +552,9 @@ if action == "Nova ordem de serviço":
                         costo_final_4 = float(quant_peca_4) * float(valor_peca_4) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_4:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col200, col201, col202, col203, col204 = st.columns([1, 5, 2, 2, 2])
@@ -571,9 +571,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_5 = float(quant_peca_5) * float(valor_peca_5)
                         st.text(f"R$ {costo_inicial_5:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col204:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_5 and valor_peca_5 and porcentaje_adicional:
@@ -581,9 +581,9 @@ if action == "Nova ordem de serviço":
                         costo_final_5 = float(quant_peca_5) * float(valor_peca_5) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_5:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col210, col211, col212, col213, col214 = st.columns([1, 5, 2, 2, 2])
@@ -600,9 +600,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_6 = float(quant_peca_6) * float(valor_peca_6)
                         st.text(f"R$ {costo_inicial_6:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col214:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_6 and valor_peca_6 and porcentaje_adicional:
@@ -610,9 +610,9 @@ if action == "Nova ordem de serviço":
                         costo_final_6 = float(quant_peca_6) * float(valor_peca_6) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_6:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
                 
         
         with st.container():    
@@ -630,9 +630,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_7 = float(quant_peca_7) * float(valor_peca_7)
                         st.text(f"R$ {costo_inicial_7:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col224:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_7 and valor_peca_7 and porcentaje_adicional:
@@ -640,9 +640,9 @@ if action == "Nova ordem de serviço":
                         costo_final_7 = float(quant_peca_7) * float(valor_peca_7) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_7:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col230, col231, col232, col233, col234 = st.columns([1, 5, 2, 2, 2])
@@ -659,9 +659,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_8 = float(quant_peca_8) * float(valor_peca_8)
                         st.text(f"R$ {costo_inicial_8:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col234:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_8 and valor_peca_8 and porcentaje_adicional:
@@ -669,9 +669,9 @@ if action == "Nova ordem de serviço":
                         costo_final_8 = float(quant_peca_8) * float(valor_peca_8) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_8:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col240, col241, col242, col243, col244 = st.columns([1, 5, 2, 2, 2])
@@ -688,9 +688,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_9 = float(quant_peca_9) * float(valor_peca_9)
                         st.text(f"R$ {costo_inicial_9:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col244:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_9 and valor_peca_9 and porcentaje_adicional:
@@ -698,9 +698,9 @@ if action == "Nova ordem de serviço":
                         costo_final_9 = float(quant_peca_9) * float(valor_peca_9) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_9:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col250, col251, col252, col253, col254 = st.columns([1, 5, 2, 2, 2])
@@ -717,9 +717,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_10 = float(quant_peca_10) * float(valor_peca_10)
                         st.text(f"R$ {costo_inicial_10:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col254:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_10 and valor_peca_10 and porcentaje_adicional:
@@ -727,9 +727,9 @@ if action == "Nova ordem de serviço":
                         costo_final_10 = float(quant_peca_10) * float(valor_peca_10) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_10:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col260, col261, col262, col263, col264 = st.columns([1, 5, 2, 2, 2])
@@ -746,9 +746,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_11 = float(quant_peca_11) * float(valor_peca_11)
                         st.text(f"R$ {costo_inicial_11:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col264:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_11 and valor_peca_11 and porcentaje_adicional:
@@ -756,9 +756,9 @@ if action == "Nova ordem de serviço":
                         costo_final_11 = float(quant_peca_11) * float(valor_peca_11) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_11:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col270, col271, col272, col273, col274 = st.columns([1, 5, 2, 2, 2])
@@ -775,9 +775,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_12 = float(quant_peca_12) * float(valor_peca_12)
                         st.text(f"R$ {costo_inicial_12:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col274:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_12 and valor_peca_12 and porcentaje_adicional:
@@ -785,9 +785,9 @@ if action == "Nova ordem de serviço":
                         costo_final_12 = float(quant_peca_12) * float(valor_peca_12) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_12:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col280, col281, col282, col283, col284 = st.columns([1, 5, 2, 2, 2])
@@ -804,9 +804,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_13 = float(quant_peca_13) * float(valor_peca_13)
                         st.text(f"R$ {costo_inicial_13:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col284:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_13 and valor_peca_13 and porcentaje_adicional:
@@ -814,9 +814,9 @@ if action == "Nova ordem de serviço":
                         costo_final_13 = float(quant_peca_13) * float(valor_peca_13) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_13:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col290, col291, col292, col293, col294 = st.columns([1, 5, 2, 2, 2])
@@ -833,9 +833,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_14 = float(quant_peca_14) * float(valor_peca_14)
                         st.text(f"R$ {costo_inicial_14:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col294:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_14 and valor_peca_14 and porcentaje_adicional:
@@ -843,9 +843,9 @@ if action == "Nova ordem de serviço":
                         costo_final_14 = float(quant_peca_14) * float(valor_peca_14) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_14:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col300, col301, col302, col303, col304 = st.columns([1, 5, 2, 2, 2])
@@ -862,9 +862,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_15 = float(quant_peca_15) * float(valor_peca_15)
                         st.text(f"R$ {costo_inicial_15:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col304:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_15 and valor_peca_15 and porcentaje_adicional:
@@ -872,9 +872,9 @@ if action == "Nova ordem de serviço":
                         costo_final_15 = float(quant_peca_15) * float(valor_peca_15) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_15:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         with st.container():    
             col310, col311, col312, col313, col314 = st.columns([1, 5, 2, 2, 2])
@@ -891,9 +891,9 @@ if action == "Nova ordem de serviço":
                         costo_inicial_16 = float(quant_peca_16) * float(valor_peca_16)
                         st.text(f"R$ {costo_inicial_16:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
             with col314:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_16 and valor_peca_16 and porcentaje_adicional:
@@ -901,9 +901,9 @@ if action == "Nova ordem de serviço":
                         costo_final_16 = float(quant_peca_16) * float(valor_peca_16) * (1 + porcentaje_adicional/100)
                         st.text(f"R$ {costo_final_16:.2f}")
                     except:
-                        st.text("R$ 0.00")
+                        st.text("Valor")
                 else:
-                    st.text("R$ 0.00")
+                    st.text("Valor")
         
         line(4, "blue")
         
