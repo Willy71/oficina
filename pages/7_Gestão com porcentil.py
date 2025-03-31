@@ -1171,6 +1171,7 @@ elif action == "Atualizar ordem existente":
                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     # Texto unificado con estilo
                     st.text("")
+                    st.text("")
                     st.markdown(
                         f'<div style="display: flex; align-items: center; height: 38px;">'
                         f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
@@ -1178,6 +1179,7 @@ elif action == "Atualizar ordem existente":
                         unsafe_allow_html=True
                     )
                 except:
+                    st.text("")
                     st.text("")
                     st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
