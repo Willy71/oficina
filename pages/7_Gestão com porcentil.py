@@ -1170,6 +1170,7 @@ elif action == "Atualizar ordem existente":
                     custo_unitario = float(valor_peca_1) if valor_peca_1 else 0
                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
                     st.text("")
+                    st.text("")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
                     st.text("R$ 0.00")
