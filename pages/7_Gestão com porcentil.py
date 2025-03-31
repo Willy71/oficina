@@ -1297,11 +1297,17 @@ elif action == "Atualizar ordem existente":
         with st.container():
             col_perc, col_empty = st.columns([2, 5])
             with col_perc:
+                # Con esta versión más robusta:
+                try:
+                    porcentaje_default = float(vendor_data.get("porcentaje_adicional", 30.0))
+                except (TypeError, ValueError):
+                    porcentaje_default = 30.0  # Valor por defecto si hay error
+                
                 porcentaje_adicional = st.number_input(
                     "Porcentaje adicional para costos (%)",
                     min_value=0.0,
                     max_value=100.0,
-                    value=float(vendor_data.get("porcentaje_adicional", 30.0)),
+                    value=porcentaje_default,
                     step=0.5,
                     key="update_porcentaje_adicional"
                 )
