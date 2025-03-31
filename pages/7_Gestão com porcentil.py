@@ -1169,7 +1169,7 @@ elif action == "Atualizar ordem existente":
                 st.text(f"Total: R$ {custo_final_1:.2f}")
 
         with st.container():    
-            col170, col171, col172, col173, col174 = st.columns([1, 5, 2, 2, 2])
+            col170, col171, col172, col173 = st.columns([1, 6, 1, 1])
             with col170:
                 quant_peca_2 = st.text_input("2", value=vendor_data["quant_peca_2"], key="update_quant_peca_2")
             with col171:
@@ -1177,16 +1177,12 @@ elif action == "Atualizar ordem existente":
             with col172:
                 valor_peca_2 = st.text_input("2 - Custo", value=vendor_data["valor_peca_2"], key="update_valor_peca_2")
             with col173:
-                # Mostrar costo inicial
-                custo_inicial_2 = float(vendor_data.get("costo_inicial_peca_2", 0))
-                st.text(f"Custo: R$ {custo_inicial_2:.2f}")
-            with col174:
                 # Mostrar costo final
                 custo_final_2 = float(vendor_data.get("costo_final_peca_2", 0))
                 st.text(f"Total: R$ {custo_final_2:.2f}")
 
         with st.container():    
-            col180, col181, col182, col183, col184 = st.columns([1, 5, 2, 2, 2])
+            col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
             with col180:
                 quant_peca_3 = st.text_input("3", value=vendor_data["quant_peca_3"], key="update_quant_peca_3")
             with col181:
@@ -1194,10 +1190,6 @@ elif action == "Atualizar ordem existente":
             with col182:
                 valor_peca_3 = st.text_input("3 - Custo", value=vendor_data["valor_peca_3"], key="update_valor_peca_3")
             with col183:
-                # Mostrar costo inicial
-                custo_inicial_3 = float(vendor_data.get("costo_inicial_peca_3", 0))
-                st.text(f"Custo: R$ {custo_inicial_3:.2f}")
-            with col184:
                 # Mostrar costo final
                 custo_final_3 = float(vendor_data.get("costo_final_peca_3", 0))
                 st.text(f"Total: R$ {custo_final_3:.2f}")
