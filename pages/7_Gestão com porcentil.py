@@ -1172,6 +1172,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
 
         with st.container():    
@@ -1191,6 +1192,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
 
         with st.container():    
@@ -1210,6 +1212,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1229,6 +1232,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1248,6 +1252,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1267,6 +1272,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1286,6 +1292,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1305,6 +1312,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1324,6 +1332,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
 
             
@@ -1337,7 +1346,7 @@ elif action == "Atualizar ordem existente":
             with col252:
                 valor_peca_10 = st.text_input("10 - Custo", value=vendor_data["valor_peca_10"], key="update_valor_peca_10")
             with col253:
-                # Cálculo directo usando el porcentaje_adicional ya definido
+                 # Cálculo directo usando el porcentaje_adicional ya definido
                 try:
                     quantidade = float(quant_peca_10) if quant_peca_10 else 0
                     custo_unitario = float(valor_peca_10) if valor_peca_10 else 0
@@ -1345,8 +1354,8 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
-                    st.text("R$ 0.00")"costo_final_peca_10", 0))
-                st.text(f"Valor {custo_final_10:.2f}")
+                    st.text("Valor")
+                    st.text("R$ 0.00")
         
         with st.container():    
             col260, col261, col262, col263 = st.columns([1, 6, 1, 1])
@@ -1365,6 +1374,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1384,6 +1394,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
 
         
@@ -1404,6 +1415,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
 
         
@@ -1424,6 +1436,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1443,6 +1456,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         with st.container():    
@@ -1462,6 +1476,7 @@ elif action == "Atualizar ordem existente":
                     st.text("Valor")
                     st.text(f"R$ {valor_final:.2f}")
                 except:
+                    st.text("Valor")
                     st.text("R$ 0.00")
         
         line(4, "blue")
