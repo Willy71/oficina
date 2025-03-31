@@ -448,12 +448,18 @@ if action == "Nova ordem de serviço":
         # En la sección "Nova ordem de serviço", antes de la sección de peças:
         centrar_texto("Configuración de Costos", 2, "yellow")
 
-        # Selector de porcentaje
-        st.number_input(
-            "Porcentaje (%)", 
-            key="porcentaje_adicional",
-            on_change=calcular_subtotales
-        )
+        with st.container():
+            col_perc, col_empty = st.columns([2, 5])
+            with col_perc:
+                porcentaje_adicional = st.number_input(
+                    "Porcentaje adicional para costos (%)",
+                    min_value=0.0,
+                    max_value=100.0,
+                    value=30.0,  # Valor por defecto del 30%
+                    step=0.5,
+                    key="porcentaje_adicional"
+                    on_change=calcular_subtotales
+                )
                 
         
         line(4, "blue")
