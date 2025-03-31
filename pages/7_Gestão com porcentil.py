@@ -236,26 +236,20 @@ def line(size, color):
     )
 
 
-# 1. Inicialización de session_state (para persistencia)
+# 1. Inicialización de variables
 if 'subtotales' not in st.session_state:
-    st.session_state.subtotales = {
-        'costo_inicial_1': 0,
-        'costo_final_1': 0
-    }
+    st.session_state.subtotales = {'costo_final_1': 0}
 
-# 2. Función de cálculo reactivo
+# 2. Función de cálculo (sin callback)
 def calcular_subtotales():
     try:
-        # Accede a los valores directamente desde st.session_state
         quant = float(st.session_state.quant_peca_1) if st.session_state.quant_peca_1 else 0
         valor = float(st.session_state.valor_peca_1) if st.session_state.valor_peca_1 else 0
         porcentaje = float(st.session_state.porcentaje_adicional) if 'porcentaje_adicional' in st.session_state else 30
-        
-        # Actualiza los subtotales
-        st.session_state.subtotales['costo_inicial_1'] = quant * valor
         st.session_state.subtotales['costo_final_1'] = quant * valor * (1 + porcentaje/100)
     except:
-        st.session_state.subtotales = {'costo_inicial_1': 0, 'costo_final_1': 0}
+        st.session_state.subtotales['costo_final_1'] = 0
+
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Constantes
 prefijos = {c.alpha_2: pn.country_code_for_region(c.alpha_2) for c in pycountry.countries}
@@ -465,6 +459,7 @@ if action == "Nova ordem de serviço":
                     value=30.0,  # Valor por defecto del 30%
                     step=0.5,
                     key="porcentaje_adicional"
+                    on_change=calcular_subtotales
                 )
         
         line(4, "blue")
@@ -473,11 +468,11 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col160, col161, col162, col163, col164 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
             with col160:
-                quant_peca_1 = st.text_input("Quant.", key="quant_peca_1", on_change=calcular_subtotales)
+                st.text_input("Quant.", key="quant_peca_1", on_change=calcular_subtotales)
             with col161:
-                desc_peca_1 = st.text_input("Descrição", key="desc_peca_1")
+                st.text_input("Descrição", key="desc_peca_1")
             with col162:
-                valor_peca_1 = st.text_input("Valor Unit.", key="valor_peca_1", on_change=calcular_subtotales)
+                st.text_input("Valor Unit.", key="valor_peca_1", on_change=calcular_subtotales)
             with col163:
                 # Muestra el subtotal reactivo (amarillo/negrita)
                 st.markdown(
