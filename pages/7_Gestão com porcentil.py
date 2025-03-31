@@ -1164,29 +1164,15 @@ elif action == "Atualizar ordem existente":
             with col162:
                 valor_peca_1 = st.text_input("1 - Custo", value=vendor_data["valor_peca_1"], key="update_valor_peca_1")
              with col163:
-                # Cálculo del valor final
+                # Cálculo directo usando el porcentaje_adicional ya definido
                 try:
                     quantidade = float(quant_peca_1) if quant_peca_1 else 0
                     custo_unitario = float(valor_peca_1) if valor_peca_1 else 0
                     valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    # Texto con estilo para alinear verticalmente
-                    st.markdown(
-                        f"""
-                        <div style="display: flex; align-items: center; height: 38px;">
-                            R$ {valor_final:.2f}
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
+                    st.text("")
+                    st.text(f"R$ {valor_final:.2f}")
                 except:
-                    st.markdown(
-                        """
-                        <div style="display: flex; align-items: center; height: 38px;">
-                            R$ 0.00
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
+                    st.text("R$ 0.00")
 
         with st.container():    
             col170, col171, col172, col173 = st.columns([1, 6, 1, 1])
