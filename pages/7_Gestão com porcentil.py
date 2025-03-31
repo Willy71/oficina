@@ -449,7 +449,7 @@ if action == "Nova ordem de serviço":
         centrar_texto("Peças", 2, "yellow")
 
         with st.container():    
-            col160, col161, col162, col163, col164 = st.columns([1, 5, 1, 1, 1])
+            col160, col161, col162, col163, col164 = st.columns([0.8, 4, 1, 0.8, 0.8])
             with col160:
                 quant_peca_1 = st.text_input("1")
             with col161:
@@ -460,21 +460,49 @@ if action == "Nova ordem de serviço":
                 if quant_peca_1 and valor_peca_1:
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
-                        st.text(f"R$ {costo_inicial_1:.2f}")  # <-- Esto no se mostrará
+                        st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_inicial:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
+                        #st.text(f"R$ {costo_inicial_1:.2f}") 
                     except:
-                        st.text("R$ 0.00")
+                        st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
                 else:
-                    st.text("R$ 0.00")
+                    st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
             with col164:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
                     try:
                         costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_1:.2f}")
+                        st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 38px;">'
+                        f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_final_1:.2f}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
                     except:
-                        st.text("Valor")
+                        st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
                 else:
                     st.text("Valor")
+
+
 
         with st.container():    
             col170, col171, col172, col173 = st.columns([1, 6, 1, 1])
