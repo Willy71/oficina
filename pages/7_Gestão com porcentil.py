@@ -235,6 +235,25 @@ def line(size, color):
         f"<hr style='height:{size}px;border:none;color:{color};background-color:{color};' />",
         unsafe_allow_html=True
     )
+
+def gold_text(text, font_size="inherit", align="left", height="38px"):
+    """
+    Muestra un texto en color dorado (#FFD700) con formato flexible.
+    
+    Parámetros:
+    - text (str): El texto a mostrar.
+    - font_size (str): Tamaño de fuente (ej. "16px", "1.2rem").
+    - align (str): Alineación ("left", "center", "right").
+    - height (str): Altura del contenedor (ej. "38px").
+    """
+    st.markdown(
+        f"""
+        <div style="display: flex; align-items: center; height: {height}; justify-content: {align};">
+            <span style="color: #FFD700; font-weight: bold; font-size: {font_size};">{text}</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Constantes
@@ -448,6 +467,8 @@ if action == "Nova ordem de serviço":
         
         line(4, "blue")
         centrar_texto("Peças", 2, "yellow")
+
+        styled_gold_text("R$ 0.00")
 
         # ENCABEZADOS
         with st.container():
