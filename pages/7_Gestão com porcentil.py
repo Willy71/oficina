@@ -474,42 +474,16 @@ if action == "Nova ordem de serviço":
             with col1001:
                 gold_text("#")
             with col1002:
-                st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Quant.</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                gold_text("Quant.")
             with col1003:
-                st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Descrição da peça</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                gold_text("Descrição da peça")
             with col1004:
-                st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Valor Unit</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                gold_text("Valor Unit")
             with col1005:
-                st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Sub Total</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                gold_text("Sub Total")
             with col1006:
-                st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Total</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
-                
-            
+                gold_text("Total")
+                        
         with st.container():  
             col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
