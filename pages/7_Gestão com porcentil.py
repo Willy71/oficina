@@ -254,6 +254,11 @@ def gold_text(text, font_size="inherit", align="left", height="38px"):
         """,
         unsafe_allow_html=True
     )
+
+def add_space(lines=1):
+    """Añade espacios vacíos (vía st.caption)."""
+    for _ in range(lines):
+        st.caption("")
     
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Constantes
@@ -487,14 +492,8 @@ if action == "Nova ordem de serviço":
         with st.container():  
             col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
-                st.caption("")
-                st.caption("")
-                st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 30px;">'
-                        f'<span style="color: #FFFFFF; font-weight: bold;">1</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )             
+                add_space(2)
+                gold_text("1")     
             with col161:
                 quant_peca_1 = st.text_input("", "1", label_visibility="hidden")
             with col162:
@@ -505,14 +504,8 @@ if action == "Nova ordem de serviço":
                 if quant_peca_1 and valor_peca_1:
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
-                        st.caption("")
-                        st.caption("")
-                        st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 38px;">'
-                        f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_inicial:.2f}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )
+                        add_space(2)
+                        gold_text(f"R$ {costo_inicial:.2f}")   
                         #st.text(f"R$ {costo_inicial_1:.2f}") 
                     except:
                         st.caption("")     
