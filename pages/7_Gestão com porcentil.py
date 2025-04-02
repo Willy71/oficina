@@ -496,7 +496,7 @@ if action == "Nova ordem de serviço":
             with col161:
                 desc_peca_1 = st.text_input("", "", label_visibility="hidden")
             with col162:
-                valor_peca_1 = st.number_input(" ", label_visibility="hidden")
+                valor_peca_1 = st.number_input(" ", value=None, label_visibility="hidden")
             with col163:  # ⚠️ COLUMNA A ELIMINAR (Costo)
                 if quant_peca_1 and valor_peca_1:
                     try:
