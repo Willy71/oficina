@@ -455,11 +455,10 @@ if action == "Nova ordem de serviço":
             with col1001:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Descrição da peça</span>'
+                        '<span style="color: #FFD700; font-weight: bold;">#</span>'
                         '</div>',
                         unsafe_allow_html=True
                     )
-                centrar_texto("#", 5, "yellow")
             with col1002:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
