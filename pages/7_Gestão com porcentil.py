@@ -532,11 +532,11 @@ if action == "Nova ordem de serviço":
                 add_space(2)
                 gold_text("2")     
             with col171:
-                #quant_peca_2 = st.text_input("", "1", label_visibility="hidden")
+                quant_peca_2 = st.text_input("", "1", label_visibility="hidden")
             with col172:
-                #desc_peca_2 = st.text_input("", "", label_visibility="hidden")
+                desc_peca_2 = st.text_input("", "", label_visibility="hidden")
             with col173:
-                #valor_peca_2 = st.number_input("", value=None, label_visibility="hidden")
+                valor_peca_2 = st.number_input("", value=None, label_visibility="hidden")
             with col174: 
                 if quant_peca_2 and valor_peca_2:
                     try:
