@@ -359,20 +359,21 @@ if action == "Nova ordem de serviço":
             col40, col41, col42 = st.columns([0.7, 6.5, 2.2])
             with col40:
                 item_serv_1 = 1
-                gold_text("1")
+                gold_text("1", align="center")
             with col41:
                 desc_ser_1 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_1")
             with col42:
                 valor_serv_1 = st.number_input(" ", value=None, label_visibility="collapsed", key="valor_serv_1")
                 
         with st.container():    
-            col50, col51, col52 = st.columns([1,5,2])
+            col50, col51, col52 = st.columns([0.7, 6.5, 2.2])
             with col50:
-                item_serv_2 = st.text_input("2 - Item")
+                item_serv_1 = 2
+                gold_text("2", align="center")
             with col51:
-                desc_ser_2 = st.text_input("2 -Descriçao de serviço")
+                desc_ser_2 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_2")
             with col52:
-                valor_serv_2 = st.text_input("2- Valor do serviço")
+                valor_serv_2 = st.number_input(" ", value=None, label_visibility="collapsed", key="valor_serv_2")
 
         with st.container():    
             col60, col61, col62 = st.columns([1,5,2])
