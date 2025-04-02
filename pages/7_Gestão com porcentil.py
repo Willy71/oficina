@@ -1632,7 +1632,7 @@ elif action == "Atualizar ordem existente":
 
 
         #=========================================================================================================================================
-    
+         
         #=========================================================================================================================================
 
 
@@ -1641,7 +1641,7 @@ elif action == "Atualizar ordem existente":
             with col160:
                 gold_text("1") 
             with col161:
-                quant_peca_1 = st.text_input("", value=vendor_data["quant_peca_1"], label_visibility="collapsed", key="update_quant_peca_1")
+                quant_peca_1 = st.text_input("", "1", value=vendor_data["quant_peca_1"], label_visibility="collapsed", key="update_quant_peca_1")
             with col162:
                 desc_peca_1 = st.text_input("", "", label_visibility="collapsed", value=vendor_data["desc_peca_1"], key="update_desc_peca_1")
             with col163:
