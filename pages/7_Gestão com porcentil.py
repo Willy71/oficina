@@ -235,7 +235,6 @@ def line(size, color):
         f"<hr style='height:{size}px;border:none;color:{color};background-color:{color};' />",
         unsafe_allow_html=True
     )
-
     
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Constantes
@@ -498,7 +497,7 @@ if action == "Nova ordem de serviço":
                 
             
         with st.container():  
-            col160, col161, col162, col163, col164, col165 =  0.7, 0.7, 0.7])
+            col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
                 st.caption("")
                 st.caption("")
