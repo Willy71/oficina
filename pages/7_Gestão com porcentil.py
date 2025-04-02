@@ -1667,29 +1667,33 @@ elif action == "Atualizar ordem existente":
             with col171:
                 quant_peca_2 = st.text_input(
                     "", 
-                    value=vendor_data.get("quant_peca_2", "1"),  # Valor por defecto "1" si no existe
+                    value=str(vendor_data.get("quant_peca_2", "1")),  # Aseguramos string
                     label_visibility="collapsed", 
                     key="update_quant_peca_2"
                 )
             with col172:
                 desc_peca_2 = st.text_input(
                     "", 
-                    value=vendor_data.get("desc_peca_2", ""),  # Valor vacío por defecto
+                    value=str(vendor_data.get("desc_peca_2", "")),  # Aseguramos string
                     label_visibility="collapsed", 
                     key="update_desc_peca_2"
                 )
             with col173:
-                # Manejo seguro del valor numérico
+                # Conversión ultra-segura del valor numérico
                 try:
-                    valor_default = float(vendor_data.get("valor_peca_2", 0))  # 0 por defecto
-                except (TypeError, ValueError):
-                    valor_default = 0
+                    raw_value = vendor_data.get("valor_peca_2")
+                    if raw_value in [None, "", "None"]:
+                        default_value = 0.0
+                    else:
+                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
+                except (ValueError, TypeError):
+                    default_value = 0.0
                     
                 valor_peca_2 = st.number_input(
                     "", 
-                    value=valor_default,
-                    min_value=0.0,  # Valor mínimo permitido
-                    max_value=1000000.0,  # Valor máximo razonable
+                    value=float(default_value),  # Aseguramos float
+                    min_value=0.0,
+                    max_value=1000000.0,
                     step=0.01,
                     format="%.2f",
                     label_visibility="collapsed", 
@@ -1697,18 +1701,20 @@ elif action == "Atualizar ordem existente":
                 )
             with col174:
                 try:
-                    costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
+                    qty = float(quant_peca_2.replace(",", ".")) if quant_peca_2 else 0.0
+                    val = float(valor_peca_2) if valor_peca_2 else 0.0
+                    costo_inicial_2 = qty * val
                     gold_text(f"R$ {costo_inicial_2:.2f}")
                 except:
                     gold_text("R$ 0.00")
             with col175:
-                if porcentaje_adicional:
-                    try:
-                        costo_final_2 = float(quant_peca_2) * float(valor_peca_2) * (1 + porcentaje_adicional/100)
-                        gold_text(f"R$ {costo_final_2:.2f}")        
-                    except:
+                try:
+                    if porcentaje_adicional:
+                        costo_final_2 = float(quant_peca_2.replace(",", ".")) * float(valor_peca_2) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {costo_final_2:.2f}")
+                    else:
                         gold_text("R$ 0.00")
-                else:
+                except:
                     gold_text("R$ 0.00")
 
         with st.container():    
