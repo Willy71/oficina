@@ -467,11 +467,11 @@ if action == "Nova ordem de serviço":
         with st.container():  
             col160, col161, col162, col163, col164 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
             with col160:
-                quant_peca_1 = st.text_input(label_visibility="collapsed")
+                quant_peca_1 = st.text_input("", label_visibility="collapsed")
             with col161:
-                desc_peca_1 = st.text_input(label_visibility="collapsed")
+                desc_peca_1 = st.text_input("", label_visibility="collapsed")
             with col162:
-                valor_peca_1 = st.text_input(label_visibility="collapsed")
+                valor_peca_1 = st.text_input("", label_visibility="collapsed")
             with col163:  # ⚠️ COLUMNA A ELIMINAR (Costo)
                 if quant_peca_1 and valor_peca_1:
                     try:
