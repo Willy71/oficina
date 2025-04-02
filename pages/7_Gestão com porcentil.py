@@ -492,13 +492,14 @@ if action == "Nova ordem de serviço":
         with st.container():  
             col160, col161, col162, col163, col164, col165 = st.columns([0.35, 0.35, 3, 0.7, 0.7, 0.7])
             with col160:
+                st.caption("")
+                st.caption("")
                 st.markdown(
                         f'<div style="display: flex; align-items: center; height: 30px;">'
-                        f'<span style="color: #FFFFFF; font-weight: bold;">"1"</span>'
+                        f'<span style="color: #FFFFFF; font-weight: bold;">1</span>'
                         f'</div>',
                         unsafe_allow_html=True
-                    )
-                
+                    )             
             with col161:
                 quant_peca_1 = st.text_input("", "1", label_visibility="hidden")
             with col162:
