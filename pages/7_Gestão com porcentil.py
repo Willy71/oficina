@@ -501,7 +501,12 @@ if action == "Nova ordem de serviço":
                         unsafe_allow_html=True
                     )
                 else:
-                    st.text("$ 0,00")
+                     st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
         
 
 
