@@ -1281,8 +1281,20 @@ elif action == "Atualizar ordem existente":
                 item_serv_1 = "item_serv_1"
             with col41:
                 desc_ser_1 = st.text_input("", value=vendor_data["desc_ser_1"], label_visibility="collapsed", key="update_desc_ser_1")
-            with col42:
-                valor_serv_1 = st.number_input("",  value=vendor_data["valor_serv_1"], label_visibility="collapsed", key="update_valor_serv_1")
+            with col42:# Validación del valor numérico
+                try:
+                    default_value = float(vendor_data.get("valor_serv_1", 0))
+                    if not (-1.7976931348623157e+308 < default_value < 1.7976931348623157e+308):
+                        default_value = 0
+                except (TypeError, ValueError):
+                    default_value = 0
+            
+        valor_serv_1 = st.number_input(
+            "", 
+            value=default_value,
+            label_visibility="collapsed", 
+            key="update_valor_serv_1"
+        )valor_serv_1 = st.number_input("",  value=vendor_data["valor_serv_1"], label_visibility="collapsed", key="update_valor_serv_1")
                 
         with st.container():    
             col50, col51, col52 = st.columns([1,5,2])
