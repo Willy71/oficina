@@ -344,14 +344,26 @@ if action == "Nova ordem de serviço":
         line(4, "blue")
         centrar_texto("Serviços", 2, "yellow")
 
+        # ENCABEZADOS
+        with st.container():
+            col1101, col1102, col1103 = st.columns([1, 5, 2])
+            with col1001:
+                gold_text("#")
+            with col1002:
+                gold_text("Descrição do serviço")
+            with col1003:
+                gold_text("Valor do serviço")
+
+
         with st.container():    
-            col40, col41, col42 = st.columns([1,5,2])
+            col40, col41, col42 = st.columns([1, 5, 2])
             with col40:
-                item_serv_1 = st.text_input("1 - Item")
+                item_serv_1 = 1
+                gold_text("1")
             with col41:
-                desc_ser_1 = st.text_input("1 - Descriçao de serviço")
+                desc_ser_1 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_1")
             with col42:
-                valor_serv_1 = st.text_input("1 - Valor do serviço")
+                valor_serv_1 = st.number_input(" ", value=None, label_visibility="collapsed", key="valor_serv_1")
                 
         with st.container():    
             col50, col51, col52 = st.columns([1,5,2])
