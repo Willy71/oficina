@@ -582,7 +582,7 @@ if action == "Nova ordem de serviço":
         with st.container():
             col190, col191, col192, col193, col194, col195 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col190:
-                gold_text("3")     
+                gold_text("4")     
             with col191:
                 quant_peca_4 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_4")
             with col192:
@@ -611,7 +611,7 @@ if action == "Nova ordem de serviço":
         with st.container():
             col200, col201, col202, col203, col204, col205 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col200:
-                gold_text("3")     
+                gold_text("5")     
             with col201:
                 quant_peca_5 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_5")
             with col202:
@@ -640,7 +640,7 @@ if action == "Nova ordem de serviço":
         with st.container():
             col210, col211, col212, col213, col214, col215 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col210:
-                gold_text("3")     
+                gold_text("6")     
             with col211:
                 quant_peca_6 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_6")
             with col212:
