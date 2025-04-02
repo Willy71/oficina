@@ -1630,12 +1630,6 @@ elif action == "Atualizar ordem existente":
             with col1006:
                 gold_text("Total")
 
-
-        #=========================================================================================================================================
-        
-        #=========================================================================================================================================
-
-
         with st.container():    
             col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
@@ -1666,37 +1660,36 @@ elif action == "Atualizar ordem existente":
                 else:
                     gold_text("R$ 0.00")   
 
-
         with st.container():    
-            col170, col171, col172, col173 = st.columns([1, 6, 1, 1])
+            col170, col171, col172, col173, col174, col175 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col170:
-                quant_peca_2 = st.text_input("2", value=vendor_data["quant_peca_2"], key="update_quant_peca_2")
+                gold_text("2") 
             with col171:
-                desc_peca_2 = st.text_input("2 - Descriçao da peça", value=vendor_data["desc_peca_2"], key="update_desc_peca_2")
+                quant_peca_2 = st.text_input("", value=vendor_data["quant_peca_2"], label_visibility="collapsed", key="update_quant_peca_2")
             with col172:
-                valor_peca_2 = st.text_input("2 - Custo", value=vendor_data["valor_peca_2"], key="update_valor_peca_2")
+                desc_peca_2 = st.text_input("", value=vendor_data["desc_peca_2"], label_visibility="collapsed", key="update_desc_peca_2")
             with col173:
-                 # Cálculo directo usando el porcentaje_adicional ya definido
-                try:
-                    quantidade = float(quant_peca_2) if quant_peca_2 else 0
-                    custo_unitario = float(valor_peca_2) if valor_peca_2 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    # Texto unificado con estilo
-                    centrar_texto("", 7,"white")
-                    st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 38px;">'
-                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )
-                except:
-                    centrar_texto("", 7,"white")
-                    st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                valor_peca_2 = st.number_input("", value=vendor_data["valor_peca_2"], label_visibility="collapsed", key="update_valor_peca_2")
+            with col174:
+                if quant_peca_2 and valor_peca_2:
+                    try:
+                        costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
+                        gold_text(f"R$ {costo_inicial_2:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col175:
+                # Mostrar costo final (con porcentaje aplicado)
+                if quant_peca_2 and valor_peca_2 and porcentaje_adicional:
+                    try:
+                        costo_final_2 = float(quant_peca_2) * float(valor_peca_2) * (1 + porcentaje_adicional/100)
+                        gold_text(f"R$ {costo_final_2:.2f}")        
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00") 
+        
 
         with st.container():    
             col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
