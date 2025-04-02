@@ -462,7 +462,7 @@ if action == "Nova ordem de serviço":
             with col1002:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Q</span>'
+                        '<span style="color: #FFD700; font-weight: bold;">Quant.</span>'
                         '</div>',
                         unsafe_allow_html=True
                     )
