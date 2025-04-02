@@ -1280,7 +1280,7 @@ elif action == "Atualizar ordem existente":
             with col40:
                 item_serv_1 = "item_serv_1"
             with col41:
-                desc_ser_1 = st.text_input("", "", label_visibility="collapsed", value=vendor_data["desc_ser_1"], key="update_desc_ser_1")
+                desc_ser_1 = st.text_input("", value=vendor_data["desc_ser_1"], label_visibility="collapsed", key="update_desc_ser_1")
             with col42:
                 valor_serv_1 = st.number_input("",  value=vendor_data["valor_serv_1"], label_visibility="collapsed", key="update_valor_serv_1")
                 
