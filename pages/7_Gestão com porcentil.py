@@ -468,8 +468,6 @@ if action == "Nova ordem de serviço":
                 )
         
         line(4, "blue")
-        centrar_texto("Peças", 2, "yellow")
-
         # ENCABEZADOS
         with st.container():
             col1001, col1002, col1003, col1004, col1005, col1006 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
