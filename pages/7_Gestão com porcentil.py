@@ -451,7 +451,7 @@ if action == "Nova ordem de serviço":
 
         with st.container():
             col1001, col1002, col1003, col1004, col1005 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
-            with co1001:
+            with col1001:
                 centrar_texto("#", 5, "yellow")
             with col1002:
                 centrar_texto("Descrição da peça", 5, "yellow")
