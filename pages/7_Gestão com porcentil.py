@@ -235,6 +235,31 @@ def line(size, color):
         f"<hr style='height:{size}px;border:none;color:{color};background-color:{color};' />",
         unsafe_allow_html=True
     )
+
+def gold_text(text, font_size="inherit", align="left", height="38px"):
+    """
+    Muestra un texto en color dorado (#FFD700) con formato flexible.
+    
+    Parámetros:
+    - text (str): El texto a mostrar.
+    - font_size (str): Tamaño de fuente (ej. "16px", "1.2rem").
+    - align (str): Alineación ("left", "center", "right").
+    - height (str): Altura del contenedor (ej. "38px").
+    """
+    st.markdown(
+        f"""
+        <div style="display: flex; align-items: center; height: {height}; justify-content: {align};">
+            <span style="color: #FFD700; font-weight: bold; font-size: {font_size};">{text}</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+def add_space(lines=1):
+    """Añade espacios vacíos (vía st.caption)."""
+    for _ in range(lines):
+        st.caption("")
+
     
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Constantes
@@ -481,12 +506,7 @@ if action == "Nova ordem de serviço":
                         unsafe_allow_html=True
                     )
             with col1005:
-                st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Sub Total</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                gold_text(Sub Total)
             with col1006:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
