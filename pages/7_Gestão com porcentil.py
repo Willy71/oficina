@@ -608,43 +608,63 @@ if action == "Nova ordem de serviço":
                 else:
                     gold_text("R$ 0.00")
         
-        with st.container():    
-            col200, col201, col202, col203 = st.columns([1, 6, 1, 1])
+         with st.container():
+            col200, col201, col202, col203, col204, col205 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col200:
-                quant_peca_5 = st.text_input("5")
+                gold_text("3")     
             with col201:
-                desc_peca_5 = st.text_input("5 - Descriçao da peça")
+                quant_peca_5 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_5")
             with col202:
-                valor_peca_5 = st.text_input("5 - Custo")
+                desc_peca_5 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_5")
             with col203:
-                # Mostrar costo final (con porcentaje aplicado)
+                valor_peca_5 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_5")
+            with col204: 
+                if quant_peca_5 and valor_peca_5:
+                    try:
+                        costo_inicial_5 = float(quant_peca_5) * float(valor_peca_5)
+                        gold_text(f"R$ {costo_inicial_5:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col205:
                 if quant_peca_5 and valor_peca_5 and porcentaje_adicional:
                     try:
                         costo_final_5 = float(quant_peca_5) * float(valor_peca_5) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_5:.2f}")
+                        gold_text(f"R$ {costo_final_5:.2f}")        
                     except:
-                        st.text("Valor")
+                        gold_text("R$ 0.00")
                 else:
-                    st.text("Valor")
+                    gold_text("R$ 0.00")
         
-        with st.container():    
-            col210, col211, col212, col213 = st.columns([1, 6, 1, 1])
+         with st.container():
+            col210, col211, col212, col213, col214, col215 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col210:
-                quant_peca_6 = st.text_input("6")
+                gold_text("3")     
             with col211:
-                desc_peca_6 = st.text_input("6 - Descriçao da peça")
+                quant_peca_6 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_6")
             with col212:
-                valor_peca_6 = st.text_input("6 - Custo")
+                desc_peca_6 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_6")
             with col213:
-                # Mostrar costo final (con porcentaje aplicado)
+                valor_peca_6 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_6")
+            with col214: 
+                if quant_peca_6 and valor_peca_6:
+                    try:
+                        costo_inicial_6 = float(quant_peca_6) * float(valor_peca_6)
+                        gold_text(f"R$ {costo_inicial_6:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col215:
                 if quant_peca_6 and valor_peca_6 and porcentaje_adicional:
                     try:
                         costo_final_6 = float(quant_peca_6) * float(valor_peca_6) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_6:.2f}")
+                        gold_text(f"R$ {costo_final_6:.2f}")        
                     except:
-                        st.text("Valor")
+                        gold_text("R$ 0.00")
                 else:
-                    st.text("Valor")
+                    gold_text("R$ 0.00")
                 
         
         with st.container():    
