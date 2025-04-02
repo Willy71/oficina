@@ -500,7 +500,7 @@ if action == "Nova ordem de serviço":
                 desc_peca_1 = st.text_input("", "", label_visibility="hidden")
             with col163:
                 valor_peca_1 = st.number_input(" ", value=None, label_visibility="hidden")
-            with col164:  # ⚠️ COLUMNA A ELIMINAR (Costo)
+            with col164: 
                 if quant_peca_1 and valor_peca_1:
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
@@ -524,28 +524,45 @@ if action == "Nova ordem de serviço":
                         gold_text("R$ 0.00")
                 else:
                     add_space(2)
-                    gold_text("R$ 0.00")                    
+                    gold_text("R$ 0.00")
 
-        with st.container():    
-            col170, col171, col172, col173 = st.columns([1, 6, 1, 1])
+        with st.container():  
+            col170, col171, col172, col173, col174, col175 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col170:
-                quant_peca_2 = st.text_input("2")
+                add_space(2)
+                gold_text("1")     
             with col171:
-                desc_peca_2 = st.text_input("2 - Descriçao da peça")
+                quant_peca_2 = st.text_input("", "2",label_visibility="hidden")
             with col172:
-                valor_peca_2 = st.text_input("2 - Custo")
+                desc_peca_2 = st.text_input("", "", label_visibility="hidden")
             with col173:
+                valor_peca_2 = st.number_input(" ", value=None, label_visibility="hidden")
+            with col174: 
+                if quant_peca_2 and valor_peca_2:
+                    try:
+                        costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
+                        add_space(2)
+                        gold_text(f"R$ {costo_inicial:.2f}")
+                    except:
+                        add_space(2)
+                        gold_text("R$ 0.00")
+                else:
+                    add_space(2)
+                    gold_text("R$ 0.00")
+            with col175:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_2 and valor_peca_2 and porcentaje_adicional:
                     try:
                         costo_final_2 = float(quant_peca_2) * float(valor_peca_2) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_2:.2f}")
+                        add_space(2)
+                        gold_text(f"R$ {costo_final_2:.2f}")        
                     except:
-                        st.text("Valor")
+                        add_space(2)
+                        gold_text("R$ 0.00")
                 else:
-                    st.text("Valor")
-
-            
+                    add_space(2)
+                    gold_text("R$ 0.00")                   
+          
 
         with st.container():    
             col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
