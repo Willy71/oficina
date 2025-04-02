@@ -505,7 +505,7 @@ if action == "Nova ordem de serviço":
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
                         add_space(2)
-                        gold_text(f"R$ {costo_inicial:.2f}")
+                        gold_text(f"R$ {costo_inicial_1:.2f}")
                     except:
                         add_space(2)
                         gold_text("R$ 0.00")
@@ -542,7 +542,7 @@ if action == "Nova ordem de serviço":
                     try:
                         costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
                         add_space(2)
-                        gold_text(f"R$ {costo_inicial:.2f}")
+                        gold_text(f"R$ {costo_inicial_2:.2f}")
                     except:
                         add_space(2)
                         gold_text("R$ 0.00")
