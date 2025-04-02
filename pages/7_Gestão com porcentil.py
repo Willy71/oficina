@@ -1302,7 +1302,7 @@ elif action == "Atualizar ordem existente":
         with st.container():    
             col50, col51, col52 = st.columns([0.7, 6.5, 2.2])
             with col50:
-                item_serv_1 = "2"
+                item_serv_2 = "2"
                 gold_text("2")
             with col51:
                 desc_ser_2 = st.text_input("", value=vendor_data["desc_ser_2"], label_visibility="collapsed", key="update_desc_ser_2")
@@ -1329,11 +1329,29 @@ elif action == "Atualizar ordem existente":
         with st.container():    
             col60, col61, col62 = st.columns([1,5,2])
             with col60:
-                item_serv_3 = st.text_input("3 - Item",  value=vendor_data["item_serv_3"], key="update_item_serv_3")
+                item_serv_3 = "3"
+                gold_text("3")
             with col61:
-                desc_ser_3 = st.text_input("3 -Descriçao de serviço",  value=vendor_data["desc_ser_3"], key="update_desc_ser_3")
+                desc_ser_3 = st.text_input("", value=vendor_data["desc_ser_3"], label_visibility="collapsed", key="update_desc_ser_3")
             with col62:
-                valor_serv_3 = st.text_input("3- Valor do serviço",  value=vendor_data["valor_serv_3"], key="update_valor_serv_3")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_3"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_3"
+                )
 
         with st.container():    
             col70, col71, col72 = st.columns([1,5,2])
