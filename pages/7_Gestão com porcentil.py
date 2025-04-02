@@ -564,43 +564,77 @@ if action == "Nova ordem de serviço":
                     add_space(2)
                     gold_text("R$ 0.00")                
 
-        with st.container():    
-            col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
+        with st.container():
+            col180, col181, col182, col183, col184, col185 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col180:
-                quant_peca_3 = st.text_input("3")
+                add_space(2)
+                gold_text("3")     
             with col181:
-                desc_peca_3 = st.text_input("3 - Descriçao da peça")
+                quant_peca_3 = st.text_input("", "1", label_visibility="hidden", key="quant_peca_3")
             with col182:
-                valor_peca_3 = st.text_input("3 - Custo")
+                desc_peca_3 = st.text_input("", "", label_visibility="hidden", key="desc_peca_3")
             with col183:
-                # Mostrar costo final (con porcentaje aplicado)
+                valor_peca_3 = st.number_input("", value=None, label_visibility="hidden", key="valor_peca_3")
+            with col184: 
+                if quant_peca_3 and valor_peca_3:
+                    try:
+                        costo_inicial_3 = float(quant_peca_3) * float(valor_peca_3)
+                        add_space(2)
+                        gold_text(f"R$ {costo_inicial_3:.2f}")
+                    except:
+                        add_space(2)
+                        gold_text("R$ 0.00")
+                else:
+                    add_space(2)
+                    gold_text("R$ 0.00")
+            with col185:
                 if quant_peca_3 and valor_peca_3 and porcentaje_adicional:
                     try:
                         costo_final_3 = float(quant_peca_3) * float(valor_peca_3) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_3:.2f}")
+                        add_space(2)
+                        gold_text(f"R$ {costo_final_3:.2f}")        
                     except:
-                        st.text("Valor")
+                        add_space(2)
+                        gold_text("R$ 0.00")
                 else:
-                    st.text("Valor")
+                    add_space(2)
+                    gold_text("R$ 0.00")
         
-        with st.container():    
-            col190, col191, col192, col193 = st.columns([1, 6, 1, 1])
+        with st.container():
+            col190, col191, col192, col193, col194, col195 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col190:
-                quant_peca_4 = st.text_input("4")
+                add_space(2)
+                gold_text("3")     
             with col191:
-                desc_peca_4 = st.text_input("4 - Descriçao da peça")
+                quant_peca_4 = st.text_input("", "1", label_visibility="hidden", key="quant_peca_4")
             with col192:
-                valor_peca_4 = st.text_input("4 - Custo")
+                desc_peca_4 = st.text_input("", "", label_visibility="hidden", key="desc_peca_4")
             with col193:
-                # Mostrar costo final (con porcentaje aplicado)
+                valor_peca_4 = st.number_input("", value=None, label_visibility="hidden", key="valor_peca_4")
+            with col194: 
+                if quant_peca_4 and valor_peca_4:
+                    try:
+                        costo_inicial_4 = float(quant_peca_4) * float(valor_peca_4)
+                        add_space(2)
+                        gold_text(f"R$ {costo_inicial_4:.2f}")
+                    except:
+                        add_space(2)
+                        gold_text("R$ 0.00")
+                else:
+                    add_space(2)
+                    gold_text("R$ 0.00")
+            with col195:
                 if quant_peca_4 and valor_peca_4 and porcentaje_adicional:
                     try:
                         costo_final_4 = float(quant_peca_4) * float(valor_peca_4) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_4:.2f}")
+                        add_space(2)
+                        gold_text(f"R$ {costo_final_4:.2f}")        
                     except:
-                        st.text("Valor")
+                        add_space(2)
+                        gold_text("R$ 0.00")
                 else:
-                    st.text("Valor")
+                    add_space(2)
+                    gold_text("R$ 0.00")
         
         with st.container():    
             col200, col201, col202, col203 = st.columns([1, 6, 1, 1])
