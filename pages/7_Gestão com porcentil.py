@@ -1635,29 +1635,56 @@ elif action == "Atualizar ordem existente":
             with col160:
                 gold_text("1") 
             with col161:
-                quant_peca_1 = st.text_input("", value=vendor_data["quant_peca_1"], label_visibility="collapsed", key="update_quant_peca_1")
+                quant_peca_1 = st.text_input(
+                    "", 
+                    value=str(vendor_data.get("quant_peca_1", "1")),  # Aseguramos string
+                    label_visibility="collapsed", 
+                    key="update_quant_peca_1"
+                )
             with col162:
-                desc_peca_1 = st.text_input("", value=vendor_data["desc_peca_1"], label_visibility="collapsed", key="update_desc_peca_1")
+                desc_peca_1 = st.text_input(
+                    "", 
+                    value=str(vendor_data.get("desc_peca_1", "")),  # Aseguramos string
+                    label_visibility="collapsed", 
+                    key="update_desc_peca_1"
+                )
             with col163:
-                valor_peca_1 = st.number_input("", value=vendor_data["valor_peca_1"], label_visibility="collapsed", key="update_valor_peca_1")
+                # Conversión ultra-segura del valor numérico
+                try:
+                    raw_value = vendor_data.get("valor_peca_1")
+                    if raw_value in [None, "", "None"]:
+                        default_value = 0.0
+                    else:
+                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
+                except (ValueError, TypeError):
+                    default_value = 0.0
+                    
+                valor_peca_1 = st.number_input(
+                    "", 
+                    value=float(default_value),  # Aseguramos float
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed", 
+                    key="update_valor_peca_1"
+                )
             with col164:
-                if quant_peca_1 and valor_peca_1:
-                    try:
-                        costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
-                        gold_text(f"R$ {costo_inicial_1:.2f}")
-                    except:
-                        gold_text("R$ 0.00")
-                else:
+                try:
+                    qty = float(quant_peca_1.replace(",", ".")) if quant_peca_1 else 0.0
+                    val = float(valor_peca_1) if valor_peca_1 else 0.0
+                    costo_inicial_1 = qty * val
+                    gold_text(f"R$ {costo_inicial_1:.2f}")
+                except:
                     gold_text("R$ 0.00")
             with col165:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
-                    try:
-                        costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
-                        gold_text(f"R$ {costo_final_1:.2f}")        
-                    except:
+                try:
+                    if porcentaje_adicional:
+                        costo_final_1 = float(quant_peca_1.replace(",", ".")) * float(valor_peca_1) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {costo_final_1:.2f}")
+                    else:
                         gold_text("R$ 0.00")
-                else:
+                except:
                     gold_text("R$ 0.00")   
 
         with st.container():    
