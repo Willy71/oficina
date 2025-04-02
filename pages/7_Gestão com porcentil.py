@@ -451,7 +451,7 @@ if action == "Nova ordem de serviço":
 
         # ENCABEZADOS
         with st.container():
-            col1001, col1002, col1003, col1004, col1005 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
+            col1001, col1002, col1003, col1004, col1005, col1006 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col1001:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
@@ -462,25 +462,32 @@ if action == "Nova ordem de serviço":
             with col1002:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Descrição da peça</span>'
+                        '<span style="color: #FFD700; font-weight: bold;">Q</span>'
                         '</div>',
                         unsafe_allow_html=True
                     )
             with col1003:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Valor Unit</span>'
+                        '<span style="color: #FFD700; font-weight: bold;">Descrição da peça</span>'
                         '</div>',
                         unsafe_allow_html=True
                     )
             with col1004:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Sub Total</span>'
+                        '<span style="color: #FFD700; font-weight: bold;">Valor Unit</span>'
                         '</div>',
                         unsafe_allow_html=True
                     )
             with col1005:
+                st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">Sub Total</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
+            with col1006:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
                         '<span style="color: #FFD700; font-weight: bold;">Total</span>'
@@ -490,7 +497,7 @@ if action == "Nova ordem de serviço":
                 
             
         with st.container():  
-            col160, col161, col162, col163, col164, col165 = st.columns([0.35, 0.35, 3, 0.7, 0.7, 0.7])
+            col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
                 st.caption("")
                 st.caption("")
