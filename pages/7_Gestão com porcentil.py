@@ -468,7 +468,7 @@ if action == "Nova ordem de serviço":
         line(4, "blue")
         centrar_texto("Peças", 2, "yellow")
 
-        styled_gold_text("R$ 0.00")
+        gold_text("R$ 0.00")
 
         # ENCABEZADOS
         with st.container():
