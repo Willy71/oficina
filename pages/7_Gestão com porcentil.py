@@ -1744,98 +1744,179 @@ elif action == "Atualizar ordem existente":
                 except:
                     gold_text("R$ 0.00")
 
-        with st.container():    
-            col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
+        with st.container():
+            col180, col181, col182, col183, col184, col185 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col180:
-                quant_peca_3 = st.text_input("3", value=vendor_data["quant_peca_3"], key="update_quant_peca_3")
+                gold_text("3") 
             with col181:
-                desc_peca_3 = st.text_input("3 - Descriçao da peça", value=vendor_data["desc_peca_3"], key="update_desc_peca_3")
+                quant_peca_3 = st.text_input(
+                    "", 
+                    value=str(vendor_data.get("quant_peca_3", "1")),  # Aseguramos string
+                    label_visibility="collapsed", 
+                    key="update_quant_peca_3"
+                )
             with col182:
-                valor_peca_3 = st.text_input("3 - Custo", value=vendor_data["valor_peca_3"], key="update_valor_peca_3")
+                desc_peca_3 = st.text_input(
+                    "", 
+                    value=str(vendor_data.get("desc_peca_3", "")),  # Aseguramos string
+                    label_visibility="collapsed", 
+                    key="update_desc_peca_3"
+                )
             with col183:
-                # Cálculo directo usando el porcentaje_adicional ya definido
+                # Conversión ultra-segura del valor numérico
                 try:
-                    quantidade = float(quant_peca_3) if quant_peca_3 else 0
-                    custo_unitario = float(valor_peca_3) if valor_peca_3 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    # Texto unificado con estilo
-                    centrar_texto("", 7,"white")
-                    st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 38px;">'
-                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )
+                    raw_value = vendor_data.get("valor_peca_3")
+                    if raw_value in [None, "", "None"]:
+                        default_value = 0.0
+                    else:
+                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
+                except (ValueError, TypeError):
+                    default_value = 0.0
+                    
+                valor_peca_3 = st.number_input(
+                    "", 
+                    value=float(default_value),  # Aseguramos float
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed", 
+                    key="update_valor_peca_3"
+                )
+            with col184:
+                try:
+                    qty = float(quant_peca_3.replace(",", ".")) if quant_peca_3 else 0.0
+                    val = float(valor_peca_3) if valor_peca_3 else 0.0
+                    costo_inicial_3 = qty * val
+                    gold_text(f"R$ {costo_inicial_3:.2f}")
                 except:
-                    centrar_texto("", 7,"white")
-                    st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                    gold_text("R$ 0.00")
+            with col185:
+                try:
+                    if porcentaje_adicional:
+                        costo_final_3 = float(quant_peca_3.replace(",", ".")) * float(valor_peca_3) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {costo_final_3:.2f}")
+                    else:
+                        gold_text("R$ 0.00")
+                except:
+                    gold_text("R$ 0.00")
+
         
-        with st.container():    
-            col190, col191, col192, col193 = st.columns([1, 6, 1, 1])
+        with st.container():   
+            col190, col191, col192, col193, col194, col195 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col190:
-                quant_peca_4 = st.text_input("4", value=vendor_data["quant_peca_4"], key="update_quant_peca_4")
+                gold_text("4") 
             with col191:
-                desc_peca_4 = st.text_input("4 - Descriçao da peça", value=vendor_data["desc_peca_4"], key="update_desc_peca_4")
+                quant_peca_4 = st.text_input(
+                    "", 
+                    value=str(vendor_data.get("quant_peca_4", "1")),  # Aseguramos string
+                    label_visibility="collapsed", 
+                    key="update_quant_peca_4"
+                )
             with col192:
-                valor_peca_4 = st.text_input("4 - Custo", value=vendor_data["valor_peca_4"], key="update_valor_peca_4")
+                desc_peca_4 = st.text_input(
+                    "", 
+                    value=str(vendor_data.get("desc_peca_4", "")),  # Aseguramos string
+                    label_visibility="collapsed", 
+                    key="update_desc_peca_4"
+                )
             with col193:
-                # Cálculo directo usando el porcentaje_adicional ya definido
+                # Conversión ultra-segura del valor numérico
                 try:
-                    quantidade = float(quant_peca_4) if quant_peca_4 else 0
-                    custo_unitario = float(valor_peca_4) if valor_peca_4 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    # Texto unificado con estilo
-                    centrar_texto("", 7,"white")
-                    st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 38px;">'
-                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )
+                    raw_value = vendor_data.get("valor_peca_4")
+                    if raw_value in [None, "", "None"]:
+                        default_value = 0.0
+                    else:
+                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
+                except (ValueError, TypeError):
+                    default_value = 0.0
+                    
+                valor_peca_4 = st.number_input(
+                    "", 
+                    value=float(default_value),  # Aseguramos float
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed", 
+                    key="update_valor_peca_4"
+                )
+            with col194:
+                try:
+                    qty = float(quant_peca_4.replace(",", ".")) if quant_peca_4 else 0.0
+                    val = float(valor_peca_4) if valor_peca_4 else 0.0
+                    costo_inicial_4 = qty * val
+                    gold_text(f"R$ {costo_inicial_4:.2f}")
                 except:
-                    centrar_texto("", 7,"white")
-                    st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                    gold_text("R$ 0.00")
+            with col195:
+                try:
+                    if porcentaje_adicional:
+                        costo_final_4 = float(quant_peca_4.replace(",", ".")) * float(valor_peca_4) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {costo_final_4:.2f}")
+                    else:
+                        gold_text("R$ 0.00")
+                except:
+                    gold_text("R$ 0.00")
+
         
         with st.container():    
-            col200, col201, col202, col203 = st.columns([1, 6, 1, 1])
+            col200, col201, col202, col203, col204, col205 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col200:
-                quant_peca_5 = st.text_input("5", value=vendor_data["quant_peca_5"], key="update_quant_peca_5")
+                gold_text("5") 
             with col201:
-                desc_peca_5 = st.text_input("5 - Descriçao da peça", value=vendor_data["desc_peca_5"], key="update_desc_peca_5")
+                quant_peca_5 = st.text_input(
+                    "", 
+                    value=str(vendor_data.get("quant_peca_5", "1")),  # Aseguramos string
+                    label_visibility="collapsed", 
+                    key="update_quant_peca_5"
+                )
             with col202:
-                valor_peca_5 = st.text_input("5 - Custo", value=vendor_data["valor_peca_5"], key="update_valor_peca_5")
+                desc_peca_5 = st.text_input(
+                    "", 
+                    value=str(vendor_data.get("desc_peca_5", "")),  # Aseguramos string
+                    label_visibility="collapsed", 
+                    key="update_desc_peca_5"
+                )
             with col203:
-                # Cálculo directo usando el porcentaje_adicional ya definido
+                # Conversión ultra-segura del valor numérico
                 try:
-                    quantidade = float(quant_peca_5) if quant_peca_5 else 0
-                    custo_unitario = float(valor_peca_5) if valor_peca_5 else 0
-                    valor_final = quantidade * custo_unitario * (1 + porcentaje_adicional/100)
-                    # Texto unificado con estilo
-                    centrar_texto("", 7,"white")
-                    st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 38px;">'
-                        f'<span style="color: #FFD700; font-weight: bold;">R$ {valor_final:.2f}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )
+                    raw_value = vendor_data.get("valor_peca_5")
+                    if raw_value in [None, "", "None"]:
+                        default_value = 0.0
+                    else:
+                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
+                except (ValueError, TypeError):
+                    default_value = 0.0
+                    
+                valor_peca_5 = st.number_input(
+                    "", 
+                    value=float(default_value),  # Aseguramos float
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed", 
+                    key="update_valor_peca_5"
+                )
+            with col204:
+                try:
+                    qty = float(quant_peca_5.replace(",", ".")) if quant_peca_5 else 0.0
+                    val = float(valor_peca_5) if valor_peca_5 else 0.0
+                    costo_inicial_5 = qty * val
+                    gold_text(f"R$ {costo_inicial_5:.2f}")
                 except:
-                    centrar_texto("", 7,"white")
-                    st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                    gold_text("R$ 0.00")
+            with col205:
+                try:
+                    if porcentaje_adicional:
+                        costo_final_5 = float(quant_peca_5.replace(",", ".")) * float(valor_peca_5) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {costo_final_5:.2f}")
+                    else:
+                        gold_text("R$ 0.00")
+                except:
+                    gold_text("R$ 0.00")
+
         
         with st.container():    
             col210, col211, col212, col213 = st.columns([1, 6, 1, 1])
