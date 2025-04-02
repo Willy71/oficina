@@ -492,7 +492,7 @@ if action == "Nova ordem de serviço":
         with st.container():  
             col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
-                add_space(2)
+                add_space(0)
                 gold_text("1")     
             with col161:
                 quant_peca_1 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_1")
@@ -504,33 +504,33 @@ if action == "Nova ordem de serviço":
                 if quant_peca_1 and valor_peca_1:
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
-                        add_space(2)
+                        add_space(0)
                         gold_text(f"R$ {costo_inicial_1:.2f}")
                     except:
-                        add_space(2)
+                        add_space(0)
                         gold_text("R$ 0.00")
                 else:
-                    add_space(2)
+                    add_space(0)
                     gold_text("R$ 0.00")
             with col165:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
                     try:
                         costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
-                        add_space(2)
+                        add_space(0)
                         gold_text(f"R$ {costo_final_1:.2f}")        
                     except:
-                        add_space(2)
+                        add_space(0)
                         gold_text("R$ 0.00")
                 else:
-                    add_space(2)
+                    add_space(0)
                     gold_text("R$ 0.00")   
 
 
         with st.container():
             col170, col171, col172, col173, col174, col175 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col170:
-                add_space(2)
+                add_space(0)
                 gold_text("2")     
             with col171:
                 quant_peca_2 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_2")
@@ -542,26 +542,26 @@ if action == "Nova ordem de serviço":
                 if quant_peca_2 and valor_peca_2:
                     try:
                         costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
-                        add_space(2)
+                        add_space(0)
                         gold_text(f"R$ {costo_inicial_2:.2f}")
                     except:
-                        add_space(2)
+                        add_space(0)
                         gold_text("R$ 0.00")
                 else:
-                    add_space(2)
+                    add_space(0)
                     gold_text("R$ 0.00")
             with col175:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_2 and valor_peca_2 and porcentaje_adicional:
                     try:
                         costo_final_2 = float(quant_peca_2) * float(valor_peca_2) * (1 + porcentaje_adicional/100)
-                        add_space(2)
+                        add_space(0)
                         gold_text(f"R$ {costo_final_2:.2f}")        
                     except:
-                        add_space(2)
+                        add_space(0)
                         gold_text("R$ 0.00")
                 else:
-                    add_space(2)
+                    add_space(0)
                     gold_text("R$ 0.00")                
 
         with st.container():
