@@ -456,7 +456,7 @@ if action == "Nova ordem de serviço":
         centrar_texto("Peças", 2, "yellow")
 
         # En la sección "Nova ordem de serviço", antes de la sección de peças:
-        centrar_texto("Configuración de Costos", 8, "yellow")
+        centrar_texto("Configuración de Costos", 7, "yellow")
         
         with st.container():
             col_perc, col_empty, col_final = st.columns(3)
