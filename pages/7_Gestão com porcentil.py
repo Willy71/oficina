@@ -1632,36 +1632,7 @@ elif action == "Atualizar ordem existente":
 
 
         #=========================================================================================================================================
-       with st.container():  
-            col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
-            with col160:
-                gold_text("1")     
-            with col161:
-                quant_peca_1 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_1")
-            with col162:
-                desc_peca_1 = st.text_input("", " ", label_visibility="collapsed", key="desc_peca_1")
-            with col163:
-                valor_peca_1 = st.number_input(" ", value=None, label_visibility="collapsed", key="valor_peca_1")
-            with col164: 
-                if quant_peca_1 and valor_peca_1:
-                    try:
-                        costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
-                        gold_text(f"R$ {costo_inicial_1:.2f}")
-                    except:
-                        gold_text("R$ 0.00")
-                else:
-                    gold_text("R$ 0.00")
-            with col165:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
-                    try:
-                        costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
-                        gold_text(f"R$ {costo_final_1:.2f}")        
-                    except:
-                        gold_text("R$ 0.00")
-                else:
-                    gold_text("R$ 0.00")   
-
+    
         #=========================================================================================================================================
 
 
