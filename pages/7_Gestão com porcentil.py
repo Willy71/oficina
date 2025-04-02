@@ -461,8 +461,7 @@ if action == "Nova ordem de serviço":
                 if quant_peca_1 and valor_peca_1:
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
-                        st.text("")
-                        st.text("")
+                        st.subheader("")
                         st.markdown(
                         f'<div style="display: flex; align-items: center; height: 38px;">'
                         f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_inicial:.2f}</span>'
@@ -471,8 +470,7 @@ if action == "Nova ordem de serviço":
                     )
                         #st.text(f"R$ {costo_inicial_1:.2f}") 
                     except:
-                        st.text("")
-                        st.text("")
+                        st.subheader("")                      
                         st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
                         '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
@@ -480,8 +478,7 @@ if action == "Nova ordem de serviço":
                         unsafe_allow_html=True
                     )
                 else:
-                    st.text("")
-                    st.text("")
+                    st.subheader("")
                     st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
                         '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
@@ -493,8 +490,7 @@ if action == "Nova ordem de serviço":
                 if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
                     try:
                         costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
-                        st.text("")
-                        st.text("")
+                        st.subheader("")
                         st.markdown(
                         f'<div style="display: flex; align-items: center; height: 38px;">'
                         f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_final_1:.2f}</span>'
@@ -502,8 +498,7 @@ if action == "Nova ordem de serviço":
                         unsafe_allow_html=True
                     )
                     except:
-                        st.text("")
-                        st.text("")
+                        st.subheader("")
                         st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
                         '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
@@ -511,8 +506,7 @@ if action == "Nova ordem de serviço":
                         unsafe_allow_html=True
                     )
                 else:
-                    st.text("")
-                    st.text("")
+                    st.subheader("")
                     st.markdown(
                     '<div style="display: flex; align-items: center; height: 38px;">'
                     '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
