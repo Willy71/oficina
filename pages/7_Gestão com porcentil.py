@@ -453,15 +453,41 @@ if action == "Nova ordem de serviço":
         with st.container():
             col1001, col1002, col1003, col1004, col1005 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
             with col1001:
+                st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">Descrição da peça</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
                 centrar_texto("#", 5, "yellow")
             with col1002:
-                centrar_texto("Descrição da peça", 5, "yellow")
+                st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">Descrição da peça</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
             with col1003:
-                centrar_texto("Valor Unit", 5, "yellow")
+                st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">Valor Unit</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
             with col1004:
-                centrar_texto("Sub total", 5, "yellow")
+                st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">Sub Total</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
             with col1005:
-                centrar_texto("Total", 5, "yellow")
+                st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">Total</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
                 
             
         with st.container():  
