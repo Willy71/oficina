@@ -1327,7 +1327,7 @@ elif action == "Atualizar ordem existente":
                 )
 
         with st.container():    
-            col60, col61, col62 = st.columns([1,5,2])
+            col60, col61, col62 = st.columns([0.7, 6.5, 2.2])
             with col60:
                 item_serv_3 = "3"
                 gold_text("3")
@@ -1354,85 +1354,247 @@ elif action == "Atualizar ordem existente":
                 )
 
         with st.container():    
-            col70, col71, col72 = st.columns([1,5,2])
+            col70, col71, col72 = st.columns([0.7, 6.5, 2.2])
             with col70:
-                item_serv_4 = st.text_input("4 - Item",  value=vendor_data["item_serv_4"], key="update_item_serv_4")
+                item_serv_4 = "4"
+                gold_text("4")
             with col71:
-                desc_ser_4 = st.text_input("4 -Descriçao de serviço",  value=vendor_data["desc_ser_4"], key="update_desc_ser_4")
+                desc_ser_4 = st.text_input("", value=vendor_data["desc_ser_4"], label_visibility="collapsed", key="update_desc_ser_4")
             with col72:
-                valor_serv_4 = st.text_input("4- Valor do serviço", value=vendor_data["valor_serv_4"], key="update_valor_serv_4")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_4"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_4"
+                )
 
         with st.container():    
-            col80, col81, col82 = st.columns([1,5,2])
+            col80, col81, col82 = st.columns([0.7, 6.5, 2.2])
             with col80:
-                item_serv_5 = st.text_input("5 - Item", value=vendor_data["item_serv_5"], key="update_item_serv_5")
+                item_serv_5 = "5"
+                gold_text("5")
             with col81:
-                desc_ser_5 = st.text_input("5 - Descriçao de serviço", value=vendor_data["desc_ser_5"], key="update_desc_ser_5")
+                desc_ser_5 = st.text_input("", value=vendor_data["desc_ser_5"], label_visibility="collapsed", key="update_desc_ser_5")
             with col82:
-                valor_serv_5 = st.text_input("5 - Valor do serviço", value=vendor_data["valor_serv_5"], key="update_valor_serv_5")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_5"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_5"
+                )
         
         with st.container():    
-            col90, col91, col92 = st.columns([1,5,2])
+            col90, col91, col92 = st.columns([0.7, 6.5, 2.2])
             with col90:
-                item_serv_6 = st.text_input("6 - Item", value=vendor_data["item_serv_6"], key="update_item_serv_6")
+                item_serv_6 = "6"
+                gold_text("6")
             with col91:
-                desc_ser_6 = st.text_input("6 - Descriçao de serviço", value=vendor_data["desc_ser_6"], key="update_desc_ser_6")
+                desc_ser_6 = st.text_input("", value=vendor_data["desc_ser_6"], label_visibility="collapsed", key="update_desc_ser_6")
             with col92:
-                valor_serv_6 = st.text_input("6 - Valor do serviço", value=vendor_data["valor_serv_6"], key="update_valor_serv_6")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_6"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_6"
+                )
         
         with st.container():    
-            col100, col101, col102 = st.columns([1,5,2])
+            col100, col101, col102 = st.columns([0.7, 6.5, 2.2])
             with col100:
-                item_serv_7 = st.text_input("7 - Item", value=vendor_data["item_serv_7"], key="update_item_serv_7")
+                item_serv_7 = "7"
+                gold_text("7")
             with col101:
-                desc_ser_7 = st.text_input("7 - Descriçao de serviço", value=vendor_data["desc_ser_7"], key="update_desc_ser_7")
+                desc_ser_7 = st.text_input("", value=vendor_data["desc_ser_7"], label_visibility="collapsed", key="update_desc_ser_7")
             with col102:
-                valor_serv_7 = st.text_input("7 - Valor do serviço", value=vendor_data["valor_serv_7"], key="update_valor_serv_7")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_7"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_7"
+                )
         
         with st.container():    
-            col110, col111, col112 = st.columns([1,5,2])
+            col110, col111, col112 = st.columns([0.7, 6.5, 2.2])
             with col110:
-                item_serv_8 = st.text_input("8 - Item", value=vendor_data["item_serv_8"], key="update_item_serv_8")
+                item_serv_8 = "8"
+                gold_text("8")
             with col111:
-                desc_ser_8 = st.text_input("8 - Descriçao de serviço", value=vendor_data["desc_ser_8"], key="update_desc_ser_8")
+                desc_ser_8 = st.text_input("", value=vendor_data["desc_ser_8"], label_visibility="collapsed", key="update_desc_ser_8")
             with col112:
-                valor_serv_8 = st.text_input("8 - Valor do serviço", value=vendor_data["valor_serv_8"], key="update_valor_serv_8")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_8"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_8"
+                )
         
         with st.container():    
-            col120, col121, col122 = st.columns([1,5,2])
+            col120, col121, col122 = st.columns([0.7, 6.5, 2.2])
             with col120:
-                item_serv_9 = st.text_input("9 - Item", value=vendor_data["item_serv_9"], key="update_item_serv_9")
+                item_serv_9 = "9"
+                gold_text("9")
             with col121:
-                desc_ser_9 = st.text_input("9 - Descriçao de serviço", value=vendor_data["desc_ser_9"], key="update_desc_ser_9")
+                desc_ser_9 = st.text_input("", value=vendor_data["desc_ser_9"], label_visibility="collapsed", key="update_desc_ser_9")
             with col122:
-                valor_serv_9 = st.text_input("9 - Valor do serviço", value=vendor_data["valor_serv_9"], key="update_valor_serv_9")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_9"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_9"
+                )
         
         with st.container():    
-            col130, col131, col132 = st.columns([1,5,2])
+            col130, col131, col132 = st.columns([0.7, 6.5, 2.2])
             with col130:
-                item_serv_10 = st.text_input("10 - Item", value=vendor_data["item_serv_10"], key="update_item_serv_10")
+                item_serv_10 = "10"
+                gold_text("10")
             with col131:
-                desc_ser_10 = st.text_input("10 - Descriçao de serviço", value=vendor_data["desc_ser_10"], key="update_desc_ser_10")
+                desc_ser_10 = st.text_input("", value=vendor_data["desc_ser_10"], label_visibility="collapsed", key="update_desc_ser_10")
             with col132:
-                valor_serv_10 = st.text_input("10 - Valor do serviço", value=vendor_data["valor_serv_10"], key="update_valor_serv_10")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_10"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_10"
+                )
         
         with st.container():    
-            col140, col141, col142 = st.columns([1,5,2])
+            col140, col141, col142 = st.columns([0.7, 6.5, 2.2])
             with col140:
-                item_serv_11 = st.text_input("11 - Item", value=vendor_data["item_serv_11"], key="update_item_serv_11")
+                item_serv_11 = "11"
+                gold_text("11")
             with col141:
-                desc_ser_11 = st.text_input("11 - Descriçao de serviço", value=vendor_data["desc_ser_11"], key="update_desc_ser_11")
+                desc_ser_11 = st.text_input("", value=vendor_data["desc_ser_11"], label_visibility="collapsed", key="update_desc_ser_11")
             with col142:
-                valor_serv_11 = st.text_input("11 - Valor do serviço", value=vendor_data["valor_serv_11"], key="update_valor_serv_11")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_11"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_11"
+                )
         
         with st.container():    
-            col150, col151, col152 = st.columns([1,5,2])
+            col150, col151, col152 = st.columns([0.7, 6.5, 2.2])
             with col150:
-                item_serv_12 = st.text_input("12 - Item", value=vendor_data["item_serv_12"], key="update_item_serv_12")
+                item_serv_12 = "12"
+                gold_text("12")
             with col151:
-                desc_ser_12 = st.text_input("12 - Descriçao de serviço", value=vendor_data["desc_ser_12"], key="update_desc_ser_12")
+                desc_ser_12 = st.text_input("", value=vendor_data["desc_ser_12"], label_visibility="collapsed", key="update_desc_ser_12")
             with col152:
-                valor_serv_12 = st.text_input("12 - Valor do serviço", value=vendor_data["valor_serv_12"], key="update_valor_serv_12")
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_12"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
+                valor_serv_3 = st.number_input(
+                    "",
+                    value=default_value,
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed",
+                    key="update_valor_serv_12"
+                )
                 
         # En la sección "Atualizar ordem existente":
 
