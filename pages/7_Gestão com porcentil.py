@@ -508,16 +508,12 @@ if action == "Nova ordem de serviço":
             with col1005:
                 gold_text("Sub Total")
             with col1006:
-                st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">Total</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                gold_text("Total")
+                
                 
             
         with st.container():  
-            col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            col160, col161, col162, col163, col164, col165 =  0.7, 0.7, 0.7])
             with col160:
                 st.caption("")
                 st.caption("")
