@@ -1598,29 +1598,37 @@ elif action == "Atualizar ordem existente":
                 
         # En la sección "Atualizar ordem existente":
 
-        line(4, "blue")
-        centrar_texto("Configuración de Costos", 2, "yellow")
+        centrar_texto("Peças", 2, "yellow")
         
         with st.container():
-            col_perc, col_empty = st.columns([2, 5])
-            with col_perc:
-                # Con esta versión más robusta:
-                try:
-                    porcentaje_default = float(vendor_data.get("porcentaje_adicional", 30.0))
-                except (TypeError, ValueError):
-                    porcentaje_default = 30.0  # Valor por defecto si hay error
-                
+            col_perc, col_empty, col_final = st.columns([4, 2.5, 4])
+            with col_empty:
                 porcentaje_adicional = st.number_input(
-                    "Porcentaje adicional para costos (%)",
+                    "Porcentagem adicional (%)",
                     min_value=0.0,
                     max_value=100.0,
-                    value=porcentaje_default,
+                    value=30.0,  # Valor por defecto del 30%
                     step=0.5,
-                    key="update_porcentaje_adicional"
+                    key="porcentaje_adicional"
                 )
-        
-        line(4, "blue")
-        centrar_texto("Peças", 2, "yellow")
+
+
+        # ENCABEZADOS
+        with st.container():
+            col1001, col1002, col1003, col1004, col1005, col1006 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            with col1001:
+                gold_text("#")
+            with col1002:
+                gold_text("Quant.")
+            with col1003:
+                gold_text("Descrição da peça")
+            with col1004:
+                gold_text("Valor Unit")
+            with col1005:
+                gold_text("Sub Total")
+            with col1006:
+                gold_text("Total")
+
 
         with st.container():    
             col160, col161, col162, col163 = st.columns([1, 6, 1, 1])
