@@ -1665,31 +1665,51 @@ elif action == "Atualizar ordem existente":
             with col170:
                 gold_text("2") 
             with col171:
-                quant_peca_2 = st.text_input("", value=vendor_data["quant_peca_2"], label_visibility="collapsed", key="update_quant_peca_2")
+                quant_peca_2 = st.text_input(
+                    "", 
+                    value=vendor_data.get("quant_peca_2", "1"),  # Valor por defecto "1" si no existe
+                    label_visibility="collapsed", 
+                    key="update_quant_peca_2"
+                )
             with col172:
-                desc_peca_2 = st.text_input("", value=vendor_data["desc_peca_2"], label_visibility="collapsed", key="update_desc_peca_2")
+                desc_peca_2 = st.text_input(
+                    "", 
+                    value=vendor_data.get("desc_peca_2", ""),  # Valor vacío por defecto
+                    label_visibility="collapsed", 
+                    key="update_desc_peca_2"
+                )
             with col173:
-                valor_peca_2 = st.number_input("", value=vendor_data["valor_peca_2"], label_visibility="collapsed", key="update_valor_peca_2")
+                # Manejo seguro del valor numérico
+                try:
+                    valor_default = float(vendor_data.get("valor_peca_2", 0))  # 0 por defecto
+                except (TypeError, ValueError):
+                    valor_default = 0
+                    
+                valor_peca_2 = st.number_input(
+                    "", 
+                    value=valor_default,
+                    min_value=0.0,  # Valor mínimo permitido
+                    max_value=1000000.0,  # Valor máximo razonable
+                    step=0.01,
+                    format="%.2f",
+                    label_visibility="collapsed", 
+                    key="update_valor_peca_2"
+                )
             with col174:
-                if quant_peca_2 and valor_peca_2:
-                    try:
-                        costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
-                        gold_text(f"R$ {costo_inicial_2:.2f}")
-                    except:
-                        gold_text("R$ 0.00")
-                else:
+                try:
+                    costo_inicial_2 = float(quant_peca_2) * float(valor_peca_2)
+                    gold_text(f"R$ {costo_inicial_2:.2f}")
+                except:
                     gold_text("R$ 0.00")
             with col175:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_2 and valor_peca_2 and porcentaje_adicional:
+                if porcentaje_adicional:
                     try:
                         costo_final_2 = float(quant_peca_2) * float(valor_peca_2) * (1 + porcentaje_adicional/100)
                         gold_text(f"R$ {costo_final_2:.2f}")        
                     except:
                         gold_text("R$ 0.00")
                 else:
-                    gold_text("R$ 0.00") 
-        
+                    gold_text("R$ 0.00")
 
         with st.container():    
             col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
