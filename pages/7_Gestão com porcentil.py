@@ -752,6 +752,38 @@ if action == "Nova ordem de serviço":
                         gold_text("R$ 0.00")
                 else:
                     gold_text("R$ 0.00")
+
+
+        with st.container():
+            col250, col251, col252, col253, col254, col255 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            with col250:
+                gold_text("10")     
+            with col251:
+                quant_peca_10 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_10")
+            with col252:
+                desc_peca_10 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_10")
+            with col253:
+                valor_peca_10 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_10")
+            with col254: 
+                if quant_peca_10 and valor_peca_10:
+                    try:
+                        costo_inicial_10 = float(quant_peca_10) * float(valor_peca_10)
+                        gold_text(f"R$ {costo_inicial_10:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col255:
+                if quant_peca_10 and valor_peca_10 and porcentaje_adicional:
+                    try:
+                        costo_final_10 = float(quant_peca_10) * float(valor_peca_10) * (1 + porcentaje_adicional/100)
+                        gold_text(f"R$ {costo_final_10:.2f}")        
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+
+        
        
 
         
