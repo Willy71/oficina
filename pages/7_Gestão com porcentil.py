@@ -506,7 +506,12 @@ if action == "Nova ordem de serviço":
                         unsafe_allow_html=True
                     )
             with col1005:
-                gold_text("Sub Total")
+                st.markdown(
+                        '<div style="display: flex; align-items: center; height: 38px;">'
+                        '<span style="color: #FFD700; font-weight: bold;">Sub Total</span>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
             with col1006:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
