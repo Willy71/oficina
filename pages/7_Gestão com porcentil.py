@@ -505,60 +505,26 @@ if action == "Nova ordem de serviço":
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
                         add_space(2)
-                        gold_text(f"R$ {costo_inicial:.2f}")   
-                        #st.text(f"R$ {costo_inicial_1:.2f}") 
+                        gold_text(f"R$ {costo_inicial:.2f}")
                     except:
-                        st.caption("")     
-                        st.caption("")
-                        st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                        add_space(2)
+                        gold_text("R$ 0.00")
                 else:
-                    st.caption("")
-                    st.caption("")
-                    st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                    add_space(2)
+                    gold_text("R$ 0.00")
             with col165:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
                     try:
                         costo_final_1 = float(quant_peca_1) * float(valor_peca_1) * (1 + porcentaje_adicional/100)
-                        st.caption("")
-                        st.caption("")
-                        st.markdown(
-                        f'<div style="display: flex; align-items: center; height: 38px;">'
-                        f'<span style="color: #FFD700; font-weight: bold;">R$ {costo_final_1:.2f}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True
-                    )
+                        add_space(2)
+                        gold_text(f"R$ {costo_final_1:.2f}")        
                     except:
-                        st.caption("")
-                        st.caption("")
-                        st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                        add_space(2)
+                        gold_text("R$ 0.00")
                 else:
-                    st.caption("")
-                    st.caption("")
-                    st.markdown(
-                    '<div style="display: flex; align-items: center; height: 38px;">'
-                    '<span style="color: #FFD700; font-weight: bold;">R$ 0.00</span>'
-                    '</div>',
-                    unsafe_allow_html=True
-                    )
-        
-
-
+                    add_space(2)
+                    gold_text("R$ 0.00")                    
 
         with st.container():    
             col170, col171, col172, col173 = st.columns([1, 6, 1, 1])
