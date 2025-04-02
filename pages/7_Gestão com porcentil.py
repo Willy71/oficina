@@ -236,7 +236,7 @@ def line(size, color):
         unsafe_allow_html=True
     )
 
-def gold_text(text, font_size="inherit", align="left", height="38px"):
+def gold_text(text, font_size="16px", align="left", height="38px"):
     """
     Muestra un texto en color dorado (#FFD700) con formato flexible.
     
