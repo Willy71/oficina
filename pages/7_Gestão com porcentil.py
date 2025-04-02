@@ -1282,16 +1282,24 @@ elif action == "Atualizar ordem existente":
             with col41:
                 desc_ser_1 = st.text_input("", value=vendor_data["desc_ser_1"], label_visibility="collapsed", key="update_desc_ser_1")
             with col42:
+                # Validación robusta del valor numérico
+                try:
+                    raw_value = vendor_data["valor_serv_1"]  # Acceso directo (puede fallar)
+                    default_value = float(raw_value) if raw_value is not None else 0.0
+                    default_value = max(0.0, min(default_value, 1000000.0))  # Aseguramos límites
+                except (KeyError, TypeError, ValueError):
+                    default_value = 0.0  # Valor por defecto si hay cualquier error
+                
                 valor_serv_1 = st.number_input(
                     "",
                     value=default_value,
-                    min_value=0.0,  # Valor mínimo permitido
-                    max_value=1000000.0,  # Valor máximo permitido
-                    step=0.01,  # Incrementos/decrementos
-                    format="%.2f",  # Formato de 2 decimales
+                    min_value=0.0,
+                    max_value=1000000.0,
+                    step=0.01,
+                    format="%.2f",
                     label_visibility="collapsed",
                     key="update_valor_serv_1"
-                    )
+                )
             
                 
         with st.container():    
