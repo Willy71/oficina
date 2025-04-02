@@ -368,7 +368,7 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col50, col51, col52 = st.columns([0.7, 6.5, 2.2])
             with col50:
-                item_serv_1 = 2
+                item_serv_2 = 2
                 gold_text("2", align="center")
             with col51:
                 desc_ser_2 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_2")
@@ -376,94 +376,104 @@ if action == "Nova ordem de serviço":
                 valor_serv_2 = st.number_input(" ", value=None, label_visibility="collapsed", key="valor_serv_2")
 
         with st.container():    
-            col60, col61, col62 = st.columns([1,5,2])
+            col60, col61, col62 = st.columns([0.7, 6.5, 2.2])
             with col60:
-                item_serv_3 = st.text_input("3 - Item")
+                item_serv_3 = 3
+                gold_text("3", align="center")
             with col61:
-                desc_ser_3 = st.text_input("3 -Descriçao de serviço")
+                desc_ser_3 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_3")
             with col62:
-                valor_serv_3 = st.text_input("3- Valor do serviço")
+                valor_serv_3 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_3")
 
         with st.container():    
-            col70, col71, col72 = st.columns([1,5,2])
+            col70, col71, col72 = st.columns([0.7, 6.5, 2.2])
             with col70:
-                item_serv_4 = st.text_input("4 - Item")
+                item_serv_4 = 4
+                gold_text("4", align="center")
             with col71:
-                desc_ser_4 = st.text_input("4 -Descriçao de serviço")
+                desc_ser_4 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_4")
             with col72:
-                valor_serv_4 = st.text_input("4- Valor do serviço")
-
+                valor_serv_4 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_4")
+                
         with st.container():    
-            col80, col81, col82 = st.columns([1,5,2])
+            col80, col81, col82 = st.columns([0.7, 6.5, 2.2])
             with col80:
-                item_serv_5 = st.text_input("5 - Item")
+                item_serv_5 = 5
+                gold_text("5", align="center")
             with col81:
-                desc_ser_5 = st.text_input("5 - Descriçao de serviço")
+                desc_ser_5 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_5")
             with col82:
-                valor_serv_5 = st.text_input("5 - Valor do serviço")
+                valor_serv_5 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_5")
         
         with st.container():    
-            col90, col91, col92 = st.columns([1,5,2])
+            col90, col91, col92 = st.columns([0.7, 6.5, 2.2])
             with col90:
-                item_serv_6 = st.text_input("6 - Item")
+                item_serv_6 = 6
+                gold_text("6", align="center")
             with col91:
-                desc_ser_6 = st.text_input("6 - Descriçao de serviço")
+                desc_ser_6 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_6")
             with col92:
-                valor_serv_6 = st.text_input("6 - Valor do serviço")
+                valor_serv_6 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_6")
         
         with st.container():    
-            col100, col101, col102 = st.columns([1,5,2])
+            col100, col101, col102 = st.columns([0.7, 6.5, 2.2])
             with col100:
-                item_serv_7 = st.text_input("7 - Item")
+                item_serv_7 = 7
+                gold_text("7", align="center")
             with col101:
-                desc_ser_7 = st.text_input("7 - Descriçao de serviço")
+                desc_ser_7 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_7")
             with col102:
-                valor_serv_7 = st.text_input("7 - Valor do serviço")
+                valor_serv_7 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_7")
         
         with st.container():    
-            col110, col111, col112 = st.columns([1,5,2])
+            col110, col111, col112 = st.columns([0.7, 6.5, 2.2])
             with col110:
-                item_serv_8 = st.text_input("8 - Item")
+                item_serv_8 = 8
+                gold_text("8", align="center")
             with col111:
-                desc_ser_8 = st.text_input("8 - Descriçao de serviço")
+                desc_ser_8 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_8")
             with col112:
-                valor_serv_8 = st.text_input("8 - Valor do serviço")
+                valor_serv_8 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_8")
         
         with st.container():    
-            col120, col121, col122 = st.columns([1,5,2])
+            col120, col121, col122 = st.columns([0.7, 6.5, 2.2])
             with col120:
-                item_serv_9 = st.text_input("9 - Item")
+                item_serv_9 = 9
+                gold_text("9", align="center")
             with col121:
-                desc_ser_9 = st.text_input("9 - Descriçao de serviço")
+                desc_ser_9 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_9")
             with col122:
-                valor_serv_9 = st.text_input("9 - Valor do serviço")
+                valor_serv_9 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_9")
         
         with st.container():    
-            col130, col131, col132 = st.columns([1,5,2])
+            col130, col131, col132 = st.columns([0.7, 6.5, 2.2])
             with col130:
-                item_serv_10 = st.text_input("10 - Item")
+                item_serv_10 = 10
+                gold_text("10", align="center")
             with col131:
-                desc_ser_10 = st.text_input("10 - Descriçao de serviço")
+                desc_ser_10 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_10")
             with col132:
-                valor_serv_10 = st.text_input("10 - Valor do serviço")
+                valor_serv_10 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_10")
         
         with st.container():    
-            col140, col141, col142 = st.columns([1,5,2])
+            col140, col141, col142 = st.columns([0.7, 6.5, 2.2])
             with col140:
-                item_serv_11 = st.text_input("11 - Item")
+                item_serv_11 = 11
+                gold_text("11", align="center")
             with col141:
-                desc_ser_11 = st.text_input("11 - Descriçao de serviço")
+                desc_ser_11 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_11")
             with col142:
-                valor_serv_11 = st.text_input("11 - Valor do serviço")
+                valor_serv_11 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_11")
         
         with st.container():    
-            col150, col151, col152 = st.columns([1,5,2])
+            col150, col151, col152 = st.columns([0.7, 6.5, 2.2])
             with col150:
-                item_serv_12 = st.text_input("12 - Item")
+                item_serv_12 = 12
+                gold_text("12", align="center")
             with col151:
-                desc_ser_12 = st.text_input("12 - Descriçao de serviço")
+                desc_ser_12 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_12")
             with col152:
-                valor_serv_12 = st.text_input("12 - Valor do serviço")
+                valor_serv_12 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_12")
                 
         line(4, "blue")
         centrar_texto("Peças", 2, "yellow")
