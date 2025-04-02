@@ -468,18 +468,11 @@ if action == "Nova ordem de serviço":
         line(4, "blue")
         centrar_texto("Peças", 2, "yellow")
 
-        gold_text("R$ 0.00")
-
         # ENCABEZADOS
         with st.container():
             col1001, col1002, col1003, col1004, col1005, col1006 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col1001:
-                st.markdown(
-                        '<div style="display: flex; align-items: center; height: 38px;">'
-                        '<span style="color: #FFD700; font-weight: bold;">#</span>'
-                        '</div>',
-                        unsafe_allow_html=True
-                    )
+                gold_text("#")
             with col1002:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
