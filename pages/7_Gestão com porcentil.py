@@ -449,7 +449,18 @@ if action == "Nova ordem de serviço":
         line(4, "blue")
         centrar_texto("Peças", 2, "yellow")
 
-        
+        with st.container():
+            col1001, col1002, col1003, col1004, col1005 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
+            with co1001:
+                centrar_texto("#", 5, "yellow")
+            with col1002:
+                centrar_texto("Descrição da peça", 5, "yellow")
+            with col1003:
+                centrar_texto("Valor Unit", 5, "yellow")
+            with col1004:
+                centrar_texto("Sub total", 5, "yellow")
+            with col1005:
+                centrar_texto("Total", 5, "yellow")
                 
                 
 
