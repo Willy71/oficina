@@ -698,7 +698,7 @@ if action == "Nova ordem de serviço":
         with st.container():
             col230, col231, col232, col233, col234, col235 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col230:
-                gold_text("7")     
+                gold_text("8")     
             with col231:
                 quant_peca_8 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_8")
             with col232:
@@ -719,6 +719,35 @@ if action == "Nova ordem de serviço":
                     try:
                         costo_final_8 = float(quant_peca_8) * float(valor_peca_8) * (1 + porcentaje_adicional/100)
                         gold_text(f"R$ {costo_final_8:.2f}")        
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+
+        with st.container():
+            col240, col241, col242, col243, col244, col245 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            with col240:
+                gold_text("9")     
+            with col241:
+                quant_peca_9 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_9")
+            with col242:
+                desc_peca_9 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_9")
+            with col243:
+                valor_peca_9 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_9")
+            with col244: 
+                if quant_peca_9 and valor_peca_9:
+                    try:
+                        costo_inicial_9 = float(quant_peca_9) * float(valor_peca_9)
+                        gold_text(f"R$ {costo_inicial_9:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col245:
+                if quant_peca_9 and valor_peca_9 and porcentaje_adicional:
+                    try:
+                        costo_final_9 = float(quant_peca_9) * float(valor_peca_9) * (1 + porcentaje_adicional/100)
+                        gold_text(f"R$ {costo_final_9:.2f}")        
                     except:
                         gold_text("R$ 0.00")
                 else:
