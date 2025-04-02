@@ -784,12 +784,12 @@ if action == "Nova ordem de serviço":
                     gold_text("R$ 0.00")
 
         with st.container():
-            col260, col261, col252, col263, col264, col265 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            col260, col261, col262, col263, col264, col265 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col260:
                 gold_text("11")     
             with col261:
                 quant_peca_11 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_11")
-            with col252:
+            with col262:
                 desc_peca_11 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_11")
             with col263:
                 valor_peca_11 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_11")
@@ -814,12 +814,12 @@ if action == "Nova ordem de serviço":
 
 
         with st.container():
-            col270, col271, col252, col273, col274, col275 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            col270, col271, col272, col273, col274, col275 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col270:
-                gold_text("10")     
+                gold_text("12")     
             with col271:
                 quant_peca_12 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_12")
-            with col252:
+            with col272:
                 desc_peca_12 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_12")
             with col273:
                 valor_peca_12 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_12")
@@ -841,6 +841,98 @@ if action == "Nova ordem de serviço":
                         gold_text("R$ 0.00")
                 else:
                     gold_text("R$ 0.00")
+
+
+        with st.container():
+            col280, col281, col282, col283, col284, col285 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            with col280:
+                gold_text("13")     
+            with col281:
+                quant_peca_13 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_13")
+            with col282:
+                desc_peca_13 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_13")
+            with col283:
+                valor_peca_13 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_13")
+            with col284: 
+                if quant_peca_13 and valor_peca_13:
+                    try:
+                        costo_inicial_13 = float(quant_peca_13) * float(valor_peca_13)
+                        gold_text(f"R$ {costo_inicial_13:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col285:
+                if quant_peca_13 and valor_peca_13 and porcentaje_adicional:
+                    try:
+                        costo_final_13 = float(quant_peca_13) * float(valor_peca_13) * (1 + porcentaje_adicional/100)
+                        gold_text(f"R$ {costo_final_13:.2f}")        
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+
+
+        with st.container():
+            col290, col291, col292, col293, col294, col295 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            with col290:
+                gold_text("14")     
+            with col291:
+                quant_peca_14 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_14")
+            with col292:
+                desc_peca_14 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_14")
+            with col293:
+                valor_peca_14 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_14")
+            with col294: 
+                if quant_peca_14 and valor_peca_14:
+                    try:
+                        costo_inicial_14 = float(quant_peca_14) * float(valor_peca_14)
+                        gold_text(f"R$ {costo_inicial_14:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col295:
+                if quant_peca_14 and valor_peca_14 and porcentaje_adicional:
+                    try:
+                        costo_final_14 = float(quant_peca_14) * float(valor_peca_14) * (1 + porcentaje_adicional/100)
+                        gold_text(f"R$ {costo_final_14:.2f}")        
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+
+        with st.container():
+            col300, col301, col302, col303, col304, col305 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            with col300:
+                gold_text("15")     
+            with col301:
+                quant_peca_15 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_15")
+            with col302:
+                desc_peca_15 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_15")
+            with col303:
+                valor_peca_15 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_15")
+            with col304: 
+                if quant_peca_15 and valor_peca_15:
+                    try:
+                        costo_inicial_15 = float(quant_peca_15) * float(valor_peca_15)
+                        gold_text(f"R$ {costo_inicial_15:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col305:
+                if quant_peca_15 and valor_peca_15 and porcentaje_adicional:
+                    try:
+                        costo_final_15 = float(quant_peca_15) * float(valor_peca_15) * (1 + porcentaje_adicional/100)
+                        gold_text(f"R$ {costo_final_15:.2f}")        
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+
+
+        
        
 
         
