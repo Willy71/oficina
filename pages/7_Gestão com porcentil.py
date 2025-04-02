@@ -1275,7 +1275,7 @@ elif action == "Atualizar ordem existente":
             col40, col41, col42 = st.columns([0.7, 6.5, 2.2])
             with col40:
                 item_serv_1 = "item_serv_1"
-                gold_text(item_serv_1)
+                gold_text("1")
             with col41:
                 desc_ser_1 = st.text_input("", value=vendor_data["desc_ser_1"], label_visibility="collapsed", key="update_desc_ser_1")
             with col42:
