@@ -532,7 +532,7 @@ if action == "Nova ordem de serviço":
                 add_space(2)
                 gold_text("2")     
             with col171:
-                #quant_peca_2 = st.text_input("", "1", label_visibility="hidden")
+                quant_peca_2 = st.text_input("", "1", label_visibility="hidden")
             with col172:
                 desc_peca_2 = st.text_input("", "", label_visibility="hidden")
             with col173:
@@ -562,7 +562,6 @@ if action == "Nova ordem de serviço":
                 else:
                     add_space(2)
                     gold_text("R$ 0.00")                   
-          
 
         with st.container():    
             col180, col181, col182, col183 = st.columns([1, 6, 1, 1])
@@ -899,12 +898,14 @@ if action == "Nova ordem de serviço":
                     'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
                     'valor_peca_1': valor_peca_1 if 'valor_peca_1' in locals() else None,
                     'sub_tota_peca_1': costo_inicial_1 if 'costo_inicial_1' in locals() else 0,
-                    'valor_total_peca_1': costo_final_1 if 'costo_final_1' in locals() else 0,                
+                    'valor_total_peca_1': costo_final_1 if 'costo_final_1' in locals() else 0,  
+                    
                     'quant_peca_2': quant_peca_2 if 'quant_peca_2' in locals() else None,
                     'desc_peca_2': desc_peca_2 if 'desc_peca_2' in locals() else None,
                     'valor_peca_2': valor_peca_2 if 'valor_peca_2' in locals() else None,
                     'sub_tota_peca_2': costo_inicial_2 if 'costo_inicial_2' in locals() else 0,
-                    'valor_total_peca_2': costo_final_2 if 'costo_final_2' in locals() else 0,                   
+                    'valor_total_peca_2': costo_final_2 if 'costo_final_2' in locals() else 0,  
+                    
                     'quant_peca_3': quant_peca_3 if 'quant_peca_3' in locals() else None,
                     'desc_peca_3': desc_peca_3 if 'desc_peca_3' in locals() else None,
                     'valor_peca_3': valor_peca_3 if 'valor_peca_3' in locals() else None,
