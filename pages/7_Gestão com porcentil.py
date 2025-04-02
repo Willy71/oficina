@@ -449,6 +449,7 @@ if action == "Nova ordem de serviço":
         line(4, "blue")
         centrar_texto("Peças", 2, "yellow")
 
+        # ENCABEZADOS
         with st.container():
             col1001, col1002, col1003, col1004, col1005 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
             with col1001:
@@ -462,16 +463,15 @@ if action == "Nova ordem de serviço":
             with col1005:
                 centrar_texto("Total", 5, "yellow")
                 
-                
-
-        with st.container():    
+            
+        with st.container():  
             col160, col161, col162, col163, col164 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
             with col160:
-                quant_peca_1 = st.text_input("1")
+                quant_peca_1 = st.text_input(label_visibility="collapsed")
             with col161:
-                desc_peca_1 = st.text_input("1 - Descriçao da peça")
+                desc_peca_1 = st.text_input(label_visibility="collapsed")
             with col162:
-                valor_peca_1 = st.text_input("Valor Unit")
+                valor_peca_1 = st.text_input(label_visibility="collapsed")
             with col163:  # ⚠️ COLUMNA A ELIMINAR (Costo)
                 if quant_peca_1 and valor_peca_1:
                     try:
