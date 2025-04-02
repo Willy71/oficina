@@ -490,14 +490,22 @@ if action == "Nova ordem de serviço":
                 
             
         with st.container():  
-            col160, col161, col162, col163, col164 = st.columns([0.35, 3, 0.7, 0.7, 0.7])
+            col160, col161, col162, col163, col164, col165 = st.columns([0.35, 0.35, 3, 0.7, 0.7, 0.7])
             with col160:
-                quant_peca_1 = st.text_input("", "1", label_visibility="hidden")
+                st.markdown(
+                        f'<div style="display: flex; align-items: center; height: 30px;">'
+                        f'<span style="color: #FFFFFF; font-weight: bold;">"1"</span>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
+                
             with col161:
-                desc_peca_1 = st.text_input("", "", label_visibility="hidden")
+                quant_peca_1 = st.text_input("", "1", label_visibility="hidden")
             with col162:
+                desc_peca_1 = st.text_input("", "", label_visibility="hidden")
+            with col163:
                 valor_peca_1 = st.number_input(" ", value=None, label_visibility="hidden")
-            with col163:  # ⚠️ COLUMNA A ELIMINAR (Costo)
+            with col164:  # ⚠️ COLUMNA A ELIMINAR (Costo)
                 if quant_peca_1 and valor_peca_1:
                     try:
                         costo_inicial_1 = float(quant_peca_1) * float(valor_peca_1)
@@ -528,7 +536,7 @@ if action == "Nova ordem de serviço":
                         '</div>',
                         unsafe_allow_html=True
                     )
-            with col164:
+            with col165:
                 # Mostrar costo final (con porcentaje aplicado)
                 if quant_peca_1 and valor_peca_1 and porcentaje_adicional:
                     try:
