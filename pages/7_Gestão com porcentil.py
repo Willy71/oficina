@@ -236,7 +236,7 @@ def line(size, color):
         unsafe_allow_html=True
     )
 
-def gold_text(text, font_size="16px", align="left", height="38px"):
+def gold_text(text, font_size="16px", align="center", height="38px"):
     """
     Muestra un texto en color dorado (#FFD700) con formato flexible.
     
@@ -506,7 +506,7 @@ if action == "Nova ordem de serviço":
                         unsafe_allow_html=True
                     )
             with col1005:
-                gold_text(Sub Total)
+                gold_text("Sub Total")
             with col1006:
                 st.markdown(
                         '<div style="display: flex; align-items: center; height: 38px;">'
