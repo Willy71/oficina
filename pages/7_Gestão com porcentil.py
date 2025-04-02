@@ -1260,14 +1260,29 @@ elif action == "Atualizar ordem existente":
         line(4, "blue")
         centrar_texto("Serviços", 2, "yellow")
 
+        #=========================================================================================================
+       
+
+        #=========================================================================================================
+
+         # ENCABEZADOS
+        with st.container():
+            col1101, col1102, col1103 = st.columns([0.7, 6.5, 2.2])
+            with col1101:
+                gold_text("#", align="center")
+            with col1102:
+                gold_text("Descrição do serviço")
+            with col1103:
+                gold_text("Valor do serviço")
+
         with st.container():    
-            col40, col41, col42 = st.columns([1,5,2])
+            col40, col41, col42 = st.columns([0.7, 6.5, 2.2])
             with col40:
-                item_serv_1 = st.text_input("1 - Item",  value=vendor_data["item_serv_1"], key="update_item_serv_1")
+                item_serv_1 = "item_serv_1"
             with col41:
-                desc_ser_1 = st.text_input("1 - Descriçao de serviço",  value=vendor_data["desc_ser_1"], key="update_desc_ser_1")
+                desc_ser_1 = st.text_input("", "", label_visibility="collapsed", value=vendor_data["desc_ser_1"], key="update_desc_ser_1")
             with col42:
-                valor_serv_1 = st.text_input("1 - Valor do serviço",  value=vendor_data["valor_serv_1"], key="update_valor_serv_1")
+                valor_serv_1 = st.number_input("",  value=vendor_data["valor_serv_1"], label_visibility="collapsed", key="update_valor_serv_1")
                 
         with st.container():    
             col50, col51, col52 = st.columns([1,5,2])
