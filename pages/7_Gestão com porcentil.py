@@ -665,201 +665,38 @@ if action == "Nova ordem de serviço":
                         gold_text("R$ 0.00")
                 else:
                     gold_text("R$ 0.00")
-        
 
-        
-
-                
-        
-        with st.container():    
-            col220, col221, col222, col223 = st.columns([1, 6, 1, 1])
+         with st.container():
+            col220, col221, col222, col223, col224, col225 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col220:
-                quant_peca_7 = st.text_input("7")
+                gold_text("7")     
             with col221:
-                desc_peca_7 = st.text_input("7 - Descriçao da peça")
+                quant_peca_7 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_7")
             with col222:
-                valor_peca_7 = st.text_input("7 - Custo")
+                desc_peca_7 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_7")
             with col223:
-                # Mostrar costo final (con porcentaje aplicado)
+                valor_peca_7 = st.number_input("", value=None, label_visibility="collapsed", key="valor_peca_7")
+            with col224: 
+                if quant_peca_7 and valor_peca_7:
+                    try:
+                        costo_inicial_7 = float(quant_peca_7) * float(valor_peca_7)
+                        gold_text(f"R$ {costo_inicial_7:.2f}")
+                    except:
+                        gold_text("R$ 0.00")
+                else:
+                    gold_text("R$ 0.00")
+            with col225:
                 if quant_peca_7 and valor_peca_7 and porcentaje_adicional:
                     try:
                         costo_final_7 = float(quant_peca_7) * float(valor_peca_7) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_7:.2f}")
+                        gold_text(f"R$ {costo_final_7:.2f}")        
                     except:
-                        st.text("Valor")
+                        gold_text("R$ 0.00")
                 else:
-                    st.text("Valor")
+                    gold_text("R$ 0.00")
         
-        with st.container():    
-            col230, col231, col232, col233 = st.columns([1, 6, 1, 1])
-            with col230:
-                quant_peca_8 = st.text_input("8")
-            with col231:
-                desc_peca_8 = st.text_input("8 - Descriçao da peça")
-            with col232:
-                valor_peca_8 = st.text_input("8 - Custo")
-            with col233:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_8 and valor_peca_8 and porcentaje_adicional:
-                    try:
-                        costo_final_8 = float(quant_peca_8) * float(valor_peca_8) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_8:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
         
-        with st.container():    
-            col240, col241, col242, col243 = st.columns([1, 6, 1, 1])
-            with col240:
-                quant_peca_9 = st.text_input("9")
-            with col241:
-                desc_peca_9 = st.text_input("9 - Descriçao da peça")
-            with col242:
-                valor_peca_9 = st.text_input("9 - Custo")
-            with col243:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_9 and valor_peca_9 and porcentaje_adicional:
-                    try:
-                        costo_final_9 = float(quant_peca_9) * float(valor_peca_9) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_9:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
-        
-        with st.container():    
-            col250, col251, col252, col253 = st.columns([1, 6, 1, 1])
-            with col250:
-                quant_peca_10 = st.text_input("10")
-            with col251:
-                desc_peca_10 = st.text_input("10 - Descriçao da peça")
-            with col252:
-                valor_peca_10 = st.text_input("10 - Custo")
-            with col253:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_10 and valor_peca_10 and porcentaje_adicional:
-                    try:
-                        costo_final_10 = float(quant_peca_10) * float(valor_peca_10) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_10:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
-        
-        with st.container():    
-            col260, col261, col262, col263 = st.columns([1, 6, 1, 1])
-            with col260:
-                quant_peca_11 = st.text_input("11")
-            with col261:
-                desc_peca_11 = st.text_input("11 - Descriçao da peça")
-            with col262:
-                valor_peca_11 = st.text_input("11 - Custo")
-            with col263:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_11 and valor_peca_11 and porcentaje_adicional:
-                    try:
-                        costo_final_11 = float(quant_peca_11) * float(valor_peca_11) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_11:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
-        
-        with st.container():    
-            col270, col271, col272, col273 = st.columns([1, 6, 1, 1])
-            with col270:
-                quant_peca_12 = st.text_input("12")
-            with col271:
-                desc_peca_12 = st.text_input("12 - Descriçao da peça")
-            with col272:
-                valor_peca_12 = st.text_input("12 - Custo")
-            with col273:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_12 and valor_peca_12 and porcentaje_adicional:
-                    try:
-                        costo_final_12 = float(quant_peca_12) * float(valor_peca_12) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_12:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
-        
-        with st.container():    
-            col280, col281, col282, col283 = st.columns([1, 6, 1, 1])
-            with col280:
-                quant_peca_13 = st.text_input("13")
-            with col281:
-                desc_peca_13 = st.text_input("13 - Descriçao da peça")
-            with col282:
-                valor_peca_13 = st.text_input("13 - Custo")
-            with col283:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_13 and valor_peca_13 and porcentaje_adicional:
-                    try:
-                        costo_final_13 = float(quant_peca_13) * float(valor_peca_13) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_13:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
-        
-        with st.container():    
-            col290, col291, col292, col293 = st.columns([1, 6, 1, 1])
-            with col290:
-                quant_peca_14 = st.text_input("14")
-            with col291:
-                desc_peca_14 = st.text_input("14 - Descriçao da peça")
-            with col292:
-                valor_peca_14 = st.text_input("14 - Custo")
-            with col293:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_14 and valor_peca_14 and porcentaje_adicional:
-                    try:
-                        costo_final_14 = float(quant_peca_14) * float(valor_peca_14) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_14:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
-        
-        with st.container():    
-            col300, col301, col302, col303 = st.columns([1, 6, 1, 1])
-            with col300:
-                quant_peca_15 = st.text_input("15")
-            with col301:
-                desc_peca_15 = st.text_input("15 - Descriçao da peça")
-            with col302:
-                valor_peca_15 = st.text_input("15 - Custo")
-            with col303:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_15 and valor_peca_15 and porcentaje_adicional:
-                    try:
-                        costo_final_15 = float(quant_peca_15) * float(valor_peca_15) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_15:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
-        
-        with st.container():    
-            col310, col311, col312, col313 = st.columns([1, 6, 1, 1])
-            with col310:
-                quant_peca_16 = st.text_input("16")
-            with col311:
-                desc_peca_16 = st.text_input("16 - Descriçao da peça")
-            with col312:
-                valor_peca_16 = st.text_input("16 - Custo")
-            with col313:
-                # Mostrar costo final (con porcentaje aplicado)
-                if quant_peca_16 and valor_peca_16 and porcentaje_adicional:
-                    try:
-                        costo_final_16 = float(quant_peca_16) * float(valor_peca_16) * (1 + porcentaje_adicional/100)
-                        st.text(f"R$ {costo_final_16:.2f}")
-                    except:
-                        st.text("Valor")
-                else:
-                    st.text("Valor")
+       
         
         line(4, "blue")
         
