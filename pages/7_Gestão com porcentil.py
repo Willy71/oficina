@@ -456,7 +456,7 @@ if action == "Nova ordem de serviço":
         centrar_texto("Peças", 2, "yellow")
         
         with st.container():
-            col_perc, col_empty, col_final = st.columns(3)
+            col_perc, col_empty, col_final = st.columns([4, 2, 4])
             with col_empty:
                 porcentaje_adicional = st.number_input(
                     "Porcentaje adicional para costos (%)",
