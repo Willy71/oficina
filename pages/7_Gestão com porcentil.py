@@ -347,11 +347,11 @@ if action == "Nova ordem de serviço":
         # ENCABEZADOS
         with st.container():
             col1101, col1102, col1103 = st.columns([1, 5, 2])
-            with col1001:
+            with col1101:
                 gold_text("#")
-            with col1002:
+            with col1102:
                 gold_text("Descrição do serviço")
-            with col1003:
+            with col1103:
                 gold_text("Valor do serviço")
 
 
