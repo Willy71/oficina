@@ -459,7 +459,7 @@ if action == "Nova ordem de serviço":
             col_perc, col_empty, col_final = st.columns([4, 2, 4])
             with col_empty:
                 porcentaje_adicional = st.number_input(
-                    "Porcentaje adicional para costos (%)",
+                    "Porcentagem adicional (%)",
                     min_value=0.0,
                     max_value=100.0,
                     value=30.0,  # Valor por defecto del 30%
