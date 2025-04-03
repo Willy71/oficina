@@ -168,7 +168,7 @@ if buscar:
                 
                     for i in range(1, 13):  # Iteramos sobre los posibles servicios
                         item = str(veiculo.get(f'item_serv_{i}', '')).strip()
-                        desc = veiculo.get(f'desc_ser_{i}', '').strip()
+                        desc = str(veiculo.get(f'desc_ser_{i}', '')).strip()
                         valor = veiculo.get(f'valor_serv_{i}', '')
                 
                         # Convertir el valor a número si existe, sino dejarlo en 0
@@ -203,10 +203,11 @@ if buscar:
                     total_pecas_final = 0.0
                     
                     for i in range(1, 17):
-                        quant = veiculo.get(f'quant_peca_{i}', '')  # Cantidad
-                        desc = veiculo.get(f'desc_peca_{i}', '')  # Descripción
+                        # Para piezas
+                        quant = str(veiculo.get(f'quant_peca_{i}', '')).strip()  # Cantidad
+                        desc = str(veiculo.get(f'desc_peca_{i}', '')).strip() # Descripción
                         valor = veiculo.get(f'valor_peca_{i}', '')  # Costo unitario
-                        porcentaje = veiculo.get('porcentaje_adicional', 0)  # Porcentaje adicional
+                        valor_total = veiculo.get(f'valor_total_peca_{i}', '')  # Porcentaje adicional
 
                         if pd.notna(quant) and pd.notna(valor):  
                             quant_float = safe_float(quant)
