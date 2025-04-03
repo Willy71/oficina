@@ -167,7 +167,7 @@ if buscar:
                     total_servicos = 0.0
                 
                     for i in range(1, 13):  # Iteramos sobre los posibles servicios
-                        item = veiculo.get(f'item_serv_{i}', '').strip()
+                        item = str(veiculo.get(f'item_serv_{i}', '')).strip()
                         desc = veiculo.get(f'desc_ser_{i}', '').strip()
                         valor = veiculo.get(f'valor_serv_{i}', '')
                 
