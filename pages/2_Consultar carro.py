@@ -161,28 +161,27 @@ if buscar:
                         return f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
                     except (ValueError, TypeError):
                         return "0,00"
-
-                # Mostrar servicios con expanders
+#===================================================================================================================================================================
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
                     total_servicos = 0.0
-                    
+                
                     for i in range(1, 13):
                         item = veiculo.get(f'item_serv_{i}', '')
                         desc = veiculo.get(f'desc_ser_{i}', '')
                         valor = veiculo.get(f'valor_serv_{i}', '')
-                        
-                        if pd.notna(item) or pd.notna(desc) or pd.notna(valor):
+                
+                        if pd.notna(item) or pd.notna(desc) or pd.notna(valor):  # Filtrar solo los servicios con datos
                             valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
-                            valor_float = float(valor) if pd.notna(valor) else 0.0
+                            valor_float = safe_float(valor) if pd.notna(valor) else 0.0
                             total_servicos += valor_float
-                            
+                
                             servicos.append({
                                 'Item': item if pd.notna(item) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
                                 'Valor (R$)': valor_formatado
                             })
-                    
+                
                     if servicos:
                         df_servicos = pd.DataFrame(servicos)
                         st.dataframe(df_servicos, hide_index=True, use_container_width=True)
@@ -191,6 +190,10 @@ if buscar:
                         st.markdown(f"**Total Serviços:** R$ {formatar_valor(total_servicos)}")
                     else:
                         st.info("Nenhum serviço registrado")
+
+
+#===================================================================================================================================================================
+
 
                 # Mostrar peças con expanders
                 with st.expander("🔧 Peças Utilizadas", expanded=False):
