@@ -97,6 +97,13 @@ def buscar_por_placa(placa, df):
     return None
 
 # ----------------------------------------------------------------------------------------------------------------------------------
+def safe_float(valor):
+    try:
+        return float(str(valor).replace(",", "."))
+    except ValueError:
+        return 0.0
+
+# ----------------------------------------------------------------------------------------------------------------------------------
 # Interfaz de usuario
 with st.container():
     col1, col2, col3 = st.columns([3, 2, 1])
@@ -201,7 +208,7 @@ if buscar:
                         if pd.notna(quant) or pd.notna(desc) or pd.notna(valor):
                             valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
                             valor_total_formatado = formatar_valor(valor_total) if pd.notna(valor_total) else "0,00"
-                            valor_float = float(str(valor).replace(",", ".")) if pd.notna(valor) else 0.0
+                            valor_float = safe_float(valor) if pd.notna(valor) else 0.0
                             valor_total_float = float(valor_total) if pd.notna(valor_total) else 0.0
                             total_pecas += valor_float
                             total_pecas_final += valor_total_float
