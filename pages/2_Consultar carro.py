@@ -103,148 +103,161 @@ def safe_float(valor):
     except ValueError:
         return 0.0
 
-# ----------------------------------------------------------------------------------------------------------------------------------
-# Interfaz de usuario
-with st.container():
-    col1, col2, col3 = st.columns([3, 2, 1])
-    with col1:
-        placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
-    with col2:
-        st.write("")  # Espaciador
-        buscar = st.button("Buscar Veículo", key="buscar_btn")
+#============================================================================================================================================
+elif action == "Consultar veículo por placa":
+    st.title("🔍 Consultar Veículo por Placa")
+    
+    # Reutilizar la conexión existente a Google Sheets
+    dados = existing_data  # Usamos el DataFrame ya cargado
+    
+    # Interfaz de usuario para búsqueda
+    with st.container():
+        col1, col2, col3 = st.columns([3, 2, 1])
+        with col1:
+            placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
+        with col2:
+            st.write("")  # Espaciador
+            buscar = st.button("Buscar Veículo", key="buscar_btn")
 
-if buscar:
-    if not placa:
-        st.warning("Por favor, digite uma placa para buscar")
-    else:
-        with st.spinner("Buscando veículo..."):
-            veiculo = buscar_por_placa(placa, dados)
-            
-            if veiculo:
-                st.success("✅ Veículo encontrado!")
+    if buscar:
+        if not placa:
+            st.warning("Por favor, digite uma placa para buscar")
+        else:
+            with st.spinner("Buscando veículo..."):
+                # Filtrar por placa y ordenar por fecha de entrada descendente
+                resultados = existing_data[
+                    existing_data['placa'].astype(str).str.upper().str.strip() == placa.upper().strip()
+                ].sort_values('date_in', ascending=False)
                 
-                # Mostrar información principal en cards
-                with st.container():
-                    cols = st.columns(3)
-                    with cols[0]:
-                        st.metric("Marca", veiculo.get('carro', 'N/A'))
-                    with cols[1]:
-                        st.metric("Modelo", veiculo.get('modelo', 'N/A'))
-                    with cols[2]:
-                        st.metric("Ano", veiculo.get('ano', 'N/A'))          
+                if not resultados.empty:
+                    # Tomar el primer registro (que será el más reciente por el ordenamiento)
+                    veiculo = resultados.iloc[0].to_dict()
+                    st.success(f"✅ Veículo encontrado (Mostrando el último ingreso de {len(resultados)} registros)")
+                    
+                    # Mostrar información principal
+                    with st.container():
+                        cols = st.columns(3)
+                        with cols[0]:
+                            st.metric("Marca", veiculo.get('carro', 'N/A'))
+                        with cols[1]:
+                            st.metric("Modelo", veiculo.get('modelo', 'N/A'))
+                        with cols[2]:
+                            st.metric("Ano", veiculo.get('ano', 'N/A'))   
+
+#============================================================================================================================================
                 
-                # Mostrar detalles del estado y fechas
-                with st.container():
-                    cols = st.columns(3)
-                    with cols[0]:
-                        st.metric("Estado", veiculo.get('estado', 'N/A'))
-                    with cols[1]:
-                        st.metric("Data Entrada", veiculo.get('date_in', 'N/A'))
-                    with cols[2]:
-                        st.metric("Previsão Entrega", veiculo.get('date_prev', 'N/A'))
-                
-                # Mostrar información del dueño
-                with st.container():
-                    cols = st.columns(3)
-                    with cols[0]:
-                        st.metric("Proprietário", veiculo.get('dono_empresa', 'N/A'))
-                    with cols[1]:
-                        st.metric("Telefone", veiculo.get('telefone', 'N/A'))
-                    with cols[2]:
-                        st.metric("Endereço", veiculo.get('endereco', 'N/A'))
+                    # Mostrar detalles del estado y fechas
+                    with st.container():
+                        cols = st.columns(3)
+                        with cols[0]:
+                            st.metric("Estado", veiculo.get('estado', 'N/A'))
+                        with cols[1]:
+                            st.metric("Data Entrada", veiculo.get('date_in', 'N/A'))
+                        with cols[2]:
+                            st.metric("Previsão Entrega", veiculo.get('date_prev', 'N/A'))
+                    
+                    # Mostrar información del dueño
+                    with st.container():
+                        cols = st.columns(3)
+                        with cols[0]:
+                            st.metric("Proprietário", veiculo.get('dono_empresa', 'N/A'))
+                        with cols[1]:
+                            st.metric("Telefone", veiculo.get('telefone', 'N/A'))
+                        with cols[2]:
+                            st.metric("Endereço", veiculo.get('endereco', 'N/A'))
                 
                              # Función para formatear valores numéricos
-                def formatar_valor(valor):
-                    try:
-                        # Convertir a float, redondear a 2 decimales y formatear con coma como separador decimal
-                        valor_float = float(valor)
-                        return f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
-                    except (ValueError, TypeError):
-                        return "0,00"
-
-                # Mostrar servicios con expanders
-                with st.expander("📋 Serviços Realizados", expanded=False):
-                    servicos = []
-                    total_servicos = 0.0
-                    
-                    for i in range(1, 13):
-                        item = veiculo.get(f'item_serv_{i}', '')
-                        desc = veiculo.get(f'desc_ser_{i}', '')
-                        valor = veiculo.get(f'valor_serv_{i}', '')
+                    def formatar_valor(valor):
+                        try:
+                            # Convertir a float, redondear a 2 decimales y formatear con coma como separador decimal
+                            valor_float = float(valor)
+                            return f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
+                        except (ValueError, TypeError):
+                            return "0,00"
+    
+                    # Mostrar servicios con expanders
+                    with st.expander("📋 Serviços Realizados", expanded=False):
+                        servicos = []
+                        total_servicos = 0.0
                         
-                        if pd.notna(item) or pd.notna(desc) or pd.notna(valor):
-                            valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
-                            valor_float = float(valor) if pd.notna(valor) else 0.0
-                            total_servicos += valor_float
+                        for i in range(1, 13):
+                            item = veiculo.get(f'item_serv_{i}', '')
+                            desc = veiculo.get(f'desc_ser_{i}', '')
+                            valor = veiculo.get(f'valor_serv_{i}', '')
                             
-                            servicos.append({
-                                'Item': item if pd.notna(item) else '',
-                                'Descrição': desc if pd.notna(desc) else '',
-                                'Valor (R$)': valor_formatado
-                            })
-                    
-                    if servicos:
-                        df_servicos = pd.DataFrame(servicos)
-                        st.dataframe(df_servicos, hide_index=True, use_container_width=True)
+                            if pd.notna(item) or pd.notna(desc) or pd.notna(valor):
+                                valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
+                                valor_float = float(valor) if pd.notna(valor) else 0.0
+                                total_servicos += valor_float
+                                
+                                servicos.append({
+                                    'Item': item if pd.notna(item) else '',
+                                    'Descrição': desc if pd.notna(desc) else '',
+                                    'Valor (R$)': valor_formatado
+                                })
                         
-                        # Mostrar total de servicios
-                        st.markdown(f"**Total Serviços:** R$ {formatar_valor(total_servicos)}")
-                    else:
-                        st.info("Nenhum serviço registrado")
-
-                # Mostrar peças con expanders
-                with st.expander("🔧 Peças Utilizadas", expanded=False):
-                    pecas = []
-                    total_pecas = 0.0
-                    total_pecas_final = 0.0
-                    
-                    for i in range(1, 17):
-                        quant = veiculo.get(f'quant_peca_{i}', '')
-                        desc = veiculo.get(f'desc_peca_{i}', '')
-                        valor = veiculo.get(f'valor_peca_{i}', '')
-                        valor_total = veiculo.get(f'valor_total_peca_{i}', '')
-                        porcentaje = veiculo.get('porcentaje_adicional', 0)
-                        
-                        if pd.notna(quant) or pd.notna(desc) or pd.notna(valor):
-                            valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
-                            valor_total_formatado = formatar_valor(valor_total) if pd.notna(valor_total) else "0,00"
-                            valor_float = safe_float(valor) if pd.notna(valor) else 0.0
-                            valor_total_float = float(valor_total) if pd.notna(valor_total) else 0.0
-                            total_pecas += valor_float
-                            total_pecas_final += valor_total_float
+                        if servicos:
+                            df_servicos = pd.DataFrame(servicos)
+                            st.dataframe(df_servicos, hide_index=True, use_container_width=True)
                             
-                            pecas.append({
-                                'Quant.': quant if pd.notna(quant) else '',
-                                'Descrição': desc if pd.notna(desc) else '',
-                                'Custo Unit. (R$)': valor_formatado,
-                                '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                                'Valor Final (R$)': valor_total_formatado
-                            })
-                    
-                    if pecas:
-                        df_pecas = pd.DataFrame(pecas)
-                        st.dataframe(df_pecas, hide_index=True, use_container_width=True)
+                            # Mostrar total de servicios
+                            st.markdown(f"**Total Serviços:** R$ {formatar_valor(total_servicos)}")
+                        else:
+                            st.info("Nenhum serviço registrado")
+    
+                    # Mostrar peças con expanders
+                    with st.expander("🔧 Peças Utilizadas", expanded=False):
+                        pecas = []
+                        total_pecas = 0.0
+                        total_pecas_final = 0.0
                         
-                        # Mostrar totales
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.markdown(f"**Total Costo Peças:** R$ {formatar_valor(total_pecas)}")
-                        with col2:
-                            st.markdown(f"**Total Final Peças:** R$ {formatar_valor(total_pecas_final)}")
-                    else:
-                        st.info("Nenhuma peça registrada")
-                
-
-                # Mostrar el gran total después de ambas secciones
-                if 'total_servicos' in locals() and 'total_pecas' in locals():
-                    total_geral = total_servicos + total_pecas
-                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
-                
-                # Mostrar todos los datos en formato JSON
-                #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
-                    #st.json(veiculo)
-            else:
-                st.warning("Nenhum veículo encontrado com esta placa")
+                        for i in range(1, 17):
+                            quant = veiculo.get(f'quant_peca_{i}', '')
+                            desc = veiculo.get(f'desc_peca_{i}', '')
+                            valor = veiculo.get(f'valor_peca_{i}', '')
+                            valor_total = veiculo.get(f'valor_total_peca_{i}', '')
+                            porcentaje = veiculo.get('porcentaje_adicional', 0)
+                            
+                            if pd.notna(quant) or pd.notna(desc) or pd.notna(valor):
+                                valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
+                                valor_total_formatado = formatar_valor(valor_total) if pd.notna(valor_total) else "0,00"
+                                valor_float = safe_float(valor) if pd.notna(valor) else 0.0
+                                valor_total_float = float(valor_total) if pd.notna(valor_total) else 0.0
+                                total_pecas += valor_float
+                                total_pecas_final += valor_total_float
+                                
+                                pecas.append({
+                                    'Quant.': quant if pd.notna(quant) else '',
+                                    'Descrição': desc if pd.notna(desc) else '',
+                                    'Custo Unit. (R$)': valor_formatado,
+                                    '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
+                                    'Valor Final (R$)': valor_total_formatado
+                                })
+                        
+                        if pecas:
+                            df_pecas = pd.DataFrame(pecas)
+                            st.dataframe(df_pecas, hide_index=True, use_container_width=True)
+                            
+                            # Mostrar totales
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.markdown(f"**Total Costo Peças:** R$ {formatar_valor(total_pecas)}")
+                            with col2:
+                                st.markdown(f"**Total Final Peças:** R$ {formatar_valor(total_pecas_final)}")
+                        else:
+                            st.info("Nenhuma peça registrada")
+                    
+    
+                    # Mostrar el gran total después de ambas secciones
+                    if 'total_servicos' in locals() and 'total_pecas' in locals():
+                        total_geral = total_servicos + total_pecas
+                        st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
+                    
+                    # Mostrar todos los datos en formato JSON
+                    #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
+                        #st.json(veiculo)
+                else:
+                    st.warning("Nenhum veículo encontrado com esta placa")
 # ----------------------------------------------------------------------------------------------------------------------------------
 
 
