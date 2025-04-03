@@ -238,7 +238,7 @@ if buscar:
 
                 # Mostrar el gran total después de ambas secciones
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
-                    total_geral = total_servicos + valor_total_final
+                    total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
                 
                 # Mostrar todos los datos en formato JSON
