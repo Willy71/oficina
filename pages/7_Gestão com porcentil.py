@@ -1796,8 +1796,8 @@ elif action == "Atualizar ordem existente":
             with col185:
                 try:
                     if porcentaje_adicional:
-                        costo_final_3 = float(quant_peca_3.replace(",", ".")) * float(valor_peca_3) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_3:.2f}")
+                        valor_total_peca_3 = float(quant_peca_3.replace(",", ".")) * float(valor_peca_3) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_3:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -1854,8 +1854,8 @@ elif action == "Atualizar ordem existente":
             with col195:
                 try:
                     if porcentaje_adicional:
-                        costo_final_4 = float(quant_peca_4.replace(",", ".")) * float(valor_peca_4) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_4:.2f}")
+                        valor_total_peca_4 = float(quant_peca_4.replace(",", ".")) * float(valor_peca_4) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_4:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -1912,8 +1912,8 @@ elif action == "Atualizar ordem existente":
             with col205:
                 try:
                     if porcentaje_adicional:
-                        costo_final_5 = float(quant_peca_5.replace(",", ".")) * float(valor_peca_5) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_5:.2f}")
+                        valor_total_peca_5 = float(quant_peca_5.replace(",", ".")) * float(valor_peca_5) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_5:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -1970,8 +1970,8 @@ elif action == "Atualizar ordem existente":
             with col215:
                 try:
                     if porcentaje_adicional:
-                        costo_final_6 = float(quant_peca_6.replace(",", ".")) * float(valor_peca_6) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_6:.2f}")
+                        valor_total_peca_6 = float(quant_peca_6.replace(",", ".")) * float(valor_peca_6) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_6:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2028,8 +2028,8 @@ elif action == "Atualizar ordem existente":
             with col225:
                 try:
                     if porcentaje_adicional:
-                        costo_final_7 = float(quant_peca_7.replace(",", ".")) * float(valor_peca_7) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_7:.2f}")
+                        valor_total_peca_7 = float(quant_peca_7.replace(",", ".")) * float(valor_peca_7) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_7:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2085,8 +2085,8 @@ elif action == "Atualizar ordem existente":
             with col235:
                 try:
                     if porcentaje_adicional:
-                        costo_final_8 = float(quant_peca_8.replace(",", ".")) * float(valor_peca_8) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_8:.2f}")
+                        valor_total_peca_8 = float(quant_peca_8.replace(",", ".")) * float(valor_peca_8) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_8:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2142,8 +2142,8 @@ elif action == "Atualizar ordem existente":
             with col245:
                 try:
                     if porcentaje_adicional:
-                        costo_final_9 = float(quant_peca_9.replace(",", ".")) * float(valor_peca_9) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_9:.2f}")
+                        valor_total_peca_9 = float(quant_peca_9.replace(",", ".")) * float(valor_peca_9) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_9:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2200,8 +2200,8 @@ elif action == "Atualizar ordem existente":
             with col255:
                 try:
                     if porcentaje_adicional:
-                        costo_final_10 = float(quant_peca_10.replace(",", ".")) * float(valor_peca_10) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_10:.2f}")
+                        valor_total_peca_10 = float(quant_peca_10.replace(",", ".")) * float(valor_peca_10) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_10:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2258,8 +2258,8 @@ elif action == "Atualizar ordem existente":
             with col265:
                 try:
                     if porcentaje_adicional:
-                        costo_final_11 = float(quant_peca_11.replace(",", ".")) * float(valor_peca_11) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_11:.2f}")
+                        valor_total_peca_11 = float(quant_peca_11.replace(",", ".")) * float(valor_peca_11) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_11:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2316,8 +2316,8 @@ elif action == "Atualizar ordem existente":
             with col275:
                 try:
                     if porcentaje_adicional:
-                        costo_final_12 = float(quant_peca_12.replace(",", ".")) * float(valor_peca_12) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_12:.2f}")
+                        valor_total_peca_12 = float(quant_peca_12.replace(",", ".")) * float(valor_peca_12) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_12:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2374,8 +2374,8 @@ elif action == "Atualizar ordem existente":
             with col285:
                 try:
                     if porcentaje_adicional:
-                        costo_final_13 = float(quant_peca_13.replace(",", ".")) * float(valor_peca_13) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_13:.2f}")
+                        valor_total_peca_13 = float(quant_peca_13.replace(",", ".")) * float(valor_peca_13) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_13:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2431,8 +2431,8 @@ elif action == "Atualizar ordem existente":
             with col295:
                 try:
                     if porcentaje_adicional:
-                        costo_final_14 = float(quant_peca_14.replace(",", ".")) * float(valor_peca_14) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_14:.2f}")
+                        valor_total_peca_14 = float(quant_peca_14.replace(",", ".")) * float(valor_peca_14) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_14:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2488,8 +2488,8 @@ elif action == "Atualizar ordem existente":
             with col305:
                 try:
                     if porcentaje_adicional:
-                        costo_final_15 = float(quant_peca_15.replace(",", ".")) * float(valor_peca_15) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_15:.2f}")
+                        valor_total_peca_15 = float(quant_peca_15.replace(",", ".")) * float(valor_peca_15) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_15:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2545,8 +2545,8 @@ elif action == "Atualizar ordem existente":
             with col315:
                 try:
                     if porcentaje_adicional:
-                        costo_final_16 = float(quant_peca_16.replace(",", ".")) * float(valor_peca_16) * (1 + float(porcentaje_adicional)/100)
-                        gold_text(f"R$ {costo_final_16:.2f}")
+                        valor_total_peca_16 = float(quant_peca_16.replace(",", ".")) * float(valor_peca_16) * (1 + float(porcentaje_adicional)/100)
+                        gold_text(f"R$ {valor_total_peca_16:.2f}")
                     else:
                         gold_text("R$ 0.00")
                 except:
@@ -2618,84 +2618,82 @@ elif action == "Atualizar ordem existente":
                     'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
                     'valor_peca_1': valor_peca_1 if 'valor_peca_1' in locals() else 0,
                     'sub_tota_peca_1': sub_tota_peca_1 if 'sub_tota_peca_1' in locals() else 0,
-                    'valor_total_peca_1': costo_final_1 if 'costo_final_1' in locals() else 0, 
-                    
+                    'valor_total_peca_1': valor_total_peca_1 if 'valor_total_peca_1' in locals() else 0, 
                     'quant_peca_2': quant_peca_2 if 'quant_peca_2' in locals() else None,
                     'desc_peca_2': desc_peca_2 if 'desc_peca_2' in locals() else None,
                     'valor_peca_2': valor_peca_2 if 'valor_peca_2' in locals() else 0,
                     'sub_tota_peca_2': sub_tota_peca_2 if 'sub_tota_peca_2' in locals() else 0,
-                    'valor_total_peca_2': costo_final_2 if 'costo_final_2' in locals() else 0,
-                    
+                    'valor_total_peca_2': valor_total_peca_2 if 'valor_total_peca_2' in locals() else 0,
                     'quant_peca_3': quant_peca_3 if 'quant_peca_3' in locals() else None,
                     'desc_peca_3': desc_peca_3 if 'desc_peca_3' in locals() else None,
-                    'valor_peca_3': costo_inicial_3 if 'costo_inicial_3' in locals() else 0,
-                    'valor_total_peca_3': costo_final_3 if 'costo_final_3' in locals() else 0, 
-                    
+                    'valor_peca_3': valor_peca_3 if 'valor_peca_3' in locals() else 0,
+                    'sub_tota_peca_3': sub_tota_peca_3 if 'sub_tota_peca_3' in locals() else 0,
+                    'valor_total_peca_3': valor_total_peca_3 if 'valor_total_peca_3' in locals() else 0,          
                     'quant_peca_4': quant_peca_4 if 'quant_peca_4' in locals() else None,
                     'desc_peca_4': desc_peca_4 if 'desc_peca_4' in locals() else None,
-                    'valor_peca_4': costo_inicial_4 if 'costo_inicial_4' in locals() else 0,
-                    'valor_total_peca_4': costo_final_4 if 'costo_final_4' in locals() else 0,   
-                    
+                    'valor_peca_4': valor_peca_4 if 'valor_peca_4' in locals() else 0,
+                    'sub_tota_peca_4': sub_tota_peca_4 if 'sub_tota_peca_4' in locals() else 0,
+                    'valor_total_peca_4': valor_total_peca_4 if 'valor_total_peca_4' in locals() else 0,                     
                     'quant_peca_5': quant_peca_5 if 'quant_peca_5' in locals() else None,
                     'desc_peca_5': desc_peca_5 if 'desc_peca_5' in locals() else None,
-                    'valor_peca_5': costo_inicial_5 if 'costo_inicial_5' in locals() else 0,
-                    'valor_total_peca_5': costo_final_5 if 'costo_final_5' in locals() else 0, 
-                    
+                    'valor_peca_5': valor_peca_5 if 'valor_peca_5' in locals() else 0,
+                    'sub_tota_peca_5': sub_tota_peca_5 if 'sub_tota_peca_5' in locals() else 0,
+                    'valor_total_peca_5': valor_total_peca_5 if 'valor_total_peca_5' in locals() else 0,                     
                     'quant_peca_6': quant_peca_6 if 'quant_peca_6' in locals() else None,
                     'desc_peca_6': desc_peca_6 if 'desc_peca_6' in locals() else None,
-                    'valor_peca_6': costo_inicial_6 if 'costo_inicial_6' in locals() else 0,
-                    'valor_total_peca_6': costo_final_6 if 'costo_final_6' in locals() else 0,  
-                    
+                    'valor_peca_6': valor_peca_6 if 'valor_peca_6' in locals() else 0,
+                    'sub_tota_peca_6': sub_tota_peca_6 if 'sub_tota_peca_6' in locals() else 0,
+                    'valor_total_peca_6': valor_total_peca_6 if 'valor_total_peca_6' in locals() else 0,                 
                     'quant_peca_7': quant_peca_7 if 'quant_peca_7' in locals() else None,
                     'desc_peca_7': desc_peca_7 if 'desc_peca_7' in locals() else None,
-                    'valor_peca_7': costo_inicial_7 if 'costo_inicial_7' in locals() else 0,
-                    'valor_total_peca_7': costo_final_7 if 'costo_final_7' in locals() else 0,  
-                    
+                    'valor_peca_7': valor_peca_7 if 'valor_peca_7' in locals() else 0,
+                    'sub_tota_peca_7': sub_tota_peca_7 if 'sub_tota_peca_7' in locals() else 0,
+                    'valor_total_peca_7': valor_total_peca_7 if 'valor_total_peca_7' in locals() else 0,                  
                     'quant_peca_8': quant_peca_8 if 'quant_peca_8' in locals() else None,
                     'desc_peca_8': desc_peca_8 if 'desc_peca_8' in locals() else None,
-                    'valor_peca_8': costo_inicial_8 if 'costo_inicial_8' in locals() else 0,
-                    'valor_total_peca_8': costo_final_8 if 'costo_final_8' in locals() else 0,  
-                    
+                    'valor_peca_8': valor_peca_8 if 'valor_peca_8' in locals() else 0,
+                    'sub_tota_peca_8': sub_tota_peca_8 if 'sub_tota_peca_8' in locals() else 0,
+                    'valor_total_peca_8': valor_total_peca_8 if 'valor_total_peca_8' in locals() else 0,                      
                     'quant_peca_9': quant_peca_9 if 'quant_peca_9' in locals() else None,
                     'desc_peca_9': desc_peca_9 if 'desc_peca_9' in locals() else None,
-                    'valor_peca_9': costo_inicial_9 if 'costo_inicial_9' in locals() else 0,
-                    'valor_total_peca_9': costo_final_9 if 'costo_final_9' in locals() else 0, 
-                    
+                    'valor_peca_9': valor_peca_9 if 'valor_peca_9' in locals() else 0,
+                    'sub_tota_peca_9': sub_tota_peca_9 if 'sub_tota_peca_9' in locals() else 0,
+                    'valor_total_peca_9': valor_total_peca_9 if 'valor_total_peca_9' in locals() else 0,                     
                     'quant_peca_10': quant_peca_10 if 'quant_peca_10' in locals() else None,
                     'desc_peca_10': desc_peca_10 if 'desc_peca_10' in locals() else None,
-                    'valor_peca_10': costo_inicial_10 if 'costo_inicial_10' in locals() else 0,
-                    'valor_total_peca_10': costo_final_10 if 'costo_final_10' in locals() else 0,  
-                    
+                    'valor_peca_10': valor_peca_10 if 'valor_peca_10' in locals() else 0,
+                    'sub_tota_peca_10': sub_tota_peca_10 if 'sub_tota_peca_10' in locals() else 0,
+                    'valor_total_peca_10': valor_total_peca_10 if 'valor_total_peca_10' in locals() else 0,                      
                     'quant_peca_11': quant_peca_11 if 'quant_peca_11' in locals() else None,
                     'desc_peca_11': desc_peca_11 if 'desc_peca_11' in locals() else None,
-                    'valor_peca_11': costo_inicial_11 if 'costo_inicial_11' in locals() else 0,
-                    'valor_total_peca_11': costo_final_11 if 'costo_final_11' in locals() else 0,  
-                    
+                    'valor_peca_11': valor_peca_11 if 'valor_peca_11' in locals() else 0,
+                    'sub_tota_peca_11': sub_tota_peca_11 if 'sub_tota_peca_11' in locals() else 0,
+                    'valor_total_peca_11': valor_total_peca_11 if 'valor_total_peca_11' in locals() else 0,                      
                     'quant_peca_12': quant_peca_12 if 'quant_peca_12' in locals() else None,
                     'desc_peca_12': desc_peca_12 if 'desc_peca_12' in locals() else None,
-                    'valor_peca_12': costo_inicial_12 if 'costo_inicial_12' in locals() else 0,
-                    'valor_total_peca_12': costo_final_12 if 'costo_final_12' in locals() else 0,  
-                    
+                    'valor_peca_12': valor_peca_12 if 'valor_peca_12' in locals() else 0,
+                    'sub_tota_peca_12': sub_tota_peca_12 if 'sub_tota_peca_12' in locals() else 0,
+                    'valor_total_peca_12': valor_total_peca_12 if 'valor_total_peca_12' in locals() else 0,  
                     'quant_peca_13': quant_peca_13 if 'quant_peca_13' in locals() else None,
                     'desc_peca_13': desc_peca_13 if 'desc_peca_13' in locals() else None,
-                    'valor_peca_13': costo_inicial_13 if 'costo_inicial_13' in locals() else 0,
-                    'valor_total_peca_13': costo_final_13 if 'costo_final_13' in locals() else 0, 
-                    
+                    'valor_peca_13': valor_peca_13 if 'valor_peca_13' in locals() else 0,
+                    'sub_tota_peca_13': sub_tota_peca_13 if 'sub_tota_peca_13' in locals() else 0,
+                    'valor_total_peca_13': valor_total_peca_13 if 'valor_total_peca_13' in locals() else 0, 
                     'quant_peca_14': quant_peca_14 if 'quant_peca_14' in locals() else None,
                     'desc_peca_14': desc_peca_14 if 'desc_peca_14' in locals() else None,
-                    'valor_peca_14': costo_inicial_14 if 'costo_inicial_14' in locals() else 0,
-                    'valor_total_peca_14': costo_final_14 if 'costo_final_14' in locals() else 0,   
-                    
+                    'valor_peca_14': valor_peca_14 if 'valor_peca_14' in locals() else 0,
+                    'sub_tota_peca_14': sub_tota_peca_14 if 'sub_tota_peca_14' in locals() else 0,
+                    'valor_total_peca_14': valor_total_peca_14 if 'valor_total_peca_14' in locals() else 0,        
                     'quant_peca_15': quant_peca_15 if 'quant_peca_15' in locals() else None,
                     'desc_peca_15': desc_peca_15 if 'desc_peca_15' in locals() else None,
-                    'valor_peca_15': costo_inicial_15 if 'costo_inicial_15' in locals() else 0,
-                    'valor_total_peca_15': costo_final_15 if 'costo_final_15' in locals() else 0,
-                    
+                    'valor_peca_15': valor_peca_15 if 'valor_peca_15' in locals() else 0,
+                    'sub_tota_peca_15': sub_tota_peca_15 if 'sub_tota_peca_15' in locals() else 0,
+                    'valor_total_peca_15': valor_total_peca_15 if 'valor_total_peca_15' in locals() else 0,
                     'quant_peca_16': quant_peca_16 if 'quant_peca_16' in locals() else None,
                     'desc_peca_16': desc_peca_16 if 'desc_peca_16' in locals() else None,
-                    'valor_peca_16': costo_inicial_16 if 'costo_inicial_16' in locals() else 0,
-                    'valor_total_peca_16': costo_final_16 if 'costo_final_16' in locals() else 0,
-                    
+                    'valor_peca_16': valor_peca_16 if 'valor_peca_16' in locals() else 0,
+                    'sub_tota_peca_16': sub_tota_peca_16 if 'sub_tota_peca_16' in locals() else 0,
+                    'valor_total_peca_16': valor_total_peca_16 if 'valor_total_peca_16' in locals() else 0,                    
                     'total_costo_inicial': sum([v for k, v in locals().items() if k.startswith('costo_inicial_')]),
                     'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')]),
                     'forma_de_pagamento': None,
