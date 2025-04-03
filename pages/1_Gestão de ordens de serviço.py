@@ -1368,7 +1368,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_4 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
@@ -1395,7 +1395,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_5 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
@@ -1422,7 +1422,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_6 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
@@ -1449,7 +1449,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_7 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
@@ -1476,7 +1476,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_8 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
@@ -1503,7 +1503,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_9 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
@@ -1530,7 +1530,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_10 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
@@ -1557,7 +1557,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_11 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
@@ -1584,7 +1584,7 @@ elif action == "Atualizar ordem existente":
                 except (KeyError, TypeError, ValueError):
                     default_value = 0.0  # Valor por defecto si hay cualquier error
                 
-                valor_serv_3 = st.number_input(
+                valor_serv_12 = st.number_input(
                     "",
                     value=default_value,
                     min_value=0.0,
