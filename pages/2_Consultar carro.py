@@ -199,26 +199,27 @@ if buscar:
                     total_pecas_final = 0.0
                     
                     for i in range(1, 17):
-                        quant = veiculo.get(f'quant_peca_{i}', '')
-                        desc = veiculo.get(f'desc_peca_{i}', '')
-                        valor = veiculo.get(f'valor_peca_{i}', '')
-                        valor_total = veiculo.get(f'valor_total_peca_{i}', '')
-                        porcentaje = veiculo.get('porcentaje_adicional', 0)
-                        
-                        if pd.notna(quant) or pd.notna(desc) or pd.notna(valor):
-                            valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
-                            valor_total_formatado = formatar_valor(valor_total) if pd.notna(valor_total) else "0,00"
-                            valor_float = safe_float(valor) if pd.notna(valor) else 0.0
-                            valor_total_float = float(valor_total) if pd.notna(valor_total) else 0.0
-                            total_pecas += valor_float
-                            total_pecas_final += valor_total_float
+                        quant = veiculo.get(f'quant_peca_{i}', '')  # Cantidad
+                        desc = veiculo.get(f'desc_peca_{i}', '')  # Descripción
+                        valor = veiculo.get(f'valor_peca_{i}', '')  # Costo unitario
+                        porcentaje = veiculo.get('porcentaje_adicional', 0)  # Porcentaje adicional
+
+                        if pd.notna(quant) and pd.notna(valor):  
+                            quant_float = safe_float(quant)
+                            valor_float = safe_float(valor)
+                            # Calcular el costo total de la pieza
+                            valor_total_peca = quant_float * valor_float     
+                            # Aplicar el porcentaje adicional
+                            valor_total_final = valor_total_peca * (1 + safe_float(porcentaje) / 100)           
+                            total_pecas += valor_total_peca  # Sumar costo total de piezas (sin adicional)
+                            total_pecas_final += valor_total_final  # Sumar costo final con adicional
                             
                             pecas.append({
                                 'Quant.': quant if pd.notna(quant) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
-                                'Custo Unit. (R$)': valor_formatado,
+                                'Custo Unit. (R$)': formatar_valor(valor),
                                 '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                                'Valor Final (R$)': valor_total_formatado
+                                'Valor Final (R$)': formatar_valor(valor_total_final)
                             })
                     
                     if pecas:
