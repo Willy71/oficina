@@ -93,7 +93,7 @@ def buscar_por_placa(placa, df):
     resultado = df[df['placa'].astype(str).str.upper().str.strip() == placa.upper().strip()]
     
     if not resultado.empty:
-        return resultado.iloc[0].to_dict()
+        return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
     return None
 
 # ----------------------------------------------------------------------------------------------------------------------------------
