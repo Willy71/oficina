@@ -103,7 +103,18 @@ def safe_float(valor):
     except ValueError:
         return 0.0
 
+
+# Función para formatear valores numéricos
+def formatar_valor(valor):
+    try:
+        # Convertir a float, redondear a 2 decimales y formatear con coma como separador decimal
+        valor_float = float(valor)
+        return f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
+    except (ValueError, TypeError):
+        return "0,00"
+        
 #============================================================================================================================================
+
 elif action == "Consultar veículo por placa":
     st.title("🔍 Consultar Veículo por Placa")
     
@@ -145,8 +156,6 @@ elif action == "Consultar veículo por placa":
                                 st.metric("Modelo", veiculo.get('modelo', 'N/A'))
                             with cols[2]:
                                 st.metric("Ano", veiculo.get('ano', 'N/A'))  
-
-#============================================================================================================================================
                 
                     # Mostrar detalles del estado y fechas
                     with st.container():
@@ -167,15 +176,6 @@ elif action == "Consultar veículo por placa":
                             st.metric("Telefone", veiculo.get('telefone', 'N/A'))
                         with cols[2]:
                             st.metric("Endereço", veiculo.get('endereco', 'N/A'))
-                
-                             # Función para formatear valores numéricos
-                    def formatar_valor(valor):
-                        try:
-                            # Convertir a float, redondear a 2 decimales y formatear con coma como separador decimal
-                            valor_float = float(valor)
-                            return f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
-                        except (ValueError, TypeError):
-                            return "0,00"
     
                     # Mostrar servicios con expanders
                     with st.expander("📋 Serviços Realizados", expanded=False):
@@ -260,10 +260,9 @@ elif action == "Consultar veículo por placa":
                         #st.json(veiculo)
                 else:
                     st.warning("Nenhum veículo encontrado com esta placa")
-# ----------------------------------------------------------------------------------------------------------------------------------
-
 
 # ----------------------------------------------------------------------------------------------------------------------------------
+
 # Opción para buscar por otros criterios
 with st.expander("🔎 Busca Avançada", expanded=False):
     with st.form(key="busca_avancada"):
