@@ -166,31 +166,30 @@ if buscar:
                     servicos = []
                     total_servicos = 0.0
                 
-                    for i in range(1, 13):  # Iteramos sobre los posibles servicios
-                        item = str(veiculo.get(f'item_serv_{i}', '')).strip()
-                        desc = str(veiculo.get(f'desc_ser_{i}', '')).strip()
+                    for i in range(1, 13):
+                        item = veiculo.get(f'item_serv_{i}', '')
+                        desc = veiculo.get(f'desc_ser_{i}', '')
                         valor = veiculo.get(f'valor_serv_{i}', '')
                 
-                        # Convertir el valor a número si existe, sino dejarlo en 0
-                        valor_float = safe_float(valor) if valor else 0.0  
+                        if pd.notna(item) or pd.notna(desc) or pd.notna(valor):  # Filtrar solo los servicios con datos
+                            valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
+                            valor_float = safe_float(valor) if pd.notna(valor) else 0.0
+                            total_servicos += valor_float
                 
-                        # Solo agregar si al menos un campo tiene datos válidos
-                        if item or desc or valor_float > 0:
                             servicos.append({
-                                'Item': item if item else '-',
-                                'Descrição': desc if desc else '-',
-                                'Valor (R$)': formatar_valor(valor) if valor else "0,00"
+                                'Item': item if pd.notna(item) else '',
+                                'Descrição': desc if pd.notna(desc) else '',
+                                'Valor (R$)': valor_formatado
                             })
-                            total_servicos += valor_float  # Sumar solo valores numéricos
                 
-                    # Mostrar tabla solo si hay servicios registrados
                     if servicos:
                         df_servicos = pd.DataFrame(servicos)
                         st.dataframe(df_servicos, hide_index=True, use_container_width=True)
+                        
+                        # Mostrar total de servicios
                         st.markdown(f"**Total Serviços:** R$ {formatar_valor(total_servicos)}")
                     else:
                         st.info("Nenhum serviço registrado")
-
 
 
 #===================================================================================================================================================================
@@ -203,11 +202,10 @@ if buscar:
                     total_pecas_final = 0.0
                     
                     for i in range(1, 17):
-                        # Para piezas
-                        quant = str(veiculo.get(f'quant_peca_{i}', '')).strip()  # Cantidad
-                        desc = str(veiculo.get(f'desc_peca_{i}', '')).strip() # Descripción
+                        quant = veiculo.get(f'quant_peca_{i}', '')  # Cantidad
+                        desc = veiculo.get(f'desc_peca_{i}', '')  # Descripción
                         valor = veiculo.get(f'valor_peca_{i}', '')  # Costo unitario
-                        valor_total = veiculo.get(f'valor_total_peca_{i}', '')  # Porcentaje adicional
+                        porcentaje = veiculo.get('porcentaje_adicional', 0)  # Porcentaje adicional
 
                         if pd.notna(quant) and pd.notna(valor):  
                             quant_float = safe_float(quant)
