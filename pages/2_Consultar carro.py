@@ -107,16 +107,18 @@ def safe_float(valor):
 elif action == "Consultar veículo por placa":
     st.title("🔍 Consultar Veículo por Placa")
     
-    # Reutilizar la conexión existente a Google Sheets
-    dados = existing_data  # Usamos el DataFrame ya cargado
+    # Asegurarse que la columna date_in es datetime
+    try:
+        existing_data['date_in'] = pd.to_datetime(existing_data['date_in'], errors='coerce')
+    except Exception as e:
+        st.error(f"Error al convertir fechas: {str(e)}")
+        st.stop()
     
-    # Interfaz de usuario para búsqueda
     with st.container():
         col1, col2, col3 = st.columns([3, 2, 1])
         with col1:
             placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
         with col2:
-            st.write("")  # Espaciador
             buscar = st.button("Buscar Veículo", key="buscar_btn")
 
     if buscar:
@@ -124,25 +126,25 @@ elif action == "Consultar veículo por placa":
             st.warning("Por favor, digite uma placa para buscar")
         else:
             with st.spinner("Buscando veículo..."):
-                # Filtrar por placa y ordenar por fecha de entrada descendente
-                resultados = existing_data[
-                    existing_data['placa'].astype(str).str.upper().str.strip() == placa.upper().strip()
-                ].sort_values('date_in', ascending=False)
-                
-                if not resultados.empty:
-                    # Tomar el primer registro (que será el más reciente por el ordenamiento)
-                    veiculo = resultados.iloc[0].to_dict()
-                    st.success(f"✅ Veículo encontrado (Mostrando el último ingreso de {len(resultados)} registros)")
+                try:
+                    # Filtrar y ordenar
+                    resultados = existing_data[
+                        existing_data['placa'].astype(str).str.upper().str.strip() == placa.upper().strip()
+                    ].sort_values('date_in', ascending=False)
                     
-                    # Mostrar información principal
-                    with st.container():
-                        cols = st.columns(3)
-                        with cols[0]:
-                            st.metric("Marca", veiculo.get('carro', 'N/A'))
-                        with cols[1]:
-                            st.metric("Modelo", veiculo.get('modelo', 'N/A'))
-                        with cols[2]:
-                            st.metric("Ano", veiculo.get('ano', 'N/A'))   
+                    if not resultados.empty:
+                        veiculo = resultados.iloc[0].to_dict()
+                        st.success(f"✅ Veículo encontrado (Último ingreso de {len(resultados)} registros)")
+
+                        # Mostrar información principal
+                        with st.container():
+                            cols = st.columns(3)
+                            with cols[0]:
+                                st.metric("Marca", veiculo.get('carro', 'N/A'))
+                            with cols[1]:
+                                st.metric("Modelo", veiculo.get('modelo', 'N/A'))
+                            with cols[2]:
+                                st.metric("Ano", veiculo.get('ano', 'N/A'))  
 
 #============================================================================================================================================
                 
