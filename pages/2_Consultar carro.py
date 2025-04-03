@@ -56,7 +56,7 @@ st.title("🔍 Consultar Veículo por Placa")
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
 SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
-SHEET_NAME = 'Hoja 2'
+SHEET_NAME = 'Hoja 1'
 
 # Cargar credenciales y autorizar
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
