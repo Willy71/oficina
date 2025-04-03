@@ -2325,10 +2325,10 @@ elif action == "Atualizar ordem existente":
 
         
         with st.container():    
-            col280, col282, col282, col283, col284, col285 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            col280, col281, col282, col283, col284, col285 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col280:
                 gold_text("13") 
-            with col282:
+            with col281:
                 quant_peca_13 = st.text_input(
                     "", 
                     value=str(vendor_data.get("quant_peca_13", "1")),  # Aseguramos string
@@ -2382,10 +2382,10 @@ elif action == "Atualizar ordem existente":
                     gold_text("R$ 0.00")
         
         with st.container():    
-            col290, col292, col292, col293, col294, col295 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            col290, col291, col292, col293, col294, col295 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col290:
                 gold_text("14") 
-            with col292:
+            with col291:
                 quant_peca_14 = st.text_input(
                     "", 
                     value=str(vendor_data.get("quant_peca_14", "1")),  # Aseguramos string
@@ -2439,7 +2439,7 @@ elif action == "Atualizar ordem existente":
                     gold_text("R$ 0.00")
         
         with st.container():    
-            col300, col302, col302, col303, col304, col305 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            col300, col301, col302, col303, col304, col305 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col300:
                 gold_text("15") 
             with col302:
@@ -2449,7 +2449,7 @@ elif action == "Atualizar ordem existente":
                     label_visibility="collapsed", 
                     key="update_quant_peca_15"
                 )
-            with col302:
+            with col301:
                 desc_peca_15 = st.text_input(
                     "", 
                     value=str(vendor_data.get("desc_peca_15", "")),  # Aseguramos string
@@ -2496,10 +2496,10 @@ elif action == "Atualizar ordem existente":
                     gold_text("R$ 0.00")
         
         with st.container():    
-            col310, col312, col312, col313, col314, col315 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            col310, col311, col312, col313, col314, col315 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col310:
                 gold_text("16") 
-            with col312:
+            with col311:
                 quant_peca_16 = st.text_input(
                     "", 
                     value=str(vendor_data.get("quant_peca_16", "1")),  # Aseguramos string
