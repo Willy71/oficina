@@ -2440,14 +2440,14 @@ elif action == "Atualizar ordem existente":
             col300, col301, col302, col303, col304, col305 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col300:
                 gold_text("15") 
-            with col302:
+            with col301:
                 quant_peca_15 = st.text_input(
                     "", 
                     value=str(vendor_data.get("quant_peca_15", "1")),  # Aseguramos string
                     label_visibility="collapsed", 
                     key="update_quant_peca_15"
                 )
-            with col301:
+            with col302:
                 desc_peca_15 = st.text_input(
                     "", 
                     value=str(vendor_data.get("desc_peca_15", "")),  # Aseguramos string
