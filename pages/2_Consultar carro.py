@@ -115,7 +115,7 @@ def formatar_valor(valor):
         
 #============================================================================================================================================
 
-elif action == "Consultar veículo por placa":
+if action == "Consultar veículo por placa":
     st.title("🔍 Consultar Veículo por Placa")
     
     # Asegurarse que la columna date_in es datetime
