@@ -170,24 +170,18 @@ if buscar:
                         item = veiculo.get(f'item_serv_{i}', '')
                         desc = veiculo.get(f'desc_ser_{i}', '')
                         valor = veiculo.get(f'valor_serv_{i}', '')
-                        
-                        # Verificar si al menos uno de los campos tiene datos válidos (no vacío y no NaN)
-                        has_data = (
-                            (pd.notna(item) and str(item).strip() != '') or 
-                            (pd.notna(desc) and str(desc).strip() != '') or 
-                            (pd.notna(valor) and str(valor).strip() != '')
-
-                        if has_data:
-                            valor_formatado = formatar_valor(valor) if pd.notna(valor) and str(valor).strip() != '' else "0,00"
-                            valor_float = safe_float(valor) if pd.notna(valor) and str(valor).strip() != '' else 0.0
+                
+                        if pd.notna(item) or pd.notna(desc) or pd.notna(valor):  # Filtrar solo los servicios con datos
+                            valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
+                            valor_float = safe_float(valor) if pd.notna(valor) else 0.0
                             total_servicos += valor_float
-                            
+                
                             servicos.append({
-                                'Item': item if pd.notna(item) and str(item).strip() != '' else '',
-                                'Descrição': desc if pd.notna(desc) and str(desc).strip() != '' else '',
+                                'Item': item if pd.notna(item) else '',
+                                'Descrição': desc if pd.notna(desc) else '',
                                 'Valor (R$)': valor_formatado
                             })
-                    
+                
                     if servicos:
                         df_servicos = pd.DataFrame(servicos)
                         st.dataframe(df_servicos, hide_index=True, use_container_width=True)
@@ -196,6 +190,7 @@ if buscar:
                         st.markdown(f"**Total Serviços:** R$ {formatar_valor(total_servicos)}")
                     else:
                         st.info("Nenhum serviço registrado")
+
 
 #===================================================================================================================================================================
 
