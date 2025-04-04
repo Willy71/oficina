@@ -286,6 +286,14 @@ with st.expander("🔎 Busca Avançada", expanded=False):
             if not filtrados.empty:
                 st.success(f"🚙 {len(filtrados)} veículos encontrados")
                 for _, row in filtrados.iterrows():
+                    veiculo_str = (
+                        f"🚗 {row['carro']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')}  \n"
+                        f"📅 Entrada: {row.get('data_entrada', 'Sem data')}  \n"
+                        f"👤 Dono: {row.get('nome_cliente', 'Desconhecido')}"
+                    )
+                    st.markdown(f"- {veiculo_str}")
+                
+                for _, row in filtrados.iterrows():
                     veiculo_str = f"🚗 {row['carro']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')}"
                     st.markdown(f"- {veiculo_str}")
             else:
