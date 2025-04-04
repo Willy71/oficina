@@ -283,34 +283,21 @@ with st.expander("🔎 Busca Avançada", expanded=False):
             if ano:
                 filtrados = filtrados[filtrados['ano'].astype(str).str.contains(ano)]
             
+            st.markdown("### Veículos encontrados:")
+
             if not filtrados.empty:
-                st.subheader("Resultado da busca avançada")
-            
-                # Ejemplo de DataFrame
-                filtrados = pd.DataFrame({
-                    'carro': ['Uno', 'Civic', 'Palio'],
-                    'placa': ['AAA1234', 'BBB5678', 'CCC9999'],
-                    'cor': ['Vermelho', 'Preto', 'Branco']
-                })
-                
-                # Crear lista de descrição dos veículos
-                lista_veiculos = [
-                    f"{row['carro']} | {row['placa']} | {row['cor']}"
-                    for _, row in filtrados.iterrows()
-                ]
-                
-                # Mostrar radio para seleção
-                if lista_veiculos:
-                    selecionado = st.radio("Selecione um veículo:", lista_veiculos)
-                
-                    # Obter índice da linha selecionada
-                    selecionado_index = lista_veiculos.index(selecionado)
-                
-                    # Acessar o veículo corretamente com iloc
-                    veiculo = filtrados.iloc[selecionado_index]
-                
-                    st.write(f"**Proprietário:** {veiculo['carro']}")
-                    st.write(f"**Placa:** {veiculo['placa']}")
-                    st.write(f"**Cor:** {veiculo['cor']}")
-                else:
-                    st.warning("Nenhum veículo encontrado.")
+                for _, row in filtrados.iterrows():
+                    col1, col2 = st.columns([4, 1])
+                    with col1:
+                        st.markdown(
+                            f"**{row['carro']}** | Placa: `{row['placa']}` | Cor: {row['cor']}"
+                        )
+                    with col2:
+                        st.button(
+                            "📋 Copiar placa",
+                            key=f"copiar_{row['placa']}",
+                            on_click=st.experimental_set_query_params,
+                            kwargs={"placa_copiada": row["placa"]}
+                        )
+            else:
+                st.warning("Nenhum veículo encontrado.")
