@@ -91,15 +91,18 @@ else:
     # Função para formatar datas
     def formatar_data(serie_data):
         return serie_data.dt.strftime('%d/%m/%Y').replace('NaT', '')
-    
+
+    veiculos_no_taller = len(dados[dados['estado'] != 'Entregue'])
+
     # Mostrar contagem real
     st.markdown(f"**Veículos mostrados:** {len(dados_filtrados)} de {len(dados)} totais")
     
     # Métricas resumidas
     st.subheader("Visão Geral")
-    cols = st.columns(5)
+    cols = st.columns(len(metricas))
     metricas = [
         ("🚗 Total", len(dados)),
+        ("🏠 Na oficina", veiculos_no_taller),
         ("⏳ Orçamento", len(dados[dados['estado'] == "Em orçamento"])),
         ("🛠️ Reparação", len(dados[dados['estado'] == "Em reparação"])),
         ("✅ Prontos", len(dados[dados['estado'] == "Concluido"])),
