@@ -167,25 +167,25 @@ def obtener_proximo_id(df):
         # Si hay algún error (por ejemplo, valores no numéricos), retornar 1
         return 1
 
+# Función para actualizar una orden de servicio
+#  linea 171
 def atualizar_ordem(vendor_to_update, updated_record):
     try:
         # Obtener la hoja de cálculo
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         
-        # Obtener todos los datos actuales
-        all_data = worksheet.get_all_records()
-        all_ids = [str(row['user_id']) for row in all_data]
+        # Limpiar la hoja existente antes de actualizar
+        worksheet.clear()
         
-        # Encontrar el índice de la fila a actualizar (+2 porque get_all_records no incluye encabezado y sheets empieza en 1)
-        try:
-            row_index = all_ids.index(str(vendor_to_update)) + 2
-        except ValueError:
-            st.error(f"ID {vendor_to_update} no encontrado en la hoja")
-            return
-            
-        # Actualizar solo la fila específica
-        updated_values = updated_record.values.tolist()[0]  # Asumiendo que updated_record es un DataFrame de una fila
-        worksheet.update(f'A{row_index}', [updated_values])
+        # Agregar los encabezados primero
+        worksheet.append_row(columnas_ordenadas)
+        
+        # Actualizar el DataFrame existente
+        existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record.columns] = updated_record.values
+        
+        # Agregar los datos fila por fila
+        for row in existing_data.values.tolist():
+            worksheet.append_row(row)
         
         st.success("Ordem de serviço atualizada com sucesso")
     except Exception as e:
