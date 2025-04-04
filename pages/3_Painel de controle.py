@@ -101,7 +101,7 @@ else:
     
     # Métricas resumidas
     st.subheader("Visão Geral")
-    veiculos_no_taller = len(df)
+    veiculos_no_taller = len(dados)
     metricas = [
         ("📋 Registros totais", len(df_completo)),
         ("🏠 No Taller", veiculos_no_taller),
