@@ -1617,6 +1617,12 @@ elif action == "Atualizar ordem existente":
         line(4, "blue")
         centrar_texto("Peças", 2, "yellow")
         
+        ordem_selecionada = df.loc[df["ID"] == id_escolhido].iloc[0]
+        if 'ordem_selecionada' in locals():
+            porcentaje_valor = ordem_selecionada.get("porcentaje_adicional", 30.0)
+        else:
+            porcentaje_valor = 30.0
+            
         with st.container():
             col_perc, col_empty, col_final = st.columns([4, 2.5, 4])
             with col_empty:
