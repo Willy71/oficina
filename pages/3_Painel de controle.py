@@ -110,16 +110,6 @@ else:
         ("✅ Prontos", len(df[df['estado'] == "Concluido"])),
         ("📅 Hoje", len(df[df['date_in'].dt.date == datetime.today().date()]))
     ]
-
-    cols = st.columns(6)
-    metricas = [
-        ("🚗 Total", len(dados)),
-        ("🏠 Na oficina", veiculos_no_taller),
-        ("⏳ Orçamento", len(dados[dados['estado'] == "Em orçamento"])),
-        ("🛠️ Reparação", len(dados[dados['estado'] == "Em reparação"])),
-        ("✅ Prontos", len(dados[dados['estado'] == "Concluido"])),
-        ("📅 Hoje", len(dados[dados['date_in'].dt.date == datetime.today().date()]))
-    ]
     
     for col, (rotulo, valor) in zip(cols, metricas):
         col.metric(rotulo, valor)
