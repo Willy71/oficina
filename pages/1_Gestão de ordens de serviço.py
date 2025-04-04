@@ -83,6 +83,12 @@ credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes
 gc = gspread.authorize(credentials)
 credenciales_json = credentials
 
+def autenticar_gspread():
+    SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+    credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+    cliente = gspread.authorize(credentials)
+    return cliente
+
 def inicializar_hoja():
     try:
         # Abrir la hoja de cálculo
@@ -167,13 +173,6 @@ def obtener_proximo_id(df):
     except (ValueError, TypeError):
         # Si hay algún error (por ejemplo, valores no numéricos), retornar 1
         return 1
-
-def autenticar_gspread(credenciales_json):
-    alcance = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-    credenciales = ServiceAccountCredentials.from_json_keyfile_name(credenciales_json, alcance)
-    cliente = gspread.authorize(credenciales)
-    return cliente
-
 
 # Esta función actualiza directamente la fila con el ID correspondiente sin alterar el orden
 def atualizar_ordem(ordem):
