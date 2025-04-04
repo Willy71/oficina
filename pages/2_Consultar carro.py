@@ -289,7 +289,7 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                 # Criar uma lista com descrição dos veículos
                 lista_veiculos = [
                     f"{row['carro']} | {row['placa']} | {row['cor']}"
-                    for _, row in dados_filtrados.iterrows()
+                    for _, row in dados_filtrados.iterrows():
                 ]
             
                 # Mostrar radio button para seleção
