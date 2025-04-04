@@ -171,33 +171,33 @@ def obtener_proximo_id(df):
 #  linea 171
 def atualizar_ordem(vendor_to_update, updated_record):
     try:
-        # Obtener la hoja de cálculo
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-        
-        # Obtener la hoja de cálculo
-        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-        
-        # Obtener todos los registros
-        records = worksheet.get_all_records()
-        
-        # Buscar la fila del user_id
+
+        # Obtener todos los valores de la columna del user_id (asumimos que está en la primera columna, A)
+        user_ids = worksheet.col_values(columnas_ordenadas.index("user_id") + 1)  # columna real del user_id
+
         row_index = None
-        for i, record in enumerate(records):
-            if record["user_id"] == vendor_to_update:
-                row_index = i + 2  # +2 porque get_all_records() omite encabezado y Google Sheets empieza en 1
+        for i, uid in enumerate(user_ids):
+            if str(uid) == str(vendor_to_update):
+                row_index = i + 1  # Google Sheets empieza en 1
                 break
-        
+
         if row_index is None:
             st.error("ID não encontrado na planilha.")
             return
-        
-        # Asegurar que el orden de columnas coincide
+
+        # Armar los valores en orden correcto
         updated_values = updated_record[columnas_ordenadas].values.tolist()[0]
-        
-        # Actualizar la fila directamente
-        worksheet.update(f"A{row_index}:{chr(64 + len(columnas_ordenadas))}{row_index}", [updated_values])
-        
+
+        # Obtener la letra final de la última columna
+        import string
+        end_col_letter = string.ascii_uppercase[len(columnas_ordenadas) - 1]
+
+        # Actualizar la fila exacta
+        worksheet.update(f"A{row_index}:{end_col_letter}{row_index}", [updated_values])
+
         st.success("Ordem de serviço atualizada com sucesso")
+
     except Exception as e:
         st.error(f"Erro ao atualizar planilha: {str(e)}")
 
