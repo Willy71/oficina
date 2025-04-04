@@ -103,7 +103,7 @@ else:
     st.subheader("Visão Geral")
     veiculos_no_taller = len(dados)
     metricas = [
-        ("📋 Registros totais", len(df_completo)),
+        ("📋 Registros totais", len(dados_completos)),
         ("🏠 No Taller", veiculos_no_taller),
         ("⏳ Orçamento", len(df[df['estado'] == "Em orçamento"])),
         ("🛠️ Reparação", len(df[df['estado'] == "Em reparação"])),
