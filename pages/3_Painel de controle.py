@@ -45,20 +45,6 @@ def carregar_dados():
 st.title("📊 Painel de Controle de Veículos")
 dados, dados_completos = carregar_dados()
 
-# Normalizar 'estado'
-dados_completos['estado'] = dados_completos['estado'].astype(str).str.strip().str.lower()
-
-# Mostrar valores únicos después de normalizar
-st.write("📋 Valores únicos (normalizados):", dados_completos['estado'].unique())
-
-# Mostrar todos los estados únicos con su conteo
-st.write("📊 Conteo de estados:")
-st.write(dados_completos['estado'].value_counts())
-
-# Verifica cómo están escritos los entregados exactamente
-entregados_df = dados_completos[dados_completos['estado'] == 'entregado']
-st.write("🚗 Registros filtrados como 'entregado':", entregados_df)
-
 # Total entregados (normalizados)
 entregues_total = entregados_df.shape[0]
 
@@ -91,6 +77,8 @@ else:
     # Sidebar com filtros
     with st.sidebar:
         st.header("Filtros")
+        # Excluir os veículos entregues da exibição
+        dados = dados[dados['estado'].astype(str).str.strip().str.lower() != 'entregado']
         
         # Filtro por estado com contagem
         estados = dados['estado'].value_counts().index.tolist()
