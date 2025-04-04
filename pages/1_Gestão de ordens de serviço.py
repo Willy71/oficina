@@ -176,6 +176,8 @@ def obtener_proximo_id(df):
 
 # Esta función actualiza directamente la fila con el ID correspondiente sin alterar el orden
 def atualizar_ordem(worksheet, vendor_to_update, updated_record):
+    # Convertir el registro actualizado a DataFrame
+    updated_record_df = pd.DataFrame([updated_record])
     try:
         # Obtener la hoja de cálculo
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
