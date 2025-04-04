@@ -207,7 +207,7 @@ if buscar:
                         valor = veiculo.get(f'valor_peca_{i}', '')  # Costo unitario
                         porcentaje = veiculo.get('porcentaje_adicional', 0)  # Porcentaje adicional
 
-                        if pd.notna(quant) and pd.notna(desc):  
+                        if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):  
                             quant_float = safe_float(quant)
                             valor_float = safe_float(valor)
                             # Calcular el costo total de la pieza
