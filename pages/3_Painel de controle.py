@@ -30,10 +30,10 @@ def carregar_dados():
         df['date_prev'] = pd.to_datetime(df['date_prev'], dayfirst=True, errors='coerce')
         df['date_out'] = pd.to_datetime(df['date_out'], dayfirst=True, errors='coerce')
         
-        df_completo = df.copy()  # <- Todos os registros
-        
-        # Só os veículos ainda no taller
-        df_filtrado = df[df['date_out'].isna() | (df['estado'] != 'Entregue')]
+        df_completo = df.copy()
+
+        # Filtrar apenas veículos NÃO entregues
+        df_filtrado = df[~df['estado'].astype(str).str.strip().str.lower().eq('entregue')]
         
         return df_filtrado.sort_values('date_in', ascending=False), df_completo
     except Exception as e:
