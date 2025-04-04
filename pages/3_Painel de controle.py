@@ -23,14 +23,18 @@ def carregar_dados():
     try:
         worksheet = gc.open_by_key('1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4').worksheet('Hoja 1')
         records = worksheet.get_all_records()
+        # Carga completa sin filtrar entregues
         df = pd.DataFrame(records)
         
-        # Conversão e formatação de datas
-        df['date_in'] = pd.to_datetime(df['date_in'], dayfirst=True, errors='coerce')  # dia/mês/ano
+        # Conversiones
+        df['date_in'] = pd.to_datetime(df['date_in'], dayfirst=True, errors='coerce')
         df['date_prev'] = pd.to_datetime(df['date_prev'], dayfirst=True, errors='coerce')
         df['date_out'] = pd.to_datetime(df['date_out'], dayfirst=True, errors='coerce')
         
-        # Filtrar apenas veículos ativos
+        # Dados completos (sem filtro)
+        df_completo = df.copy()
+        
+        # Filtrando solo os ativos (no entregados)
         df = df[df['date_out'].isna() | (df['estado'] != 'Entregue')]
         
         return df.sort_values('date_in', ascending=False)
@@ -92,13 +96,21 @@ else:
     def formatar_data(serie_data):
         return serie_data.dt.strftime('%d/%m/%Y').replace('NaT', '')
 
-    veiculos_no_taller = len(dados[dados['estado'] != 'Entregue'])
-
     # Mostrar contagem real
     st.markdown(f"**Veículos mostrados:** {len(dados_filtrados)} de {len(dados)} totais")
     
     # Métricas resumidas
     st.subheader("Visão Geral")
+    veiculos_no_taller = len(df)
+    metricas = [
+        ("📋 Registros totais", len(df_completo)),
+        ("🏠 No Taller", veiculos_no_taller),
+        ("⏳ Orçamento", len(df[df['estado'] == "Em orçamento"])),
+        ("🛠️ Reparação", len(df[df['estado'] == "Em reparação"])),
+        ("✅ Prontos", len(df[df['estado'] == "Concluido"])),
+        ("📅 Hoje", len(df[df['date_in'].dt.date == datetime.today().date()]))
+    ]
+
     cols = st.columns(6)
     metricas = [
         ("🚗 Total", len(dados)),
