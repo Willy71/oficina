@@ -50,11 +50,6 @@ dados, dados_completos = carregar_dados()
 # Normalizar a coluna 'estado'
 dados_completos['estado'] = dados_completos['estado'].astype(str).str.strip().str.lower()
 
-# Mostrar os estados únicos e a contagem (para debug)
-st.write("📋 Estados únicos:", dados_completos['estado'].unique())
-st.write("📊 Contagem por estado:")
-st.write(dados_completos['estado'].value_counts())
-
 # Filtrar registros com estado "entregado"
 entregados_df = dados_completos[dados_completos['estado'] == 'entregado']
 entregues_total = entregados_df.shape[0]
