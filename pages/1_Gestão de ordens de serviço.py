@@ -1,3 +1,5 @@
+
+
 import streamlit as st
 import pandas as pd
 import re
@@ -1618,18 +1620,13 @@ elif action == "Atualizar ordem existente":
         with st.container():
             col_perc, col_empty, col_final = st.columns([4, 2.5, 4])
             with col_empty:
-                valor_porcentaje = ordem_selecionada.get('porcentaje_adicional', 0)
-                try:
-                    valor_porcentaje = int(valor_porcentaje)
-                except (ValueError, TypeError):
-                    valor_porcentaje = 0
-                
                 porcentaje_adicional = st.number_input(
-                    '% Concluído',
-                    min_value=0,
-                    max_value=100,
-                    value=valor_porcentaje,
-                    step=5
+                    "Porcentagem adicional (%)",
+                    min_value=0.0,
+                    max_value=100.0,
+                    value=30.0,  # Valor por defecto del 30%
+                    step=0.5,
+                    key="porcentaje_adicional"
                 )
 
 
