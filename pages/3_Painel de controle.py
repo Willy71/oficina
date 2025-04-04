@@ -102,17 +102,20 @@ else:
     # Métricas resumidas
     st.subheader("Visão Geral")
     veiculos_no_taller = len(dados)
+
     metricas = [
         ("📋 Registros totais", len(dados_completos)),
         ("🏠 No Taller", veiculos_no_taller),
-        ("⏳ Orçamento", len(df[df['estado'] == "Em orçamento"])),
-        ("🛠️ Reparação", len(df[df['estado'] == "Em reparação"])),
-        ("✅ Prontos", len(df[df['estado'] == "Concluido"])),
-        ("📅 Hoje", len(df[df['date_in'].dt.date == datetime.today().date()]))
+        ("⏳ Orçamento", len(dados[dados['estado'] == "Em orçamento"])),
+        ("🛠️ Reparação", len(dados[dados['estado'] == "Em reparação"])),
+        ("✅ Prontos", len(dados[dados['estado'] == "Concluido"])),
+        ("📅 Hoje", len(dados[dados['date_in'].dt.date == datetime.today().date()]))
     ]
     
-    for col, (rotulo, valor) in zip(cols, metricas):
-        col.metric(rotulo, valor)
+    cols = st.columns(len(metricas))
+    for col, (titulo, valor) in zip(cols, metricas):
+        col.metric(titulo, valor)
+
 
     # Abas por status
     tabs = st.tabs(["📋 Todos", "⏳ Orçamento", "🛠️ Reparação", "✅ Prontos"])
