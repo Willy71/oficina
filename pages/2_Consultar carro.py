@@ -284,8 +284,8 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                 filtrados = filtrados[filtrados['ano'].astype(str).str.contains(ano)]
             
             if not filtrados.empty:
-               st.subheader("Resultado da busca avançada")
-
+                st.subheader("Resultado da busca avançada")
+            
                 # Criar uma lista com descrição dos veículos
                 lista_veiculos = [
                     f"{row['carro']} | {row['placa']} | {row['cor']}"
@@ -309,3 +309,5 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                 st.write(f"**Telefone:** {veiculo['telefone_cliente']}")
                 st.write(f"**Problema:** {veiculo['problema']}")
                 st.write(f"**Data de entrada:** {veiculo['data_entrada']}")
+            else:
+                st.warning("Nenhum veículo encontrado com os filtros aplicados.")
