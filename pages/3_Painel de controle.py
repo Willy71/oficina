@@ -43,11 +43,20 @@ def carregar_dados():
 
 # Título e carregamento de dados
 st.title("📊 Painel de Controle de Veículos")
-dados, dados_completos = carregar_dados()
+# Lista de user_id que han sido entregados al menos una vez
+ids_entregues = dados_completos[
+    dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue'
+]['user_id'].unique()
 
+# Filtrar todos los que NO están entregados
+ids_no_taller = dados_completos[~dados_completos['user_id'].isin(ids_entregues)]['user_id'].unique()
+
+# Total de veículos no taller (únicos)
+veiculos_no_taller = len(ids_no_taller)
+
+# Total geral de veículos únicos
 total_ids_unicos = dados_completos['user_id'].nunique()
-entregues_ids_unicos = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue']['user_id'].nunique()
-veiculos_no_taller = total_ids_unicos - entregues_ids_unicos
+
 
 # 🔒 Checar si hay datos
 if dados.empty:
