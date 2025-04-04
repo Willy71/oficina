@@ -1202,15 +1202,11 @@ elif action == "Atualizar ordem existente":
                             st.warning("Digite um número de placa para buscar.")
                             st.stop()  # Detener la ejecución si no se ingresa una placa
                             
-    st.subheader("🧪 Diagnóstico de Google Sheets")
+    #st.subheader("🧪 Diagnóstico de Google Sheets")
 
     # Mostrar IDs tal como los ve worksheet
-    id_col = worksheet.col_values(1)
-    st.write("📋 Columna A (user_id):", id_col)
-    
-    # Mostrar datos crudos para comparar
-    raw_data = worksheet.get_all_values()
-    st.write("📄 Datos completos (raw):", raw_data)
+    #id_col = worksheet.col_values(1)
+    #st.write("📋 Columna A (user_id):", id_col)
 
 
     # Mostrar los campos del formulario con los valores actuales
