@@ -46,9 +46,19 @@ st.title("📊 Painel de Controle de Veículos")
 dados, dados_completos = carregar_dados()
 
 # 🔢 Cálculo de veículos no taller (antes del if)
-total_ids_unicos = dados_completos['user_id'].nunique()
-entregues_ids_unicos = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue']['user_id'].nunique()
-veiculos_no_taller = total_ids_unicos - entregues_ids_unicos
+# 📌 Tomar el último user_id registrado
+ultimo_id = dados_completos['user_id'].max()
+
+# 📌 Contar cuántos registros tienen estado "Entregue"
+entregues_total = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue'].shape[0]
+
+# 📌 Restar total menos los entregados
+veiculos_no_taller = ultimo_id - entregues_total
+
+# 🔍 Mostrar resultados en consola para depuración
+st.write(f"Último ID registrado: {ultimo_id}")
+st.write(f"Total de 'Entregue': {entregues_total}")
+st.write(f"Autos en el taller: {veiculos_no_taller}")
 
 
 # 🔒 Checar si hay datos
