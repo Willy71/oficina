@@ -290,5 +290,13 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                     use_container_width=True,
                     hide_index=True
                 )
+                # Novo: seleção de veículo por radio button
+                placas_opcoes = filtrados['placa'].tolist()
+                placa_selecionada = st.radio("Selecione um veículo para ver detalhes:", placas_opcoes, key="radio_veiculo")
+                
+                if placa_selecionada:
+                    veiculo = buscar_por_placa(placa_selecionada, dados)
+                    if veiculo:
+                        st.success("✅ Veículo selecionado!")
             else:
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
