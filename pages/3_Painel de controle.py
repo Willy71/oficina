@@ -119,9 +119,6 @@ else:
     # Função para formatar datas
     def formatar_data(serie_data):
         return serie_data.dt.strftime('%d/%m/%Y').replace('NaT', '')
-
-    # Mostrar contagem real
-    st.markdown(f"**Veículos mostrados:** {len(dados_filtrados)} de {len(dados)} totais")
     
     # Métricas resumidas
     st.subheader("Visão Geral")
