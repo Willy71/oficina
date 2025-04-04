@@ -177,24 +177,28 @@ def obtener_proximo_id(df):
 # Esta función actualiza directamente la fila con el ID correspondiente sin alterar el orden
 def atualizar_ordem(worksheet, vendor_to_update, updated_record):
     try:
-        # Convertir el registro actualizado a DataFrame
-        updated_record_df = pd.DataFrame([updated_record])
-
+        # Obtener la hoja de cálculo
+        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+    
         # Obtener todos los valores de la columna A (donde están los IDs)
         col_ids = worksheet.col_values(1)  # Columna A = 1
-        
+    
         # Buscar la fila exacta donde está el ID
         row_index = None
         for i, val in enumerate(col_ids, start=1):
             if val == str(vendor_to_update):
                 row_index = i
                 break
-        
+    
         if row_index:
+            # Actualizar solo la fila correspondiente
             worksheet.update(f"A{row_index}", updated_record_df.values.tolist())
             st.success("Ordem de serviço atualizada com sucesso")
         else:
             st.warning("ID não encontrado. Nenhuma atualização realizada.")
+    
+    except Exception as e:
+        st.error(f"Erro ao atualizar planilha: {str(e)}")
 
 #==============================================================================================================================================================
 
