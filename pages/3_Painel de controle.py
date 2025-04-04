@@ -44,7 +44,7 @@ def carregar_dados():
 # Título e carregamento de dados
 st.title("📊 Painel de Controle de Veículos")
 # Lista de user_id que han sido entregados al menos una vez
-ids_entregues = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue']['user_id'].unique()
+#ids_entregues = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue']['user_id'].unique()
 
 # Filtrar todos los que NO están entregados
 ids_no_taller = dados_completos[~dados_completos['user_id'].isin(ids_entregues)]['user_id'].unique()
