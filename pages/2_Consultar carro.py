@@ -104,9 +104,10 @@ def safe_float(valor):
         return 0.0
 
 def formatar_valor(valor):
-    if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none']:
-        return ""
-    return valor
+    try:
+        return f"{float(valor):.2f}".replace(".", ",")
+    except (ValueError, TypeError):
+        return "0,00"
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Interfaz de usuario
 with st.container():
