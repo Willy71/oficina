@@ -285,18 +285,30 @@ with st.expander("🔎 Busca Avançada", expanded=False):
             
             if not filtrados.empty:
                 st.success(f"🚙 {len(filtrados)} veículos encontrados")
-                st.dataframe(
-                    filtrados[['placa', 'carro', 'modelo', 'ano', 'estado']],
-                    use_container_width=True,
-                    hide_index=True
-                )
-                # Novo: seleção de veículo por radio button
-                placas_opcoes = filtrados['placa'].tolist()
-                placa_selecionada = st.radio("Selecione um veículo para ver detalhes:", placas_opcoes, key="radio_veiculo")
+                # Mostramos los resultados filtrados
+                st.dataframe(filtrados)
                 
-                if placa_selecionada:
-                    veiculo = buscar_por_placa(placa_selecionada, dados)
-                    if veiculo:
-                        st.success("✅ Veículo selecionado!")
+                # Nuevo: selección de vehículo con st.radio
+                placas_opcoes = filtrados['placa'].dropna().unique().tolist()
+                
+                if placas_opcoes:
+                    placa_selecionada = st.radio("Selecione um veículo para ver detalhes:", placas_opcoes, key="radio_veiculo")
+                
+                    if placa_selecionada:
+                        veiculo = dados[dados["placa"] == placa_selecionada].iloc[0].to_dict()
+                        
+                        if veiculo:
+                            st.success("✅ Veículo selecionado!")
+                            
+                            st.write("### Dados do Veículo")
+                            st.write(f"**Proprietário:** {veiculo['nome_cliente']}")
+                            st.write(f"**Placa:** {veiculo['placa']}")
+                            st.write(f"**Modelo:** {veiculo['modelo']}")
+                            st.write(f"**Marca:** {veiculo['marca']}")
+                            st.write(f"**Ano:** {veiculo['ano']}")
+                            st.write(f"**Cor:** {veiculo['cor']}")
+                            st.write(f"**Telefone:** {veiculo['telefone']}")
+                            st.write(f"**Data de Cadastro:** {veiculo['data_cadastro']}")
+                            st.write(f"**ID:** {veiculo['user_id']}")
             else:
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
