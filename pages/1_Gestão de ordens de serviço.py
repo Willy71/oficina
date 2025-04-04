@@ -175,44 +175,27 @@ def obtener_proximo_id(df):
         return 1
 
 # Esta función actualiza directamente la fila con el ID correspondiente sin alterar el orden
-def atualizar_ordem(ordem):
+def atualizar_ordem(worksheet, vendor_to_update, updated_record):
     try:
-        # Autenticación y acceso a la hoja de cálculo
-        SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
-        credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
-        gc = gspread.authorize(credentials)
-        sheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+        # Convertir el registro actualizado a DataFrame
+        updated_record_df = pd.DataFrame([updated_record])
 
-        # Obtener todas las filas como diccionarios
-        registros = sheet.get_all_records()
+        # Buscar la celda que contiene el user_id
+        cell = worksheet.find(str(vendor_to_update))
 
-        # Buscar la fila por ID
-        fila_encontrada = None
-        for i, registro in enumerate(registros):
-            if str(registro["ID"]) == str(ordem["ID"]):
-                fila_encontrada = i + 2  # +2 porque get_all_records omite encabezado y la hoja empieza en 1
-                break
+        if cell:
+            row_index = cell.row
 
-        # Obtener encabezados
-        encabezados = sheet.row_values(1)
+            # Actualizar solo la fila correspondiente
+            worksheet.update(f"A{row_index}", updated_record_df.values.tolist())
 
-        # Preparar lista de valores a actualizar en el mismo orden de los encabezados
-        valores_actualizados = [ordem.get(col, "") for col in encabezados]
-
-        if fila_encontrada:
-            # Actualizar la fila existente
-            sheet.update(f"A{fila_encontrada}", [valores_actualizados])
             st.success("Ordem de serviço atualizada com sucesso")
         else:
-            # Insertar una nueva fila al final
-            sheet.append_row(valores_actualizados)
-            st.success("Nova ordem de serviço adicionada com sucesso")
-
-        return True
+            st.warning("ID não encontrado. Nenhuma atualização realizada.")
 
     except Exception as e:
         st.error(f"Erro ao atualizar planilha: {str(e)}")
-        return False
+
 #==============================================================================================================================================================
 
 
@@ -2731,27 +2714,8 @@ elif action == "Atualizar ordem existente":
                     'pag_total': None,
                     'valor_pag_total': None
                 }
-                # Convertir el registro actualizado a DataFrame
-                updated_record_df = pd.DataFrame([updated_record])
-
-               # Actualizar el DataFrame existente
-                existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record_df.columns] = updated_record_df.values
-                
-                try:
-                    # Obtener la hoja de cálculo
-                    worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-                  
-                    # Encontrar la fila que corresponde al user_id que se está actualizando
-                    cell = worksheet.find(str(vendor_to_update))
-                    row_index = cell.row
-
-                    # Actualizar solo la fila correspondiente
-                    worksheet.update(f"A{row_index}", [updated_record_df.values.tolist()[0]])
-                    
-                    st.success("Ordem de serviço atualizada com sucesso")
-                
-                except Exception as e:
-                    st.error(f"Erro ao atualizar planilha: {str(e)}")
+                worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+                atualizar_ordem(worksheet, vendor_to_update, updated_record)
 
 #===================================================================================================================================================================
 # --- Nueva Opción 3: Ver todas las órdenes ---
