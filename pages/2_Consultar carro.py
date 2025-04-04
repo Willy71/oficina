@@ -284,17 +284,9 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                 filtrados = filtrados[filtrados['ano'].astype(str).str.contains(ano)]
             
             if not filtrados.empty:
-                st.success(f"🚙 {len(filtrados)} veículos encontrados")
+                st.success(f"🚙 {len(filtrados)} veículos encontrados")    
                 for _, row in filtrados.iterrows():
-                    veiculo_str = (
-                        f"🚗 {row['carro']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')}  \n"
-                        f"📅 Entrada: {row.get('data_entrada', 'Sem data')}  \n"
-                        f"👤 Dono: {row.get('nome_cliente', 'Desconhecido')}"
-                    )
-                    st.markdown(f"- {veiculo_str}")
-                
-                for _, row in filtrados.iterrows():
-                    veiculo_str = f"🚗 {row['carro']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')} | 📅 Entrada: {row.get('data_entrada', 'Sem data')} | 👤 Dono: {row.get('nome_cliente', 'Desconhecido')}" 
+                    veiculo_str = f"🚗 {row['carro']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')} | 📅 Entrada: {row.get('date_in', 'Sem data')} | 👤 Dono: {row.get('dono_empresa', 'Desconhecido')}" 
                     st.markdown(f"- {veiculo_str}")
             else:
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
