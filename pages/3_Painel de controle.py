@@ -95,9 +95,7 @@ else:
             max_value=max_date,
             format="DD/MM/YYYY"
         )
-        
-        # Busca rápida
-        busca_placa = st.text_input("Buscar por placa")
+
 
     # Aplicar filtros
     dados_filtrados = dados.copy()
