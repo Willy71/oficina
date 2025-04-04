@@ -49,6 +49,9 @@ dados, dados_completos = carregar_dados()
 # 📌 Tomar el último user_id registrado
 ultimo_id = dados_completos['user_id'].max()
 
+# 🔍 Ver todos los valores únicos de 'estado'
+st.write("📋 Valores únicos en 'estado':", dados_completos['estado'].unique())
+
 # 📌 Contar cuántos registros tienen estado "Entregue"
 entregues_total = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue'].shape[0]
 
