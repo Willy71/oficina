@@ -283,21 +283,12 @@ with st.expander("🔎 Busca Avançada", expanded=False):
             if ano:
                 filtrados = filtrados[filtrados['ano'].astype(str).str.contains(ano)]
             
-            st.markdown("### Veículos encontrados:")
-
             if not filtrados.empty:
-                for _, row in filtrados.iterrows():
-                    col1, col2 = st.columns([4, 1])
-                    with col1:
-                        st.markdown(
-                            f"**{row['carro']}** | Placa: `{row['placa']}` | Cor: {row['cor']}"
-                        )
-                    with col2:
-                        st.button(
-                            "📋 Copiar placa",
-                            key=f"copiar_{row['placa']}",
-                            on_click=st.experimental_set_query_params,
-                            kwargs={"placa_copiada": row["placa"]}
-                        )
+                st.success(f"🚙 {len(filtrados)} veículos encontrados")
+                st.dataframe(
+                    filtrados[['placa', 'carro', 'modelo', 'ano', 'estado']],
+                    use_container_width=True,
+                    hide_index=True
+                )
             else:
-                st.warning("Nenhum veículo encontrado.")
+                st.warning("Nenhum veículo encontrado com os critérios especificados")
