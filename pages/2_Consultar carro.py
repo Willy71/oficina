@@ -285,10 +285,8 @@ with st.expander("🔎 Busca Avançada", expanded=False):
             
             if not filtrados.empty:
                 st.success(f"🚙 {len(filtrados)} veículos encontrados")
-                st.dataframe(
-                    filtrados[['placa', 'carro', 'modelo', 'ano', 'estado']],
-                    use_container_width=True,
-                    hide_index=True
-                )
+                for _, row in filtrados.iterrows():
+                    veiculo_str = f"🚗 {row['carro']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')}"
+                    st.markdown(f"- {veiculo_str}")
             else:
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
