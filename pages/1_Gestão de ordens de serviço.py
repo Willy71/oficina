@@ -170,13 +170,7 @@ def obtener_proximo_id(df):
 # Función para actualizar una orden de servicio
 #  linea 171
 def atualizar_ordem(vendor_to_update, updated_record):
-    try:
-        # Obtener la hoja de cálculo
-        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-        
-        # Limpiar la hoja existente antes de actualizar
-        worksheet.clear()
-        
+    try:        
         # Obtener la hoja de cálculo
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         
