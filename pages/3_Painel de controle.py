@@ -114,6 +114,8 @@ else:
     # Métricas resumidas
     st.subheader("Visão Geral")
     #veiculos_no_taller = len(dados)
+    # 🔍 Ver los valores únicos de la columna 'estado'
+    st.write("📋 Estados únicos no DataFrame:", dados_completos['estado'].unique())
 
     metricas = [
         ("📋 Registros totais", len(dados_completos)),
