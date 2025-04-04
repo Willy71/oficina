@@ -23,23 +23,22 @@ def carregar_dados():
     try:
         worksheet = gc.open_by_key('1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4').worksheet('Hoja 1')
         records = worksheet.get_all_records()
-        # Carga completa sin filtrar entregues
         df = pd.DataFrame(records)
         
-        # Conversiones
+        # Conversão de datas
         df['date_in'] = pd.to_datetime(df['date_in'], dayfirst=True, errors='coerce')
         df['date_prev'] = pd.to_datetime(df['date_prev'], dayfirst=True, errors='coerce')
         df['date_out'] = pd.to_datetime(df['date_out'], dayfirst=True, errors='coerce')
         
-        # Dados completos (sem filtro)
-        df_completo = df.copy()
+        df_completo = df.copy()  # <- Todos os registros
         
-        # Filtrando solo os ativos (no entregados)
-        df = df[df['date_out'].isna() | (df['estado'] != 'Entregue')]
+        # Só os veículos ainda no taller
+        df_filtrado = df[df['date_out'].isna() | (df['estado'] != 'Entregue')]
         
-        return df.sort_values('date_in', ascending=False)
+        return df_filtrado.sort_values('date_in', ascending=False), df_completo
     except Exception as e:
         st.error(f"Erro ao carregar dados: {str(e)}")
+        return pd.DataFrame(), pd.DataFrame()
         return pd.DataFrame()
 
 # Título e carregamento de dados
