@@ -32,7 +32,7 @@ def carregar_dados():
         
         df_completo = df.copy()
 
-        # Filtrar apenas veículos NÃO entregues
+        # Filtrar apenas veículos NÃO Entregados
         df_filtrado = df[~df['estado'].astype(str).str.strip().str.lower().eq('Entregado')]
         
         return df_filtrado.sort_values('date_in', ascending=False), df_completo
@@ -49,20 +49,11 @@ dados, dados_completos = carregar_dados()
 # 📌 Tomar el último user_id registrado
 ultimo_id = dados_completos['user_id'].max()
 
-# 🔍 Ver todos los valores únicos de 'estado'
-st.write("📋 Valores únicos en 'estado':", dados_completos['estado'].unique())
-
-# 📌 Contar cuántos registros tienen estado "Entregue"
-entregues_total = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'Entregado'].shape[0]
+# 📌 Contar cuántos registros tienen estado "Entregado"
+Entregados_total = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'Entregado'].shape[0]
 
 # 📌 Restar total menos los entregados
-veiculos_no_taller = ultimo_id - entregues_total
-
-# 🔍 Mostrar resultados en consola para depuración
-st.write(f"Último ID registrado: {ultimo_id}")
-st.write(f"Total de 'Entregue': {entregues_total}")
-st.write(f"Autos en el taller: {veiculos_no_taller}")
-
+veiculos_no_taller = ultimo_id - Entregados_total
 
 # 🔒 Checar si hay datos
 if dados.empty:
