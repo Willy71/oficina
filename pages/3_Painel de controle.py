@@ -112,7 +112,7 @@ else:
 
     metricas = [
         ("📋 Registros totais", len(dados_completos)),
-        ("🏠 No Taller", veiculos_no_taller),
+        ("🏠 Na Oficina", veiculos_no_taller),
         ("⏳ Orçamento", len(dados[dados['estado'] == "Em orçamento"])),
         ("🛠️ Reparação", len(dados[dados['estado'] == "Em reparação"])),
         ("✅ Prontos", len(dados[dados['estado'] == "Concluido"])),
