@@ -171,30 +171,34 @@ def obtener_proximo_id(df):
 #  linea 171
 def atualizar_ordem(vendor_to_update, updated_record):
     try:
-        # Obtener la columna de IDs desde la hoja (asumiendo que está en la columna A)
-        id_col = worksheet.col_values(1)  # columna 1 = A = "user_id"
-        
-        # Buscar la fila que tiene el ID a actualizar
-        for i, user_id in enumerate(id_col):
-            if str(user_id) == str(vendor_to_update):
-                # Encontramos la fila. Construimos la lista de valores actualizados.
-                # Asegúrate de que el orden de columnas coincida con tu hoja de cálculo.
-                updated_values = updated_record.iloc[0].tolist()
+        # Obtener todos los datos crudos (incluyendo encabezados y vacíos)
+        all_data = worksheet.get_all_values()
 
-                # Actualizamos la fila correspondiente (i + 1 porque la hoja empieza en 1, no en 0)
-                col_count = len(updated_values)
-                end_col_letter = chr(64 + col_count)  # Convertir número de columnas a letra (A-Z)
+        # Buscar la fila donde se encuentra el user_id (asumimos está en la primera columna)
+        row_to_update = None
+        for i, row in enumerate(all_data):
+            if row and str(row[0]) == str(vendor_to_update):
+                row_to_update = i + 1  # Google Sheets empieza en 1
+                break
 
-                worksheet.update(f"A{i+1}:{end_col_letter}{i+1}", [updated_values])
+        if row_to_update is None:
+            st.warning("ID não encontrado. Nenhuma atualização realizada.")
+            return
 
-                st.success("Ordem de serviço atualizada com sucesso")
-                return
+        # Convertimos la fila actualizada en lista de valores
+        updated_values = updated_record.iloc[0].tolist()
 
-        # Si no se encuentra el ID
-        st.warning("ID não encontrado. Nenhuma atualização realizada.")
+        # Calcular la última letra de columna (ej: A-F)
+        col_count = len(updated_values)
+        end_col_letter = chr(64 + col_count)  # A=65
+
+        # Actualizar la fila encontrada
+        worksheet.update(f"A{row_to_update}:{end_col_letter}{row_to_update}", [updated_values])
+        st.success("Ordem de serviço atualizada com sucesso")
 
     except Exception as e:
         st.error(f"Erro ao atualizar planilha: {str(e)}")
+
 
 #==============================================================================================================================================================
 
