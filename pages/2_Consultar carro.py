@@ -284,31 +284,28 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                 filtrados = filtrados[filtrados['ano'].astype(str).str.contains(ano)]
             
             if not filtrados.empty:
-                st.success(f"🚙 {len(filtrados)} veículos encontrados")
-                # Mostramos los resultados filtrados
-                st.dataframe(filtrados)
-                
-                # Nuevo: selección de vehículo con st.radio
-                placas_opcoes = filtrados['placa'].dropna().unique().tolist()
-                
-                if placas_opcoes:
-                    placa_selecionada = st.radio("Selecione um veículo para ver detalhes:", placas_opcoes, key="radio_veiculo")
-                
-                    if placa_selecionada:
-                        veiculo = dados[dados["placa"] == placa_selecionada].iloc[0].to_dict()
-                        
-                        if veiculo:
-                            st.success("✅ Veículo selecionado!")
-                            
-                            st.write("### Dados do Veículo")
-                            st.write(f"**Proprietário:** {veiculo['nome_cliente']}")
-                            st.write(f"**Placa:** {veiculo['placa']}")
-                            st.write(f"**Modelo:** {veiculo['modelo']}")
-                            st.write(f"**Marca:** {veiculo['marca']}")
-                            st.write(f"**Ano:** {veiculo['ano']}")
-                            st.write(f"**Cor:** {veiculo['cor']}")
-                            st.write(f"**Telefone:** {veiculo['telefone']}")
-                            st.write(f"**Data de Cadastro:** {veiculo['data_cadastro']}")
-                            st.write(f"**ID:** {veiculo['user_id']}")
-            else:
-                st.warning("Nenhum veículo encontrado com os critérios especificados")
+               st.subheader("Resultado da busca avançada")
+
+                # Criar uma lista com descrição dos veículos
+                lista_veiculos = [
+                    f"{row['carro']} | {row['placa']} | {row['cor']}"
+                    for _, row in dados_filtrados.iterrows()
+                ]
+            
+                # Mostrar radio button para seleção
+                veiculo_selecionado = st.radio("Selecione um veículo:", lista_veiculos)
+            
+                # Obter os dados do veículo selecionado
+                veiculo = dados_filtrados[
+                    (dados_filtrados["carro"] + " | " + dados_filtrados["placa"] + " | " + dados_filtrados["cor"]) == veiculo_selecionado
+                ].iloc[0]
+            
+                # Exibir os dados do veículo
+                st.markdown("### 📋 Detalhes do Veículo Selecionado")
+                st.write(f"**Proprietário:** {veiculo['nome_cliente']}")
+                st.write(f"**Carro:** {veiculo['carro']}")
+                st.write(f"**Placa:** {veiculo['placa']}")
+                st.write(f"**Cor:** {veiculo['cor']}")
+                st.write(f"**Telefone:** {veiculo['telefone_cliente']}")
+                st.write(f"**Problema:** {veiculo['problema']}")
+                st.write(f"**Data de entrada:** {veiculo['data_entrada']}")
