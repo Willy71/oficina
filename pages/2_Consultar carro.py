@@ -218,9 +218,9 @@ if buscar:
                             pecas.append({
                                 'Quant.': quant if pd.notna(quant) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
-                                'Custo Unit. (R$)': formatar_valor(valor),
+                                'Custo Unit. (R$)': f"{formatar_valor(valor):.2f}",
                                 '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                                'Valor Final (R$)': F"{formatar_valor(valor_total_final):.2f}"
+                                'Valor Final (R$)': f"{formatar_valor(valor_total_final):.2f}"
                             })
                     
                     if pecas:
@@ -230,9 +230,9 @@ if buscar:
                         # Mostrar totales
                         col1, col2 = st.columns(2)
                         with col1:
-                            st.markdown(f"**Total Costo Peças:** R$ {formatar_valor(total_pecas)}")
+                            st.markdown(f"**Total Costo Peças:** R$ {formatar_valor(total_pecas):.2f}")
                         with col2:
-                            st.markdown(f"**Total Final Peças:** R$ {formatar_valor(total_pecas_final)}")
+                            st.markdown(f"**Total Final Peças:** R$ {formatar_valor(total_pecas_final):.2f}")
                     else:
                         st.info("Nenhuma peça registrada")
                 
