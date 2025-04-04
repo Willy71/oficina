@@ -286,28 +286,31 @@ with st.expander("🔎 Busca Avançada", expanded=False):
             if not filtrados.empty:
                 st.subheader("Resultado da busca avançada")
             
-                # Criar uma lista com descrição dos veículos
+                # Ejemplo de DataFrame
+                filtrados = pd.DataFrame({
+                    'carro': ['Uno', 'Civic', 'Palio'],
+                    'placa': ['AAA1234', 'BBB5678', 'CCC9999'],
+                    'cor': ['Vermelho', 'Preto', 'Branco']
+                })
+                
+                # Crear lista de descrição dos veículos
                 lista_veiculos = [
                     f"{row['carro']} | {row['placa']} | {row['cor']}"
                     for _, row in filtrados.iterrows()
                 ]
-            
-                # Mostrar radio button para seleção
-                veiculo_selecionado = st.radio("Selecione um veículo:", lista_veiculos)
-            
-                # Obter os dados do veículo selecionado
-                veiculo = filtrados[
-                    (filtrados["carro"] + " | " + filtrados["placa"] + " | " + filtrados["cor"]) == veiculo_selecionado
-                ].iloc[0]
-            
-                # Exibir os dados do veículo
-                st.markdown("### 📋 Detalhes do Veículo Selecionado")
-                st.write(f"**Proprietário:** {veiculo['nome_cliente']}")
-                st.write(f"**Carro:** {veiculo['carro']}")
-                st.write(f"**Placa:** {veiculo['placa']}")
-                st.write(f"**Cor:** {veiculo['cor']}")
-                st.write(f"**Telefone:** {veiculo['telefone_cliente']}")
-                st.write(f"**Problema:** {veiculo['problema']}")
-                st.write(f"**Data de entrada:** {veiculo['data_entrada']}")
-            else:
-                st.warning("Nenhum veículo encontrado com os filtros aplicados.")
+                
+                # Mostrar radio para seleção
+                if lista_veiculos:
+                    selecionado = st.radio("Selecione um veículo:", lista_veiculos)
+                
+                    # Obter índice da linha selecionada
+                    selecionado_index = lista_veiculos.index(selecionado)
+                
+                    # Acessar o veículo corretamente com iloc
+                    veiculo = filtrados.iloc[selecionado_index]
+                
+                    st.write(f"**Proprietário:** {veiculo['carro']}")
+                    st.write(f"**Placa:** {veiculo['placa']}")
+                    st.write(f"**Cor:** {veiculo['cor']}")
+                else:
+                    st.warning("Nenhum veículo encontrado.")
