@@ -131,7 +131,11 @@ if buscar:
                     with cols[1]:
                         st.metric("Modelo", veiculo.get('modelo', 'N/A'))
                     with cols[2]:
-                        st.metric("Ano", veiculo.get('ano', 'N/A'))          
+                        ano = veiculo.get('ano', 'N/A')
+                        if isinstance(ano, float):
+                            ano = int(ano)
+                        
+                        st.metric("Ano", ano)
                 
                 # Mostrar detalles del estado y fechas
                 with st.container():
