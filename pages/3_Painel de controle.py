@@ -43,10 +43,11 @@ def carregar_dados():
 
 # Título e carregamento de dados
 st.title("📊 Painel de Controle de Veículos")
-dados = carregar_dados()
+dados, dados_completos = carregar_dados()
 
 if dados.empty:
-    st.warning("Nenhum dado de veículo encontrado")
+    st.warning("Nenhum dado encontrado.")
+    st.stop()
 else:
     # Sidebar com filtros melhorados
     with st.sidebar:
