@@ -170,7 +170,7 @@ if buscar:
                         valor = veiculo.get(f'valor_serv_{i}', '')
                 
                         if pd.notna(item) and pd.notna(desc):  # Filtrar solo los servicios con datos
-                            valor_formatado = formatar_valor(valor) if pd.notna(valor) else "0,00"
+                            valor_formatado = f"{(valor):.2f}" if pd.notna(valor) else "0,00"
                             valor_float = safe_float(valor) if pd.notna(valor) else 0.0
                             total_servicos += valor_float
                 
