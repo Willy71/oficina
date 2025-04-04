@@ -43,6 +43,8 @@ def carregar_dados():
 
 # Título e carregamento de dados
 st.title("📊 Painel de Controle de Veículos")
+# Carregando os dados corretamente
+dados, dados_completos = carregar_dados()
 
 #===================================================================================================================================================
 # Normalizar a coluna 'estado'
