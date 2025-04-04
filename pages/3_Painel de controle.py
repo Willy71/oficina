@@ -43,12 +43,13 @@ def carregar_dados():
 
 # Título e carregamento de dados
 st.title("📊 Painel de Controle de Veículos")
+dados, dados_completos = carregar_dados()
 
 # 🔢 Cálculo de veículos no taller (antes del if)
 total_ids_unicos = dados_completos['id'].nunique()
 entregues_ids_unicos = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue']['id'].nunique()
 veiculos_no_taller = total_ids_unicos - entregues_ids_unicos
-dados, dados_completos = carregar_dados()
+
 
 # 🔒 Checar si hay datos
 if dados.empty:
