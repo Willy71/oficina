@@ -220,7 +220,7 @@ if buscar:
                                 'Descrição': desc if pd.notna(desc) else '',
                                 'Custo Unit. (R$)': formatar_valor(valor),
                                 '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                                'Valor Final (R$)': formatar_valor(valor_total_final)
+                                'Valor Final (R$)': F"{formatar_valor(valor_total_final):.2f}"
                             })
                     
                     if pecas:
