@@ -108,11 +108,7 @@ else:
             (dados_filtrados['date_in'].dt.date >= faixa_data[0]) & 
             (dados_filtrados['date_in'].dt.date <= faixa_data[1])
         ]
-    
-    if busca_placa:
-        dados_filtrados = dados_filtrados[
-            dados_filtrados['placa'].str.contains(busca_placa, case=False)
-        ]
+
 
     # Função para formatar datas
     def formatar_data(serie_data):
