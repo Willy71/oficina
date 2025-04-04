@@ -286,7 +286,7 @@ with st.expander("🔎 Busca Avançada", expanded=False):
             if not filtrados.empty:
                 st.success(f"🚙 {len(filtrados)} veículos encontrados")    
                 for _, row in filtrados.iterrows():
-                    veiculo_str = f"🚗 {row['carro']} | {row['modelo']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')} | 📅 Entrada: {row.get('date_in', 'Sem data')} | 👤 Dono: {row.get('dono_empresa', 'Desconhecido')}" 
+                    veiculo_str = f"🚗 {row['carro']}  {row['modelo']} | 🏷️ {row['placa']}   🎨 {row.get('cor', 'Sem cor')}   📅 Entrada: {row.get('date_in', 'Sem data')}   👤 Dono: {row.get('dono_empresa', 'Desconhecido')}" 
                     st.markdown(f"- {veiculo_str}")
             else:
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
