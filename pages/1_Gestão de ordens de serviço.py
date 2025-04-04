@@ -1618,11 +1618,17 @@ elif action == "Atualizar ordem existente":
         with st.container():
             col_perc, col_empty, col_final = st.columns([4, 2.5, 4])
             with col_empty:
+                valor_porcentaje = ordem_selecionada.get('porcentaje_adicional', 0)
+                try:
+                    valor_porcentaje = int(valor_porcentaje)
+                except (ValueError, TypeError):
+                    valor_porcentaje = 0
+                
                 porcentaje_adicional = st.number_input(
                     '% Concluído',
                     min_value=0,
                     max_value=100,
-                    value=int(ordem_selecionada['porcentaje_adicional']),
+                    value=valor_porcentaje,
                     step=5
                 )
 
