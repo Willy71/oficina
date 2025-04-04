@@ -60,11 +60,6 @@ ultimo_id = dados_completos['user_id'].max()
 # Calcular veículos no taller
 veiculos_no_taller = ultimo_id - entregues_total
 
-# Mostrar resultados
-st.write(f"📌 Último ID registrado: {ultimo_id}")
-st.write(f"🚗 Total 'entregado': {entregues_total}")
-st.write(f"🏠 Autos no taller: {veiculos_no_taller}")
-
 # 📌 FILTRAR DADOS: excluir entregues da visualização
 dados = dados[dados['estado'].astype(str).str.strip().str.lower() != 'entregado']
 
