@@ -103,6 +103,11 @@ def safe_float(valor):
     except ValueError:
         return 0.0
 
+def limpar_valor(valor):
+    if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none']:
+        return ""
+    return valor
+
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Interfaz de usuario
 with st.container():
@@ -127,44 +132,34 @@ if buscar:
                 with st.container():
                     cols = st.columns(3)
                     with cols[0]:
-                        st.metric("Marca", veiculo.get('carro', 'N/A'))
+                        st.metric("Marca", limpar_valor(veiculo.get('carro')))
                     with cols[1]:
-                        st.metric("Modelo", veiculo.get('modelo', 'N/A'))
+                        st.metric("Modelo", limpar_valor(veiculo.get('modelo')))
                     with cols[2]:
-                        ano = veiculo.get('ano', 'N/A')
+                        ano = veiculo.get('ano')
                         if isinstance(ano, float):
                             ano = int(ano)
-                        
-                        st.metric("Ano", ano)
+                        st.metric("Ano", limpar_valor(ano))
                 
                 # Mostrar detalles del estado y fechas
                 with st.container():
                     cols = st.columns(3)
                     with cols[0]:
-                        st.metric("Estado", veiculo.get('estado', 'N/A'))
+                        st.metric("Estado", limpar_valor(veiculo.get('estado')))
                     with cols[1]:
-                        st.metric("Data Entrada", veiculo.get('date_in', 'N/A'))
+                        st.metric("Data Entrada", limpar_valor(veiculo.get('date_in')))
                     with cols[2]:
-                        st.metric("Previsão Entrega", veiculo.get('date_prev', 'N/A'))
+                        st.metric("Previsão Entrega", limpar_valor(veiculo.get('date_prev')))
                 
                 # Mostrar información del dueño
                 with st.container():
                     cols = st.columns(3)
                     with cols[0]:
-                        st.metric("Proprietário", veiculo.get('dono_empresa', 'N/A'))
+                        st.metric("Proprietário", limpar_valor(veiculo.get('dono_empresa')))
                     with cols[1]:
-                        st.metric("Telefone", veiculo.get('telefone', 'N/A'))
+                        st.metric("Telefone", limpar_valor(veiculo.get('telefone')))
                     with cols[2]:
-                        st.metric("Endereço", veiculo.get('endereco', 'N/A'))
-                
-                             # Función para formatear valores numéricos
-                def formatar_valor(valor):
-                    try:
-                        # Convertir a float, redondear a 2 decimales y formatear con coma como separador decimal
-                        valor_float = float(valor)
-                        return f"{valor_float:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",")
-                    except (ValueError, TypeError):
-                        return "0,00"
+                        st.metric("Endereço", limpar_valor(veiculo.get('endereco')))
 #===================================================================================================================================================================
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
