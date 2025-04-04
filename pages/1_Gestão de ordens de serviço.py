@@ -170,31 +170,26 @@ def obtener_proximo_id(df):
 # Función para actualizar una orden de servicio
 #  linea 171
 def atualizar_ordem(vendor_to_update, updated_record):
-    try:        
+    try:
         # Obtener la hoja de cálculo
         worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         
-        # Obtener todos los registros
-        records = worksheet.get_all_records()
+        # Limpiar la hoja existente antes de actualizar
+        worksheet.clear()
         
-        # Buscar la fila del user_id
-        row_index = None
-        for i, record in enumerate(records):
-            if record["user_id"] == vendor_to_update:
-                row_index = i + 2  # +2 porque get_all_records() omite encabezado y Google Sheets empieza en 1
-                break
+        # Agregar los encabezados primero
+        worksheet.append_row(columnas_ordenadas)
         
-        if row_index is None:
-            st.error("ID não encontrado na planilha.")
-            return
+        # Actualizar el DataFrame existente
+        existing_data.loc[existing_data["user_id"] == vendor_to_update, updated_record.columns] = updated_record.values
         
-        # Asegurar que el orden de columnas coincide
-        updated_values = updated_record[columnas_ordenadas].values.tolist()[0]
-        
-        # Actualizar la fila directamente
-        worksheet.update(f"A{row_index}:{chr(64 + len(columnas_ordenadas))}{row_index}", [updated_values])
+        # Agregar los datos fila por fila
+        for row in existing_data.values.tolist():
+            worksheet.append_row(row)
         
         st.success("Ordem de serviço atualizada com sucesso")
+    except Exception as e:
+        st.error(f"Erro ao atualizar planilha: {str(e)}")
 
 #==============================================================================================================================================================
 
