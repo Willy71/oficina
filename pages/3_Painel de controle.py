@@ -139,7 +139,7 @@ else:
 
 
     # Abas por status
-    tabs = st.tabs(["📋 Todos", "⏳ Orçamento", "🛠️ Reparação", "✅ Prontos"])
+    tabs = st.tabs(["📋 Todos", "🏠 Na Oficina", "⏳ Orçamento", "🛠️ Reparação", "✅ Prontos"])
     
     with tabs[0]:  # Todos
         dados_mostrar = dados_filtrados[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'dono_empresa']].copy()
@@ -158,8 +158,27 @@ else:
             hide_index=True,
             use_container_width=True
         )
+
+    with tabs[1]:  # Na oficina
+        na_oficina = dados_filtrados[dados_filtrados['estado'].str.lower().str.strip() != 'entregado']
+        dados_mostrar = na_oficina[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'dono_empresa']].copy()
+        dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
+        st.dataframe(
+            dados_mostrar,
+            column_config={
+                "date_in": "Entrada (D/M/A)",
+                "placa": "Placa",
+                "carro": "Marca",
+                "modelo": "Modelo",
+                "ano": "Ano",
+                "estado": "Status",
+                "dono_empresa": "Cliente"
+            },
+            hide_index=True,
+            use_container_width=True
+        )
     
-    with tabs[1]:  # Orçamento
+    with tabs[2]:  # Orçamento
         orcamento = dados_filtrados[dados_filtrados['estado'] == "Em orçamento"]
         dados_mostrar = orcamento[['date_in', 'placa', 'carro', 'modelo', 'dono_empresa', 'date_prev']].copy()
         dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
@@ -178,7 +197,7 @@ else:
             use_container_width=True
         )
     
-    with tabs[2]:  # Reparação
+    with tabs[3]:  # Reparação
         reparacao = dados_filtrados[dados_filtrados['estado'] == "Em reparação"]
         dados_mostrar = reparacao[['date_in', 'placa', 'carro', 'modelo', 'dono_empresa', 'date_prev']].copy()
         dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
@@ -189,7 +208,7 @@ else:
             use_container_width=True
         )
     
-    with tabs[3]:  # Prontos
+    with tabs[4]:  # Prontos
         prontos = dados_filtrados[dados_filtrados['estado'] == "Concluido"]
         dados_mostrar = prontos[['date_in', 'placa', 'carro', 'modelo', 'dono_empresa', 'date_out']].copy()
         dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
