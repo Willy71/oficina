@@ -33,7 +33,7 @@ def carregar_dados():
         df_completo = df.copy()
 
         # Filtrar apenas veículos NÃO entregues
-        df_filtrado = df[~df['estado'].astype(str).str.strip().str.lower().eq('entregue')]
+        df_filtrado = df[~df['estado'].astype(str).str.strip().str.lower().eq('Entregado')]
         
         return df_filtrado.sort_values('date_in', ascending=False), df_completo
     except Exception as e:
@@ -53,7 +53,7 @@ ultimo_id = dados_completos['user_id'].max()
 st.write("📋 Valores únicos en 'estado':", dados_completos['estado'].unique())
 
 # 📌 Contar cuántos registros tienen estado "Entregue"
-entregues_total = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'entregue'].shape[0]
+entregues_total = dados_completos[dados_completos['estado'].astype(str).str.strip().str.lower() == 'Entregado'].shape[0]
 
 # 📌 Restar total menos los entregados
 veiculos_no_taller = ultimo_id - entregues_total
