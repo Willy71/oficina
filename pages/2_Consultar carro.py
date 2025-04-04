@@ -104,10 +104,9 @@ def safe_float(valor):
         return 0.0
 
 def formatar_valor(valor):
-    try:
-        return f"{float(valor):.2f}".replace(".", ",")
-    except (ValueError, TypeError):
-        return "0,00"
+    if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none']:
+        return ""
+    return valor
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Interfaz de usuario
 with st.container():
@@ -241,7 +240,7 @@ if buscar:
                 # Mostrar el gran total después de ambas secciones
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
-                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
+                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
                 
                 # Mostrar todos los datos en formato JSON
                 #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
