@@ -168,36 +168,30 @@ def obtener_proximo_id(df):
         return 1
 
 # Función para actualizar una orden de servicio
-#  linea 171
-def atualizar_ordem(vendor_to_update, updated_record):
+def atualizar_ordem(sheet, ordem):
     try:
-        # Obtener todos los datos crudos (incluyendo encabezados y vacíos)
-        all_data = worksheet.get_all_values()
+        # Converter os dados da planilha em DataFrame
+        df = sheet_to_df(sheet)
 
-        # Buscar la fila donde se encuentra el user_id (asumimos está en la primera columna)
-        row_to_update = None
-        for i, row in enumerate(all_data):
-            if row and str(row[0]) == str(vendor_to_update):
-                row_to_update = i + 1  # Google Sheets empieza en 1
-                break
+        # Localizar o índice da linha onde está a ordem com o ID correspondente
+        idx = df[df['ID'] == ordem['ID']].index
 
-        if row_to_update is None:
+        # Se encontrar a linha, atualiza os dados
+        if not idx.empty:
+            for key in ordem:
+                df.at[idx[0], key] = ordem[key]
+
+            # Atualiza a planilha com os dados modificados
+            set_with_dataframe(sheet, df)
+            st.success("Ordem de serviço atualizada com sucesso")
+            return True
+        else:
             st.warning("ID não encontrado. Nenhuma atualização realizada.")
-            return
-
-        # Convertimos la fila actualizada en lista de valores
-        updated_values = updated_record.iloc[0].tolist()
-
-        # Calcular la última letra de columna (ej: A-F)
-        col_count = len(updated_values)
-        end_col_letter = chr(64 + col_count)  # A=65
-
-        # Actualizar la fila encontrada
-        worksheet.update(f"A{row_to_update}:{end_col_letter}{row_to_update}", [updated_values])
-        st.success("Ordem de serviço atualizada com sucesso")
+            return False
 
     except Exception as e:
         st.error(f"Erro ao atualizar planilha: {str(e)}")
+        return False
 
 
 #==============================================================================================================================================================
