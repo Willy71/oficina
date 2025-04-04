@@ -81,6 +81,7 @@ SHEET_NAME = 'Hoja 1'  # Nombre de la hoja dentro del documento
 # Cargar credenciales y autorizar
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
+credenciales_json = credentials
 
 def inicializar_hoja():
     try:
@@ -167,33 +168,52 @@ def obtener_proximo_id(df):
         # Si hay algún error (por ejemplo, valores no numéricos), retornar 1
         return 1
 
-# Función para actualizar una orden de servicio
-def atualizar_ordem(sheet, ordem):
+def autenticar_gspread(credenciales_json):
+    alcance = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+    credenciales = ServiceAccountCredentials.from_json_keyfile_name(credenciales_json, alcance)
+    cliente = gspread.authorize(credenciales)
+    return cliente
+
+
+# Esta función actualiza directamente la fila con el ID correspondiente sin alterar el orden
+def atualizar_ordem(ordem):
     try:
-        # Converter os dados da planilha em DataFrame
-        df = sheet_to_df(sheet)
+        SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+        credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+        gc = gspread.authorize(credentials)
 
-        # Localizar o índice da linha onde está a ordem com o ID correspondente
-        idx = df[df['ID'] == ordem['ID']].index
+        sheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
-        # Se encontrar a linha, atualiza os dados
-        if not idx.empty:
-            for key in ordem:
-                df.at[idx[0], key] = ordem[key]
+        # Obtener todas las filas como diccionarios
+        registros = sheet.get_all_records()
 
-            # Atualiza a planilha com os dados modificados
-            set_with_dataframe(sheet, df)
-            st.success("Ordem de serviço atualizada com sucesso")
-            return True
-        else:
+        # Buscar la fila por ID
+        id_encontrado = False
+        for i, registro in enumerate(registros):
+            if str(registro["ID"]) == str(ordem["ID"]):
+                fila_en_hoja = i + 2  # +2 porque get_all_records omite encabezado y la hoja empieza en 1
+                id_encontrado = True
+                break
+
+        if not id_encontrado:
             st.warning("ID não encontrado. Nenhuma atualização realizada.")
             return False
+
+        # Obtener encabezados
+        encabezados = sheet.row_values(1)
+
+        # Preparar lista de valores a actualizar en el mismo orden de los encabezados
+        valores_actualizados = [ordem.get(col, "") for col in encabezados]
+
+        # Actualizar esa fila específica
+        sheet.update(f"A{fila_en_hoja}", [valores_actualizados])
+
+        st.success("Ordem de serviço atualizada com sucesso")
+        return True
 
     except Exception as e:
         st.error(f"Erro ao atualizar planilha: {str(e)}")
         return False
-
-
 #==============================================================================================================================================================
 
 
