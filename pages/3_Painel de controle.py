@@ -45,6 +45,34 @@ def carregar_dados():
 st.title("📊 Painel de Controle de Veículos")
 dados, dados_completos = carregar_dados()
 
+# Normalizar 'estado'
+dados_completos['estado'] = dados_completos['estado'].astype(str).str.strip().str.lower()
+
+# Mostrar valores únicos después de normalizar
+st.write("📋 Valores únicos (normalizados):", dados_completos['estado'].unique())
+
+# Mostrar todos los estados únicos con su conteo
+st.write("📊 Conteo de estados:")
+st.write(dados_completos['estado'].value_counts())
+
+# Verifica cómo están escritos los entregados exactamente
+entregados_df = dados_completos[dados_completos['estado'] == 'entregado']
+st.write("🚗 Registros filtrados como 'entregado':", entregados_df)
+
+# Total entregados (normalizados)
+entregues_total = entregados_df.shape[0]
+
+# Último ID
+ultimo_id = dados_completos['user_id'].max()
+
+# Autos no entregados
+veiculos_no_taller = ultimo_id - entregues_total
+
+# Mostrar métricas
+st.write(f"📌 Último ID registrado: {ultimo_id}")
+st.write(f"🚗 Total 'Entregado': {entregues_total}")
+st.write(f"🏠 Autos en el taller: {veiculos_no_taller}")
+
 # 🔢 Cálculo de veículos no taller (antes del if)
 # 📌 Tomar el último user_id registrado
 ultimo_id = dados_completos['user_id'].max()
