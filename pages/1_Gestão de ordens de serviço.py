@@ -171,32 +171,27 @@ def obtener_proximo_id(df):
 #  linea 171
 def atualizar_ordem(vendor_to_update, updated_record):
     try:
-        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+        # Obtener la columna de IDs desde la hoja (asumiendo que está en la columna A)
+        id_col = worksheet.col_values(1)  # columna 1 = A = "user_id"
+        
+        # Buscar la fila que tiene el ID a actualizar
+        for i, user_id in enumerate(id_col):
+            if str(user_id) == str(vendor_to_update):
+                # Encontramos la fila. Construimos la lista de valores actualizados.
+                # Asegúrate de que el orden de columnas coincida con tu hoja de cálculo.
+                updated_values = updated_record.iloc[0].tolist()
 
-        # Obtener todos los valores de la columna del user_id (asumimos que está en la primera columna, A)
-        user_ids = worksheet.col_values(columnas_ordenadas.index("user_id") + 1)  # columna real del user_id
+                # Actualizamos la fila correspondiente (i + 1 porque la hoja empieza en 1, no en 0)
+                col_count = len(updated_values)
+                end_col_letter = chr(64 + col_count)  # Convertir número de columnas a letra (A-Z)
 
-        row_index = None
-        for i, uid in enumerate(user_ids):
-            if str(uid) == str(vendor_to_update):
-                row_index = i + 1  # Google Sheets empieza en 1
-                break
+                worksheet.update(f"A{i+1}:{end_col_letter}{i+1}", [updated_values])
 
-        if row_index is None:
-            st.error("ID não encontrado na planilha.")
-            return
+                st.success("Ordem de serviço atualizada com sucesso")
+                return
 
-        # Armar los valores en orden correcto
-        updated_values = updated_record[columnas_ordenadas].values.tolist()[0]
-
-        # Obtener la letra final de la última columna
-        import string
-        end_col_letter = string.ascii_uppercase[len(columnas_ordenadas) - 1]
-
-        # Actualizar la fila exacta
-        worksheet.update(f"A{row_index}:{end_col_letter}{row_index}", [updated_values])
-
-        st.success("Ordem de serviço atualizada com sucesso")
+        # Si no se encuentra el ID
+        st.warning("ID não encontrado. Nenhuma atualização realizada.")
 
     except Exception as e:
         st.error(f"Erro ao atualizar planilha: {str(e)}")
