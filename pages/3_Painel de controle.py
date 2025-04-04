@@ -99,7 +99,7 @@ else:
     
     # Métricas resumidas
     st.subheader("Visão Geral")
-    cols = st.columns(len(metricas))
+    cols = st.columns(6)
     metricas = [
         ("🚗 Total", len(dados)),
         ("🏠 Na oficina", veiculos_no_taller),
