@@ -294,7 +294,7 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                     st.markdown(f"- {veiculo_str}")
                 
                 for _, row in filtrados.iterrows():
-                    veiculo_str = f"🚗 {row['carro']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')}"
+                    veiculo_str = f"🚗 {row['carro']} | 🏷️ {row['placa']} | 🎨 {row.get('cor', 'Sem cor')} | 📅 Entrada: {row.get('data_entrada', 'Sem data')} | 👤 Dono: {row.get('nome_cliente', 'Desconhecido')}" 
                     st.markdown(f"- {veiculo_str}")
             else:
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
