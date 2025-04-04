@@ -178,26 +178,21 @@ def autenticar_gspread(credenciales_json):
 # Esta función actualiza directamente la fila con el ID correspondiente sin alterar el orden
 def atualizar_ordem(ordem):
     try:
+        # Autenticación y acceso a la hoja de cálculo
         SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
         credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
         gc = gspread.authorize(credentials)
-
         sheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
         # Obtener todas las filas como diccionarios
         registros = sheet.get_all_records()
 
         # Buscar la fila por ID
-        id_encontrado = False
+        fila_encontrada = None
         for i, registro in enumerate(registros):
             if str(registro["ID"]) == str(ordem["ID"]):
-                fila_en_hoja = i + 2  # +2 porque get_all_records omite encabezado y la hoja empieza en 1
-                id_encontrado = True
+                fila_encontrada = i + 2  # +2 porque get_all_records omite encabezado y la hoja empieza en 1
                 break
-
-        if not id_encontrado:
-            st.warning("ID não encontrado. Nenhuma atualização realizada.")
-            return False
 
         # Obtener encabezados
         encabezados = sheet.row_values(1)
@@ -205,10 +200,15 @@ def atualizar_ordem(ordem):
         # Preparar lista de valores a actualizar en el mismo orden de los encabezados
         valores_actualizados = [ordem.get(col, "") for col in encabezados]
 
-        # Actualizar esa fila específica
-        sheet.update(f"A{fila_en_hoja}", [valores_actualizados])
+        if fila_encontrada:
+            # Actualizar la fila existente
+            sheet.update(f"A{fila_encontrada}", [valores_actualizados])
+            st.success("Ordem de serviço atualizada com sucesso")
+        else:
+            # Insertar una nueva fila al final
+            sheet.append_row(valores_actualizados)
+            st.success("Nova ordem de serviço adicionada com sucesso")
 
-        st.success("Ordem de serviço atualizada com sucesso")
         return True
 
     except Exception as e:
