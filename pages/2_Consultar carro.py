@@ -112,8 +112,6 @@ def formatar_valor(valor):
     return valor
 # ----------------------------------------------------------------------------------------------------------------------------------
 
-# 1. Configuración inicial
-st.set_page_config(layout="wide")
 env = Environment(loader=FileSystemLoader("."))
 
 # 2. Crear un formulario para toda la consulta
