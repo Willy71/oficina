@@ -158,7 +158,10 @@ if st.session_state.veiculo:
     if st.button("Gerar PDF"):
         html = template.render(
             placa=veiculo['placa'],
-            # ...otros campos...
+            carro=veiculo['carro'],
+            modelo=veiculo['modelo'],
+            ano=veiculo['ano'],
+            date_in=veiculo['date_in']
         )
         pdf = pdfkit.from_string(html, False)
         st.download_button(
