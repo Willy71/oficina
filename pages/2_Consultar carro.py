@@ -136,27 +136,38 @@ def safe_float(valor):
         return 0.0
 
 
-def formatar_valor(valor, formato_moeda=False):
+def formatar_valor_br(valor, decimal_places=2, padrao="0,00"):
     """
-    Formatea valores para visualización
+    Formatea valores numéricos al estándar brasileño (1.234,56)
     
     Args:
-        valor: Valor a formatear
-        formato_moeda: Si True, formatea como moneda (R$ 0.00)
+        valor: Valor a formatear (str, float, int o None)
+        decimal_places: Número de decimales (default: 2)
+        padrao: Valor por defecto si no se puede formatear (default: "0,00")
     
     Returns:
-        str: Valor formateado
+        str: Valor formateado con separador de miles y coma decimal
     """
-    if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none', '']:
-        return "0.00" if formato_moeda else ""
-    
     try:
-        # Conversión segura a número
-        valor_num = float(str(valor).replace(',', '.'))
-        return f"{valor_num:.2f}" if formato_moeda else str(valor)
-    except (ValueError, TypeError):
-        return "0.00" if formato_moeda else str(valor)
-
+        # Verifica valores nulos o vacíos
+        if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none', '']:
+            return padrao
+            
+        # Convierte a string y limpia caracteres
+        str_valor = str(valor).strip().replace('R$', '').strip()
+        
+        # Reemplaza comas por puntos para conversión a float
+        str_valor = str_valor.replace('.', '').replace(',', '.')
+        
+        # Convierte a número
+        valor_float = float(str_valor)
+        
+        # Formatea con separadores brasileños
+        formatted = f"{valor_float:,.{decimal_places}f}"
+        return formatted.replace(",", "X").replace(".", ",").replace("X", ".")
+        
+    except (ValueError, TypeError, AttributeError):
+        return padrao
 
 def formatar_real(valor, padrao="0,00"):
     """
@@ -310,7 +321,11 @@ if buscar:
                             pecas.append({
                                 'Quant.': quant if pd.notna(quant) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
-                                'Custo Unit. (R$)': formatar_valor_br(valor),
+                                'Custo Unit. (R$)': formatar_valor_br(
+                                    valor,
+                                    decimal_places=2,
+                                    padrao="0,00"
+                                ),
                                 '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
                                 'Valor Final (R$)': f"{formatar_valor(valor_total_final):.2f}"
                             })
