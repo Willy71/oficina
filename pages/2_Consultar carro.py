@@ -247,6 +247,8 @@ if buscar:
                     
                     env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
                     template = env.get_template("template.html")
+            else:
+                st.warning("Nenhum veículo encontrado com esta placa")
                     
 submit = st.button("📄 Gerar PDF do Orçament")
 # Generar PDF
@@ -302,8 +304,7 @@ if submit:
         mime="application/octet-stream",
     )
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------            
-            else:
-                st.warning("Nenhum veículo encontrado com esta placa")
+           
 # ----------------------------------------------------------------------------------------------------------------------------------
 
 
