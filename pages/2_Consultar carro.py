@@ -279,8 +279,8 @@ if buscar:
                         with st.spinner("Gerando PDF..."):
                             pdf_bytes = generar_pdf(
                                 veiculo=veiculo,
-                                servicos=servicos_pdf,
-                                pecas=pecas_pdf,
+                                servicos=servicos,  # Usa las variables que sí existen
+                                pecas=pecas,
                                 total_servicos=total_servicos,
                                 total_pecas_final=total_pecas_final,
                                 total_geral=total_geral
