@@ -287,6 +287,31 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+
+                    # Mostrar resultados y PDF
+                    veiculo = st.session_state.veiculo
+                    st.write(f"Placa: {veiculo['placa']}")
+                    st.write(f"Carro: {veiculo['carro']}")
+                    st.write(f"Modelo: {veiculo['modelo']}")
+                    st.write(f"Ano: {veiculo['ano']}")
+                    st.write(f"Data de entrada: {veiculo['date_in']}")
+                    
+#===========================================================================================================================================================
+                    if st.button("Gerar PDF"):
+                        html = template.render(
+                            placa=veiculo['placa'],
+                            carro=veiculo['carro'],
+                            modelo=veiculo['modelo'],
+                            ano=veiculo['ano'],
+                            date_in=veiculo['date_in']
+                        )
+                        pdf = pdfkit.from_string(html, False)
+                        st.download_button(
+                            "⬇️ Download PDF",
+                            data=pdf,
+                            file_name="carro.pdf",
+                            mime="application/octet-stream"
+                        )
                 
                 # Mostrar todos los datos en formato JSON
                 #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
