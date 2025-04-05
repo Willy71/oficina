@@ -247,7 +247,7 @@ if buscar:
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
 #=================================================================================================================================================================
-        submit = st.button("📄 Gerar PDF do Orçamento")
+        submit = st.form_submit_button("📄 Gerar PDF do Orçamento")
         if submit:
             st.text(total_geral)
         
