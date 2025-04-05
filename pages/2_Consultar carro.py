@@ -52,17 +52,23 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.title("🔍 Consultar Veículo por Placa")
 
 ##====================================================================================================================================================
-# Conexión a Google Sheets (mismo método que usas)
+# Conexion via gspread a traves de https://console.cloud.google.com/ y Google sheets
+
+# Scopes necesarios
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+
+# Ruta al archivo de credenciales
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
-SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
-SHEET_NAME = 'Hoja 1'
+
+# Clave de la hoja de cálculo (la parte de la URL después de "/d/" y antes de "/edit")
+SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'  # Reemplaza con la clave de tu documento
+SHEET_NAME = 'Hoja 1'  # Nombre de la hoja dentro del documento
 
 # Cargar credenciales y autorizar
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 credenciales_json = credentials
-#====================================================================================================================================================
+
 
 def autenticar_gspread():
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
@@ -89,24 +95,24 @@ def inicializar_hoja():
         st.error(f"Erro ao acessar planilha: {str(e)}")
         return None
 
-def cargar_datos():
+# Función para cargar datos desde Google Sheets
+def cargar_datos(worksheet):
     try:
-        worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
         records = worksheet.get_all_records()
-        df = pd.DataFrame(records)
-        
-        # Asegurar que la columna 'placa' existe y tiene datos
-        if 'placa' not in df.columns:
-            st.error("A coluna 'placa' não foi encontrada na planilha.")
-            return pd.DataFrame()
-            
-        # Limpiar datos - reemplazar strings vacíos con NaN
-        df.replace('', np.nan, inplace=True)
-        return df
+        if not records:
+            # Si no hay registros, crear un DataFrame vacío con las columnas necesarias
+            return pd.DataFrame(columns=columnas_ordenadas)
+        else:
+            # Convertir los registros a DataFrame
+            df = pd.DataFrame(records)
+            # Asegurarse de que la columna 'user_id' sea numérica
+            df['user_id'] = pd.to_numeric(df['user_id'], errors='coerce').fillna(0).astype(int)
+            return df
     except Exception as e:
         st.error(f"Erro ao cargar dados: {str(e)}")
-        return pd.DataFrame()
-        
+        return pd.DataFrame(columns=columnas_ordenadas)
+
+
 # Función para buscar vehículo por placa
 def buscar_por_placa(placa, df):
     if df.empty:
@@ -118,8 +124,8 @@ def buscar_por_placa(placa, df):
     if not resultado.empty:
         return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
     return None
-
 #====================================================================================================================================================
+
 def safe_float(valor):
     try:
         return float(str(valor).replace(",", "."))
@@ -141,6 +147,7 @@ env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
 template = env.get_template("template_2.html")
 
 #====================================================================================================================================================
+
 # Interfaz de usuario
 with st.container():
     col1, col2, col3 = st.columns([3, 2, 1])
