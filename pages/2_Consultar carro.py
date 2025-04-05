@@ -243,9 +243,14 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+                
+                # Mostrar todos los datos en formato JSON
+                #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
+                    #st.json(veiculo)
+            else:
+                st.warning("Nenhum veículo encontrado com esta placa")
 
-            
-                if st.button("📄 Gerar PDF do Relatório"):
+ if st.button("📄 Gerar PDF do Relatório"):
                     st.warning("🎯 Botão pressionado!")
                     try:
                         env = Environment(loader=FileSystemLoader('.'))
@@ -269,14 +274,6 @@ if buscar:
                 
                     except Exception as e:
                         st.error(f"Erro ao gerar PDF: {e}")
-
-
-                
-                # Mostrar todos los datos en formato JSON
-                #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
-                    #st.json(veiculo)
-            else:
-                st.warning("Nenhum veículo encontrado com esta placa")
 # ----------------------------------------------------------------------------------------------------------------------------------
 
 # Opción para buscar por otros criterios
