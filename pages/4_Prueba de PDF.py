@@ -1,11 +1,11 @@
 # 4_Painel_de_controle.py
+import pdfkit
+from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 import streamlit as st
 import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
-import pdfkit
-from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 
 #===================================================================================================================================================================
 # Configuración de página (igual que tu código original)
