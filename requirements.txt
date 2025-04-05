@@ -5,6 +5,9 @@ datetime
 phonenumbers
 pycountry
 numpy==1.26.4
+fpdf
+tempfile
+base64
 
 
 
