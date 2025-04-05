@@ -7,6 +7,13 @@ from datetime import datetime
 import pdfkit
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 
+
+# Configura pdfkit (añade al inicio del script)
+try:
+    pdfkit_config = pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')  # Ajusta la ruta según tu sistema
+except:
+    pdfkit_config = None
+
 #===================================================================================================================================================================
 # Configuración de página (igual que tu código original)
 st.set_page_config(
@@ -143,23 +150,31 @@ template = env.get_template("template_2.html")
 submit = st.button("Gerar PDF")
 
 if submit:
-    html = template.render(
-        placa=placa,
-        carro=carro,
-        modelo=modelo,
-        ano=ano,
-        date_in=date_in
-    )
+    try:
+        html = template.render(
+            placa=placa,
+            carro=carro,
+            modelo=modelo,
+            ano=ano,
+            date_in=date_in
+        )
 
-    pdf = pdfkit.from_string(html, False)
-    st.balloons()
-
-    right.success("🎉 Seu PDF foi gerado com sucesso")
-    # st.write(html, unsafe_allow_html=True)
-    # st.write("")
-    right.download_button(
-        "⬇️ Download PDF",
-        data=pdf,
-        file_name="carro.pdf",
-        mime="application/octet-stream",
-    )
+        if pdfkit_config:
+            pdf = pdfkit.from_string(html, False, configuration=pdfkit_config)
+            st.balloons()
+            
+            st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
+            
+            st.download_button(  # Cambiado de right.download_button a st.download_button
+                "⬇️ Download PDF",
+                data=pdf,
+                file_name="carro.pdf",
+                mime="application/octet-stream",
+            )
+        else:
+            st.error("wkhtmltopdf no está configurado correctamente")
+            
+    except Exception as e:
+        st.error(f"Erro ao gerar PDF: {str(e)}")
+        st.markdown("**HTML gerado (para debug):**")
+        st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
