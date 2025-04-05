@@ -1,103 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Orçamento - {{placa}}</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 20px; }
-        .logo { max-width: 200px; margin-bottom: 10px; }
-        .empresa-info { margin-bottom: 20px; }
-        .vehiculo-info { margin-bottom: 30px; }
-        .section { margin-bottom: 20px; }
-        .section-title { background-color: #f2f2f2; padding: 5px 10px; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .total { font-weight: bold; text-align: right; margin-top: 10px; }
-        .footer { margin-top: 30px; text-align: center; font-size: 12px; border-top: 1px solid #333; padding-top: 10px; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <!-- Reemplaza con la ruta correcta a tu logo -->
-        <img src="file:///path/to/your/logo.png" class="logo" alt="Logo">
-        <div class="empresa-info">
-            <h2>ZAMBRZYCKI Auto Center</h2>
-            <p>CNPJ: 116902840001-01 | INSC: 9105659668</p>
-            <p>ENDEREÇO: Rua Nicolau Florenzano 608, Uvaranas</p>
-            <p>Contato: (42) 999915-8454</p>
-        </div>
-    </div>
-    
-    <div class="vehiculo-info">
-        <h3>Dados do Veículo</h3>
-        <p><strong>Placa:</strong> {{placa}}</p>
-        <p><strong>Marca:</strong> {{carro}}</p>
-        <p><strong>Modelo:</strong> {{modelo}}</p>
-        <p><strong>Ano:</strong> {{ano}}</p>
-        <p><strong>Proprietário:</strong> {{dono_empresa}}</p>
-        <p><strong>Data Entrada:</strong> {{date_in}}</p>
-        <p><strong>Previsão Entrega:</strong> {{date_prev}}</p>
-    </div>
-    
-    <div class="section">
-        <div class="section-title">Serviços Realizados</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Descrição</th>
-                    <th>Valor (R$)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for servico in servicos %}
-                <tr>
-                    <td>{{servico.Item}}</td>
-                    <td>{{servico.Descrição}}</td>
-                    <td>{{servico.Valor}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="total">Subtotal Serviços: R$ {{total_servicos}}</div>
-    </div>
-    
-    <div class="section">
-        <div class="section-title">Peças Utilizadas</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Quant.</th>
-                    <th>Descrição</th>
-                    <th>Custo Unit.</th>
-                    <th>% Adicional</th>
-                    <th>Valor Final</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for peca in pecas %}
-                <tr>
-                    <td>{{peca.Quant.}}</td>
-                    <td>{{peca.Descrição}}</td>
-                    <td>{{peca['Custo Unit.']}}</td>
-                    <td>{{peca['% Adicional']}}</td>
-                    <td>{{peca['Valor Final']}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="total">Subtotal Peças: R$ {{total_pecas_final}}</div>
-    </div>
-    
-    <div class="total" style="font-size: 1.2em;">
-        TOTAL GERAL: R$ {{total_geral}}
-    </div>
-    
-    <div class="footer">
-        <p>Emitido em: {{data_emissao}}</p>
-        <p>ZAMBRZYCKI Auto Center - Obrigado pela preferência!</p>
-    </div>
-</body>
-</html>
+<div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
+<div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
+       
+       <span style="font-size:25px"><i>ZAMBRZYCKI Auto Center</i></span>
+       <span style="font-size:25px"><i>CNPJ: 116902840001-01 | INSC: 910565966</i></span>
+       <span style="font-size:25px"><i>ENDEREÇO: Rua Nicolau Florenzano 608, Uvaranas</i></span>
+       <span style="font-size:25px"><i>Contato: (42) 999915-845</i></span>
+       <span style="font-size:50px; font-weight:bold">Ordem de serviço</span>
+       <span style="font-size:50px; font-weight:bold">Dados do Veículoo</span>
+       <span style="font-size:30px"><b>{{placa}}</b></span><br/><br/>
+    <span style="font-size:30px"><b>{{carro}}</b></span><br/><br/>
+     <span style="font-size:30px"><b>{{modelo}}</b></span><br/><br/>
+     <span style="font-size:30px"><b>{{ano}}</b></span><br/><br/>
+     <span style="font-size:30px"><b>{{dono_empresa}}</b></span><br/><br/>
+     <span style="font-size:30px"><b>{{date_in}}</b></span><br/><br/>  
+</div>
+</div>
