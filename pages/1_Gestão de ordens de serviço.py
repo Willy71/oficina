@@ -7,9 +7,6 @@ import gspread
 from google.oauth2.service_account import Credentials
 import datetime
 import numpy as np  # Asegúrate de importar numpy para manejar NaN
-# Lista de prefijos telefónicos internacionales
-import phonenumbers as pn
-import pycountry
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Colocar nome na pagina, icone e ampliar a tela
