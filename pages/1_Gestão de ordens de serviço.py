@@ -25,8 +25,7 @@ reduce_space ="""
             }
             </style>
             """
-# We load reduce_space
-st.markdown(page_bg_img, unsafe_allow_html=True)
+
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Colocar background
 page_bg_img = f"""
