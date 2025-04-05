@@ -128,8 +128,8 @@ def buscar_por_placa(placa, df):
         return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
     return None
 #====================================================================================================================================================
-#def safe_float(value):
-def safe_float(valor):
+#def safe_float(valor):
+def convert_currency_to_float(value):
     """Convierte cualquier formato monetario a float"""
     if pd.isna(value) or value in [None, '']:
         return 0.0
@@ -368,7 +368,7 @@ if st.session_state.veiculo_encontrado:
                     valor = veiculo.get(f'valor_serv_{i}', '')
                     
                     if pd.notna(item) and pd.notna(desc) and pd.notna(valor):
-                        valor_float = safe_float(valor)
+                        valor_float = convert_currency_to_float(valor)
                         total_servicos_pdf += valor_float
                         
                         # Guardar para debug
@@ -388,7 +388,7 @@ if st.session_state.veiculo_encontrado:
                 # 2. PROCESAR PIEZAS
                 pecas_pdf = []
                 total_pecas_final_pdf = 0.0
-                porcentaje_adicional = safe_float(veiculo.get('porcentaje_adicional', 0))
+                porcentaje_adicional = convert_currency_to_float(veiculo.get('porcentaje_adicional', 0))
                 
                 for i in range(1, 17):
                     quant = veiculo.get(f'quant_peca_{i}', '')
@@ -396,8 +396,8 @@ if st.session_state.veiculo_encontrado:
                     valor = veiculo.get(f'valor_peca_{i}', '')
                     
                     if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
-                        quant_float = safe_float(quant)
-                        valor_unitario = safe_float(valor)
+                        quant_float = convert_currency_to_float(quant)
+                        valor_unitario = convert_currency_to_float(valor)
                         valor_total = quant_float * valor_unitario
                         valor_con_adicional = valor_total * (1 + porcentaje_adicional/100)
                         total_pecas_final_pdf += valor_con_adicional
@@ -421,7 +421,13 @@ if st.session_state.veiculo_encontrado:
     
                 # 3. CALCULAR TOTALES
                 total_geral_pdf = total_servicos_pdf + total_pecas_final_pdf
-       
+                
+                # ===== VERIFICACIÓN FINAL =====
+                st.write(f"DEBUG - Total servicios (float): {total_servicos_pdf}")
+                st.write(f"DEBUG - Total piezas (float): {total_pecas_final_pdf}")
+                st.write(f"DEBUG - Porcentaje adicional: {porcentaje_adicional}%")
+                st.write(f"DEBUG - Total general (float): {total_geral_pdf}")
+                
                 # 4. GENERAR PDF
                 html = template.render(
                     data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
@@ -449,6 +455,7 @@ if st.session_state.veiculo_encontrado:
                 
             except Exception as e:
                 st.error(f"Erro ao gerar PDF: {str(e)}")
+              
                     
 
 
