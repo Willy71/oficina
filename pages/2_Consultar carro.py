@@ -32,7 +32,7 @@ div[data-testid="stAppViewBlockContainer"]{
 }
 </style>
 """
-st.html(reduce_space)
+st.markdown(reduce_space, unsafe_allow_html=True)
 
 page_bg_img = f"""
 <style>
