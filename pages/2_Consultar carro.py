@@ -202,6 +202,33 @@ if buscar:
                         st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
                     with cols[2]:
                         st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
+
+
+                submit = form.form_submit_button("Generate PDF")
+
+                if submit:
+                    # Renderizar el HTML con los datos
+                    html = template.render(
+                        placa=veiculo.get('placa', ''),
+                        carro=veiculo.get('carro', ''),
+                        modelo=veiculo.get('modelo', ''),
+                        ano=veiculo.get('ano', ''),
+                        dono_empresa=veiculo.get('dono_empresa', ''),
+                        date_in=veiculo.get('date_in', ''),
+                    )
+                
+                    pdf = pdfkit.from_string(html, False)
+                    st.balloons()
+                
+                    right.success("🎉 Seu PDF foi gerado com sucesso!")
+                    # st.write(html, unsafe_allow_html=True)
+                    # st.write("")
+                    right.download_button(
+                        "⬇️ Download PDF",
+                        data=pdf,
+                        file_name="ordem_de_servico.pdf",
+                        mime="application/octet-stream",
+                    )
 #===================================================================================================================================================================
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
@@ -291,32 +318,6 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
-                    
-                    submit = form.form_submit_button("Generate PDF")
-
-                    if submit:
-                        # Renderizar el HTML con los datos
-                        html = template.render(
-                            placa=veiculo.get('placa', ''),
-                            carro=veiculo.get('carro', ''),
-                            modelo=veiculo.get('modelo', ''),
-                            ano=veiculo.get('ano', ''),
-                            dono_empresa=veiculo.get('dono_empresa', ''),
-                            date_in=veiculo.get('date_in', ''),
-                        )
-                    
-                        pdf = pdfkit.from_string(html, False)
-                        st.balloons()
-                    
-                        right.success("🎉 Seu PDF foi gerado com sucesso!")
-                        # st.write(html, unsafe_allow_html=True)
-                        # st.write("")
-                        right.download_button(
-                            "⬇️ Download PDF",
-                            data=pdf,
-                            file_name="ordem_de_servico.pdf",
-                            mime="application/octet-stream",
-                        )
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------            
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
