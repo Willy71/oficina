@@ -246,9 +246,9 @@ if buscar:
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
-#=================================================================================================================================================================
-        submit = st.button("📄 Gerar PDF do Orçamento", key="gerar_pdf")
-        if submit:
+#=================================================================================================================================================================       
+        st.button("📄 Gerar PDF do Orçamento", type="primary")
+        if st.button("Gerar"):
             st.text(total_geral)
         
 
