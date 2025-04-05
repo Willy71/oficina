@@ -251,6 +251,25 @@ if buscar:
                     submit = st.button("📄 Gerar PDF do Orçament")
                     # Generar PDF
                     if submit:
+                        # Prepara servicios con valores formateados
+                        servicos_pdf = []
+                        for serv in servicos:
+                            servicos_pdf.append({
+                                'Item': serv['Item'],
+                                'Descrição': serv['Descrição'],
+                                'Valor': f"{float(serv['Valor (R$)'].replace(',','.')):.2f}" if serv['Valor (R$)'] else "0.00"
+                            })
+                        
+                        # Prepara peças con valores formateados  
+                        pecas_pdf = []
+                        for pec in pecas:
+                            pecas_pdf.append({
+                                'Quant.': pec['Quant.'],
+                                'Descrição': pec['Descrição'],
+                                'Custo Unit.': f"{float(pec['Custo Unit. (R$)']):.2f}",
+                                'Valor Final': f"{float(pec['Valor Final (R$)']):.2f}"
+                            })
+                            
                         html = template.render(
                             placa=veiculo.get('placa', ''),
                             carro=veiculo.get('carro', ''),
@@ -270,6 +289,10 @@ if buscar:
                         pdf = pdfkit.from_string(html, False)
                         st.balloons()
                         
+                        # Temporalmente puedes ver el HTML antes de convertirlo a PDF
+                        if st.checkbox("Mostrar HTML generado"):
+                            st.markdown(html, unsafe_allow_html=True)
+                            
                         st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
                         
                         st.download_button(  # Cambiado de right.download_button a st.download_button
