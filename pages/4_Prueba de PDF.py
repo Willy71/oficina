@@ -50,7 +50,6 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 #===================================================================================================================================================================
 # Cargar credenciales y autorizar
-credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 credenciales_json = credentials
 
