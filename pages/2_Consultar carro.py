@@ -171,6 +171,39 @@ if buscar:
                         st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
                     with cols[2]:
                         st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
+
+                if st.button("📄 Gerar PDF do Relatório"):
+                    st.warning("🎯 Botão pressionado!")
+                    try:
+                        env = Environment(loader=FileSystemLoader('.'))
+                        template = env.get_template("template.html")
+                    
+                        html = template.render(
+                            carro=carro,
+                            modelo=modelo,
+                            placa=placa_veiculo,
+                            ano=ano,
+                            cor=cor,
+                            proprietario=proprietario,
+                            telefone=telefone,
+                            endereco=endereco,
+                            estado=estado,
+                            data_entrada=data_entrada,
+                            servicos=servicos,
+                            pecas=pecas,
+                            total_servicos=total_servicos,
+                            total_pecas_final=total_pecas_final,
+                            total_geral=total_geral
+                        )
+                
+                        with open("saida.pdf", "wb") as f:
+                            pdfkit.from_string(html, f.name)
+                    
+                        with open("saida.pdf", "rb") as f:
+                            st.download_button("📥 Baixar PDF", f, file_name="relatorio.pdf")
+                    
+                    except Exception as e:
+                        st.error(f"Erro ao gerar PDF: {e}")
 #===================================================================================================================================================================
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
@@ -260,40 +293,6 @@ if buscar:
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
 #===================================================================================================================================================================
-if st.button("📄 Gerar PDF do Relatório"):
-    st.warning("🎯 Botão pressionado!")
-    try:
-        env = Environment(loader=FileSystemLoader('.'))
-        template = env.get_template("template.html")
-    
-        html = template.render(
-            carro=carro,
-            modelo=modelo,
-            placa=placa_veiculo,
-            ano=ano,
-            cor=cor,
-            proprietario=proprietario,
-            telefone=telefone,
-            endereco=endereco,
-            estado=estado,
-            data_entrada=data_entrada,
-            servicos=servicos,
-            pecas=pecas,
-            total_servicos=total_servicos,
-            total_pecas_final=total_pecas_final,
-            total_geral=total_geral
-        )
-
-        with open("saida.pdf", "wb") as f:
-            pdfkit.from_string(html, f.name)
-    
-        with open("saida.pdf", "rb") as f:
-            st.download_button("📥 Baixar PDF", f, file_name="relatorio.pdf")
-    
-    except Exception as e:
-        st.error(f"Erro ao gerar PDF: {e}")
-# ----------------------------------------------------------------------------------------------------------------------------------
-
 # Opción para buscar por otros criterios
 with st.expander("🔎 Busca Avançada", expanded=False):
     with st.form(key="busca_avancada"):
