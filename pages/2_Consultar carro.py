@@ -305,11 +305,7 @@ if buscar:
                             pecas.append({
                                 'Quant.': quant if pd.notna(quant) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
-                                'Custo Unit. (R$)': formatar_real(
-                                    valor,
-                                    decimal_places=2,
-                                    padrao="0,00"
-                                ),
+                                'Custo Unit. (R$)': formatar_real(valor, padrao="0,00"),
                                 '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
                                 'Valor Final (R$)': f"{formatar_valor(valor_total_final):.2f}"
                             })
