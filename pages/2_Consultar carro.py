@@ -287,8 +287,6 @@ if st.button("📄 Gerar PDF do Relatório"):
             total_pecas_final=total_pecas_final,
             total_geral=total_geral
         )
-
-        st.write("DEBUG:", veiculo, servicos, pecas, total_servicos, total_pecas_final, total_geral)
     
         with open("saida.pdf", "wb") as f:
             pdfkit.from_string(html, f.name)
