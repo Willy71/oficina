@@ -49,7 +49,20 @@ background: rgba(0,0,0,0);
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 #===================================================================================================================================================================
+# Conexion via gspread a traves de https://console.cloud.google.com/ y Google sheets
+
+# Scopes necesarios
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+
+# Ruta al archivo de credenciales
+SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
+
+# Clave de la hoja de cálculo (la parte de la URL después de "/d/" y antes de "/edit")
+SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'  # Reemplaza con la clave de tu documento
+SHEET_NAME = 'Hoja 1'  # Nombre de la hoja dentro del documento
+
 # Cargar credenciales y autorizar
+credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 credenciales_json = credentials
 
