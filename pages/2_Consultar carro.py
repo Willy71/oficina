@@ -307,7 +307,7 @@ if buscar:
                                 'Descrição': desc if pd.notna(desc) else '',
                                 'Custo Unit. (R$)': formatar_real(valor, padrao="0,00"),
                                 '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                                'Valor Final (R$)': f"{formatar_valor(valor_total_final):.2f}"
+                                'Valor Final (R$)': f"{formatar_valor(valor_total_final)}"
                             })
                     
                     if pecas:
@@ -317,9 +317,9 @@ if buscar:
                         # Mostrar totales
                         col1, col2 = st.columns(2)
                         with col1:
-                            st.markdown(f"**Total Costo Peças:** R$ {formatar_valor(total_pecas):.2f}")
+                            st.markdown(f"**Total Costo Peças:** R$ {formatar_valor(total_pecas)}")
                         with col2:
-                            st.markdown(f"**Total Final Peças:** R$ {formatar_valor(total_pecas_final):.2f}")
+                            st.markdown(f"**Total Final Peças:** R$ {formatar_valor(total_pecas_final)}")
                     else:
                         st.info("Nenhuma peça registrada")
                 
@@ -327,7 +327,7 @@ if buscar:
                 # Mostrar el gran total después de ambas secciones
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
-                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
 
 # Mostrar resultados y PDF
 if st.session_state.veiculo:
