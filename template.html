@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Relatório do Veículo</title>
+    <title>Relatório do Veículo</title>    
     <style>
         body { font-family: Arial; }
         .header { text-align: center; }
@@ -12,10 +12,20 @@
     </style>
 </head>
 <body>
+
+    
     <div class="header">
         <img src="logo.png" width="100">
         <h1>ZAMBRZYCKI Auto Center</h1>
         <h2>Relatório do Veículo</h2>
+        <p><strong>Marca:</strong> {{ carro }} | <strong>Modelo:</strong> {{ modelo }} | <strong>Ano:</strong> {{ ano }}</p>
+        <p><strong>Placa:</strong> {{ placa }}</p>
+        <p><strong>Cor:</strong> {{ cor }}</p>
+        <p><strong>Proprietário:</strong> {{ proprietario }}</p>
+        <p><strong>Telefone:</strong> {{ telefone }}</p>
+        <p><strong>Endereço:</strong> {{ endereco }}</p>
+        <p><strong>Estado:</strong> {{ estado }}</p>
+        <p><strong>Data Entrada:</strong> {{ data_entrada }} | <strong>Previsão Entrega:</strong> {{ previsao_entrega }}</p>
     </div>
 
     <div class="section">
