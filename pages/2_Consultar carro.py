@@ -243,6 +243,33 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+
+            
+                # Botão
+                if st.button("📄 Gerar PDF do Relatório"):
+                    env = Environment(loader=FileSystemLoader('.'))
+                    template = env.get_template("template.html")
+                
+                    html = template.render(
+                        veiculo=veiculo,
+                        servicos=servicos,
+                        pecas=pecas,
+                        total_servicos=total_servicos,
+                        total_pecas_final=total_pecas_final,
+                        total_geral=total_geral,
+                    )
+                
+                    # Gera PDF
+                    pdf = pdfkit.from_string(html, False)
+                
+                    # Botão para download
+                    st.download_button(
+                        label="⬇️ Baixar PDF",
+                        data=pdf,
+                        file_name=f"relatorio_{veiculo['placa']}.pdf",
+                        mime="application/octet-stream",
+                    )
+
                 
                 # Mostrar todos los datos en formato JSON
                 #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
@@ -290,28 +317,3 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
-
-# Botão
-if st.button("📄 Gerar PDF do Relatório"):
-    env = Environment(loader=FileSystemLoader('.'))
-    template = env.get_template("template.html")
-
-    html = template.render(
-        veiculo=carro,
-        servicos=servicos,
-        pecas=pecas,
-        total_servicos=total_servicos,
-        total_pecas_final=total_pecas_final,
-        total_geral=total_geral,
-    )
-
-    # Gera PDF
-    pdf = pdfkit.from_string(html, False)
-
-    # Botão para download
-    st.download_button(
-        label="⬇️ Baixar PDF",
-        data=pdf,
-        file_name=f"relatorio_{veiculo['placa']}.pdf",
-        mime="application/octet-stream",
-    )
