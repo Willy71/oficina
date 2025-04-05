@@ -219,7 +219,7 @@ if buscar:
                             total_pecas_final += valor_total_final  # Sumar costo final con adicional
                             
                             pecas.append({
-                                'Quant.': quant if pd.notna(quant) else '',
+                                'Quant': quant if pd.notna(quant) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
                                 'Custo Unit. (R$)': f"{formatar_valor(valor):.2f}",
                                 '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
