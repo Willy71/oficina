@@ -246,6 +246,7 @@ if buscar:
 
             
                 if st.button("📄 Gerar PDF do Relatório"):
+                    st.warning("🎯 Botão pressionado!")
                     try:
                         env = Environment(loader=FileSystemLoader('.'))
                         template = env.get_template("template.html")
@@ -258,6 +259,7 @@ if buscar:
                             total_pecas_final=total_pecas_final,
                             total_geral=total_geral
                         )
+                        st.write("DEBUG:", veiculo, servicos, pecas, total_servicos, total_pecas_final, total_geral)
                 
                         with open("saida.pdf", "wb") as f:
                             pdfkit.from_string(html, f.name)
