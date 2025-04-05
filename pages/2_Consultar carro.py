@@ -119,43 +119,25 @@ def formatar_valor(valor):
         return ""
     return valor
 
-
-# En la parte de los imports, asegúrate de tener:
-from jinja2 import Environment, FileSystemLoader
-
-# Reemplaza la función crear_template_html() con esta versión simplificada:
 def generar_pdf(veiculo, servicos, pecas, total_servicos, total_pecas_final, total_geral):
     try:
-        # Configurar el entorno de Jinja2 para cargar templates desde el directorio actual
         env = Environment(loader=FileSystemLoader("."))
-        template = env.get_template("template.html")  # Esto cargará tu archivo template.html
+        template = env.get_template("template.html")
         
-        # Renderizar el HTML con los datos
         html = template.render(
             placa=veiculo.get('placa', ''),
             carro=veiculo.get('carro', ''),
-            modelo=veiculo.get('modelo', ''),
-            ano=veiculo.get('ano', ''),
-            dono_empresa=veiculo.get('dono_empresa', ''),
-            date_in=veiculo.get('date_in', ''),
-            date_prev=veiculo.get('date_prev', ''),
-            servicos=servicos,
-            pecas=pecas,
-            total_servicos=f"{total_servicos:.2f}",
-            total_pecas_final=f"{total_pecas_final:.2f}",
+            # ... (todos los campos necesarios)
             total_geral=f"{total_geral:.2f}",
             data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M")
         )
         
-        # Resto del código para generar el PDF permanece igual...
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-            pdf_path = tmp.name
+        # Genera bytes directamente (sin archivo temporal)
+        pdf_bytes = pdfkit.from_string(html, False, configuration=pdfkit_config)
+        return pdf_bytes
         
-        pdfkit.from_string(html, pdf_path, configuration=pdfkit_config)
-        
-        return pdf_path
     except Exception as e:
-        st.error(f"Error al generar el PDF: {str(e)}")
+        st.error(f"Error al generar PDF: {str(e)}")
         return None
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Interfaz de usuario
@@ -300,63 +282,22 @@ if buscar:
                         
                         if st.button("📄 Gerar PDF do Orçamento"):
                             with st.spinner("Gerando PDF..."):
-                                # Preparar datos para servicios
-                                servicos_pdf = []
-                                for i in range(1, 13):
-                                    item = veiculo.get(f'item_serv_{i}', '')
-                                    desc = veiculo.get(f'desc_ser_{i}', '')
-                                    valor = veiculo.get(f'valor_serv_{i}', '')
-                                    
-                                    if pd.notna(item) and pd.notna(desc):
-                                        servicos_pdf.append({
-                                            'Item': formatar_valor(item),
-                                            'Descrição': formatar_valor(desc),
-                                            'Valor': f"{safe_float(valor):.2f}" if pd.notna(valor) else "0,00"
-                                        })
+                                pdf_bytes = generar_pdf(
+                                    veiculo=veiculo,
+                                    servicos=servicos_pdf,
+                                    pecas=pecas_pdf,
+                                    total_servicos=total_servicos,
+                                    total_pecas_final=total_pecas_final,
+                                    total_geral=total_geral
+                                )
                                 
-                                # Preparar datos para peças
-                                pecas_pdf = []
-                                for i in range(1, 17):
-                                    quant = veiculo.get(f'quant_peca_{i}', '')
-                                    desc = veiculo.get(f'desc_peca_{i}', '')
-                                    valor = veiculo.get(f'valor_peca_{i}', '')
-                                    porcentaje = veiculo.get('porcentaje_adicional', 0)
-                                    
-                                    if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
-                                        quant_float = safe_float(quant)
-                                        valor_float = safe_float(valor)
-                                        valor_total_final = quant_float * valor_float * (1 + safe_float(porcentaje) / 100)
-                                        
-                                        pecas_pdf.append({
-                                            'Quant.': formatar_valor(quant),
-                                            'Descrição': formatar_valor(desc),
-                                            'Custo Unit.': f"{valor_float:.2f}",
-                                            '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                                            'Valor Final': f"{valor_total_final:.2f}"
-                                        })
-                                
-                                # Generar PDF
-                                if pdfkit_config:
-                                    pdf_path = generar_pdf(
-                                        veiculo=veiculo,
-                                        servicos=servicos_pdf,
-                                        pecas=pecas_pdf,
-                                        total_servicos=total_servicos,
-                                        total_pecas_final=total_pecas_final,
-                                        total_geral=total_geral
+                                if pdf_bytes:
+                                    st.download_button(
+                                        label="⬇️ Baixar PDF",
+                                        data=pdf_bytes,
+                                        file_name=f"orcamento_{veiculo.get('placa', '')}.pdf",
+                                        mime="application/octet-stream"
                                     )
-                                    
-                                    if pdf_path:
-                                        with open(pdf_path, "rb") as f:  # <--- Aquí estaba el error
-                                            st.download_button(
-                                                label="⬇️ Baixar PDF",
-                                                data=f,
-                                                file_name=f"orcamento_{veiculo.get('placa', '')}_{datetime.now().strftime('%Y%m%d')}.pdf",
-                                                mime="application/pdf"
-                                            )
-                                        os.unlink(pdf_path)
-                                else:
-                                    st.error("Configuração do PDF não encontrada")
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 # Dentro del bloque if veiculo:, después de mostrar toda la información, agrega:
