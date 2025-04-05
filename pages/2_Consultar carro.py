@@ -337,18 +337,63 @@ if st.session_state.veiculo_encontrado:
         total_geral = total_servicos + total_pecas_final
         st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
 
-    # Botón para generar PDF (siempre visible mientras haya resultados)
+    # Reemplaza esta parte del código (donde generas el PDF):
     if st.button("Gerar PDF", key="gerar_pdf"):
         with st.spinner("Generando PDF..."):
             try:
+                # Preparar datos para servicios
+                servicos_pdf = []
+                for i in range(1, 13):
+                    item = veiculo.get(f'item_serv_{i}', '')
+                    desc = veiculo.get(f'desc_ser_{i}', '')
+                    valor = veiculo.get(f'valor_serv_{i}', '')
+                    if pd.notna(item) and pd.notna(desc) and pd.notna(valor):
+                        servicos_pdf.append({
+                            'Item': item,
+                            'Descrição': desc,
+                            'Valor': formatar_real(valor)
+                        })
+                
+                # Preparar datos para piezas
+                pecas_pdf = []
+                for i in range(1, 17):
+                    quant = veiculo.get(f'quant_peca_{i}', '')
+                    desc = veiculo.get(f'desc_peca_{i}', '')
+                    valor = veiculo.get(f'valor_peca_{i}', '')
+                    if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
+                        valor_float = safe_float(valor)
+                        quant_float = safe_float(quant)
+                        porcentaje = safe_float(veiculo.get('porcentaje_adicional', 0))
+                        valor_total = quant_float * valor_float * (1 + porcentaje/100)
+                        
+                        pecas_pdf.append({
+                            'Quant': quant,
+                            'Descrição': desc,
+                            'Custo Unit.': formatar_real(valor),
+                            'Valor Final': formatar_real(valor_total)
+                        })
+                
+                # Calcular totales
+                total_servicos_pdf = sum(safe_float(s.get('Valor', 0)) for s in servicos_pdf)
+                total_pecas_final_pdf = sum(safe_float(p.get('Valor Final', 0)) for p in pecas_pdf)
+                total_geral_pdf = total_servicos_pdf + total_pecas_final_pdf
+                
                 html = template.render(
+                    data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
                     placa=veiculo['placa'],
                     carro=veiculo['carro'],
                     modelo=veiculo['modelo'],
                     ano=veiculo['ano'],
-                    date_in=veiculo['date_in'],
-                    # Añade todos los campos necesarios
+                    dono_empresa=veiculo.get('dono_empresa', ''),
+                    date_in=veiculo.get('date_in', ''),
+                    date_prev=veiculo.get('date_prev', ''),
+                    servicos=servicos_pdf,
+                    pecas=pecas_pdf,
+                    total_servicos=formatar_real(total_servicos_pdf),
+                    total_pecas_final=formatar_real(total_pecas_final_pdf),
+                    total_geral=formatar_real(total_geral_pdf)
                 )
+                
                 pdf = pdfkit.from_string(html, False)
                 
                 st.download_button(
