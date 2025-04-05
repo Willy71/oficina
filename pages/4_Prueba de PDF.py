@@ -137,30 +137,28 @@ dados = cargar_datos(worksheet)
 placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
 buscar = st.button("Buscar Veículo", key="buscar_btn")
 if buscar:
-    if not placa:
-        with st.spinner("Buscando veículo..."):
-            veiculo = buscar_por_placa(placa, dados)
-            
-            if veiculo:
-                st.success("✅ Veículo encontrado!")
+    veiculo = buscar_por_placa(placa, dados)
+    
+    if veiculo:
+        st.success("✅ Veículo encontrado!")
 
-                # Por esto (usa directamente los valores del DataFrame):
-                placa = veiculo["placa"]
-                carro = veiculo["carro"]
-                modelo = veiculo["modelo"]
-                ano = veiculo["ano"]
-                date_in = veiculo["date_in"]
-                
-                # Muestra los valores si lo deseas (opcional)
-                st.write(f"Placa: {placa}")
-                st.write(f"Carro: {carro}")
-                st.write(f"Modelo: {modelo}")
-                st.write(f"Ano: {ano}")
-                st.write(f"Data de entrada: {date_in}")
-                
-                
-                env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-                template = env.get_template("template_2.html")
+        # Por esto (usa directamente los valores del DataFrame):
+        placa = veiculo["placa"]
+        carro = veiculo["carro"]
+        modelo = veiculo["modelo"]
+        ano = veiculo["ano"]
+        date_in = veiculo["date_in"]
+        
+        # Muestra los valores si lo deseas (opcional)
+        st.write(f"Placa: {placa}")
+        st.write(f"Carro: {carro}")
+        st.write(f"Modelo: {modelo}")
+        st.write(f"Ano: {ano}")
+        st.write(f"Data de entrada: {date_in}")
+        
+        
+        env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
+        template = env.get_template("template_2.html")
                 
 submit = st.button("Gerar PDF")
                 
