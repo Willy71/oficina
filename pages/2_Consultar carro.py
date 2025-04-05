@@ -110,27 +110,6 @@ def formatar_valor(valor):
     if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none']:
         return ""
     return valor
-
-def generar_pdf(veiculo, servicos, pecas, total_servicos, total_pecas_final, total_geral):
-    try:
-        env = Environment(loader=FileSystemLoader("."))
-        template = env.get_template("template.html")
-        
-        html = template.render(
-            placa=veiculo.get('placa', ''),
-            carro=veiculo.get('carro', ''),
-            # ... (todos los campos necesarios)
-            total_geral=f"{total_geral:.2f}",
-            data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M")
-        )
-        
-        # Genera bytes directamente (sin archivo temporal)
-        pdf_bytes = pdfkit.from_string(html, False, configuration=pdfkit_config)
-        return pdf_bytes
-        
-    except Exception as e:
-        st.error(f"Error al generar PDF: {str(e)}")
-        return None
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Interfaz de usuario
 with st.container():
@@ -265,26 +244,32 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
-
+                    env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
+                    template = env.get_template("template.html")
+                    
+                    submit = st.button("📄 Gerar PDF do Orçament")
                     # Generar PDF
-                    if st.button("📄 Gerar PDF do Orçamento"):
-                        with st.spinner("Gerando PDF..."):
-                            pdf_bytes = generar_pdf(
-                                veiculo=veiculo,
-                                servicos=servicos,  # Usa las variables que sí existen
-                                pecas=pecas,
-                                total_servicos=total_servicos,
-                                total_pecas_final=total_pecas_final,
-                                total_geral=total_geral
-                            )
-                            
-                            if pdf_bytes:
-                                st.download_button(
-                                    label="⬇️ Baixar PDF",
-                                    data=pdf_bytes,
-                                    file_name=f"orcamento_{veiculo.get('placa', '')}.pdf",
-                                    mime="application/octet-stream"
-                                )
+                    if submit:
+                        html = template.render(
+                            veiculo=veiculo,
+                            servicos=servicos,  # Usa las variables que sí existen
+                            pecas=pecas,
+                            total_servicos=total_servicos,
+                            total_pecas_final=total_pecas_final,
+                            total_geral=total_geral
+                        )
+                        
+                        pdf = pdfkit.from_string(html, False)
+                        st.balloons()
+                        
+                        st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
+                        
+                        st.download_button(  # Cambiado de right.download_button a st.download_button
+                            "⬇️ Download PDF",
+                            data=pdf,
+                            file_name="carro.pdf",
+                            mime="application/octet-stream",
+                        )
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------            
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
