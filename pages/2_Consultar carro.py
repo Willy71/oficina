@@ -112,8 +112,6 @@ def formatar_valor(valor):
     return valor
 # ----------------------------------------------------------------------------------------------------------------------------------
 
-env = Environment(loader=FileSystemLoader("."))
-
 # 2. Crear un formulario para toda la consulta
 with st.form(key="consulta_form"):
     placa = st.text_input("Digite a placa do veículo:", key="placa_input").strip().upper()
@@ -240,6 +238,43 @@ with st.form(key="consulta_form"):
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+
+
+                 # 5. Botón de generación de PDF dentro del mismo form
+                if st.form_submit_button("Gerar PDF"):
+                    env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
+                    template = env.get_template("template.html")
+                    html = template.render(
+                        placa=veiculo.get('placa', ''),
+                        carro=veiculo.get('carro', ''),
+                        modelo=veiculo.get('modelo', ''),
+                        ano=veiculo.get('ano', ''),
+                        dono_empresa=veiculo.get('dono_empresa', ''),
+                        date_in=veiculo.get('date_in', ''),
+                        date_prev=veiculo.get('date_prev', ''),
+                        servicos=servicos,
+                        pecas=pecas,
+                        total_servicos=f"{total_servicos:.2f}",
+                        total_pecas_final=f"{total_pecas_final:.2f}",
+                        total_geral=f"{total_geral:.2f}",
+                        data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M")
+                    )
+                    
+                    pdf = pdfkit.from_string(html, False)
+                    st.balloons()
+                    
+                    # Temporalmente puedes ver el HTML antes de convertirlo a PDF
+                    if st.checkbox("Mostrar HTML generado"):
+                        st.markdown(html, unsafe_allow_html=True)
+                        
+                    st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
+                    
+                    st.download_button(  # Cambiado de right.download_button a st.download_button
+                        "⬇️ Download PDF",
+                        data=pdf,
+                        file_name="carro.pdf",
+                        mime="application/octet-stream",
+                    )  
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
 
