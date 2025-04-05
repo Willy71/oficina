@@ -244,13 +244,12 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
-                    
-                    env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-                    template = env.get_template("template.html")
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
 #=================================================================================================================================================================
 submit = st.button("📄 Gerar PDF do Orçament")
+env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
+template = env.get_template("template.html")
 # Generar PDF
 if submit:
     html = template.render(
