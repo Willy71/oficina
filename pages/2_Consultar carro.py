@@ -135,10 +135,28 @@ def safe_float(valor):
     except ValueError:
         return 0.0
 
-def formatar_valor(valor):
-    if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none']:
-        return ""
-    return valor
+
+def formatar_valor(valor, formato_moeda=False):
+    """
+    Formatea valores para visualización
+    
+    Args:
+        valor: Valor a formatear
+        formato_moeda: Si True, formatea como moneda (R$ 0.00)
+    
+    Returns:
+        str: Valor formateado
+    """
+    if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none', '']:
+        return "0.00" if formato_moeda else ""
+    
+    try:
+        # Conversión segura a número
+        valor_num = float(str(valor).replace(',', '.'))
+        return f"{valor_num:.2f}" if formato_moeda else str(valor)
+    except (ValueError, TypeError):
+        return "0.00" if formato_moeda else str(valor)
+
 
 def formatar_real(valor, padrao="0,00"):
     """
@@ -264,9 +282,7 @@ if buscar:
                     else:
                         st.info("Nenhum serviço registrado")
 
-                
-
-#===================================================================================================================================================================
+#==============================================================================================================================================================
 
 
                 # Mostrar peças con expanders
