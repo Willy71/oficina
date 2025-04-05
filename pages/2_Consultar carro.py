@@ -8,11 +8,6 @@ import numpy as np
 import pdfkit
 from jinja2 import Environment, FileSystemLoader
 from datetime import datetime
-import tempfile
-import os
-
-# Configuración de pdfkit (después de los imports)
-pdfkit_config = pdfkit.configuration()  # O configura la ruta a wkhtmltopdf si es necesario
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
