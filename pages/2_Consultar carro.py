@@ -139,6 +139,35 @@ def formatar_valor(valor):
     if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none']:
         return ""
     return valor
+
+def formatar_real(valor, padrao="0,00"):
+    """
+    Formata valores para el estándar monetario brasileño (R$ 0,00)
+    
+    Args:
+        valor: Valor a formatear (str, float, int o None)
+        padrao: Valor por defecto si no se puede formatear (default: "0,00")
+    
+    Returns:
+        str: Valor formateado con coma decimal (ej. "1.234,56")
+    """
+    try:
+        # Convierte a string y limpia
+        str_valor = str(valor).strip()
+        
+        # Verifica valores vacíos o inválidos
+        if not str_valor or str_valor.lower() in ['nan', 'none', 'null', '']:
+            return padrao
+            
+        # Reemplaza comas por puntos para conversión a float
+        str_valor = str_valor.replace('.', '').replace(',', '.')
+        
+        # Formatea con 2 decimales y comas como separador decimal
+        valor_float = float(str_valor)
+        return f"{valor_float:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    
+    except (ValueError, TypeError, AttributeError):
+        return padrao
 #====================================================================================================================================================
 # Inicializar la hoja de cálculo
 worksheet = inicializar_hoja()
@@ -216,15 +245,7 @@ if buscar:
                         valor = veiculo.get(f'valor_serv_{i}', '')
                 
                         if pd.notna(item) and pd.notna(desc) and pd.notna(valor):  # Filtrar solo los servicios con datos
-                            try:
-                                if pd.isna(valor) or str(valor).strip() in ['', 'nan', 'None']:
-                                    valor_formatado = "0,00"
-                                else:
-                                    # Convierte a float, reemplazando comas por puntos si es necesario
-                                    valor_num = float(str(valor).replace(',', '.'))
-                                    valor_formatado = f"{valor_num:.2f}".replace('.', ',')  # Formato brasileño
-                            except (ValueError, TypeError):
-                                valor_formatado = "0,00"
+                            valor_formatado = formatar_real(valor)
                             valor_float = safe_float(valor) if pd.notna(valor) else 0.0
                             total_servicos += valor_float
                 
