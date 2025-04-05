@@ -293,24 +293,6 @@ if buscar:
                     #st.json(veiculo)
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
-# ----------------------------------------------------------------------------------------------------------------------------------
-# Inicialización
-if 'veiculo' not in st.session_state:
-    st.session_state.veiculo = None
-
-# Búsqueda
-placa = st.text_input("Digite a placa...")
-if st.button("Buscar Veículo"):
-    st.session_state.veiculo = buscar_por_placa(placa, dados)
-
-# Mostrar resultados y PDF
-if st.session_state.veiculo:
-    veiculo = st.session_state.veiculo
-    st.write(f"Placa: {veiculo['placa']}")
-    st.write(f"Carro: {veiculo['carro']}")
-    st.write(f"Modelo: {veiculo['modelo']}")
-    st.write(f"Ano: {veiculo['ano']}")
-    st.write(f"Data de entrada: {veiculo['date_in']}")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Opción para buscar por otros criterios
