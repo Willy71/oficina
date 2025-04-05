@@ -399,7 +399,7 @@ if st.session_state.veiculo_encontrado:
                 st.download_button(
                     "⬇️ Baixar PDF",
                     data=pdf,
-                    file_name=f"relatorio_{veiculo['placa']}.pdf",
+                    file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']}.pdf",
                     mime="application/octet-stream",
                     key="download_pdf"
                 )
