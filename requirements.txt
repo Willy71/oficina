@@ -7,5 +7,3 @@ pycountry
 numpy==1.26.4
 jinja2
 pdfkit
-tempfile
-os
