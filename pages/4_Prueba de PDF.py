@@ -151,54 +151,50 @@ if buscar:
             if veiculo:
                 st.success("✅ Veículo encontrado!")
 
-
-vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
-
-# Por esto (usa directamente los valores del DataFrame):
-placa = vendor_data["placa"]
-carro = vendor_data["carro"]
-modelo = vendor_data["modelo"]
-ano = vendor_data["ano"]
-date_in = vendor_data["date_in"]
-
-# Muestra los valores si lo deseas (opcional)
-st.write(f"Placa: {placa}")
-st.write(f"Carro: {carro}")
-st.write(f"Modelo: {modelo}")
-st.write(f"Ano: {ano}")
-st.write(f"Data de entrada: {date_in}")
-
-
-env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-template = env.get_template("template_2.html")
-
-submit = st.button("Gerar PDF")
-
-if submit:
-    try:
-        html = template.render(
-            placa=placa,
-            carro=carro,
-            modelo=modelo,
-            ano=ano,
-            date_in=date_in
-        )
-
-        pdf = pdfkit.from_string(html, False)
-        st.balloons()
-        
-        st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
-        
-        st.download_button(  # Cambiado de right.download_button a st.download_button
-            "⬇️ Download PDF",
-            data=pdf,
-            file_name="carro.pdf",
-            mime="application/octet-stream",
-        )
-
-            
-    except Exception as e:
-        st.error(f"Erro ao gerar PDF: {str(e)}")
-        st.markdown("**HTML gerado (para debug):**")
-        st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
+                # Por esto (usa directamente los valores del DataFrame):
+                placa = veiculo["placa"]
+                carro = veiculo["carro"]
+                modelo = veiculo["modelo"]
+                ano = veiculo["ano"]
+                date_in = veiculo["date_in"]
+                
+                # Muestra los valores si lo deseas (opcional)
+                st.write(f"Placa: {placa}")
+                st.write(f"Carro: {carro}")
+                st.write(f"Modelo: {modelo}")
+                st.write(f"Ano: {ano}")
+                st.write(f"Data de entrada: {date_in}")
+                
+                
+                env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
+                template = env.get_template("template_2.html")
+                
+                submit = st.button("Gerar PDF")
+                
+                if submit:
+                    try:
+                        html = template.render(
+                            placa=placa,
+                            carro=carro,
+                            modelo=modelo,
+                            ano=ano,
+                            date_in=date_in
+                        )
+                
+                        pdf = pdfkit.from_string(html, False)
+                        st.balloons()
+                        
+                        st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
+                        
+                        st.download_button(  # Cambiado de right.download_button a st.download_button
+                            "⬇️ Download PDF",
+                            data=pdf,
+                            file_name="carro.pdf",
+                            mime="application/octet-stream",
+                        )
+                
+                            
+                    except Exception as e:
+                        st.error(f"Erro ao gerar PDF: {str(e)}")
+                        st.markdown("**HTML gerado (para debug):**")
+                        st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
