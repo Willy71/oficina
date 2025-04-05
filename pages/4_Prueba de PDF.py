@@ -132,7 +132,7 @@ date_in = st.text(vendor_data["date_in"])
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
 template = env.get_template("template_2.html")
 
-submit = st.submit_button("Gerar PDF")
+submit = st.button("Gerar PDF")
 
 if submit:
     html = template.render(
