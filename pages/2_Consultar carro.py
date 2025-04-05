@@ -329,25 +329,25 @@ if buscar:
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
 
-# Mostrar resultados y PDF
-if st.session_state.veiculo:
-    veiculo = st.session_state.veiculo
-#===========================================================================================================================================================
-    if st.button("Gerar PDF"):
-        html = template.render(
-            placa=veiculo['placa'],
-            carro=veiculo['carro'],
-            modelo=veiculo['modelo'],
-            ano=veiculo['ano'],
-            date_in=veiculo['date_in']
-        )
-        pdf = pdfkit.from_string(html, False)
-        st.download_button(
-            "⬇️ Download PDF",
-            data=pdf,
-            file_name="carro.pdf",
-            mime="application/octet-stream"
-        )
+                # Mostrar resultados y PDF
+                if st.session_state.veiculo:
+                    veiculo = st.session_state.veiculo
+                    
+                    if st.button("Gerar PDF"):
+                        html = template.render(
+                            placa=veiculo['placa'],
+                            carro=veiculo['carro'],
+                            modelo=veiculo['modelo'],
+                            ano=veiculo['ano'],
+                            date_in=veiculo['date_in']
+                        )
+                        pdf = pdfkit.from_string(html, False)
+                        st.download_button(
+                            "⬇️ Download PDF",
+                            data=pdf,
+                            file_name="carro.pdf",
+                            mime="application/octet-stream"
+                        )
 
 #==========================================================================================================================================================
 # Opción para buscar por otros criterios
