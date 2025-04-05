@@ -292,12 +292,6 @@ if buscar:
 # Mostrar resultados y PDF
 if st.session_state.veiculo:
     veiculo = st.session_state.veiculo
-    st.write(f"Placa: {veiculo['placa']}")
-    st.write(f"Carro: {veiculo['carro']}")
-    st.write(f"Modelo: {veiculo['modelo']}")
-    st.write(f"Ano: {veiculo['ano']}")
-    st.write(f"Data de entrada: {veiculo['date_in']}")
-
 #===========================================================================================================================================================
     if st.button("Gerar PDF"):
         html = template.render(
