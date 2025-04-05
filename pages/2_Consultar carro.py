@@ -1,8 +1,5 @@
 # 2_Consultar_carro.py
-import pdfkit
-from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 import streamlit as st
-from streamlit.components.v1 import iframe
 import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
@@ -111,13 +108,19 @@ def formatar_valor(valor):
         return ""
     return valor
 # ----------------------------------------------------------------------------------------------------------------------------------
+# Interfaz de usuario
+with st.container():
+    col1, col2, col3 = st.columns([3, 2, 1])
+    with col1:
+        placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
+    with col2:
+        st.write("")  # Espaciador
+        buscar = st.button("Buscar Veículo", key="buscar_btn")
 
-# 2. Crear un formulario para toda la consulta
-with st.form(key="consulta_form"):
-    placa = st.text_input("Digite a placa do veículo:", key="placa_input").strip().upper()
-    submit = st.form_submit_button("Buscar Veículo")
-
-    if submit:
+if buscar:
+    if not placa:
+        st.warning("Por favor, digite uma placa para buscar")
+    else:
         with st.spinner("Buscando veículo..."):
             veiculo = buscar_por_placa(placa, dados)
             
@@ -213,7 +216,7 @@ with st.form(key="consulta_form"):
                             total_pecas_final += valor_total_final  # Sumar costo final con adicional
                             
                             pecas.append({
-                                'Quant': quant if pd.notna(quant) else '',
+                                'Quant.': quant if pd.notna(quant) else '',
                                 'Descrição': desc if pd.notna(desc) else '',
                                 'Custo Unit. (R$)': f"{formatar_valor(valor):.2f}",
                                 '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
@@ -238,60 +241,16 @@ with st.form(key="consulta_form"):
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
-
-
-                 # 5. Botón de generación de PDF dentro del mismo form
-                if st.form_submit_button("Gerar PDF"):
-                    env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-                    template = env.get_template("template.html")
-                    html = template.render(
-                        placa=veiculo.get('placa', ''),
-                        carro=veiculo.get('carro', ''),
-                        modelo=veiculo.get('modelo', ''),
-                        ano=veiculo.get('ano', ''),
-                        dono_empresa=veiculo.get('dono_empresa', ''),
-                        date_in=veiculo.get('date_in', ''),
-                        date_prev=veiculo.get('date_prev', ''),
-                        servicos=servicos,
-                        pecas=pecas,
-                        total_servicos=f"{total_servicos:.2f}",
-                        total_pecas_final=f"{total_pecas_final:.2f}",
-                        total_geral=f"{total_geral:.2f}",
-                        data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M")
-                    )
-                    
-                    pdf = pdfkit.from_string(html, False)
-                    st.balloons()
-                    
-                    # Temporalmente puedes ver el HTML antes de convertirlo a PDF
-                    if st.checkbox("Mostrar HTML generado"):
-                        st.markdown(html, unsafe_allow_html=True)
-                        
-                    st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
-                    
-                    st.download_button(  # Cambiado de right.download_button a st.download_button
-                        "⬇️ Download PDF",
-                        data=pdf,
-                        file_name="carro.pdf",
-                        mime="application/octet-stream",
-                    )  
+                
+                # Mostrar todos los datos en formato JSON
+                #with st.expander("📄 Ver todos os dados técnicos", expanded=False):
+                    #st.json(veiculo)
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
+# ----------------------------------------------------------------------------------------------------------------------------------
 
 
-        
-
-
-
-#=================================================================================================================================================================       
-    
-        
-
-#=================================================================================================================================================================
-            
-
-                       
-
+# ----------------------------------------------------------------------------------------------------------------------------------
 # Opción para buscar por otros criterios
 with st.expander("🔎 Busca Avançada", expanded=False):
     with st.form(key="busca_avancada"):
