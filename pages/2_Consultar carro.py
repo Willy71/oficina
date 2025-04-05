@@ -204,31 +204,40 @@ if buscar:
                         st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
 
 
+               # Reemplaza esta sección:
                 submit = st.form_submit_button("Generate PDF")
-
+                
                 if submit:
-                    # Renderizar el HTML con los datos
-                    html = template.render(
-                        placa=veiculo.get('placa', ''),
-                        carro=veiculo.get('carro', ''),
-                        modelo=veiculo.get('modelo', ''),
-                        ano=veiculo.get('ano', ''),
-                        dono_empresa=veiculo.get('dono_empresa', ''),
-                        date_in=veiculo.get('date_in', ''),
-                    )
-                
-                    pdf = pdfkit.from_string(html, False)
-                    st.balloons()
-                
-                    right.success("🎉 Seu PDF foi gerado com sucesso!")
-                    # st.write(html, unsafe_allow_html=True)
-                    # st.write("")
-                    right.download_button(
-                        "⬇️ Download PDF",
-                        data=pdf,
-                        file_name="ordem_de_servico.pdf",
-                        mime="application/octet-stream",
-                    )
+                    # Renderizar el HTML...
+                    
+                # Con esto (colócalo DESPUÉS de calcular los totales):
+                if 'total_servicos' in locals() and 'total_pecas' in locals():
+                    total_geral = total_servicos + total_pecas_final
+                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+                    
+                    if st.button("📄 Gerar PDF do Orçamento"):
+                        with st.spinner("Gerando PDF..."):
+                            # Preparar datos para el PDF...
+                            pdf_path = generar_pdf(
+                                veiculo=veiculo,
+                                servicos=servicos,
+                                pecas=pecas,
+                                total_servicos=total_servicos,
+                                total_pecas_final=total_pecas_final,
+                                total_geral=total_geral
+                            )
+                            
+                            if pdf_path:
+                                with open(pdf_path, "rb") as f:
+                                    pdf_bytes = f.read()
+                                
+                                st.download_button(
+                                    label="⬇️ Baixar PDF",
+                                    data=pdf_bytes,
+                                    file_name=f"orcamento_{veiculo.get('placa', '')}_{datetime.now().strftime('%Y%m%d')}.pdf",
+                                    mime="application/pdf"
+                                )
+                                os.unlink(pdf_path)
 #===================================================================================================================================================================
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
