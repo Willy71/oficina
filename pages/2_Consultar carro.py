@@ -138,39 +138,6 @@ if buscar:
                 proprietario = veiculo.get('dono_empresa', '')
                 telefone = veiculo.get('telefone', '')
                 endereco = veiculo.get('endereco', '')
-                
-                # Mostrar información principal en cards
-                with st.container():
-                    cols = st.columns(3)
-                    with cols[0]:
-                        st.metric("Marca", formatar_valor(veiculo.get('carro')))
-                    with cols[1]:
-                        st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
-                    with cols[2]:
-                        ano = veiculo.get('ano')
-                        if isinstance(ano, float):
-                            ano = int(ano)
-                        st.metric("Ano", formatar_valor(ano))
-                
-                # Mostrar detalles del estado y fechas
-                with st.container():
-                    cols = st.columns(3)
-                    with cols[0]:
-                        st.metric("Estado", formatar_valor(veiculo.get('estado')))
-                    with cols[1]:
-                        st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
-                    with cols[2]:
-                        st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
-                
-                # Mostrar información del dueño
-                with st.container():
-                    cols = st.columns(3)
-                    with cols[0]:
-                        st.metric("Proprietário", formatar_valor(veiculo.get('dono_empresa')))
-                    with cols[1]:
-                        st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
-                    with cols[2]:
-                        st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
 
                 if st.button("📄 Gerar PDF do Relatório"):
                     st.warning("🎯 Botão pressionado!")
@@ -204,6 +171,39 @@ if buscar:
                     
                     except Exception as e:
                         st.error(f"Erro ao gerar PDF: {e}")
+                
+                # Mostrar información principal en cards
+                with st.container():
+                    cols = st.columns(3)
+                    with cols[0]:
+                        st.metric("Marca", formatar_valor(veiculo.get('carro')))
+                    with cols[1]:
+                        st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
+                    with cols[2]:
+                        ano = veiculo.get('ano')
+                        if isinstance(ano, float):
+                            ano = int(ano)
+                        st.metric("Ano", formatar_valor(ano))
+                
+                # Mostrar detalles del estado y fechas
+                with st.container():
+                    cols = st.columns(3)
+                    with cols[0]:
+                        st.metric("Estado", formatar_valor(veiculo.get('estado')))
+                    with cols[1]:
+                        st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
+                    with cols[2]:
+                        st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
+                
+                # Mostrar información del dueño
+                with st.container():
+                    cols = st.columns(3)
+                    with cols[0]:
+                        st.metric("Proprietário", formatar_valor(veiculo.get('dono_empresa')))
+                    with cols[1]:
+                        st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
+                    with cols[2]:
+                        st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
 #===================================================================================================================================================================
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
