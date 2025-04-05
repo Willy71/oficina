@@ -122,11 +122,19 @@ existing_data = cargar_datos(worksheet)
 vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
 vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
 
-placa = st.text(vendor_data["placa"])
-carro = st.text(vendor_data["carro"])
-modelo = st.text(vendor_data["modelo"])
-ano = st.text(vendor_data["ano"])
-date_in = st.text(vendor_data["date_in"])
+# Por esto (usa directamente los valores del DataFrame):
+placa = vendor_data["placa"]
+carro = vendor_data["carro"]
+modelo = vendor_data["modelo"]
+ano = vendor_data["ano"]
+date_in = vendor_data["date_in"]
+
+# Muestra los valores si lo deseas (opcional)
+st.write(f"Placa: {placa}")
+st.write(f"Carro: {carro}")
+st.write(f"Modelo: {modelo}")
+st.write(f"Ano: {ano}")
+st.write(f"Data de entrada: {date_in}")
 
 
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
