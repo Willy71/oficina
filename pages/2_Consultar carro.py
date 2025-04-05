@@ -130,7 +130,9 @@ def buscar_por_placa(placa, df):
 #====================================================================================================================================================
 
 def safe_float(valor):
-    if valor in [None, '', np.nan, pd.NA]:
+    """Convierte cualquier valor a float de manera segura"""
+    # Verificación segura de valores nulos o vacíos
+    if pd.isna(valor) or valor in [None, '']:
         return 0.0
     
     # Si ya es numérico, retornar directamente
@@ -151,6 +153,7 @@ def safe_float(valor):
             return float(str_valor)
     except:
         return 0.0
+
 
 def formatar_valor(valor, padrao=""):
     """
