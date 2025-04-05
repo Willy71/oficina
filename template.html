@@ -1,69 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8">
-    <title>Relatório do Veículo</title>    
+    <meta charset="UTF-8">
+    <title>Relatório de Serviço</title>
     <style>
-        body { font-family: Arial; }
-        .header { text-align: center; }
-        .section { margin-top: 20px; }
-        .table { width: 100%; border-collapse: collapse; }
-        .table th, .table td { border: 1px solid #000; padding: 8px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header img {
+            max-height: 100px;
+        }
+        h1 {
+            color: #c40000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        table, th, td {
+            border: 1px solid #aaa;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
+        .total {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+        .info {
+            margin-bottom: 20px;
+        }
+        .info p {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
 
-    
-    <div class="header">
-        <img src="logo.png" width="100">
-        <h1>ZAMBRZYCKI Auto Center</h1>
-        <h2>Relatório do Veículo</h2>
-        <p><strong>Marca:</strong> {{ carro }} | <strong>Modelo:</strong> {{ modelo }} | <strong>Ano:</strong> {{ ano }}</p>
-        <p><strong>Placa:</strong> {{ placa }}</p>
-        <p><strong>Cor:</strong> {{ cor }}</p>
-        <p><strong>Proprietário:</strong> {{ proprietario }}</p>
-        <p><strong>Telefone:</strong> {{ telefone }}</p>
-        <p><strong>Endereço:</strong> {{ endereco }}</p>
-        <p><strong>Estado:</strong> {{ estado }}</p>
-        <p><strong>Data Entrada:</strong> {{ data_entrada }} | <strong>Previsão Entrega:</strong> {{ previsao_entrega }}</p>
-    </div>
+<header>
+    <img src="logo.png" alt="Logo da empresa">
+    <h1>ZAMBRZYCKI <span style="color: #555;">Auto Center</span></h1>
+    <p>Relatório de Serviços</p>
+</header>
 
-    <div class="section">
-        <strong>Placa:</strong> {{ veiculo.placa }}<br>
-        <strong>Carro:</strong> {{ veiculo.carro }} {{ veiculo.modelo }} ({{ veiculo.ano }})<br>
-        <strong>Dono:</strong> {{ veiculo.dono_empresa }}<br>
-        <strong>Telefone:</strong> {{ veiculo.telefone }}<br>
-        <strong>Endereço:</strong> {{ veiculo.endereco }}
-    </div>
+<section class="info">
+    <h2>Informações do Veículo</h2>
+    <p><strong>Carro:</strong> {{ carro }} {{ modelo }}</p>
+    <p><strong>Ano:</strong> {{ ano }} | <strong>Estado:</strong> {{ estado }}</p>
+    <p><strong>Proprietário:</strong> {{ proprietario }}</p>
+    <p><strong>Telefone:</strong> {{ telefone }}</p>
+    <p><strong>Endereço:</strong> {{ endereco }}</p>
+    <p><strong>Data de Entrada:</strong> {{ date_in }} | <strong>Previsão de Entrega:</strong> {{ date_prev }}</p>
+</section>
 
-    <div class="section">
-        <h3>Serviços Realizados</h3>
-        <table class="table">
-            <tr><th>Item</th><th>Descrição</th><th>Valor (R$)</th></tr>
-            {% for serv in servicos %}
-            <tr><td>{{ serv.Item }}</td><td>{{ serv.Descrição }}</td><td>{{ serv['Valor (R$)'] }}</td></tr>
-            {% endfor %}
-        </table>
-        <strong>Total Serviços:</strong> R$ {{ total_servicos }}
-    </div>
-
-    <div class="section">
-        <h3>Peças Utilizadas</h3>
-        <table class="table">
-            <tr><th>Descrição</th><th>Quant.</th><th>Unitário</th><th>% Adic.</th><th>Valor Final</th></tr>
-            {% for peca in pecas %}
+<section>
+    <h2>Serviços Realizados</h2>
+    <table>
+        <thead>
             <tr>
-                <td>{{ peca.Descrição }}</td><td>{{ peca['Quant.'] }}</td>
-                <td>{{ peca['Custo Unit. (R$)'] }}</td><td>{{ peca['% Adicional'] }}</td>
-                <td>{{ peca['Valor Final (R$)'] }}</td>
+                <th>Serviço</th>
+                <th>Valor (R$)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servico in servicos %}
+            <tr>
+                <td>{{ servico.nome }}</td>
+                <td>{{ "%.2f"|format(servico.valor) }}</td>
             </tr>
             {% endfor %}
-        </table>
-        <strong>Total Peças:</strong> R$ {{ total_pecas_final }}
-    </div>
+            <tr class="total">
+                <td>Total Serviços</td>
+                <td>R$ {{ "%.2f"|format(total_servicos) }}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
-    <div class="section">
-        <h2>Total Geral: R$ {{ total_geral }}</h2>
-    </div>
+<section>
+    <h2>Peças Utilizadas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Peça</th>
+                <th>Valor (R$)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for peca in pecas %}
+            <tr>
+                <td>{{ peca.nome }}</td>
+                <td>{{ "%.2f"|format(peca.valor) }}</td>
+            </tr>
+            {% endfor %}
+            <tr class="total">
+                <td>Total Peças</td>
+                <td>R$ {{ "%.2f"|format(total_pecas_final) }}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>Total Geral</h2>
+    <p class="total">R$ {{ "%.2f"|format(total_geral) }}</p>
+</section>
+
 </body>
 </html>
