@@ -1,121 +1,103 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Relatório de Serviço</title>
+    <title>Orçamento - {{placa}}</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            color: #333;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        header img {
-            max-height: 100px;
-        }
-        h1 {
-            color: #c40000;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-        }
-        table, th, td {
-            border: 1px solid #aaa;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #eee;
-        }
-        .total {
-            font-weight: bold;
-            background-color: #f9f9f9;
-        }
-        .info {
-            margin-bottom: 20px;
-        }
-        .info p {
-            margin: 5px 0;
-        }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+        .logo { max-width: 200px; margin-bottom: 10px; }
+        .empresa-info { margin-bottom: 20px; }
+        .vehiculo-info { margin-bottom: 30px; }
+        .section { margin-bottom: 20px; }
+        .section-title { background-color: #f2f2f2; padding: 5px 10px; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .total { font-weight: bold; text-align: right; margin-top: 10px; }
+        .footer { margin-top: 30px; text-align: center; font-size: 12px; border-top: 1px solid #333; padding-top: 10px; }
     </style>
 </head>
 <body>
-
-<header>
-    <img src="logo.png" alt="Logo da empresa">
-    <h1>ZAMBRZYCKI <span style="color: #555;">Auto Center</span></h1>
-    <p>Relatório de Serviços</p>
-</header>
-
-<section class="info">
-    <h2>Informações do Veículo</h2>
-    <p><strong>Carro:</strong> {{ carro }} {{ modelo }}</p>
-    <p><strong>Ano:</strong> {{ ano }} | <strong>Estado:</strong> {{ estado }}</p>
-    <p><strong>Proprietário:</strong> {{ proprietario }}</p>
-    <p><strong>Telefone:</strong> {{ telefone }}</p>
-    <p><strong>Endereço:</strong> {{ endereco }}</p>
-    <p><strong>Data de Entrada:</strong> {{ date_in }} | <strong>Previsão de Entrega:</strong> {{ date_prev }}</p>
-</section>
-
-<section>
-    <h2>Serviços Realizados</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Serviço</th>
-                <th>Valor (R$)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for servico in servicos %}
-            <tr>
-                <td>{{ servico.nome }}</td>
-                <td>{{ "%.2f"|format(servico.valor) }}</td>
-            </tr>
-            {% endfor %}
-            <tr class="total">
-                <td>Total Serviços</td>
-                <td>R$ {{ "%.2f"|format(total_servicos) }}</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<section>
-    <h2>Peças Utilizadas</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Peça</th>
-                <th>Valor (R$)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for peca in pecas %}
-            <tr>
-                <td>{{ peca.nome }}</td>
-                <td>{{ "%.2f"|format(peca.valor) }}</td>
-            </tr>
-            {% endfor %}
-            <tr class="total">
-                <td>Total Peças</td>
-                <td>R$ {{ "%.2f"|format(total_pecas_final) }}</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<section>
-    <h2>Total Geral</h2>
-    <p class="total">R$ {{ "%.2f"|format(total_geral) }}</p>
-</section>
-
+    <div class="header">
+        <!-- Reemplaza con la ruta correcta a tu logo -->
+        <img src="file:///path/to/your/logo.png" class="logo" alt="Logo">
+        <div class="empresa-info">
+            <h2>ZAMBRZYCKI Auto Center</h2>
+            <p>CNPJ: 116902840001-01 | INSC: 9105659668</p>
+            <p>ENDEREÇO: Rua Nicolau Florenzano 608, Uvaranas</p>
+            <p>Contato: (42) 999915-8454</p>
+        </div>
+    </div>
+    
+    <div class="vehiculo-info">
+        <h3>Dados do Veículo</h3>
+        <p><strong>Placa:</strong> {{placa}}</p>
+        <p><strong>Marca:</strong> {{carro}}</p>
+        <p><strong>Modelo:</strong> {{modelo}}</p>
+        <p><strong>Ano:</strong> {{ano}}</p>
+        <p><strong>Proprietário:</strong> {{dono_empresa}}</p>
+        <p><strong>Data Entrada:</strong> {{date_in}}</p>
+        <p><strong>Previsão Entrega:</strong> {{date_prev}}</p>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">Serviços Realizados</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Descrição</th>
+                    <th>Valor (R$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for servico in servicos %}
+                <tr>
+                    <td>{{servico.Item}}</td>
+                    <td>{{servico.Descrição}}</td>
+                    <td>{{servico.Valor}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total">Subtotal Serviços: R$ {{total_servicos}}</div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">Peças Utilizadas</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Quant.</th>
+                    <th>Descrição</th>
+                    <th>Custo Unit.</th>
+                    <th>% Adicional</th>
+                    <th>Valor Final</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for peca in pecas %}
+                <tr>
+                    <td>{{peca.Quant.}}</td>
+                    <td>{{peca.Descrição}}</td>
+                    <td>{{peca['Custo Unit.']}}</td>
+                    <td>{{peca['% Adicional']}}</td>
+                    <td>{{peca['Valor Final']}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total">Subtotal Peças: R$ {{total_pecas_final}}</div>
+    </div>
+    
+    <div class="total" style="font-size: 1.2em;">
+        TOTAL GERAL: R$ {{total_geral}}
+    </div>
+    
+    <div class="footer">
+        <p>Emitido em: {{data_emissao}}</p>
+        <p>ZAMBRZYCKI Auto Center - Obrigado pela preferência!</p>
+    </div>
 </body>
 </html>
