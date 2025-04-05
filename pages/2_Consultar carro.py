@@ -225,7 +225,6 @@ if buscar:
                                     valor_formatado = f"{valor_num:.2f}".replace('.', ',')  # Formato brasileño
                             except (ValueError, TypeError):
                                 valor_formatado = "0,00"
-                            valor_formatado = f"{(valor):.2f}" if pd.notna(valor) else "0,00"
                             valor_float = safe_float(valor) if pd.notna(valor) else 0.0
                             total_servicos += valor_float
                 
