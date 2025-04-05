@@ -4,6 +4,8 @@ import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
+from jinja2 import Environment, FileSystemLoader
+import pdfkit
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
@@ -249,8 +251,6 @@ if buscar:
                 st.warning("Nenhum veículo encontrado com esta placa")
 # ----------------------------------------------------------------------------------------------------------------------------------
 
-
-# ----------------------------------------------------------------------------------------------------------------------------------
 # Opción para buscar por otros criterios
 with st.expander("🔎 Busca Avançada", expanded=False):
     with st.form(key="busca_avancada"):
@@ -288,3 +288,30 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                     st.markdown(f"- {veiculo_str}")
             else:
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
+
+# ----------------------------------------------------------------------------------------------------------------------------------
+
+# Botão
+if st.button("📄 Gerar PDF do Relatório"):
+    env = Environment(loader=FileSystemLoader('.'))
+    template = env.get_template("template.html")
+
+    html = template.render(
+        veiculo=veiculo,
+        servicos=servicos,
+        pecas=pecas,
+        total_servicos=total_servicos,
+        total_pecas_final=total_pecas_final,
+        total_geral=total_geral,
+    )
+
+    # Gera PDF
+    pdf = pdfkit.from_string(html, False)
+
+    # Botão para download
+    st.download_button(
+        label="⬇️ Baixar PDF",
+        data=pdf,
+        file_name=f"relatorio_{veiculo['placa']}.pdf",
+        mime="application/octet-stream",
+    )
