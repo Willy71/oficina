@@ -297,7 +297,7 @@ if st.button("📄 Gerar PDF do Relatório"):
     template = env.get_template("template.html")
 
     html = template.render(
-        veiculo=veiculo_str,
+        veiculo=carro,
         servicos=servicos,
         pecas=pecas,
         total_servicos=total_servicos,
