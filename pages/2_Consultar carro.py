@@ -1,6 +1,6 @@
 # 2_Consultar_carro.py
 import pdfkit
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 import streamlit as st
 from streamlit.components.v1 import iframe
 import pandas as pd
@@ -244,6 +244,7 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+                    
                     env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
                     template = env.get_template("template.html")
                     
