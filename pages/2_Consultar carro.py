@@ -1,21 +1,13 @@
 # 2_Consultar_carro.py
+import pdfkit
+from jinja2 import Environment, FileSystemLoader
 import streamlit as st
 from streamlit.components.v1 import iframe
 import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
-import pdfkit
-from jinja2 import Environment, FileSystemLoader
-from datetime import datetime
-import tempfile
-import os
 
-# Agrega esto después de los imports
-try:
-    pdfkit_config = pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')  # Ajusta la ruta según tu sistema
-except:
-    pdfkit_config = None
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
 st.set_page_config(
