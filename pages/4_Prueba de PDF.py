@@ -125,11 +125,13 @@ def buscar_por_placa(placa, df):
     return None
 
 
+
 # Inicializar la hoja de cálculo
 worksheet = inicializar_hoja()
 
-# Cargar datos desde Google Sheets
-existing_data = cargar_datos(worksheet)
+# Cargar datos
+dados = cargar_datos(worksheet)
+
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Interfaz de usuario
