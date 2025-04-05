@@ -78,12 +78,13 @@ def carregar_dados():
         return pd.DataFrame(), pd.DataFrame()
         return pd.DataFrame()
 
+#===================================================================================================================================================
 # Título e carregamento de dados
 st.title("📊 Painel de Controle de Veículos")
+#===================================================================================================================================================
 # Carregando os dados corretamente
 dados, dados_completos = carregar_dados()
 
-#===================================================================================================================================================
 # Normalizar a coluna 'estado'
 dados_completos['estado'] = dados_completos['estado'].astype(str).str.strip().str.lower()
 
