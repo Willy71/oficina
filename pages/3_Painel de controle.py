@@ -9,7 +9,7 @@ from datetime import datetime
 st.set_page_config(page_title="Painel de Controle", page_icon="📊", layout="wide")
 st.html("""<style>div[data-testid="stAppViewBlockContainer"]{padding-top:30px;}</style>""")
 st.markdown(f"""<style>[data-testid="stAppViewContainer"] > .main {{
-background-image: url("https://i.postimg.cc/jdtSsJ9t/jr-korpa-H-BJWTh-ZRok-unsplash.jpg");
+background-image: url("https://github.com/Willy71/oficina/blob/main/pictures/wallpaper%20black%20vintage.jpg?raw=true");
 background-size: 180%; background-position: top left; background-repeat: repeat; 
 background-attachment: local;}}</style>""", unsafe_allow_html=True)
 
