@@ -204,7 +204,7 @@ if buscar:
                         st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
 
 
-                submit = form.form_submit_button("Generate PDF")
+                submit = st.form_submit_button("Generate PDF")
 
                 if submit:
                     # Renderizar el HTML con los datos
