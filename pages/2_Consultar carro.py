@@ -249,8 +249,8 @@ if buscar:
                     #st.json(veiculo)
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
-
- if st.button("📄 Gerar PDF do Relatório"):
+#===================================================================================================================================================================
+if st.button("📄 Gerar PDF do Relatório"):
     st.warning("🎯 Botão pressionado!")
     try:
         env = Environment(loader=FileSystemLoader('.'))
