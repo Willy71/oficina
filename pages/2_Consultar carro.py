@@ -252,12 +252,19 @@ if buscar:
                     # Generar PDF
                     if submit:
                         html = template.render(
-                            veiculo=veiculo,
-                            servicos=servicos,  # Usa las variables que sí existen
+                            placa=veiculo.get('placa', ''),
+                            carro=veiculo.get('carro', ''),
+                            modelo=veiculo.get('modelo', ''),
+                            ano=veiculo.get('ano', ''),
+                            dono_empresa=veiculo.get('dono_empresa', ''),
+                            date_in=veiculo.get('date_in', ''),
+                            date_prev=veiculo.get('date_prev', ''),
+                            servicos=servicos,
                             pecas=pecas,
-                            total_servicos=total_servicos,
-                            total_pecas_final=total_pecas_final,
-                            total_geral=total_geral
+                            total_servicos=f"{total_servicos:.2f}",
+                            total_pecas_final=f"{total_pecas_final:.2f}",
+                            total_geral=f"{total_geral:.2f}",
+                            data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M")
                         )
                         
                         pdf = pdfkit.from_string(html, False)
