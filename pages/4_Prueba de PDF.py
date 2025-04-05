@@ -135,58 +135,40 @@ dados = cargar_datos(worksheet)
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
 template = env.get_template("template_2.html")
 
+#===========================================================================================================================================================
+# Inicialización
+if 'veiculo' not in st.session_state:
+    st.session_state.veiculo = None
 
-# ----------------------------------------------------------------------------------------------------------------------------------
-placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
-buscar = st.button("Buscar Veículo", key="buscar_btn")
-if buscar:
-    veiculo = buscar_por_placa(placa, dados)
-    
-    if veiculo:
-        st.success("✅ Veículo encontrado!")
+# Búsqueda
+placa = st.text_input("Digite a placa...")
+if st.button("Buscar Veículo"):
+    st.session_state.veiculo = buscar_por_placa(placa, dados)
 
-        # Por esto (usa directamente los valores del DataFrame):
-        placa = veiculo["placa"]
-        carro = veiculo["carro"]
-        modelo = veiculo["modelo"]
-        ano = veiculo["ano"]
-        date_in = veiculo["date_in"]
-        
-        # Muestra los valores si lo deseas (opcional)
-        st.write(f"Placa: {placa}")
-        st.write(f"Carro: {carro}")
-        st.write(f"Modelo: {modelo}")
-        st.write(f"Ano: {ano}")
-        st.write(f"Data de entrada: {date_in}")
+# Mostrar resultados y PDF
+if st.session_state.veiculo:
+    veiculo = st.session_state.veiculo
+    st.write(f"Placa: {veiculo['placa']}")
+    st.write(f"Carro: {carro}")
+    st.write(f"Modelo: {modelo}")
+    st.write(f"Ano: {ano}")
+    st.write(f"Data de entrada: {date_in}")
+
+#===========================================================================================================================================================
+    if st.button("Gerar PDF"):
+        html = template.render(
+            placa=veiculo['placa'],
+            # ...otros campos...
+        )
+        pdf = pdfkit.from_string(html, False)
+        st.download_button(
+            "⬇️ Download PDF",
+            data=pdf,
+            file_name="carro.pdf",
+            mime="application/octet-stream"
+        )
+       
         
                 
-        submit = st.button("Gerar PDF")
-                        
-        if submit:
-            try:
-                html = template.render(
-                    placa=placa,
-                    carro=carro,
-                    modelo=modelo,
-                    ano=ano,
-                    date_in=date_in
-                )
-        
-                pdf = pdfkit.from_string(html, False)
-                st.balloons()
-                
-                st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
-                
-                st.download_button(  # Cambiado de right.download_button a st.download_button
-                    "⬇️ Download PDF",
-                    data=pdf,
-                    file_name="carro.pdf",
-                    mime="application/octet-stream",
-                )
-                        
-            except Exception as e:
-                st.error(f"Erro ao gerar PDF: {str(e)}")
-                st.markdown("**HTML gerado (para debug):**")
-                st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
 
 
