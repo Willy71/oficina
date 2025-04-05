@@ -269,13 +269,6 @@ def add_space(lines=1):
         st.caption("")
     
 # ----------------------------------------------------------------------------------------------------------------------------------
-# Constantes
-prefijos = {c.alpha_2: pn.country_code_for_region(c.alpha_2) for c in pycountry.countries}
-
-# Función para obtener el prefijo seleccionado
-def obtener_prefijo(pais):
-    return prefijos.get(pais, '')
-# ----------------------------------------------------------------------------------------------------------------------------------
 # Titulo de la pagina
 centrar_texto("Gestão de Ordens de Serviço", 1, "white")
     
