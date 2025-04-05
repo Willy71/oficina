@@ -274,30 +274,25 @@ if buscar:
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
 
-
-                    # Reemplaza todo el bloque del botón PDF con esto:
-                    if 'total_servicos' in locals() and 'total_pecas' in locals():
-                        total_geral = total_servicos + total_pecas_final
-                        st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
-                        
-                        if st.button("📄 Gerar PDF do Orçamento"):
-                            with st.spinner("Gerando PDF..."):
-                                pdf_bytes = generar_pdf(
-                                    veiculo=veiculo,
-                                    servicos=servicos_pdf,
-                                    pecas=pecas_pdf,
-                                    total_servicos=total_servicos,
-                                    total_pecas_final=total_pecas_final,
-                                    total_geral=total_geral
+                    # Generar PDF
+                    if st.button("📄 Gerar PDF do Orçamento"):
+                        with st.spinner("Gerando PDF..."):
+                            pdf_bytes = generar_pdf(
+                                veiculo=veiculo,
+                                servicos=servicos_pdf,
+                                pecas=pecas_pdf,
+                                total_servicos=total_servicos,
+                                total_pecas_final=total_pecas_final,
+                                total_geral=total_geral
+                            )
+                            
+                            if pdf_bytes:
+                                st.download_button(
+                                    label="⬇️ Baixar PDF",
+                                    data=pdf_bytes,
+                                    file_name=f"orcamento_{veiculo.get('placa', '')}.pdf",
+                                    mime="application/octet-stream"
                                 )
-                                
-                                if pdf_bytes:
-                                    st.download_button(
-                                        label="⬇️ Baixar PDF",
-                                        data=pdf_bytes,
-                                        file_name=f"orcamento_{veiculo.get('placa', '')}.pdf",
-                                        mime="application/octet-stream"
-                                    )
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 # Dentro del bloque if veiculo:, después de mostrar toda la información, agrega:
