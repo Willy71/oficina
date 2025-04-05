@@ -130,10 +130,18 @@ def buscar_por_placa(placa, df):
 #====================================================================================================================================================
 
 def safe_float(valor):
-    try:
-        return float(str(valor).replace(",", "."))
-    except ValueError:
+    if pd.isna(valor) or valor in [None, '']:
         return 0.0
+    try:
+        # Primero intenta convertir directamente (para números sin formato)
+        return float(valor)
+    except ValueError:
+        try:
+            # Elimina puntos de separadores de miles y reemplaza coma por punto
+            valor_limpio = str(valor).replace('.', '').replace(',', '.')
+            return float(valor_limpio)
+        except:
+            return 0.0
 
 def formatar_valor(valor, padrao=""):
     """
@@ -337,45 +345,46 @@ if st.session_state.veiculo_encontrado:
         total_geral = total_servicos + total_pecas_final
         st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
 
-    # Reemplaza esta parte del código (donde generas el PDF):
     if st.button("Gerar PDF", key="gerar_pdf"):
         with st.spinner("Generando PDF..."):
             try:
-                # Preparar datos para servicios
+                # Preparar servicios
                 servicos_pdf = []
+                total_servicos_pdf = 0.0
                 for i in range(1, 13):
                     item = veiculo.get(f'item_serv_{i}', '')
                     desc = veiculo.get(f'desc_ser_{i}', '')
                     valor = veiculo.get(f'valor_serv_{i}', '')
                     if pd.notna(item) and pd.notna(desc) and pd.notna(valor):
+                        valor_float = safe_float(str(valor))
                         servicos_pdf.append({
                             'Item': item,
                             'Descrição': desc,
-                            'Valor': formatar_real(valor)
+                            'Valor': formatar_real(valor_float)
                         })
+                        total_servicos_pdf += valor_float
                 
-                # Preparar datos para piezas
+                # Preparar piezas
                 pecas_pdf = []
+                total_pecas_final_pdf = 0.0
                 for i in range(1, 17):
                     quant = veiculo.get(f'quant_peca_{i}', '')
                     desc = veiculo.get(f'desc_peca_{i}', '')
                     valor = veiculo.get(f'valor_peca_{i}', '')
                     if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
-                        valor_float = safe_float(valor)
-                        quant_float = safe_float(quant)
-                        porcentaje = safe_float(veiculo.get('porcentaje_adicional', 0))
+                        quant_float = safe_float(str(quant))
+                        valor_float = safe_float(str(valor))
+                        porcentaje = safe_float(str(veiculo.get('porcentaje_adicional', 0)))
                         valor_total = quant_float * valor_float * (1 + porcentaje/100)
                         
                         pecas_pdf.append({
                             'Quant': quant,
                             'Descrição': desc,
-                            'Custo Unit.': formatar_real(valor),
+                            'Custo Unit.': formatar_real(valor_float),
                             'Valor Final': formatar_real(valor_total)
                         })
+                        total_pecas_final_pdf += valor_total
                 
-                # Calcular totales
-                total_servicos_pdf = sum(safe_float(s.get('Valor', 0)) for s in servicos_pdf)
-                total_pecas_final_pdf = sum(safe_float(p.get('Valor Final', 0)) for p in pecas_pdf)
                 total_geral_pdf = total_servicos_pdf + total_pecas_final_pdf
                 
                 html = template.render(
@@ -395,11 +404,10 @@ if st.session_state.veiculo_encontrado:
                 )
                 
                 pdf = pdfkit.from_string(html, False)
-                
                 st.download_button(
                     "⬇️ Baixar PDF",
                     data=pdf,
-                    file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']}.pdf",
+                    file_name=f"relatorio_{veiculo['placa']}.pdf",
                     mime="application/octet-stream",
                     key="download_pdf"
                 )
