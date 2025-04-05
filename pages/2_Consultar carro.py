@@ -111,19 +111,17 @@ def formatar_valor(valor):
         return ""
     return valor
 # ----------------------------------------------------------------------------------------------------------------------------------
-# Interfaz de usuario
-with st.container():
-    col1, col2, col3 = st.columns([3, 2, 1])
-    with col1:
-        placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
-    with col2:
-        st.write("")  # Espaciador
-        buscar = st.button("Buscar Veículo", key="buscar_btn")
 
-if buscar:
-    if not placa:
-        st.warning("Por favor, digite uma placa para buscar")
-    else:
+# 1. Configuración inicial
+st.set_page_config(layout="wide")
+env = Environment(loader=FileSystemLoader("."))
+
+# 2. Crear un formulario para toda la consulta
+with st.form(key="consulta_form"):
+    placa = st.text_input("Digite a placa do veículo:", key="placa_input").strip().upper()
+    submit = st.form_submit_button("Buscar Veículo")
+
+    if submit:
         with st.spinner("Buscando veículo..."):
             veiculo = buscar_por_placa(placa, dados)
             
@@ -246,8 +244,14 @@ if buscar:
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
-#=================================================================================================================================================================       
+
+
         
+
+
+
+#=================================================================================================================================================================       
+    
         
 
 #=================================================================================================================================================================
