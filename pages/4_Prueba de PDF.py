@@ -183,5 +183,10 @@ if submit:
             file_name="carro.pdf",
             mime="application/octet-stream",
         )
+                
+    except Exception as e:
+        st.error(f"Erro ao gerar PDF: {str(e)}")
+        st.markdown("**HTML gerado (para debug):**")
+        st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
 
 
