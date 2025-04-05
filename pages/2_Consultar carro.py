@@ -135,38 +135,22 @@ def safe_float(valor):
     except ValueError:
         return 0.0
 
-
-def formatar_valor_br(valor, decimal_places=2, padrao="0,00"):
+def formatar_valor(valor, padrao=""):
     """
-    Formatea valores numéricos al estándar brasileño (1.234,56)
+    Formatea valores para visualización segura
     
     Args:
-        valor: Valor a formatear (str, float, int o None)
-        decimal_places: Número de decimales (default: 2)
-        padrao: Valor por defecto si no se puede formatear (default: "0,00")
+        valor: Valor a formatear (str, float, int, None)
+        padrao: Valor por defecto si no se puede formatear (default: "")
     
     Returns:
-        str: Valor formateado con separador de miles y coma decimal
+        str: Valor formateado o string vacío si es nulo/inválido
     """
+    if pd.isna(valor) or valor in [None, '']:
+        return padrao
     try:
-        # Verifica valores nulos o vacíos
-        if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none', '']:
-            return padrao
-            
-        # Convierte a string y limpia caracteres
-        str_valor = str(valor).strip().replace('R$', '').strip()
-        
-        # Reemplaza comas por puntos para conversión a float
-        str_valor = str_valor.replace('.', '').replace(',', '.')
-        
-        # Convierte a número
-        valor_float = float(str_valor)
-        
-        # Formatea con separadores brasileños
-        formatted = f"{valor_float:,.{decimal_places}f}"
-        return formatted.replace(",", "X").replace(".", ",").replace("X", ".")
-        
-    except (ValueError, TypeError, AttributeError):
+        return str(valor).strip()
+    except:
         return padrao
 
 def formatar_real(valor, padrao="0,00"):
