@@ -330,25 +330,25 @@ if buscar:
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
 
-        # Botón de PDF fuera del bloque de búsqueda
-        if 'veiculo' in st.session_state and st.session_state.veiculo is not None:
-            if st.button("Gerar PDF", key="pdf_button"):
-                veiculo = st.session_state.veiculo
-                html = template.render(
-                    placa=veiculo['placa'],
-                    carro=veiculo['carro'],
-                    modelo=veiculo['modelo'],
-                    ano=veiculo['ano'],
-                    date_in=veiculo['date_in'],
-                    # Añade aquí todos los demás campos que necesites en el PDF
-                )
-                pdf = pdfkit.from_string(html, False)
-                st.download_button(
-                    "⬇️ Download PDF",
-                    data=pdf,
-                    file_name=f"carro_{veiculo['placa']}.pdf",
-                    mime="application/octet-stream"
-                )
+    # Botón de PDF fuera del bloque de búsqueda
+    if 'veiculo' in st.session_state and st.session_state.veiculo is not None:
+        if st.button("Gerar PDF", key="pdf_button"):
+            veiculo = st.session_state.veiculo
+            html = template.render(
+                placa=veiculo['placa'],
+                carro=veiculo['carro'],
+                modelo=veiculo['modelo'],
+                ano=veiculo['ano'],
+                date_in=veiculo['date_in'],
+                # Añade aquí todos los demás campos que necesites en el PDF
+            )
+            pdf = pdfkit.from_string(html, False)
+            st.download_button(
+                "⬇️ Download PDF",
+                data=pdf,
+                file_name=f"carro_{veiculo['placa']}.pdf",
+                mime="application/octet-stream"
+            )
 
 #==========================================================================================================================================================
 # Opción para buscar por otros criterios
