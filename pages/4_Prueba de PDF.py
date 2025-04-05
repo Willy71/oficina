@@ -134,19 +134,10 @@ dados = cargar_datos(worksheet)
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------
-# Interfaz de usuario
-with st.container():
-    col1, col2, col3 = st.columns([3, 2, 1])
-    with col1:
-        placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
-    with col2:
-        st.write("")  # Espaciador
-        buscar = st.button("Buscar Veículo", key="buscar_btn")
-
+placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
+buscar = st.button("Buscar Veículo", key="buscar_btn")
 if buscar:
     if not placa:
-        st.warning("Por favor, digite uma placa para buscar")
-    else:
         with st.spinner("Buscando veículo..."):
             veiculo = buscar_por_placa(placa, dados)
             
@@ -171,32 +162,32 @@ if buscar:
                 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
                 template = env.get_template("template_2.html")
                 
-                submit = st.button("Gerar PDF")
+submit = st.button("Gerar PDF")
                 
-                if submit:
-                    try:
-                        html = template.render(
-                            placa=placa,
-                            carro=carro,
-                            modelo=modelo,
-                            ano=ano,
-                            date_in=date_in
-                        )
-                
-                        pdf = pdfkit.from_string(html, False)
-                        st.balloons()
-                        
-                        st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
-                        
-                        st.download_button(  # Cambiado de right.download_button a st.download_button
-                            "⬇️ Download PDF",
-                            data=pdf,
-                            file_name="carro.pdf",
-                            mime="application/octet-stream",
-                        )
-                
-                            
-                    except Exception as e:
-                        st.error(f"Erro ao gerar PDF: {str(e)}")
-                        st.markdown("**HTML gerado (para debug):**")
-                        st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
+if submit:
+    try:
+        html = template.render(
+            placa=placa,
+            carro=carro,
+            modelo=modelo,
+            ano=ano,
+            date_in=date_in
+        )
+
+        pdf = pdfkit.from_string(html, False)
+        st.balloons()
+        
+        st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
+        
+        st.download_button(  # Cambiado de right.download_button a st.download_button
+            "⬇️ Download PDF",
+            data=pdf,
+            file_name="carro.pdf",
+            mime="application/octet-stream",
+        )
+
+            
+    except Exception as e:
+        st.error(f"Erro ao gerar PDF: {str(e)}")
+        st.markdown("**HTML gerado (para debug):**")
+        st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
