@@ -5,7 +5,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
 
-# ----------------------------------------------------------------------------------------------------------------------------------
+#====================================================================================================================================================
 # Configuración de página (igual que tu código original)
 st.set_page_config(
     page_title="Consultar Veículo",
@@ -51,7 +51,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 # Título de la página
 st.title("🔍 Consultar Veículo por Placa")
 
-# ----------------------------------------------------------------------------------------------------------------------------------
+##====================================================================================================================================================
 # Conexión a Google Sheets (mismo método que usas)
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
@@ -61,6 +61,33 @@ SHEET_NAME = 'Hoja 1'
 # Cargar credenciales y autorizar
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
+credenciales_json = credentials
+#====================================================================================================================================================
+
+def autenticar_gspread():
+    SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+    credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+    cliente = gspread.authorize(credentials)
+    return cliente
+
+def inicializar_hoja():
+    try:
+        # Abrir la hoja de cálculo
+        spreadsheet = gc.open_by_key(SPREADSHEET_KEY)
+        
+        # Intentar abrir la hoja específica
+        try:
+            worksheet = spreadsheet.worksheet(SHEET_NAME)
+        except gspread.exceptions.WorksheetNotFound:
+            # Si la hoja no existe, crearla
+            worksheet = spreadsheet.add_worksheet(title=SHEET_NAME, rows=100, cols=50)
+            # Agregar los encabezados de las columnas
+            worksheet.append_row(columnas_ordenadas)  # Asegúrate de definir `columnas_ordenadas`
+        
+        return worksheet
+    except Exception as e:
+        st.error(f"Erro ao acessar planilha: {str(e)}")
+        return None
 
 def cargar_datos():
     try:
@@ -79,11 +106,7 @@ def cargar_datos():
     except Exception as e:
         st.error(f"Erro ao cargar dados: {str(e)}")
         return pd.DataFrame()
-
-# Cargar datos
-dados = cargar_datos()
-
-# ----------------------------------------------------------------------------------------------------------------------------------
+        
 # Función para buscar vehículo por placa
 def buscar_por_placa(placa, df):
     if df.empty:
@@ -96,7 +119,7 @@ def buscar_por_placa(placa, df):
         return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
     return None
 
-# ----------------------------------------------------------------------------------------------------------------------------------
+#====================================================================================================================================================
 def safe_float(valor):
     try:
         return float(str(valor).replace(",", "."))
@@ -107,7 +130,17 @@ def formatar_valor(valor):
     if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none']:
         return ""
     return valor
-# ----------------------------------------------------------------------------------------------------------------------------------
+#====================================================================================================================================================
+# Inicializar la hoja de cálculo
+worksheet = inicializar_hoja()
+
+# Cargar datos
+dados = cargar_datos(worksheet)
+
+env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
+template = env.get_template("template_2.html")
+
+#====================================================================================================================================================
 # Interfaz de usuario
 with st.container():
     col1, col2, col3 = st.columns([3, 2, 1])
