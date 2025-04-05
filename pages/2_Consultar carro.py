@@ -128,26 +128,26 @@ def buscar_por_placa(placa, df):
         return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
     return None
 #====================================================================================================================================================
-
+#def safe_float(value):
 def safe_float(valor):
-    """Convierte cualquier formato numérico a float correctamente"""
-    if valor in [None, '', np.nan]:
+    """Convierte cualquier formato monetario a float"""
+    if pd.isna(value) or value in [None, '']:
         return 0.0
-    try:
-        # Primero limpia el valor (quita R$, espacios y convierte a string)
-        str_valor = str(valor).replace('R$', '').strip()
-        
-        # Si tiene punto como separador de miles y coma decimal (formato brasileño)
-        if '.' in str_valor and ',' in str_valor:
-            return float(str_valor.replace('.', '').replace(',', '.'))
-        # Si solo tiene coma decimal (europeo/brasileño sin separador de miles)
-        elif ',' in str_valor:
-            return float(str_valor.replace(',', '.'))
-        # Si viene en formato americano (punto decimal)
-        else:
-            return float(str_valor)
-    except:
-        return 0.0
+    
+    value_str = str(value).strip()
+    
+    # Remover símbolos de moneda y espacios
+    value_str = value_str.replace('R$', '').replace('$', '').strip()
+    
+    # Caso 1: Formato brasileño (1.234,56)
+    if '.' in value_str and ',' in value_str:
+        return float(value_str.replace('.', '').replace(',', '.'))
+    # Caso 2: Formato simple con coma (1234,56)
+    elif ',' in value_str:
+        return float(value_str.replace(',', '.'))
+    # Caso 3: Formato americano (1234.56)
+    else:
+        return float(value_str)
 
 def formatar_valor(valor, padrao=""):
     """
@@ -351,11 +351,14 @@ if st.session_state.veiculo_encontrado:
         total_geral = total_servicos + total_pecas_final
         st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
 
-    # En la sección de generación del PDF:
+    # En la generación del PDF:
     if st.button("Gerar PDF", key="gerar_pdf"):
         with st.spinner("Generando PDF..."):
             try:
-                # 1. Procesar SERVICIOS
+                # ===== VERIFICACIÓN DE VALORES =====
+                st.session_state.debug_values = []
+                
+                # 1. PROCESAR SERVICIOS
                 servicos_pdf = []
                 total_servicos_pdf = 0.0
                 
@@ -365,8 +368,16 @@ if st.session_state.veiculo_encontrado:
                     valor = veiculo.get(f'valor_serv_{i}', '')
                     
                     if pd.notna(item) and pd.notna(desc) and pd.notna(valor):
-                        valor_float = safe_float(valor)  # Conversión segura
+                        valor_float = safe_float(valor)
                         total_servicos_pdf += valor_float
+                        
+                        # Guardar para debug
+                        st.session_state.debug_values.append({
+                            'tipo': 'servico',
+                            'item': item,
+                            'valor_original': valor,
+                            'valor_float': valor_float
+                        })
                         
                         servicos_pdf.append({
                             'Item': str(item),
@@ -374,7 +385,7 @@ if st.session_state.veiculo_encontrado:
                             'Valor': formatar_real(valor_float)
                         })
     
-                # 2. Procesar PIEZAS
+                # 2. PROCESAR PIEZAS
                 pecas_pdf = []
                 total_pecas_final_pdf = 0.0
                 porcentaje_adicional = safe_float(veiculo.get('porcentaje_adicional', 0))
@@ -391,6 +402,16 @@ if st.session_state.veiculo_encontrado:
                         valor_con_adicional = valor_total * (1 + porcentaje_adicional/100)
                         total_pecas_final_pdf += valor_con_adicional
                         
+                        # Guardar para debug
+                        st.session_state.debug_values.append({
+                            'tipo': 'peca',
+                            'item': desc,
+                            'quant': quant,
+                            'valor_unit': valor,
+                            'valor_total': valor_total,
+                            'valor_con_adicional': valor_con_adicional
+                        })
+                        
                         pecas_pdf.append({
                             'Quant': str(quant),
                             'Descrição': str(desc),
@@ -398,10 +419,10 @@ if st.session_state.veiculo_encontrado:
                             'Valor Final': formatar_real(valor_con_adicional)
                         })
     
-                # 3. Calcular TOTAL GENERAL
+                # 3. CALCULAR TOTALES
                 total_geral_pdf = total_servicos_pdf + total_pecas_final_pdf
-                
-                # 4. Generar HTML para el PDF
+       
+                # 4. GENERAR PDF
                 html = template.render(
                     data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
                     placa=veiculo['placa'],
@@ -418,7 +439,6 @@ if st.session_state.veiculo_encontrado:
                     total_geral=formatar_real(total_geral_pdf)
                 )
                 
-                # 5. Generar y descargar PDF
                 pdf = pdfkit.from_string(html, False)
                 st.download_button(
                     "⬇️ Baixar PDF",
@@ -429,6 +449,8 @@ if st.session_state.veiculo_encontrado:
                 
             except Exception as e:
                 st.error(f"Erro ao gerar PDF: {str(e)}")
+                    
+
 
 #==========================================================================================================================================================
 # Opción para buscar por otros criterios
