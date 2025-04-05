@@ -1,8 +1,0 @@
-streamlit
-st-gsheets-connection
-pandas
-datetime
-phonenumbers
-pycountry
-
-
