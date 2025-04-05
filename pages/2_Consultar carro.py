@@ -4,8 +4,11 @@ import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
+from fpdf import FPDF
+import tempfile
+import base64
 
-# ----------------------------------------------------------------------------------------------------------------------------------
+# #-------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
 st.set_page_config(
     page_title="Consultar Veículo",
@@ -51,7 +54,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 # Título de la página
 st.title("🔍 Consultar Veículo por Placa")
 
-# ----------------------------------------------------------------------------------------------------------------------------------
+# #-------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Conexión a Google Sheets (mismo método que usas)
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
@@ -61,6 +64,8 @@ SHEET_NAME = 'Hoja 1'
 # Cargar credenciales y autorizar
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def cargar_datos():
     try:
@@ -83,7 +88,7 @@ def cargar_datos():
 # Cargar datos
 dados = cargar_datos()
 
-# ----------------------------------------------------------------------------------------------------------------------------------
+# #-------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Función para buscar vehículo por placa
 def buscar_por_placa(placa, df):
     if df.empty:
@@ -96,7 +101,7 @@ def buscar_por_placa(placa, df):
         return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
     return None
 
-# ----------------------------------------------------------------------------------------------------------------------------------
+# #-------------------------------------------------------------------------------------------------------------------------------------------------------------
 def safe_float(valor):
     try:
         return float(str(valor).replace(",", "."))
@@ -107,7 +112,61 @@ def formatar_valor(valor):
     if pd.isna(valor) or str(valor).strip().lower() in ['nan', 'none']:
         return ""
     return valor
-# ----------------------------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+def gerar_pdf(veiculo, servicos, pecas, total_servicos, total_pecas_final, total_geral):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    
+    # Logo (ajusta o caminho/local de imagem se for local)
+    logo_url = "https://i.postimg.cc/QC5RJkTm/logo-jr.png"  # Coloca o link do logo ou usa local com add_page antes
+    # Para usar um logo local:
+    # pdf.image("logo.png", x=10, y=8, w=33)
+    
+    # Título
+    pdf.set_font("Arial", 'B', 16)
+    pdf.cell(0, 10, "Relatório do Veículo", ln=True, align='C')
+    pdf.ln(10)
+    
+    # Dados principais
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(0, 10, f"Placa: {veiculo.get('placa', '')}", ln=True)
+    pdf.set_font("Arial", size=12)
+    pdf.cell(0, 10, f"Marca: {veiculo.get('carro', '')} | Modelo: {veiculo.get('modelo', '')} | Ano: {veiculo.get('ano', '')}", ln=True)
+    pdf.cell(0, 10, f"Proprietário: {veiculo.get('dono_empresa', '')}", ln=True)
+    pdf.cell(0, 10, f"Telefone: {veiculo.get('telefone', '')}", ln=True)
+    pdf.cell(0, 10, f"Endereço: {veiculo.get('endereco', '')}", ln=True)
+    pdf.ln(5)
+
+    # Serviços
+    pdf.set_font("Arial", 'B', 14)
+    pdf.cell(0, 10, "Serviços Realizados", ln=True)
+    pdf.set_font("Arial", size=12)
+    for s in servicos:
+        pdf.cell(0, 10, f"- {s['Item']}: {s['Descrição']} (R$ {s['Valor (R$)']})", ln=True)
+    pdf.cell(0, 10, f"Total Serviços: R$ {total_servicos:.2f}", ln=True)
+    pdf.ln(5)
+
+    # Peças
+    pdf.set_font("Arial", 'B', 14)
+    pdf.cell(0, 10, "Peças Utilizadas", ln=True)
+    pdf.set_font("Arial", size=12)
+    for p in pecas:
+        pdf.cell(0, 10, f"- {p['Descrição']}: {p['Quant.']} x R$ {p['Custo Unit. (R$)']} + {p['% Adicional']} = R$ {p['Valor Final (R$)']}", ln=True)
+    pdf.cell(0, 10, f"Total Peças: R$ {total_pecas_final:.2f}", ln=True)
+    pdf.ln(5)
+
+    # Total geral
+    pdf.set_font("Arial", 'B', 14)
+    pdf.cell(0, 10, f"TOTAL GERAL: R$ {total_geral:.2f}", ln=True)
+    
+    # Salvar e retornar
+    temp = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    pdf.output(temp.name)
+    return temp.name
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Interfaz de usuario
 with st.container():
     col1, col2, col3 = st.columns([3, 2, 1])
@@ -159,7 +218,9 @@ if buscar:
                         st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
                     with cols[2]:
                         st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
-#===================================================================================================================================================================
+                        
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------
+                
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
                     total_servicos = 0.0
@@ -189,9 +250,7 @@ if buscar:
                     else:
                         st.info("Nenhum serviço registrado")
 
-
-#===================================================================================================================================================================
-
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
                 # Mostrar peças con expanders
                 with st.expander("🔧 Peças Utilizadas", expanded=False):
@@ -247,10 +306,8 @@ if buscar:
                     #st.json(veiculo)
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
-# ----------------------------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-# ----------------------------------------------------------------------------------------------------------------------------------
 # Opción para buscar por otros criterios
 with st.expander("🔎 Busca Avançada", expanded=False):
     with st.form(key="busca_avancada"):
@@ -288,3 +345,12 @@ with st.expander("🔎 Busca Avançada", expanded=False):
                     st.markdown(f"- {veiculo_str}")
             else:
                 st.warning("Nenhum veículo encontrado com os critérios especificados")
+
+
+if st.button("📄 Gerar PDF do Relatório"):
+    caminho_pdf = gerar_pdf(veiculo, servicos, pecas, total_servicos, total_pecas_final, total_geral)
+    with open(caminho_pdf, "rb") as f:
+        pdf_bytes = f.read()
+        b64 = base64.b64encode(pdf_bytes).decode()
+        href = f'<a href="data:application/octet-stream;base64,{b64}" download="relatorio_{placa}.pdf">📥 Baixar Relatório em PDF</a>'
+        st.markdown(href, unsafe_allow_html=True)
