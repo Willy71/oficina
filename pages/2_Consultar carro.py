@@ -347,7 +347,16 @@ if buscar:
                                     )
                                     
                                     if pdf_path:
-                                        with open(pdf_path, "rb")
+                                        with open(pdf_path, "rb") as f:  # <--- Aquí estaba el error
+                                            st.download_button(
+                                                label="⬇️ Baixar PDF",
+                                                data=f,
+                                                file_name=f"orcamento_{veiculo.get('placa', '')}_{datetime.now().strftime('%Y%m%d')}.pdf",
+                                                mime="application/pdf"
+                                            )
+                                        os.unlink(pdf_path)
+                                else:
+                                    st.error("Configuração do PDF não encontrada")
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 # Dentro del bloque if veiculo:, después de mostrar toda la información, agrega:
