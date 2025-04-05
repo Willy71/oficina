@@ -293,13 +293,6 @@ if buscar:
                                     file_name=f"orcamento_{veiculo.get('placa', '')}.pdf",
                                     mime="application/octet-stream"
                                 )
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                # Dentro del bloque if veiculo:, después de mostrar toda la información, agrega:
-                # Agrega esto al final del bloque, después de calcular los totales
-                if 'total_servicos' in locals() and 'total_pecas' in locals():
-                    total_geral = total_servicos + total_pecas_final
-                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------            
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
