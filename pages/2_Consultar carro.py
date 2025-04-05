@@ -128,49 +128,6 @@ if buscar:
             
             if veiculo:
                 st.success("✅ Veículo encontrado!")
-                # 🔽 DESGLOSE DE VARIABLES 🔽
-                carro = veiculo.get('carro', '')
-                modelo = veiculo.get('modelo', '')
-                ano = veiculo.get('ano', '')
-                estado = veiculo.get('estado', '')
-                date_in = veiculo.get('date_in', '')
-                date_prev = veiculo.get('date_prev', '')
-                proprietario = veiculo.get('dono_empresa', '')
-                telefone = veiculo.get('telefone', '')
-                endereco = veiculo.get('endereco', '')
-
-                if st.button("📄 Gerar PDF do Relatório"):
-                    st.warning("🎯 Botão pressionado!")
-                    try:
-                        env = Environment(loader=FileSystemLoader('.'))
-                        template = env.get_template("template.html")
-                    
-                        html = template.render(
-                            carro=carro,
-                            modelo=modelo,
-                            placa=placa_veiculo,
-                            ano=ano,
-                            cor=cor,
-                            proprietario=proprietario,
-                            telefone=telefone,
-                            endereco=endereco,
-                            estado=estado,
-                            data_entrada=data_entrada,
-                            servicos=servicos,
-                            pecas=pecas,
-                            total_servicos=total_servicos,
-                            total_pecas_final=total_pecas_final,
-                            total_geral=total_geral
-                        )
-                
-                        with open("saida.pdf", "wb") as f:
-                            pdfkit.from_string(html, f.name)
-                    
-                        with open("saida.pdf", "rb") as f:
-                            st.download_button("📥 Baixar PDF", f, file_name="relatorio.pdf")
-                    
-                    except Exception as e:
-                        st.error(f"Erro ao gerar PDF: {e}")
                 
                 # Mostrar información principal en cards
                 with st.container():
@@ -283,6 +240,46 @@ if buscar:
                 
 
                 # Mostrar el gran total después de ambas secciones
+        # 🔽 DESGLOSE DE DADOS DO VEÍCULO
+        carro = veiculo.get('carro', '')
+        modelo = veiculo.get('modelo', '')
+        ano = veiculo.get('ano', '')
+        estado = veiculo.get('estado', '')
+        date_in = veiculo.get('date_in', '')
+        date_prev = veiculo.get('date_prev', '')
+        proprietario = veiculo.get('dono_empresa', '')
+        telefone = veiculo.get('telefone', '')
+        endereco = veiculo.get('endereco', '')
+
+        # Botão para gerar PDF
+        if st.button("📄 Gerar PDF do Relatório"):
+            st.write("🎯 Botão pressionado!")
+            try:
+                env = Environment(loader=FileSystemLoader('.'))
+                template = env.get_template("template.html")
+
+                html = template.render(
+                    carro=carro,
+                    modelo=modelo,
+                    ano=ano,
+                    estado=estado,
+                    date_in=date_in,
+                    date_prev=date_prev,
+                    proprietario=proprietario,
+                    telefone=telefone,
+                    endereco=endereco,
+                    servicos=servicos,
+                    pecas=pecas,
+                    total_servicos=total_servicos,
+                    total_pecas_final=total_pecas_final,
+                    total_geral=total_geral
+                )
+
+                pdfkit.from_string(html, 'relatorio_servico.pdf')
+                st.success("📄 PDF gerado com sucesso!")
+            except Exception as e:
+                st.error(f"Erro ao gerar PDF: {e}")
+    
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
@@ -293,6 +290,32 @@ if buscar:
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
 #===================================================================================================================================================================
+if st.button("📄 Gerar PDF do Relatório"):
+    st.warning("🎯 Botão pressionado!")
+    try:
+        env = Environment(loader=FileSystemLoader('.'))
+        template = env.get_template("template.html")
+    
+        html = template.render(
+            veiculo=veiculo,
+            servicos=servicos,
+            pecas=pecas,
+            total_servicos=total_servicos,
+            total_pecas_final=total_pecas_final,
+            total_geral=total_geral
+        )
+        st.write("DEBUG:", veiculo, servicos, pecas, total_servicos, total_pecas_final, total_geral)
+    
+        with open("saida.pdf", "wb") as f:
+            pdfkit.from_string(html, f.name)
+    
+        with open("saida.pdf", "rb") as f:
+            st.download_button("📥 Baixar PDF", f, file_name="relatorio.pdf")
+    
+    except Exception as e:
+        st.error(f"Erro ao gerar PDF: {e}")
+# ----------------------------------------------------------------------------------------------------------------------------------
+
 # Opción para buscar por otros criterios
 with st.expander("🔎 Busca Avançada", expanded=False):
     with st.form(key="busca_avancada"):
