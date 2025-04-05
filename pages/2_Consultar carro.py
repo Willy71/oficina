@@ -245,30 +245,29 @@ if buscar:
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
 
             
-                # Botão
                 if st.button("📄 Gerar PDF do Relatório"):
-                    env = Environment(loader=FileSystemLoader('.'))
-                    template = env.get_template("template.html")
+                    try:
+                        env = Environment(loader=FileSystemLoader('.'))
+                        template = env.get_template("template.html")
                 
-                    html = template.render(
-                        veiculo=veiculo,
-                        servicos=servicos,
-                        pecas=pecas,
-                        total_servicos=total_servicos,
-                        total_pecas_final=total_pecas_final,
-                        total_geral=total_geral,
-                    )
+                        html = template.render(
+                            veiculo=veiculo,
+                            servicos=servicos,
+                            pecas=pecas,
+                            total_servicos=total_servicos,
+                            total_pecas_final=total_pecas_final,
+                            total_geral=total_geral
+                        )
                 
-                    # Gera PDF
-                    pdf = pdfkit.from_string(html, False)
+                        with open("saida.pdf", "wb") as f:
+                            pdfkit.from_string(html, f.name)
                 
-                    # Botão para download
-                    st.download_button(
-                        label="⬇️ Baixar PDF",
-                        data=pdf,
-                        file_name=f"relatorio_{veiculo['placa']}.pdf",
-                        mime="application/octet-stream",
-                    )
+                        with open("saida.pdf", "rb") as f:
+                            st.download_button("📥 Baixar PDF", f, file_name="relatorio.pdf")
+                
+                    except Exception as e:
+                        st.error(f"Erro ao gerar PDF: {e}")
+
 
                 
                 # Mostrar todos los datos en formato JSON
