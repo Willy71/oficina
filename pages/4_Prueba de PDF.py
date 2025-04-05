@@ -112,11 +112,44 @@ def cargar_datos(worksheet):
         return pd.DataFrame(columns=columnas_ordenadas)
 
 
+# Función para buscar vehículo por placa
+def buscar_por_placa(placa, df):
+    if df.empty:
+        return None
+    
+    # Buscar coincidencias exactas (ignorando mayúsculas/minúsculas y espacios)
+    resultado = df[df['placa'].astype(str).str.upper().str.strip() == placa.upper().strip()]
+    
+    if not resultado.empty:
+        return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
+    return None
+
+
 # Inicializar la hoja de cálculo
 worksheet = inicializar_hoja()
 
 # Cargar datos desde Google Sheets
 existing_data = cargar_datos(worksheet)
+
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Interfaz de usuario
+with st.container():
+    col1, col2, col3 = st.columns([3, 2, 1])
+    with col1:
+        placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
+    with col2:
+        st.write("")  # Espaciador
+        buscar = st.button("Buscar Veículo", key="buscar_btn")
+
+if buscar:
+    if not placa:
+        st.warning("Por favor, digite uma placa para buscar")
+    else:
+        with st.spinner("Buscando veículo..."):
+            veiculo = buscar_por_placa(placa, dados)
+            
+            if veiculo:
+                st.success("✅ Veículo encontrado!")
 
 
 vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
