@@ -1,9 +1,12 @@
 # 2_Consultar_carro.py
+import pdfkit
+from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 import streamlit as st
 import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
+from datetime import datetime
 
 #====================================================================================================================================================
 # Configuración de página (igual que tu código original)
