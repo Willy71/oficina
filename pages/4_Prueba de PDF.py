@@ -160,33 +160,33 @@ if buscar:
         st.write(f"Data de entrada: {date_in}")
         
                 
-submit = st.button("Gerar PDF")
-                
-if submit:
-    try:
-        html = template.render(
-            placa=placa,
-            carro=carro,
-            modelo=modelo,
-            ano=ano,
-            date_in=date_in
-        )
-
-        pdf = pdfkit.from_string(html, False)
-        st.balloons()
+        submit = st.button("Gerar PDF")
+                        
+        if submit:
+            try:
+                html = template.render(
+                    placa=placa,
+                    carro=carro,
+                    modelo=modelo,
+                    ano=ano,
+                    date_in=date_in
+                )
         
-        st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
-        
-        st.download_button(  # Cambiado de right.download_button a st.download_button
-            "⬇️ Download PDF",
-            data=pdf,
-            file_name="carro.pdf",
-            mime="application/octet-stream",
-        )
+                pdf = pdfkit.from_string(html, False)
+                st.balloons()
                 
-    except Exception as e:
-        st.error(f"Erro ao gerar PDF: {str(e)}")
-        st.markdown("**HTML gerado (para debug):**")
-        st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
+                st.success("🎉 Seu PDF foi gerado com sucesso")  # Cambiado de right.success a st.success
+                
+                st.download_button(  # Cambiado de right.download_button a st.download_button
+                    "⬇️ Download PDF",
+                    data=pdf,
+                    file_name="carro.pdf",
+                    mime="application/octet-stream",
+                )
+                        
+            except Exception as e:
+                st.error(f"Erro ao gerar PDF: {str(e)}")
+                st.markdown("**HTML gerado (para debug):**")
+                st.markdown(html, unsafe_allow_html=True)  # Muestra el HTML generado para debug
 
 
