@@ -132,6 +132,9 @@ worksheet = inicializar_hoja()
 # Cargar datos
 dados = cargar_datos(worksheet)
 
+env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
+template = env.get_template("template_2.html")
+
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 placa = st.text_input("Digite a placa do veículo:", "", key="placa_input").strip().upper()
@@ -156,9 +159,6 @@ if buscar:
         st.write(f"Ano: {ano}")
         st.write(f"Data de entrada: {date_in}")
         
-        
-        env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-        template = env.get_template("template_2.html")
                 
 submit = st.button("Gerar PDF")
                 
