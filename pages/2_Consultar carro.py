@@ -1,5 +1,6 @@
 # 2_Consultar_carro.py
 import streamlit as st
+from streamlit.components.v1 import iframe
 import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
@@ -7,8 +8,6 @@ import numpy as np
 import pdfkit
 from jinja2 import Environment, FileSystemLoader
 from datetime import datetime
-import tempfile
-import os
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Configuración de página (igual que tu código original)
@@ -293,67 +292,31 @@ if buscar:
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
                     
-                    # Botón para generar PDF
-                    if st.button("📄 Gerar PDF do Orçamento"):
-                        with st.spinner("Gerando PDF..."):
-                            # Preparar datos para el PDF
-                            servicos_pdf = []
-                            for i in range(1, 13):
-                                item = veiculo.get(f'item_serv_{i}', '')
-                                desc = veiculo.get(f'desc_ser_{i}', '')
-                                valor = veiculo.get(f'valor_serv_{i}', '')
-                                
-                                if pd.notna(item) and pd.notna(desc):
-                                    servicos_pdf.append({
-                                        'Item': formatar_valor(item),
-                                        'Descrição': formatar_valor(desc),
-                                        'Valor': f"{safe_float(valor):.2f}" if pd.notna(valor) else "0,00"
-                                    })
-                            
-                            pecas_pdf = []
-                            for i in range(1, 17):
-                                quant = veiculo.get(f'quant_peca_{i}', '')
-                                desc = veiculo.get(f'desc_peca_{i}', '')
-                                valor = veiculo.get(f'valor_peca_{i}', '')
-                                porcentaje = veiculo.get('porcentaje_adicional', 0)
-                                
-                                if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
-                                    quant_float = safe_float(quant)
-                                    valor_float = safe_float(valor)
-                                    valor_total_final = quant_float * valor_float * (1 + safe_float(porcentaje) / 100)
-                                    
-                                    pecas_pdf.append({
-                                        'Quant.': formatar_valor(quant),
-                                        'Descrição': formatar_valor(desc),
-                                        'Custo Unit.': f"{valor_float:.2f}",
-                                        '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                                        'Valor Final': f"{valor_total_final:.2f}"
-                                    })
-                            
-                            # Generar el PDF
-                            pdf_path = generar_pdf(
-                                veiculo=veiculo,
-                                servicos=servicos_pdf,
-                                pecas=pecas_pdf,
-                                total_servicos=total_servicos,
-                                total_pecas_final=total_pecas_final,
-                                total_geral=total_geral
-                            )
-                            
-                            if pdf_path:
-                                # Mostrar el botón de descarga
-                                with open(pdf_path, "rb") as f:
-                                    pdf_bytes = f.read()
-                                
-                                st.download_button(
-                                    label="⬇️ Baixar PDF",
-                                    data=pdf_bytes,
-                                    file_name=f"orcamento_{veiculo.get('placa', '')}_{datetime.now().strftime('%Y%m%d')}.pdf",
-                                    mime="application/pdf"
-                                )
-                                
-                                # Eliminar el archivo temporal
-                                os.unlink(pdf_path)
+                    submit = form.form_submit_button("Generate PDF")
+
+                    if submit:
+                        # Renderizar el HTML con los datos
+                        html = template.render(
+                            placa=veiculo.get('placa', ''),
+                            carro=veiculo.get('carro', ''),
+                            modelo=veiculo.get('modelo', ''),
+                            ano=veiculo.get('ano', ''),
+                            dono_empresa=veiculo.get('dono_empresa', ''),
+                            date_in=veiculo.get('date_in', ''),
+                        )
+                    
+                        pdf = pdfkit.from_string(html, False)
+                        st.balloons()
+                    
+                        right.success("🎉 Seu PDF foi gerado com sucesso!")
+                        # st.write(html, unsafe_allow_html=True)
+                        # st.write("")
+                        right.download_button(
+                            "⬇️ Download PDF",
+                            data=pdf,
+                            file_name="ordem_de_servico.pdf",
+                            mime="application/octet-stream",
+                        )
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------            
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
