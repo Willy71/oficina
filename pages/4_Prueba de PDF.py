@@ -4,6 +4,8 @@ import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+import pdfkit
+from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 
 #===================================================================================================================================================================
 # Configuración de página (igual que tu código original)
@@ -125,3 +127,32 @@ carro = st.text(vendor_data["carro"])
 modelo = st.text(vendor_data["modelo"])
 ano = st.text(vendor_data["ano"])
 date_in = st.text(vendor_data["date_in"])
+
+
+env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
+template = env.get_template("template_2.html")
+form = left.form("template_form")
+
+submit = form.form_submit_button("Gerar PDF")
+
+if submit:
+    html = template.render(
+        placa=placa,
+        carro=carro,
+        modelo=modelo,
+        ano=ano,
+        date_in=date_in
+    )
+
+    pdf = pdfkit.from_string(html, False)
+    st.balloons()
+
+    right.success("🎉 Seu PDF foi gerado com sucesso")
+    # st.write(html, unsafe_allow_html=True)
+    # st.write("")
+    right.download_button(
+        "⬇️ Download PDF",
+        data=pdf,
+        file_name="carro.pdf",
+        mime="application/octet-stream",
+    )
