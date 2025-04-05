@@ -87,5 +87,3 @@ dados, dados_completos = carregar_dados()
 
 # Normalizar a coluna 'estado'
 dados_completos['estado'] = dados_completos['estado'].astype(str).str.strip().str.lower()
-
-st.header(dados_completos['estado'])
