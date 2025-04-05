@@ -244,10 +244,6 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
-
-                st.button("📄 Gerar PDF do Orçamento", type="primary")
-                if st.button("Gerar"):
-                    st.text(total_geral)
             else:
                 st.warning("Nenhum veículo encontrado com esta placa")
 #=================================================================================================================================================================       
