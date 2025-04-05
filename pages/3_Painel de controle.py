@@ -5,13 +5,50 @@ import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
 
-# Configuração de página (mantendo seu estilo)
-st.set_page_config(page_title="Painel de Controle", page_icon="📊", layout="wide")
-st.html("""<style>div[data-testid="stAppViewBlockContainer"]{padding-top:30px;}</style>""")
-st.markdown(f"""<style>[data-testid="stAppViewContainer"] > .main {{
+#===================================================================================================================================================================
+# Configuración de página (igual que tu código original)
+st.set_page_config(
+    page_title="Painel de controle",
+    page_icon="📊",
+    layout="wide"
+)
+
+# Estilos CSS (copiados de tu código original)
+reduce_space = """
+<style type="text/css">
+div[data-testid="stAppViewBlockContainer"]{
+    padding-top:30px;
+}
+</style>
+"""
+st.markdown(reduce_space, unsafe_allow_html=True)
+
+page_bg_img = f"""
+<style>
+[data-testid="stAppViewContainer"] > .main {{
 background-image: url("https://github.com/Willy71/oficina/blob/main/pictures/wallpaper%20black%20vintage.jpg?raw=true");
-background-size: 180%; background-position: top left; background-repeat: repeat; 
-background-attachment: local;}}</style>""", unsafe_allow_html=True)
+background-size: 180%;
+background-position: top left;
+background-repeat: repeat;
+background-attachment: local;
+}}
+
+[data-testid="stHeader"] {{
+background: rgba(0,0,0,0);
+}}
+
+[data-testid="stToolbar"] {{
+right: 2rem;
+}}
+
+[data-testid="stSidebar"] {{
+background: rgba(0,0,0,0);
+}}
+</style>
+"""
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
+#===================================================================================================================================================================
 
 # Conexão com Google Sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
