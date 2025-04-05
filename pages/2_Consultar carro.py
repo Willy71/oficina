@@ -355,84 +355,79 @@ if st.session_state.veiculo_encontrado:
         st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
 
     if st.button("Gerar PDF", key="gerar_pdf"):
-    with st.spinner("Generando PDF..."):
-        try:
-            # 1. PROCESAR SERVICIOS
-            servicos_pdf = []
-            total_servicos_pdf = 0.0
-            
-            for i in range(1, 13):
-                item = veiculo.get(f'item_serv_{i}', '')
-                desc = veiculo.get(f'desc_ser_{i}', '')
-                valor = veiculo.get(f'valor_serv_{i}', '')
+        with st.spinner("Generando PDF..."):
+            try:
+                # 1. PROCESAR SERVICIOS
+                servicos_pdf = []
+                total_servicos_pdf = 0.0
                 
-                if pd.notna(item) and pd.notna(desc) and pd.notna(valor):
-                    valor_float = safe_float(valor)  # Usamos la función mejorada
-                    total_servicos_pdf += valor_float
+                for i in range(1, 13):
+                    item = veiculo.get(f'item_serv_{i}', '')
+                    desc = veiculo.get(f'desc_ser_{i}', '')
+                    valor = veiculo.get(f'valor_serv_{i}', '')
                     
-                    servicos_pdf.append({
-                        'Item': str(item),
-                        'Descrição': str(desc),
-                        'Valor': formatar_real(valor_float)
-                    })
-
-            # 2. PROCESAR PIEZAS
-            pecas_pdf = []
-            total_pecas_final_pdf = 0.0
-            porcentaje_adicional = safe_float(veiculo.get('porcentaje_adicional', 0))
-            
-            for i in range(1, 17):
-                quant = veiculo.get(f'quant_peca_{i}', '')
-                desc = veiculo.get(f'desc_peca_{i}', '')
-                valor = veiculo.get(f'valor_peca_{i}', '')
-                
-                if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
-                    quant_float = safe_float(quant)
-                    valor_unitario = safe_float(valor)
-                    valor_total = quant_float * valor_unitario
-                    valor_con_adicional = valor_total * (1 + porcentaje_adicional/100)
-                    total_pecas_final_pdf += valor_con_adicional
-                    
-                    pecas_pdf.append({
-                        'Quant': str(quant),
-                        'Descrição': str(desc),
-                        'Custo Unit.': formatar_real(valor_unitario),
-                        'Valor Final': formatar_real(valor_con_adicional)
-                    })
-
-            # 3. VERIFICACIÓN DE TOTALES
-            st.write(f"DEBUG - Total servicios (float): {total_servicos_pdf}")
-            st.write(f"DEBUG - Total piezas (float): {total_pecas_final_pdf}")
-            st.write(f"DEBUG - Porcentaje adicional: {porcentaje_adicional}%")
-            
-            # 4. GENERAR PDF
-            html = template.render(
-                data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
-                placa=veiculo['placa'],
-                carro=veiculo['carro'],
-                modelo=veiculo['modelo'],
-                ano=veiculo['ano'],
-                dono_empresa=veiculo.get('dono_empresa', ''),
-                date_in=veiculo.get('date_in', ''),
-                date_prev=veiculo.get('date_prev', ''),
-                servicos=servicos_pdf,
-                pecas=pecas_pdf,
-                total_servicos=formatar_real(total_servicos_pdf),
-                total_pecas_final=formatar_real(total_pecas_final_pdf),
-                total_geral=formatar_real(total_servicos_pdf + total_pecas_final_pdf)
-            )
-            
-            pdf = pdfkit.from_string(html, False)
-            st.download_button(
-                "⬇️ Baixar PDF",
-                data=pdf,
-                file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']}.pdf",
-                mime="application/octet-stream"
-            )
-            
-        except Exception as e:
-            st.error(f"Erro ao gerar PDF: {str(e)}")
+                    if pd.notna(item) and pd.notna(desc) and pd.notna(valor):
+                        valor_float = safe_float(valor)  # Usamos la función mejorada
+                        total_servicos_pdf += valor_float
+                        
+                        servicos_pdf.append({
+                            'Item': str(item),
+                            'Descrição': str(desc),
+                            'Valor': formatar_real(valor_float)
+                        })
     
+                # 2. PROCESAR PIEZAS
+                pecas_pdf = []
+                total_pecas_final_pdf = 0.0
+                porcentaje_adicional = safe_float(veiculo.get('porcentaje_adicional', 0))
+                
+                for i in range(1, 17):
+                    quant = veiculo.get(f'quant_peca_{i}', '')
+                    desc = veiculo.get(f'desc_peca_{i}', '')
+                    valor = veiculo.get(f'valor_peca_{i}', '')
+                    
+                    if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
+                        quant_float = safe_float(quant)
+                        valor_unitario = safe_float(valor)
+                        valor_total = quant_float * valor_unitario
+                        valor_con_adicional = valor_total * (1 + porcentaje_adicional/100)
+                        total_pecas_final_pdf += valor_con_adicional
+                        
+                        pecas_pdf.append({
+                            'Quant': str(quant),
+                            'Descrição': str(desc),
+                            'Custo Unit.': formatar_real(valor_unitario),
+                            'Valor Final': formatar_real(valor_con_adicional)
+                        })
+    
+                # 4. GENERAR PDF
+                html = template.render(
+                    data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
+                    placa=veiculo['placa'],
+                    carro=veiculo['carro'],
+                    modelo=veiculo['modelo'],
+                    ano=veiculo['ano'],
+                    dono_empresa=veiculo.get('dono_empresa', ''),
+                    date_in=veiculo.get('date_in', ''),
+                    date_prev=veiculo.get('date_prev', ''),
+                    servicos=servicos_pdf,
+                    pecas=pecas_pdf,
+                    total_servicos=formatar_real(total_servicos_pdf),
+                    total_pecas_final=formatar_real(total_pecas_final_pdf),
+                    total_geral=formatar_real(total_servicos_pdf + total_pecas_final_pdf)
+                )
+                
+                pdf = pdfkit.from_string(html, False)
+                st.download_button(
+                    "⬇️ Baixar PDF",
+                    data=pdf,
+                    file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']}.pdf",
+                    mime="application/octet-stream"
+                )
+                
+            except Exception as e:
+                st.error(f"Erro ao gerar PDF: {str(e)}")
+        
 #==========================================================================================================================================================
 # Opción para buscar por otros criterios
 with st.expander("🔎 Busca Avançada", expanded=False):
