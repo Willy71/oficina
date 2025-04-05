@@ -128,6 +128,19 @@ if buscar:
             
             if veiculo:
                 st.success("✅ Veículo encontrado!")
+                # Extraer datos individuales del vehículo para usar en el PDF
+                carro = veiculo.get('carro', '')
+                modelo = veiculo.get('modelo', '')
+                placa_veiculo = veiculo.get('placa', '')
+                ano = veiculo.get('ano', '')
+                cor = veiculo.get('cor', '')
+                proprietario = veiculo.get('dono_empresa', '')
+                telefone = veiculo.get('telefone', '')
+                endereco = veiculo.get('endereco', '')
+                estado = veiculo.get('estado', '')
+                data_entrada = veiculo.get('date_in', '')
+                previsao_entrega = veiculo.get('date_prev', '')
+
                 
                 # Mostrar información principal en cards
                 with st.container():
@@ -257,13 +270,24 @@ if st.button("📄 Gerar PDF do Relatório"):
         template = env.get_template("template.html")
     
         html = template.render(
-            veiculo=veiculo,
+            carro=carro,
+            modelo=modelo,
+            placa=placa_veiculo,
+            ano=ano,
+            cor=cor,
+            proprietario=proprietario,
+            telefone=telefone,
+            endereco=endereco,
+            estado=estado,
+            data_entrada=data_entrada,
+            previsao_entrega=previsao_entrega,
             servicos=servicos,
             pecas=pecas,
             total_servicos=total_servicos,
             total_pecas_final=total_pecas_final,
             total_geral=total_geral
         )
+
         st.write("DEBUG:", veiculo, servicos, pecas, total_servicos, total_pecas_final, total_geral)
     
         with open("saida.pdf", "wb") as f:
