@@ -202,42 +202,6 @@ if buscar:
                         st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
                     with cols[2]:
                         st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
-
-
-               # Reemplaza esta sección:
-                submit = st.form_submit_button("Generate PDF")
-                
-                if submit:
-                    # Renderizar el HTML...
-                    
-                # Con esto (colócalo DESPUÉS de calcular los totales):
-                if 'total_servicos' in locals() and 'total_pecas' in locals():
-                    total_geral = total_servicos + total_pecas_final
-                    st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
-                    
-                    if st.button("📄 Gerar PDF do Orçamento"):
-                        with st.spinner("Gerando PDF..."):
-                            # Preparar datos para el PDF...
-                            pdf_path = generar_pdf(
-                                veiculo=veiculo,
-                                servicos=servicos,
-                                pecas=pecas,
-                                total_servicos=total_servicos,
-                                total_pecas_final=total_pecas_final,
-                                total_geral=total_geral
-                            )
-                            
-                            if pdf_path:
-                                with open(pdf_path, "rb") as f:
-                                    pdf_bytes = f.read()
-                                
-                                st.download_button(
-                                    label="⬇️ Baixar PDF",
-                                    data=pdf_bytes,
-                                    file_name=f"orcamento_{veiculo.get('placa', '')}_{datetime.now().strftime('%Y%m%d')}.pdf",
-                                    mime="application/pdf"
-                                )
-                                os.unlink(pdf_path)
 #===================================================================================================================================================================
                 with st.expander("📋 Serviços Realizados", expanded=False):
                     servicos = []
@@ -320,6 +284,63 @@ if buscar:
                 if 'total_servicos' in locals() and 'total_pecas' in locals():
                     total_geral = total_servicos + total_pecas_final
                     st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+
+
+                    # Reemplaza todo el bloque del botón PDF con esto:
+                    if 'total_servicos' in locals() and 'total_pecas' in locals():
+                        total_geral = total_servicos + total_pecas_final
+                        st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral):.2f}")
+                        
+                        if st.button("📄 Gerar PDF do Orçamento"):
+                            with st.spinner("Gerando PDF..."):
+                                # Preparar datos para servicios
+                                servicos_pdf = []
+                                for i in range(1, 13):
+                                    item = veiculo.get(f'item_serv_{i}', '')
+                                    desc = veiculo.get(f'desc_ser_{i}', '')
+                                    valor = veiculo.get(f'valor_serv_{i}', '')
+                                    
+                                    if pd.notna(item) and pd.notna(desc):
+                                        servicos_pdf.append({
+                                            'Item': formatar_valor(item),
+                                            'Descrição': formatar_valor(desc),
+                                            'Valor': f"{safe_float(valor):.2f}" if pd.notna(valor) else "0,00"
+                                        })
+                                
+                                # Preparar datos para peças
+                                pecas_pdf = []
+                                for i in range(1, 17):
+                                    quant = veiculo.get(f'quant_peca_{i}', '')
+                                    desc = veiculo.get(f'desc_peca_{i}', '')
+                                    valor = veiculo.get(f'valor_peca_{i}', '')
+                                    porcentaje = veiculo.get('porcentaje_adicional', 0)
+                                    
+                                    if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
+                                        quant_float = safe_float(quant)
+                                        valor_float = safe_float(valor)
+                                        valor_total_final = quant_float * valor_float * (1 + safe_float(porcentaje) / 100)
+                                        
+                                        pecas_pdf.append({
+                                            'Quant.': formatar_valor(quant),
+                                            'Descrição': formatar_valor(desc),
+                                            'Custo Unit.': f"{valor_float:.2f}",
+                                            '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
+                                            'Valor Final': f"{valor_total_final:.2f}"
+                                        })
+                                
+                                # Generar PDF
+                                if pdfkit_config:
+                                    pdf_path = generar_pdf(
+                                        veiculo=veiculo,
+                                        servicos=servicos_pdf,
+                                        pecas=pecas_pdf,
+                                        total_servicos=total_servicos,
+                                        total_pecas_final=total_pecas_final,
+                                        total_geral=total_geral
+                                    )
+                                    
+                                    if pdf_path:
+                                        with open(pdf_path, "rb")
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 # Dentro del bloque if veiculo:, después de mostrar toda la información, agrega:
