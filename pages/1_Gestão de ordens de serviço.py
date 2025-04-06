@@ -222,10 +222,10 @@ def parse_br_number(number_str):
         return 0.0
 
 # En la función que envía datos a Google Sheets, asegurarse de enviar los números en formato americano:
-def format_for_gsheets(value):
-    if isinstance(value, (int, float)):
-        return str(value).replace(',', '.')  # Asegurar punto decimal para Google Sheets
-    return value
+#def format_for_gsheets(value):
+#    if isinstance(value, (int, float)):
+#        return str(value).replace(',', '.')  # Asegurar punto decimal para Google Sheets
+#    return value
 
 
 def format_br_number(number, decimal_places=2):
@@ -243,7 +243,7 @@ def format_br_number(number, decimal_places=2):
     except (ValueError, TypeError):
         return f"0,{decimal_places * '0'}"
 
-def format_for_sheets(value):
+def format_for_gsheets(value):
     """
     Prepara números para Google Sheets (envía como string con comas decimales).
     Ejemplo: 384.62 → "384,62"
@@ -1098,40 +1098,40 @@ if action == "Nova ordem de serviço":
                     'endereco': endereco,
                     'item_serv_1': item_serv_1 if 'item_serv_1' in locals() else None,
                     'desc_ser_1': desc_ser_1 if 'desc_ser_1' in locals() else None,
-                    'valor_serv_1': valor_serv_1 if 'valor_serv_1' in locals() else None,
+                    'valor_serv_1': format_for_gsheets(valor_serv_1) if 'valor_serv_1' in locals() else None,
                     'item_serv_2': item_serv_2 if 'item_serv_2' in locals() else None,
                     'desc_ser_2': desc_ser_2 if 'desc_ser_2' in locals() else None,
-                    'valor_serv_2': valor_serv_2 if 'valor_serv_2' in locals() else None,
+                    'valor_serv_2': format_for_sheets(valor_serv_2) if 'valor_serv_2' in locals() else None,
                     'item_serv_3': item_serv_3 if 'item_serv_3' in locals() else None,
                     'desc_ser_3': desc_ser_3 if 'desc_ser_3' in locals() else None,
-                    'valor_serv_3': valor_serv_3 if 'valor_serv_3' in locals() else None,
+                    'valor_serv_3': format_for_sheets(valor_serv_3) if 'valor_serv_3' in locals() else None,
                     'item_serv_4': item_serv_4 if 'item_serv_4' in locals() else None,
                     'desc_ser_4': desc_ser_4 if 'desc_ser_4' in locals() else None,
-                    'valor_serv_4': valor_serv_4 if 'valor_serv_4' in locals() else None,
+                    'valor_serv_4': format_for_sheets(valor_serv_4) if 'valor_serv_4' in locals() else None,
                     'item_serv_5': item_serv_5 if 'item_serv_5' in locals() else None,
                     'desc_ser_5': desc_ser_5 if 'desc_ser_5' in locals() else None,
-                    'valor_serv_5': valor_serv_5 if 'valor_serv_5' in locals() else None,
+                    'valor_serv_5': format_for_sheets(valor_serv_5) if 'valor_serv_5' in locals() else None,
                     'item_serv_6': item_serv_6 if 'item_serv_6' in locals() else None,
                     'desc_ser_6': desc_ser_6 if 'desc_ser_6' in locals() else None,
-                    'valor_serv_6': valor_serv_6 if 'valor_serv_6' in locals() else None,
+                    'valor_serv_6': format_for_sheets(valor_serv_6) if 'valor_serv_6' in locals() else None,
                     'item_serv_7': item_serv_7 if 'item_serv_7' in locals() else None,
                     'desc_ser_7': desc_ser_7 if 'desc_ser_7' in locals() else None,
-                    'valor_serv_7': valor_serv_7 if 'valor_serv_7' in locals() else None,
+                    'valor_serv_7': format_for_sheets(valor_serv_7) if 'valor_serv_7' in locals() else None,
                     'item_serv_8': item_serv_8 if 'item_serv_8' in locals() else None,
                     'desc_ser_8': desc_ser_8 if 'desc_ser_8' in locals() else None,
-                    'valor_serv_8': valor_serv_8 if 'valor_serv_8' in locals() else None,
+                    'valor_serv_8': format_for_sheets(valor_serv_8) if 'valor_serv_8' in locals() else None,
                     'item_serv_9': item_serv_9 if 'item_serv_9' in locals() else None,
                     'desc_ser_9': desc_ser_9 if 'desc_ser_9' in locals() else None,
-                    'valor_serv_9': valor_serv_9 if 'valor_serv_9' in locals() else None,
+                    'valor_serv_9': format_for_sheets(valor_serv_9) if 'valor_serv_9' in locals() else None,
                     'item_serv_10': item_serv_10 if 'item_serv_10' in locals() else None,
                     'desc_ser_10': desc_ser_10 if 'desc_ser_10' in locals() else None,
-                    'valor_serv_10': valor_serv_10 if 'valor_serv_10' in locals() else None,
+                    'valor_serv_10': format_for_sheets(valor_serv_10) if 'valor_serv_10' in locals() else None,
                     'item_serv_11': item_serv_11 if 'item_serv_11' in locals() else None,
                     'desc_ser_11': desc_ser_11 if 'desc_ser_11' in locals() else None,
-                    'valor_serv_11': valor_serv_11 if 'valor_serv_11' in locals() else None,
+                    'valor_serv_11': format_for_sheets(valor_serv_11) if 'valor_serv_11' in locals() else None,
                     'item_serv_12': item_serv_12 if 'item_serv_12' in locals() else None,
                     'desc_ser_12': desc_ser_12 if 'desc_ser_12' in locals() else None,
-                    'valor_serv_12': valor_serv_12 if 'valor_serv_12' in locals() else None,
+                    'valor_serv_12': format_for_sheets(valor_serv_12) if 'valor_serv_12' in locals() else None,
                     'total_serviço': None,
                     'porcentaje_adicional': porcentaje_adicional,
                     'quant_peca_1': int(quant_peca_1) if 'quant_peca_1' in locals() else None,  # Entero
@@ -3281,40 +3281,40 @@ elif action == "Atualizar ordem existente":
                     'endereco': endereco,
                     'item_serv_1': item_serv_1 if 'item_serv_1' in locals() else None,
                     'desc_ser_1': desc_ser_1 if 'desc_ser_1' in locals() else None,
-                    'valor_serv_1': valor_serv_1 if 'valor_serv_1' in locals() else None,
+                    'valor_serv_1': format_for_gsheets(valor_serv_1) if 'valor_serv_1' in locals() else None,
                     'item_serv_2': item_serv_2 if 'item_serv_2' in locals() else None,
                     'desc_ser_2': desc_ser_2 if 'desc_ser_2' in locals() else None,
-                    'valor_serv_2': valor_serv_2 if 'valor_serv_2' in locals() else None,
+                    'valor_serv_2': format_for_gsheets(valor_serv_2) if 'valor_serv_2' in locals() else None,
                     'item_serv_3': item_serv_3 if 'item_serv_3' in locals() else None,
                     'desc_ser_3': desc_ser_3 if 'desc_ser_3' in locals() else None,
-                    'valor_serv_3': valor_serv_3 if 'valor_serv_3' in locals() else None,
+                    'valor_serv_3': format_for_gsheets(valor_serv_3) if 'valor_serv_3' in locals() else None,
                     'item_serv_4': item_serv_4 if 'item_serv_4' in locals() else None,
                     'desc_ser_4': desc_ser_4 if 'desc_ser_4' in locals() else None,
-                    'valor_serv_4': valor_serv_4 if 'valor_serv_4' in locals() else None,
+                    'valor_serv_4': format_for_gsheets(valor_serv_4) if 'valor_serv_4' in locals() else None,
                     'item_serv_5': item_serv_5 if 'item_serv_5' in locals() else None,
                     'desc_ser_5': desc_ser_5 if 'desc_ser_5' in locals() else None,
-                    'valor_serv_5': valor_serv_5 if 'valor_serv_5' in locals() else None,
+                    'valor_serv_5': format_for_gsheets(valor_serv_5) if 'valor_serv_5' in locals() else None,
                     'item_serv_6': item_serv_6 if 'item_serv_6' in locals() else None,
                     'desc_ser_6': desc_ser_6 if 'desc_ser_6' in locals() else None,
-                    'valor_serv_6': valor_serv_6 if 'valor_serv_6' in locals() else None,
+                    'valor_serv_6': format_for_gsheets(valor_serv_6) if 'valor_serv_6' in locals() else None,
                     'item_serv_7': item_serv_7 if 'item_serv_7' in locals() else None,
                     'desc_ser_7': desc_ser_7 if 'desc_ser_7' in locals() else None,
-                    'valor_serv_7': valor_serv_7 if 'valor_serv_7' in locals() else None,
+                    'valor_serv_7': format_for_gsheets(valor_serv_7) if 'valor_serv_7' in locals() else None,
                     'item_serv_8': item_serv_8 if 'item_serv_8' in locals() else None,
                     'desc_ser_8': desc_ser_8 if 'desc_ser_8' in locals() else None,
-                    'valor_serv_8': valor_serv_8 if 'valor_serv_8' in locals() else None,
+                    'valor_serv_8': format_for_gsheets(valor_serv_8) if 'valor_serv_8' in locals() else None,
                     'item_serv_9': item_serv_9 if 'item_serv_9' in locals() else None,
                     'desc_ser_9': desc_ser_9 if 'desc_ser_9' in locals() else None,
-                    'valor_serv_9': valor_serv_9 if 'valor_serv_9' in locals() else None,
+                    'valor_serv_9': format_for_gsheets(valor_serv_9) if 'valor_serv_9' in locals() else None,
                     'item_serv_10': item_serv_10 if 'item_serv_10' in locals() else None,
                     'desc_ser_10': desc_ser_10 if 'desc_ser_10' in locals() else None,
-                    'valor_serv_10': valor_serv_10 if 'valor_serv_10' in locals() else None,
+                    'valor_serv_10': format_for_gsheets(valor_serv_10) if 'valor_serv_10' in locals() else None,
                     'item_serv_11': item_serv_11 if 'item_serv_11' in locals() else None,
                     'desc_ser_11': desc_ser_11 if 'desc_ser_11' in locals() else None,
-                    'valor_serv_11': valor_serv_11 if 'valor_serv_11' in locals() else None,
+                    'valor_serv_11': format_for_gsheets(valor_serv_11) if 'valor_serv_11' in locals() else None,
                     'item_serv_12': item_serv_12 if 'item_serv_12' in locals() else None,
                     'desc_ser_12': desc_ser_12 if 'desc_ser_12' in locals() else None,
-                    'valor_serv_12': valor_serv_12 if 'valor_serv_12' in locals() else None,
+                    'valor_serv_12': format_for_gsheets(valor_serv_12) if 'valor_serv_12' in locals() else None,
                     'total_serviço': None,
                     'porcentaje_adicional': porcentaje_adicional,      
                     'quant_peca_1': int(quant_peca_1) if 'quant_peca_1' in locals() else None,  # Entero
