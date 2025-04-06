@@ -2205,9 +2205,9 @@ elif action == "Atualizar ordem existente":
                     label_visibility="collapsed", 
                     key="update_quant_peca_6"
                 )
+                # Convertir a entero para cálculos
+                quant_peca_6 = int(parse_br_number(quant_peca_6_str or "1"))  # Usa 1 como valor por defecto si está vacío
             
-            	# Convertir a entero para cálculos
-            	quant_peca_6 = int(parse_br_number(quant_peca_6_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col212:
                 desc_peca_6 = st.text_input(
                     "", 
