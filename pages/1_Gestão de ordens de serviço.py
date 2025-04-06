@@ -2664,7 +2664,7 @@ elif action == "Atualizar ordem existente":
                     'valor_serv_12': valor_serv_12 if 'valor_serv_12' in locals() else None,
                     'total_serviço': None,
                     'porcentaje_adicional': porcentaje_adicional,      
-                    'quant_peca_1': int(quant_peca_1) if 'quant_peca_1' in locals() else None,,  # Entero
+                    'quant_peca_1': int(quant_peca_1) if 'quant_peca_1' in locals() else None,  # Entero
                     'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
                     'valor_peca_1': format_for_gsheets(valor_peca_1) if 'valor_peca_1' in locals() else None,  # Decimal con punto
                     'sub_total_peca_1': format_for_gsheets(sub_total_peca_1) if 'sub_total_peca_1' in locals() else 0,
@@ -2697,9 +2697,9 @@ elif action == "Atualizar ordem existente":
                     'quant_peca_7': int(quant_peca_7) if 'quant_peca_7' in locals() else None,  # Entero
                     'desc_peca_7': desc_peca_7 if 'desc_peca_7' in locals() else None,
                     'valor_peca_7': format_for_gsheets(valor_peca_7) if 'valor_peca_7' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_7': format_for_gsheets(sub_total_peca_7) if 'sub_total_peca_7' in locals() else 0,,
+                    'sub_total_peca_7': format_for_gsheets(sub_total_peca_7) if 'sub_total_peca_7' in locals() else 0,
                     'valor_total_peca_7': valor_total_peca_7 if 'valor_total_peca_7' in locals() else 0,
-                    'quant_peca_8': int(quant_peca_8) if 'quant_peca_8' in locals() else None,,  # Entero
+                    'quant_peca_8': int(quant_peca_8) if 'quant_peca_8' in locals() else None,  # Entero
                     'desc_peca_8': desc_peca_8 if 'desc_peca_8' in locals() else None,
                     'valor_peca_8': format_for_gsheets(valor_peca_8) if 'valor_peca_8' in locals() else None,  # Decimal con punto
                     'sub_total_peca_8': format_for_gsheets(sub_total_peca_8) if 'sub_total_peca_8' in locals() else 0,
