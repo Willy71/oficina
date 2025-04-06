@@ -1087,7 +1087,7 @@ if action == "Nova ordem de serviço":
                     'valor_serv_12': valor_serv_12 if 'valor_serv_12' in locals() else None,
                     'total_serviço': None,
                     'porcentaje_adicional': porcentaje_adicional,
-                    'quant_peca_1': int(quant_peca_1) if 'quant_peca_1' in locals() else None,,  # Entero
+                    'quant_peca_1': int(quant_peca_1) if 'quant_peca_1' in locals() else None,  # Entero
                     'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
                     'valor_peca_1': format_for_gsheets(valor_peca_1) if 'valor_peca_1' in locals() else None,  # Decimal con punto
                     'sub_total_peca_1': format_for_gsheets(sub_total_peca_1) if 'costo_final_1' in locals() else 0,
