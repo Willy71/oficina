@@ -1100,14 +1100,14 @@ if action == "Nova ordem de serviço":
                     'quant_peca_3': int(quant_peca_3) if 'quant_peca_3' in locals() else None,  # Entero
                     'desc_peca_3': desc_peca_3 if 'desc_peca_3' in locals() else None,
                     'valor_peca_3': format_for_gsheets(valor_peca_3) if 'valor_peca_3' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_3': format_for_gsheets(sub_total_peca_3) if 'costo_final_3' in locals() else 0,,
+                    'sub_total_peca_3': format_for_gsheets(sub_total_peca_3) if 'costo_final_3' in locals() else 0,
                     'valor_total_peca_3': costo_final_3 if 'costo_final_3' in locals() else 0,
-                    'quant_peca_4': int(quant_peca_4) if 'quant_peca_4' in locals() else None,,  # Entero
+                    'quant_peca_4': int(quant_peca_4) if 'quant_peca_4' in locals() else None,  # Entero
                     'desc_peca_4': desc_peca_4 if 'desc_peca_4' in locals() else None,
                     'valor_peca_4': format_for_gsheets(valor_peca_4) if 'valor_peca_4' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_4': format_for_gsheets(sub_total_peca_4) if 'costo_final_4' in locals() else 0,,
+                    'sub_total_peca_4': format_for_gsheets(sub_total_peca_4) if 'costo_final_4' in locals() else 0,
                     'valor_total_peca_4': costo_final_4 if 'costo_final_4' in locals() else 0,
-                    'quant_peca_5': int(quant_peca_5) if 'quant_peca_5' in locals() else None,,  # Entero
+                    'quant_peca_5': int(quant_peca_5) if 'quant_peca_5' in locals() else None,  # Entero
                     'desc_peca_5': desc_peca_5 if 'desc_peca_5' in locals() else None,
                     'valor_peca_5': format_for_gsheets(valor_peca_5) if 'valor_peca_5' in locals() else None,  # Decimal con punto
                     'sub_total_peca_5': format_for_gsheets(sub_total_peca_5) if 'costo_final_5' in locals() else 0,
