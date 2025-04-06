@@ -510,9 +510,11 @@ if action == "Nova ordem de serviço":
                 desc_ser_12 = st.text_input("", "", label_visibility="collapsed", key="desc_ser_12")
                 
         line(4, "blue")
+	    
             with col152:
                 valor_serv_12 = st.text_input(" ", value=None, label_visibility="collapsed", key="valor_serv_12")
-        centrar_texto("Peças", 2, "yellow")
+
+	centrar_texto("Peças", 2, "yellow")
         
         with st.container():
             col_perc, col_empty, col_final = st.columns([4, 2.5, 4])
