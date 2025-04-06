@@ -1721,8 +1721,8 @@ elif action == "Atualizar ordem existente":
                     	else:
                             # Si es número (int/float), convertirlo directamente
                             default_qty = str(int(raw_qty))
-            	except (ValueError, TypeError):
-                    default_qty = "1"
+				except (ValueError, TypeError):
+					default_qty = "1"
             
             	# Mostrar el input con el valor formateado (sin decimales)
             	quant_peca_1_str = st.text_input("", value=default_qty, label_visibility="collapsed", key="update_quant_peca_1")
