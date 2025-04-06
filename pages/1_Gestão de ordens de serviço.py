@@ -2733,7 +2733,7 @@ elif action == "Atualizar ordem existente":
                     'desc_peca_14': desc_peca_14 if 'desc_peca_14' in locals() else None,
                     'valor_peca_14': format_for_gsheets(valor_peca_14) if 'valor_peca_14' in locals() else None,  # Decimal con punto
                     'sub_total_peca_14': format_for_gsheets(sub_total_peca_14) if 'sub_total_peca_14' in locals() else 0,
-                    'valor_total_peca_14': valor_total_peca_14 if 'valor_total_peca_14' in locals() else 0
+                    'valor_total_peca_14': valor_total_peca_14 if 'valor_total_peca_14' in locals() else 0,
                     'quant_peca_15': int(quant_peca_15) if 'quant_peca_15' in locals() else None,  # Entero
                     'desc_peca_15': desc_peca_15 if 'desc_peca_15' in locals() else None,
                     'valor_peca_15': format_for_gsheets(valor_peca_15) if 'valor_peca_15' in locals() else None,  # Decimal con punto
