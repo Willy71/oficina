@@ -2481,7 +2481,7 @@ elif action == "Atualizar ordem existente":
                     	else:
                             # Si es número (int/float), convertirlo directamente
                             default_qty = str(int(raw_qty))
-            	except (ValueError, TypeError):
+                except (ValueError, TypeError):
                     default_qty = "1"
             
             	# Mostrar el input con el valor formateado (sin decimales)
@@ -2578,7 +2578,7 @@ elif action == "Atualizar ordem existente":
                     	else:
                             # Si es número (int/float), convertirlo directamente
                             default_qty = str(int(raw_qty))
-            	except (ValueError, TypeError):
+                except (ValueError, TypeError):
                     default_qty = "1"
                 
                 # Mostrar el input con el valor formateado (sin decimales)
@@ -2674,7 +2674,7 @@ elif action == "Atualizar ordem existente":
                     	else:
                             # Si es número (int/float), convertirlo directamente
                             default_qty = str(int(raw_qty))
-            	except (ValueError, TypeError):
+                except (ValueError, TypeError):
                     default_qty = "1"
             
             	# Mostrar el input con el valor formateado (sin decimales)
