@@ -520,7 +520,8 @@ if action == "Nova ordem de serviço":
                 porcentaje_adicional = st.number_input(
                     "Porc. adicional (%)",
                     min_value=0.0,
-                    max_value=100.0, # value=30.0,  Valor por defecto del 30%                     
+                    max_value=100.0, # value=30.0,  Valor por defecto del 30% 
+                    value=35.0,  # Valor por defecto cambiado a 35%
                     step=0.5,
                     key="porcentaje_adicional"
                 )
