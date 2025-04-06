@@ -704,7 +704,7 @@ if action == "Nova ordem de serviço":
             with col210:
                 gold_text("6")     
             with col211:
-		 	    quant_peca_6_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_6")
+                quant_peca_6_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_6")
                 quant_peca_6 = parse_br_number(quant_peca_6_str)  
             with col212:
                 desc_peca_6 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_6")
@@ -735,7 +735,7 @@ if action == "Nova ordem de serviço":
             with col220:
                 gold_text("7")     
             with col221:
-		 	    quant_peca_7_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_7")
+                quant_peca_7_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_7")
                 quant_peca_7 = parse_br_number(quant_peca_7_str)  
             with col222:
                 desc_peca_7 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_7")
@@ -797,7 +797,7 @@ if action == "Nova ordem de serviço":
             with col240:
                 gold_text("9")     
             with col241:
-		        quant_peca_9_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_9")
+                quant_peca_9_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_9")
                 quant_peca_9 = parse_br_number(quant_peca_9_str)  
             with col242:
                 desc_peca_9 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_9")
@@ -860,8 +860,8 @@ if action == "Nova ordem de serviço":
             with col260:
                 gold_text("11")     
             with col261:
-				quant_peca_11_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_11")
-				quant_peca_11 = parse_br_number(quant_peca_11_str)  
+                quant_peca_11_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_11")
+                quant_peca_11 = parse_br_number(quant_peca_11_str)  
             with col262:
                 desc_peca_11 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_11")
             with col263:
@@ -892,8 +892,8 @@ if action == "Nova ordem de serviço":
             with col270:
                 gold_text("12")     
             with col271:
-				quant_peca_12_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_12")
-				quant_peca_12 = parse_br_number(quant_peca_12_str)  
+                quant_peca_12_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_12")
+                quant_peca_12 = parse_br_number(quant_peca_12_str)  
             with col272:
                 desc_peca_12 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_12")
             with col273:
@@ -924,8 +924,8 @@ if action == "Nova ordem de serviço":
             with col280:
                 gold_text("13")     
             with col281:
-				quant_peca_13_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_13")
-				quant_peca_13 = parse_br_number(quant_peca_13_str)  
+                quant_peca_13_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_13")
+                quant_peca_13 = parse_br_number(quant_peca_13_str)  
             with col282:
                 desc_peca_13 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_13")
             with col283:
@@ -956,8 +956,8 @@ if action == "Nova ordem de serviço":
             with col290:
                 gold_text("14")     
             with col291:
-				quant_peca_14_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_14")
-				quant_peca_14 = parse_br_number(quant_peca_14_str)  
+                quant_peca_14_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_14")
+                quant_peca_14 = parse_br_number(quant_peca_14_str)  
             with col292:
                 desc_peca_14 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_14")
             with col293:
@@ -987,8 +987,8 @@ if action == "Nova ordem de serviço":
             with col300:
                 gold_text("15")     
             with col301:
-				quant_peca_15_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_15")
-				quant_peca_15 = parse_br_number(quant_peca_15_str)  
+                quant_peca_15_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_15")
+                quant_peca_15 = parse_br_number(quant_peca_15_str)  
             with col302:
                 desc_peca_15 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_15")
             with col303:
@@ -1018,8 +1018,8 @@ if action == "Nova ordem de serviço":
             with coll310:
                 gold_text("16")     
             with coll311:
-				quant_peca_16_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_16")
-				quant_peca_16 = parse_br_number(quant_peca_16_str)  
+                quant_peca_16_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_16")
+                quant_peca_16 = parse_br_number(quant_peca_16_str)  
             with coll312:
                 desc_peca_16 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_16")
             with coll313:
