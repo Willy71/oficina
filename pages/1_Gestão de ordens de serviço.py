@@ -2667,34 +2667,34 @@ elif action == "Atualizar ordem existente":
                     'quant_peca_1': int(quant_peca_1) if 'quant_peca_1' in locals() else None,,  # Entero
                     'desc_peca_1': desc_peca_1 if 'desc_peca_1' in locals() else None,
                     'valor_peca_1': format_for_gsheets(valor_peca_1) if 'valor_peca_1' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_1': format_for_gsheets(sub_total_peca_1) if 'sub_total_peca_1' in locals() else 0,,
+                    'sub_total_peca_1': format_for_gsheets(sub_total_peca_1) if 'sub_total_peca_1' in locals() else 0,
                     'valor_total_peca_1': valor_total_peca_1 if 'valor_total_peca_1' in locals() else 0,
-                    'quant_peca_2': int(quant_peca_2) if 'quant_peca_2' in locals() else None,,  # Entero
+                    'quant_peca_2': int(quant_peca_2) if 'quant_peca_2' in locals() else None,  # Entero
                     'desc_peca_2': desc_peca_2 if 'desc_peca_2' in locals() else None,
                     'valor_peca_2': format_for_gsheets(valor_peca_2) if 'valor_peca_2' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_2': format_for_gsheets(sub_total_peca_2) if 'sub_total_peca_2' in locals() else 0,,
+                    'sub_total_peca_2': format_for_gsheets(sub_total_peca_2) if 'sub_total_peca_2' in locals() else 0,
                     'valor_total_peca_2': valor_total_peca_2 if 'valor_total_peca_2' in locals() else 0,
-                    'quant_peca_3': int(quant_peca_3) if 'quant_peca_3' in locals() else None,,  # Entero
+                    'quant_peca_3': int(quant_peca_3) if 'quant_peca_3' in locals() else None,  # Entero
                     'desc_peca_3': desc_peca_3 if 'desc_peca_3' in locals() else None,
                     'valor_peca_3': format_for_gsheets(valor_peca_3) if 'valor_peca_3' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_3': format_for_gsheets(sub_total_peca_3) if 'sub_total_peca_3' in locals() else 0,,
+                    'sub_total_peca_3': format_for_gsheets(sub_total_peca_3) if 'sub_total_peca_3' in locals() else 0,
                     'valor_total_peca_3': valor_total_peca_3 if 'valor_total_peca_3' in locals() else 0,
-                    'quant_peca_4': int(quant_peca_4) if 'quant_peca_4' in locals() else None,,  # Entero
+                    'quant_peca_4': int(quant_peca_4) if 'quant_peca_4' in locals() else None,  # Entero
                     'desc_peca_4': desc_peca_4 if 'desc_peca_4' in locals() else None,
                     'valor_peca_4': format_for_gsheets(valor_peca_4) if 'valor_peca_4' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_4': format_for_gsheets(sub_total_peca_4) if 'sub_total_peca_4' in locals() else 0,,
+                    'sub_total_peca_4': format_for_gsheets(sub_total_peca_4) if 'sub_total_peca_4' in locals() else 0,
                     'valor_total_peca_4': valor_total_peca_4 if 'valor_total_peca_4' in locals() else 0,
-                    'quant_peca_5': int(quant_peca_5) if 'quant_peca_5' in locals() else None,,  # Entero
+                    'quant_peca_5': int(quant_peca_5) if 'quant_peca_5' in locals() else None,  # Entero
                     'desc_peca_5': desc_peca_5 if 'desc_peca_5' in locals() else None,
                     'valor_peca_5': format_for_gsheets(valor_peca_5) if 'valor_peca_5' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_5': format_for_gsheets(sub_total_peca_5) if 'sub_total_peca_5' in locals() else 0,,
+                    'sub_total_peca_5': format_for_gsheets(sub_total_peca_5) if 'sub_total_peca_5' in locals() else 0,
                     'valor_total_peca_5': valor_total_peca_5 if 'valor_total_peca_5' in locals() else 0,
-                    'quant_peca_6': int(quant_peca_6) if 'quant_peca_6' in locals() else None,,  # Entero
+                    'quant_peca_6': int(quant_peca_6) if 'quant_peca_6' in locals() else None,  # Entero
                     'desc_peca_6': desc_peca_6 if 'desc_peca_6' in locals() else None,
                     'valor_peca_6': format_for_gsheets(valor_peca_6) if 'valor_peca_6' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_6': format_for_gsheets(sub_total_peca_6) if 'sub_total_peca_6' in locals() else 0,,
+                    'sub_total_peca_6': format_for_gsheets(sub_total_peca_6) if 'sub_total_peca_6' in locals() else 0,
                     'valor_total_peca_6': valor_total_peca_6 if 'valor_total_peca_6' in locals() else 0,
-                    'quant_peca_7': int(quant_peca_7) if 'quant_peca_7' in locals() else None,,  # Entero
+                    'quant_peca_7': int(quant_peca_7) if 'quant_peca_7' in locals() else None,  # Entero
                     'desc_peca_7': desc_peca_7 if 'desc_peca_7' in locals() else None,
                     'valor_peca_7': format_for_gsheets(valor_peca_7) if 'valor_peca_7' in locals() else None,  # Decimal con punto
                     'sub_total_peca_7': format_for_gsheets(sub_total_peca_7) if 'sub_total_peca_7' in locals() else 0,,
@@ -2702,47 +2702,47 @@ elif action == "Atualizar ordem existente":
                     'quant_peca_8': int(quant_peca_8) if 'quant_peca_8' in locals() else None,,  # Entero
                     'desc_peca_8': desc_peca_8 if 'desc_peca_8' in locals() else None,
                     'valor_peca_8': format_for_gsheets(valor_peca_8) if 'valor_peca_8' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_8': format_for_gsheets(sub_total_peca_8) if 'sub_total_peca_8' in locals() else 0,,
+                    'sub_total_peca_8': format_for_gsheets(sub_total_peca_8) if 'sub_total_peca_8' in locals() else 0,
                     'valor_total_peca_8': valor_total_peca_8 if 'valor_total_peca_8' in locals() else 0,
-                    'quant_peca_9': int(quant_peca_9) if 'quant_peca_9' in locals() else None,,  # Entero
+                    'quant_peca_9': int(quant_peca_9) if 'quant_peca_9' in locals() else None,  # Entero
                     'desc_peca_9': desc_peca_9 if 'desc_peca_9' in locals() else None,
                     'valor_peca_9': format_for_gsheets(valor_peca_9) if 'valor_peca_9' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_9': format_for_gsheets(sub_total_peca_9) if 'sub_total_peca_9' in locals() else 0,,
+                    'sub_total_peca_9': format_for_gsheets(sub_total_peca_9) if 'sub_total_peca_9' in locals() else 0,
                     'valor_total_peca_9': valor_total_peca_9 if 'valor_total_peca_9' in locals() else 0,
-                    'quant_peca_10': int(quant_peca_10) if 'quant_peca_10' in locals() else None,,  # Entero
+                    'quant_peca_10': int(quant_peca_10) if 'quant_peca_10' in locals() else None,  # Entero
                     'desc_peca_10': desc_peca_10 if 'desc_peca_10' in locals() else None,
                     'valor_peca_10': format_for_gsheets(valor_peca_10) if 'valor_peca_10' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_10': format_for_gsheets(sub_total_peca_10) if 'sub_total_peca_10' in locals() else 0,,
+                    'sub_total_peca_10': format_for_gsheets(sub_total_peca_10) if 'sub_total_peca_10' in locals() else 0,
                     'valor_total_peca_10': valor_total_peca_10 if 'valor_total_peca_10' in locals() else 0,
-                    'quant_peca_11': int(quant_peca_11) if 'quant_peca_11' in locals() else None,,  # Entero
+                    'quant_peca_11': int(quant_peca_11) if 'quant_peca_11' in locals() else None,  # Entero
                     'desc_peca_11': desc_peca_11 if 'desc_peca_11' in locals() else None,
                     'valor_peca_11': format_for_gsheets(valor_peca_11) if 'valor_peca_11' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_11': format_for_gsheets(sub_total_peca_11) if 'sub_total_peca_11' in locals() else 0,,
+                    'sub_total_peca_11': format_for_gsheets(sub_total_peca_11) if 'sub_total_peca_11' in locals() else 0,
                     'valor_total_peca_11': valor_total_peca_11 if 'valor_total_peca_11' in locals() else 0,
-                    'quant_peca_12': int(quant_peca_12) if 'quant_peca_12' in locals() else None,,  # Entero
+                    'quant_peca_12': int(quant_peca_12) if 'quant_peca_12' in locals() else None,  # Entero
                     'desc_peca_12': desc_peca_12 if 'desc_peca_12' in locals() else None,
                     'valor_peca_12': format_for_gsheets(valor_peca_12) if 'valor_peca_12' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_12': format_for_gsheets(sub_total_peca_12) if 'sub_total_peca_12' in locals() else 0,,
+                    'sub_total_peca_12': format_for_gsheets(sub_total_peca_12) if 'sub_total_peca_12' in locals() else 0,
                     'valor_total_peca_12': valor_total_peca_12 if 'valor_total_peca_12' in locals() else 0,
-                    'quant_peca_13': int(quant_peca_13) if 'quant_peca_13' in locals() else None,,  # Entero
+                    'quant_peca_13': int(quant_peca_13) if 'quant_peca_13' in locals() else None,  # Entero
                     'desc_peca_13': desc_peca_13 if 'desc_peca_13' in locals() else None,
                     'valor_peca_13': format_for_gsheets(valor_peca_13) if 'valor_peca_13' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_13': format_for_gsheets(sub_total_peca_13) if 'sub_total_peca_13' in locals() else 0,,
+                    'sub_total_peca_13': format_for_gsheets(sub_total_peca_13) if 'sub_total_peca_13' in locals() else 0,
                     'valor_total_peca_13': valor_total_peca_13 if 'valor_total_peca_13' in locals() else 0,
-                    'quant_peca_14': int(quant_peca_14) if 'quant_peca_14' in locals() else None,,  # Entero
+                    'quant_peca_14': int(quant_peca_14) if 'quant_peca_14' in locals() else None,  # Entero
                     'desc_peca_14': desc_peca_14 if 'desc_peca_14' in locals() else None,
                     'valor_peca_14': format_for_gsheets(valor_peca_14) if 'valor_peca_14' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_14': format_for_gsheets(sub_total_peca_14) if 'sub_total_peca_14' in locals() else 0,,
+                    'sub_total_peca_14': format_for_gsheets(sub_total_peca_14) if 'sub_total_peca_14' in locals() else 0,
                     'valor_total_peca_14': valor_total_peca_14 if 'valor_total_peca_14' in locals() else 0
-                    'quant_peca_15': int(quant_peca_15) if 'quant_peca_15' in locals() else None,,  # Entero
+                    'quant_peca_15': int(quant_peca_15) if 'quant_peca_15' in locals() else None,  # Entero
                     'desc_peca_15': desc_peca_15 if 'desc_peca_15' in locals() else None,
                     'valor_peca_15': format_for_gsheets(valor_peca_15) if 'valor_peca_15' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_15': format_for_gsheets(sub_total_peca_15) if 'sub_total_peca_15' in locals() else 0,,
+                    'sub_total_peca_15': format_for_gsheets(sub_total_peca_15) if 'sub_total_peca_15' in locals() else 0,
                     'valor_total_peca_15': valor_total_peca_15 if 'valor_total_peca_15' in locals() else 0,
-                    'quant_peca_16': int(quant_peca_16) if 'quant_peca_16' in locals() else None,,  # Entero
+                    'quant_peca_16': int(quant_peca_16) if 'quant_peca_16' in locals() else None,  # Entero
                     'desc_peca_16': desc_peca_16 if 'desc_peca_16' in locals() else None,
                     'valor_peca_16': format_for_gsheets(valor_peca_16) if 'valor_peca_16' in locals() else None,  # Decimal con punto
-                    'sub_total_peca_16': format_for_gsheets(sub_total_peca_16) if 'sub_total_peca_16' in locals() else 0,,
+                    'sub_total_peca_16': format_for_gsheets(sub_total_peca_16) if 'sub_total_peca_16' in locals() else 0,
                     'valor_total_peca_16': valor_total_peca_16 if 'valor_total_peca_16' in locals() else 0,
                     'total_costo_inicial': sum([v for k, v in locals().items() if k.startswith('costo_inicial_')]),
                     'total_costo_final': sum([v for k, v in locals().items() if k.startswith('costo_final_')]),
