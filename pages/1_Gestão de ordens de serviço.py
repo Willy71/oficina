@@ -1997,8 +1997,8 @@ elif action == "Atualizar ordem existente":
                     	if isinstance(raw_qty, str):
                             # Remover cualquier separador de miles y manejar decimales
                             clean_qty = raw_qty.replace('.', '').split(',')[0]
-                            default_qty = str(int(float(clean_qty))) if clean_qty else: "1"
-                        else:
+                            default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+			else:
                             # Si es número (int/float), convertirlo directamente
                             default_qty = str(int(raw_qty))
             	except (ValueError, TypeError):
