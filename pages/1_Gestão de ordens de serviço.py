@@ -610,7 +610,8 @@ if action == "Nova ordem de serviço":
             with col180:
                 gold_text("3")     
             with col181:
-
+		quant_peca_3_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_3")
+		quant_peca_3 = parse_br_number(quant_peca_3_str)  
             with col182:
                 desc_peca_3 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_3")
             with col183:
