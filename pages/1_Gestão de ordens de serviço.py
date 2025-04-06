@@ -540,9 +540,8 @@ if action == "Nova ordem de serviço":
             with col1006:
                 gold_text("Total")
         
-                        
-	with st.container():  
-            col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+        with st.container():
+			col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
                 gold_text("1")     
             with col161:
