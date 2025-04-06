@@ -604,12 +604,8 @@ if action == "Nova ordem de serviço":
             with col170:
                 gold_text("2")     
             with col171:
-                quant_peca_2_str = st.text_input("", "1.0", label_visibility="collapsed", key="quant_peca_2")
-                try:
-                    quant_peca_2 = float(quant_peca_2_str)
-                except ValueError:
-                    quant_peca_2 = None
-                    st.warning("Por favor, ingrese un número válido.")
+                uant_peca_2_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_2")
+                quant_peca_2 = parse_br_number(quant_peca_2_str) 
             with col172:
                 desc_peca_2 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_2")
             with col173:
