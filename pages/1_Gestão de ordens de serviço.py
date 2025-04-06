@@ -2386,7 +2386,7 @@ elif action == "Atualizar ordem existente":
                     	else:
                             # Si es número (int/float), convertirlo directamente
                             default_qty = str(int(raw_qty))
-            	except (ValueError, TypeError):
+                except (ValueError, TypeError):
                     default_qty = "1"
             
             	# Mostrar el input con el valor formateado (sin decimales)
@@ -2396,9 +2396,9 @@ elif action == "Atualizar ordem existente":
                     label_visibility="collapsed", 
                     key="update_quant_peca_8"
                 )
-            
-            	# Convertir a entero para cálculos
-            	quant_peca_8 = int(parse_br_number(quant_peca_8_str or "1"))  # Usa 1 como valor por defecto si está vacío
+                # Convertir a entero para cálculos
+                quant_peca_8 = int(parse_br_number(quant_peca_8_str or "1"))  # Usa 1 como valor por defecto si está vacío
+
             with col232:
                 desc_peca_8 = st.text_input(
                     "", 
