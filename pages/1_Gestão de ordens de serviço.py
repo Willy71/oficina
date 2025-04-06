@@ -228,6 +228,31 @@ def format_for_gsheets(value):
     return value
 
 
+def format_br_number(number, decimal_places=2):
+    """
+    Formatea un número (int/float) al formato brasileño como string.
+    Ejemplos:
+    1234.56 → "1.234,56"
+    0.0 → "0,00"
+    42 → "42,00"
+    """
+    try:
+        num = float(number)
+        # Formatea con separador de miles (punto) y decimal (coma)
+        return f"{num:,.{decimal_places}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    except (ValueError, TypeError):
+        return f"0,{decimal_places * '0'}"
+
+def format_for_sheets(value):
+    """
+    Prepara números para Google Sheets (envía como string con comas decimales).
+    Ejemplo: 384.62 → "384,62"
+    """
+    if isinstance(value, (int, float)):
+        return f"{value:.2f}".replace(".", ",")
+    return str(value)
+
+
 #==============================================================================================================================================================
 
 
