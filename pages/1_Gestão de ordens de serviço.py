@@ -1263,8 +1263,8 @@ elif action == "Atualizar ordem existente":
         with st.container():    
             col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
-                gold_text("1") 
-           with col161:
+				gold_text("1") 
+			with col161:
                # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
                 try:
                     raw_qty = vendor_data.get("quant_peca_1", 1)  # Valor por defecto 1
