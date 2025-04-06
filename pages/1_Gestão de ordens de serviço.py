@@ -2963,7 +2963,7 @@ elif action == "Atualizar ordem existente":
                     default_qty = "1"
             
             	# Mostrar el input con el valor formateado (sin decimales)
-            	quant_peca_14_str = st.text_input(
+                quant_peca_14_str = st.text_input(
                     "", 
                     value=default_qty,
                     label_visibility="collapsed", 
@@ -3058,7 +3058,7 @@ elif action == "Atualizar ordem existente":
                     default_qty = "1"
             
             	# Mostrar el input con el valor formateado (sin decimales)
-            	quant_peca_15_str = st.text_input(
+                quant_peca_15_str = st.text_input(
                     "", 
                     value=default_qty,
                     label_visibility="collapsed", 
