@@ -572,7 +572,6 @@ if action == "Nova ordem de serviço":
                 else:
                     gold_text("R$ 0.00")   
 
-
         with st.container():
             col170, col171, col172, col173, col174, col175 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col170:
