@@ -203,16 +203,22 @@ def atualizar_ordem(worksheet, vendor_to_update, updated_record):
 def parse_br_number(number_str):
     """
     Convierte un string numérico brasileño (1.234,56) a float.
+    Ejemplos:
+    "1.234,56" → 1234.56
+    "0,00" → 0.0
+    "42" → 42.0
     """
     if isinstance(number_str, (int, float)):
         return float(number_str)
+        
     if not number_str or str(number_str).strip() == '':
         return 0.0
+        
     try:
         # Remover puntos de miles y reemplazar coma decimal por punto
         cleaned = str(number_str).replace('.', '').replace(',', '.')
         return float(cleaned)
-    except:
+    except (ValueError, TypeError):
         return 0.0
 
 # En la función que envía datos a Google Sheets, asegurarse de enviar los números en formato americano:
@@ -540,7 +546,8 @@ if action == "Nova ordem de serviço":
             with col160:
                 gold_text("1")     
             with col161:
-                quant_peca_1 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_1")
+                quant_peca_1_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_1")
+                quant_peca_1 = parse_br_number(quant_peca_1_str)  
             with col162:
                 desc_peca_1 = st.text_input("", " ", label_visibility="collapsed", key="desc_peca_1")
             with col163:
@@ -572,7 +579,8 @@ if action == "Nova ordem de serviço":
             with col170:
                 gold_text("2")     
             with col171:
-                quant_peca_2 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_2")
+                quant_peca_2_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_2")
+                quant_peca_2 = parse_br_number(quant_peca_2_str)  
             with col172:
                 desc_peca_2 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_2")
             with col173:
@@ -603,7 +611,8 @@ if action == "Nova ordem de serviço":
             with col180:
                 gold_text("3")     
             with col181:
-                quant_peca_3 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_3")
+ 	            quant_peca_3_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_3")
+                quant_peca_3 = parse_br_number(quant_peca_3_str)  
             with col182:
                 desc_peca_3 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_3")
             with col183:
@@ -633,7 +642,8 @@ if action == "Nova ordem de serviço":
             with col190:
                 gold_text("4")     
             with col191:
-                quant_peca_4 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_4")
+ 	            quant_peca_4_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_4")
+                quant_peca_4 = parse_br_number(quant_peca_4_str)  
             with col192:
                 desc_peca_4 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_4")
             with col193:
@@ -663,7 +673,8 @@ if action == "Nova ordem de serviço":
             with col200:
                 gold_text("5")     
             with col201:
-                quant_peca_5 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_5")
+                quant_peca_5_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_5")
+                quant_peca_5 = parse_br_number(quant_peca_5_str)  
             with col202:
                 desc_peca_5 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_5")
             with col203:
@@ -693,7 +704,8 @@ if action == "Nova ordem de serviço":
             with col210:
                 gold_text("6")     
             with col211:
-                quant_peca_6 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_6")
+		 	    quant_peca_6_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_6")
+                quant_peca_6 = parse_br_number(quant_peca_6_str)  
             with col212:
                 desc_peca_6 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_6")
             with col213:
@@ -723,7 +735,8 @@ if action == "Nova ordem de serviço":
             with col220:
                 gold_text("7")     
             with col221:
-                quant_peca_7 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_7")
+		 	    quant_peca_7_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_7")
+                quant_peca_7 = parse_br_number(quant_peca_7_str)  
             with col222:
                 desc_peca_7 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_7")
             with col223:
@@ -753,7 +766,8 @@ if action == "Nova ordem de serviço":
             with col230:
                 gold_text("8")     
             with col231:
-                quant_peca_8 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_8")
+		 	    quant_peca_8_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_8")
+                quant_peca_8 = parse_br_number(quant_peca_8_str)  
             with col232:
                 desc_peca_8 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_8")
             with col233:
@@ -783,7 +797,8 @@ if action == "Nova ordem de serviço":
             with col240:
                 gold_text("9")     
             with col241:
-                quant_peca_9 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_9")
+		        quant_peca_9_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_9")
+                quant_peca_9 = parse_br_number(quant_peca_9_str)  
             with col242:
                 desc_peca_9 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_9")
             with col243:
@@ -814,7 +829,8 @@ if action == "Nova ordem de serviço":
             with col250:
                 gold_text("10")     
             with col251:
-                quant_peca_10 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_10")
+                quant_peca_10_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_10")
+                quant_peca_10 = parse_br_number(quant_peca_10_str)  
             with col252:
                 desc_peca_10 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_10")
             with col253:
@@ -844,7 +860,8 @@ if action == "Nova ordem de serviço":
             with col260:
                 gold_text("11")     
             with col261:
-                quant_peca_11 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_11")
+				quant_peca_11_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_11")
+				quant_peca_11 = parse_br_number(quant_peca_11_str)  
             with col262:
                 desc_peca_11 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_11")
             with col263:
@@ -875,7 +892,8 @@ if action == "Nova ordem de serviço":
             with col270:
                 gold_text("12")     
             with col271:
-                quant_peca_12 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_12")
+				quant_peca_12_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_12")
+				quant_peca_12 = parse_br_number(quant_peca_12_str)  
             with col272:
                 desc_peca_12 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_12")
             with col273:
@@ -906,7 +924,8 @@ if action == "Nova ordem de serviço":
             with col280:
                 gold_text("13")     
             with col281:
-                quant_peca_13 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_13")
+				quant_peca_13_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_13")
+				quant_peca_13 = parse_br_number(quant_peca_13_str)  
             with col282:
                 desc_peca_13 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_13")
             with col283:
@@ -937,7 +956,8 @@ if action == "Nova ordem de serviço":
             with col290:
                 gold_text("14")     
             with col291:
-                quant_peca_14 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_14")
+				quant_peca_14_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_14")
+				quant_peca_14 = parse_br_number(quant_peca_14_str)  
             with col292:
                 desc_peca_14 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_14")
             with col293:
@@ -967,7 +987,8 @@ if action == "Nova ordem de serviço":
             with col300:
                 gold_text("15")     
             with col301:
-                quant_peca_15 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_15")
+				quant_peca_15_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_15")
+				quant_peca_15 = parse_br_number(quant_peca_15_str)  
             with col302:
                 desc_peca_15 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_15")
             with col303:
@@ -997,7 +1018,8 @@ if action == "Nova ordem de serviço":
             with coll310:
                 gold_text("16")     
             with coll311:
-                quant_peca_16 = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_16")
+				quant_peca_16_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_16")
+				quant_peca_16 = parse_br_number(quant_peca_16_str)  
             with coll312:
                 desc_peca_16 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_16")
             with coll313:
@@ -1682,13 +1704,37 @@ elif action == "Atualizar ordem existente":
             col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col160:
                 gold_text("1") 
-            with col161:
-                quant_peca_1 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_1", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_1"
-                )
+           with col161:
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_1", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_1_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_1"
+           	     )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_1 = int(parse_br_number(quant_peca_1_str or "1"))  # Usa 1 como valor por defecto si está vacío
+        
             with col162:
                 desc_peca_1 = st.text_input(
                     "", 
@@ -1697,26 +1743,43 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_1"
                 )
             with col163:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_1")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0,0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_1 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_1_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_1"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_1 = parse_br_number(valor_peca_1_str)
+                
             with col164:
                 try:
                     qty = float(quant_peca_1.replace(",", ".")) if quant_peca_1 else 0.0
@@ -1734,18 +1797,43 @@ elif action == "Atualizar ordem existente":
                         gold_text("R$ 0.00")
                 except:
                     gold_text("R$ 0.00")   
+    #==============================================================================================================
 
         with st.container():    
             col170, col171, col172, col173, col174, col175 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col170:
                 gold_text("2") 
             with col171:
-                quant_peca_2 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_2", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_2"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_2", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_2_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_2"
+           	     )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_2 = int(parse_br_number(quant_peca_2_str or "1"))  # Usa 1 como valor por defecto si está vacío
+        
             with col172:
                 desc_peca_2 = st.text_input(
                     "", 
@@ -1754,27 +1842,43 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_2"
                 )
             with col173:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_2")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_2 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_2_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_2"
                 )
                 
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_2 = parse_br_number(valor_peca_2_str)
+
             with col174:
                 try:
                     qty = float(quant_peca_2.replace(",", ".")) if quant_peca_2 else 0.0
@@ -1798,12 +1902,36 @@ elif action == "Atualizar ordem existente":
             with col180:
                 gold_text("3") 
             with col181:
-                quant_peca_3 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_3", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_3"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_3", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_3_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_3"
+               	 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_3 = int(parse_br_number(quant_peca_3_str or "1"))  # Usa 1 como valor por defecto si está vacío
+        
             with col182:
                 desc_peca_3 = st.text_input(
                     "", 
@@ -1812,26 +1940,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_3"
                 )
             with col183:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_3")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_3 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_3_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_3"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_3 = parse_br_number(valor_peca_3_str)
                 
             with col184:
                 try:
@@ -1857,12 +2001,36 @@ elif action == "Atualizar ordem existente":
             with col190:
                 gold_text("4") 
             with col191:
-                quant_peca_4 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_4", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_4"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_4", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_4_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_4"
+           	     )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_4 = int(parse_br_number(quant_peca_4_str or "1"))  # Usa 1 como valor por defecto si está vacío
+        
             with col192:
                 desc_peca_4 = st.text_input(
                     "", 
@@ -1871,26 +2039,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_4"
                 )
             with col193:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_4")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_4 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_4_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_4"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_4 = parse_br_number(valor_peca_4_str)
             with col194:
                 try:
                     qty = float(quant_peca_4.replace(",", ".")) if quant_peca_4 else 0.0
@@ -1909,18 +2093,42 @@ elif action == "Atualizar ordem existente":
                 except:
                     gold_text("R$ 0.00")
 
+
         
         with st.container():    
             col200, col201, col202, col203, col204, col205 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col200:
                 gold_text("5") 
             with col201:
-                quant_peca_5 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_5", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_5"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_5", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_5_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_5"
+           	     )    
+            	# Convertir a entero para cálculos
+            	quant_peca_5 = int(parse_br_number(quant_peca_5_str or "1"))  # Usa 1 como valor por defecto si está vacío
+
             with col202:
                 desc_peca_5 = st.text_input(
                     "", 
@@ -1929,26 +2137,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_5"
                 )
             with col203:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_5")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_5 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_5_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_5"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_5 = parse_br_number(valor_peca_5_str)
             with col204:
                 try:
                     qty = float(quant_peca_5.replace(",", ".")) if quant_peca_5 else 0.0
@@ -1973,12 +2197,35 @@ elif action == "Atualizar ordem existente":
             with col210:
                 gold_text("6") 
             with col211:
-                quant_peca_6 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_6", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_6"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_6", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_6_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_6"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_6 = int(parse_br_number(quant_peca_6_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col212:
                 desc_peca_6 = st.text_input(
                     "", 
@@ -1987,26 +2234,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_6"
                 )
             with col213:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_6")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_6 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_6_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_6"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_6 = parse_br_number(valor_peca_6_str)
             with col214:
                 try:
                     qty = float(quant_peca_6.replace(",", ".")) if quant_peca_6 else 0.0
@@ -2031,12 +2294,35 @@ elif action == "Atualizar ordem existente":
             with col220:
                 gold_text("7") 
             with col221:
-                quant_peca_7 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_7", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_7"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_7", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_7_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_7"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_7 = int(parse_br_number(quant_peca_7_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col222:
                 desc_peca_7 = st.text_input(
                     "", 
@@ -2045,26 +2331,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_7"
                 )
             with col223:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_7")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_7 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_7_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_7"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_7 = parse_br_number(valor_peca_7_str)
             with col224:
                 try:
                     qty = float(quant_peca_7.replace(",", ".")) if quant_peca_7 else 0.0
@@ -2088,12 +2390,35 @@ elif action == "Atualizar ordem existente":
             with col230:
                 gold_text("8") 
             with col231:
-                quant_peca_8 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_8", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_8"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_8", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_8_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_8"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_8 = int(parse_br_number(quant_peca_8_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col232:
                 desc_peca_8 = st.text_input(
                     "", 
@@ -2102,26 +2427,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_8"
                 )
             with col233:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_8")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_8 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_8_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_8"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_8 = parse_br_number(valor_peca_8_str)
             with col234:
                 try:
                     qty = float(quant_peca_8.replace(",", ".")) if quant_peca_8 else 0.0
@@ -2145,12 +2486,35 @@ elif action == "Atualizar ordem existente":
             with col240:
                 gold_text("9") 
             with col241:
-                quant_peca_9 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_9", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_9"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_9", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_9_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_9"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_9 = int(parse_br_number(quant_peca_9_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col242:
                 desc_peca_9 = st.text_input(
                     "", 
@@ -2159,26 +2523,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_9"
                 )
             with col243:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_9")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_9 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_9_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_9"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_9 = parse_br_number(valor_peca_9_str)
             with col244:
                 try:
                     qty = float(quant_peca_9.replace(",", ".")) if quant_peca_9 else 0.0
@@ -2203,12 +2583,35 @@ elif action == "Atualizar ordem existente":
             with col250:
                 gold_text("10") 
             with col251:
-                quant_peca_10 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_10", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_10"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_10", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_10_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_10"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_10 = int(parse_br_number(quant_peca_10_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col252:
                 desc_peca_10 = st.text_input(
                     "", 
@@ -2217,26 +2620,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_10"
                 )
             with col253:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_10")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_10 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_10_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_10"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_10 = parse_br_number(valor_peca_10_str)
             with col254:
                 try:
                     qty = float(quant_peca_10.replace(",", ".")) if quant_peca_10 else 0.0
@@ -2261,12 +2680,35 @@ elif action == "Atualizar ordem existente":
             with col260:
                 gold_text("11") 
             with col261:
-                quant_peca_11 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_11", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_11"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_11", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_11_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_11"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_11 = int(parse_br_number(quant_peca_11_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col262:
                 desc_peca_11 = st.text_input(
                     "", 
@@ -2275,26 +2717,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_11"
                 )
             with col263:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_11")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_11 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_11_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_11"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_11 = parse_br_number(valor_peca_11_str)
             with col264:
                 try:
                     qty = float(quant_peca_11.replace(",", ".")) if quant_peca_11 else 0.0
@@ -2319,12 +2777,35 @@ elif action == "Atualizar ordem existente":
             with col270:
                 gold_text("12") 
             with col271:
-                quant_peca_12 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_12", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_12"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_12", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_12_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_12"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_12 = int(parse_br_number(quant_peca_12_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col272:
                 desc_peca_12 = st.text_input(
                     "", 
@@ -2333,26 +2814,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_12"
                 )
             with col273:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_12")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_12 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_12_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_12"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_12 = parse_br_number(valor_peca_12_str)
             with col274:
                 try:
                     qty = float(quant_peca_12.replace(",", ".")) if quant_peca_12 else 0.0
@@ -2377,12 +2874,35 @@ elif action == "Atualizar ordem existente":
             with col280:
                 gold_text("13") 
             with col281:
-                quant_peca_13 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_13", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_13"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_13", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_13_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_13"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_13 = int(parse_br_number(quant_peca_13_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col282:
                 desc_peca_13 = st.text_input(
                     "", 
@@ -2391,26 +2911,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_13"
                 )
             with col283:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_13")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_13 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_13_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_13"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_13 = parse_br_number(valor_peca_13_str)
             with col284:
                 try:
                     qty = float(quant_peca_13.replace(",", ".")) if quant_peca_13 else 0.0
@@ -2434,12 +2970,35 @@ elif action == "Atualizar ordem existente":
             with col290:
                 gold_text("14") 
             with col291:
-                quant_peca_14 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_14", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_14"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_14", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_14_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_14"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_14 = int(parse_br_number(quant_peca_14_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col292:
                 desc_peca_14 = st.text_input(
                     "", 
@@ -2448,26 +3007,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_14"
                 )
             with col293:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_14")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_14 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_14_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_14"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_14 = parse_br_number(valor_peca_14_str)
             with col294:
                 try:
                     qty = float(quant_peca_14.replace(",", ".")) if quant_peca_14 else 0.0
@@ -2491,12 +3066,35 @@ elif action == "Atualizar ordem existente":
             with col300:
                 gold_text("15") 
             with col301:
-                quant_peca_15 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_15", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_15"
-                )
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_15", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_15_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_15"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_15 = int(parse_br_number(quant_peca_15_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col302:
                 desc_peca_15 = st.text_input(
                     "", 
@@ -2505,26 +3103,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_15"
                 )
             with col303:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_15")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_15 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_15_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_15"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_15 = parse_br_number(valor_peca_15_str)
             with col304:
                 try:
                     qty = float(quant_peca_15.replace(",", ".")) if quant_peca_15 else 0.0
@@ -2547,13 +3161,36 @@ elif action == "Atualizar ordem existente":
             col310, col311, col312, col313, col314, col315 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col310:
                 gold_text("16") 
-            with col311:
-                quant_peca_16 = st.text_input(
-                    "", 
-                    value=str(vendor_data.get("quant_peca_16", "1")),  # Aseguramos string
-                    label_visibility="collapsed", 
-                    key="update_quant_peca_16"
-                )
+            with col301:
+               # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
+                try:
+                    raw_qty = vendor_data.get("quant_peca_15", 1)  # Valor por defecto 1
+                
+                    # Convertir a entero (cantidades son siempre enteras)
+                    if raw_qty in [None, "", "None"]:
+                    	default_qty = "1"
+                	else:
+                    # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
+                    	if isinstance(raw_qty, str):
+                        	# Remover cualquier separador de miles y manejar decimales
+                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
+                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                    	else:
+                        	# Si es número (int/float), convertirlo directamente
+                        	default_qty = str(int(raw_qty))
+            	except (ValueError, TypeError):
+                	default_qty = "1"
+            
+            	# Mostrar el input con el valor formateado (sin decimales)
+            	quant_peca_15_str = st.text_input(
+                	"", 
+                	value=default_qty,
+                	label_visibility="collapsed", 
+                	key="update_quant_peca_15"
+           		 )
+            
+            	# Convertir a entero para cálculos
+            	quant_peca_15 = int(parse_br_number(quant_peca_15_str or "1"))  # Usa 1 como valor por defecto si está vacío
             with col312:
                 desc_peca_16 = st.text_input(
                     "", 
@@ -2562,26 +3199,42 @@ elif action == "Atualizar ordem existente":
                     key="update_desc_peca_16"
                 )
             with col313:
-                # Conversión ultra-segura del valor numérico
+                # Conversión ultra-segura del valor numérico (formato brasileño)
                 try:
                     raw_value = vendor_data.get("valor_peca_16")
-                    if raw_value in [None, "", "None"]:
-                        default_value = 0.0
-                    else:
-                        default_value = float(str(raw_value).replace(",", "."))  # Manejo de decimales
-                except (ValueError, TypeError):
-                    default_value = 0.0
                     
-                valor_peca_16 = st.number_input(
+                    # Casos especiales: None, vacío o string "None"
+                    if raw_value in [None, "", "None"]:
+                        default_value_str = "0,00"  # Valor por defecto en formato brasileño
+                    else:
+                        # Convertir a string y manejar formato brasileño
+                        value_str = str(raw_value)
+                        
+                        # Si ya está en formato brasileño (contiene coma)
+                        if ',' in value_str:
+                            default_value_str = value_str
+                        # Si está en formato americano (contiene punto)
+                        elif '.' in value_str:
+                            # Reemplazar punto por coma para mostrar en interfaz
+                            default_value_str = value_str.replace('.', ',')
+                        else:
+                            # Si es un entero sin decimales
+                            default_value_str = f"{value_str},00"
+                            
+                except (ValueError, TypeError) as e:
+                    st.error(f"Error al convertir valor: {str(e)}")
+                    default_value_str = "0,00"
+                
+                # Mostrar el campo de texto con formato brasileño
+                valor_peca_16_str = st.text_input(
                     "", 
-                    value=float(default_value),  # Aseguramos float
-                    min_value=0.0,
-                    max_value=1000000.0,
-                    step=0.01,
-                    format="%.2f",
+                    value=default_value_str,
                     label_visibility="collapsed", 
                     key="update_valor_peca_16"
                 )
+                
+                # Convertir a float para cálculos internos (reemplazar coma por punto)
+                valor_peca_16 = parse_br_number(valor_peca_16_str)
             with col314:
                 try:
                     qty = float(quant_peca_16.replace(",", ".")) if quant_peca_16 else 0.0
