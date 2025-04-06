@@ -606,36 +606,6 @@ if action == "Nova ordem de serviço":
                 else:
                     gold_text("R$ 0.00")
 	    
-        with st.container():
-            col190, col191, col192, col193, col194, col195 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
-            with col190:
-                gold_text("4")     
-            with col191:
-		quant_peca_4_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_4")
-		quant_peca_4 = parse_br_number(quant_peca_4_str)
-            with col192:
-                desc_peca_4 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_4")
-            with col193:
-                valor_peca_4_str = st.text_input(" ", value="0,00", label_visibility="collapsed", key="valor_peca_4")
-                valor_peca_4 = parse_br_number(valor_peca_4_str)
-            with col194: 
-                if quant_peca_4 and valor_peca_4:
-                    try:
-                        costo_inicial_4 = float(quant_peca_4) * float(valor_peca_4)
-                        gold_text(f"R$ {costo_inicial_4:.2f}")
-                    except:
-                        gold_text("R$ 0.00")
-                else:
-                    gold_text("R$ 0.00")
-            with col195:
-                if quant_peca_4 and valor_peca_4 and porcentaje_adicional:
-                    try:
-                        costo_final_4 = float(quant_peca_4) * float(valor_peca_4) * (1 + porcentaje_adicional/100)
-                        gold_text(f"R$ {costo_final_4:.2f}")        
-                    except:
-                        gold_text("R$ 0.00")
-                else:
-                    gold_text("R$ 0.00")
 
         
         
