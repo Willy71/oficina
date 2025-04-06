@@ -335,7 +335,7 @@ if action == "Nova ordem de serviço":
             with col02:
                 data_entrada = st.text_input("Data de entrada")
             with col03:
-                previsao_entrega = st.text_input("Previsão de entrega")
+                previsao_entrega = st.text_input("Prev de entrega")
             with col04:
                 data_saida= st.text_input("Data de saida")
             
@@ -1282,7 +1282,7 @@ elif action == "Atualizar ordem existente":
             with col02:
                 data_entrada = st.text_input("Data de entrada", value=vendor_data["date_in"], key="update_data_entrada")
             with col03:
-                previsao_entrega = st.text_input("Previsão de entrega", value=vendor_data["date_prev"], key="update_previsao_entrega")
+                previsao_entrega = st.text_input("Prev de entrega", value=vendor_data["date_prev"], key="update_previsao_entrega")
             with col04:
                 data_saida = st.text_input("Data de saida", value=vendor_data["date_out"], key="update_data_saida")
             
