@@ -1700,11 +1700,11 @@ elif action == "Atualizar ordem existente":
             with col1006:
                 gold_text("Total")
 
-        with st.container():    
-		col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
-			with col160:
-				gold_text("1") 
-			with col161:
+        with st.container():
+            col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+            with col160:
+                gold_text("1")
+            with col161:
                # Obtenemos el valor de cantidad (asegurando formato brasileño para enteros)
                 try:
                     raw_qty = vendor_data.get("quant_peca_1", 1)  # Valor por defecto 1
@@ -1712,25 +1712,20 @@ elif action == "Atualizar ordem existente":
                     # Convertir a entero (cantidades son siempre enteras)
                     if raw_qty in [None, "", "None"]:
                     	default_qty = "1"
-                	else:
+                    else:
                     # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
                     	if isinstance(raw_qty, str):
-                        	# Remover cualquier separador de miles y manejar decimales
-                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
-                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                            # Remover cualquier separador de miles y manejar decimales
+                            clean_qty = raw_qty.replace('.', '').split(',')[0]
+                            default_qty = str(int(float(clean_qty))) if clean_qty else "1"
                     	else:
-                        	# Si es número (int/float), convertirlo directamente
-                        	default_qty = str(int(raw_qty))
+                            # Si es número (int/float), convertirlo directamente
+                            default_qty = str(int(raw_qty))
             	except (ValueError, TypeError):
-                	default_qty = "1"
+                    default_qty = "1"
             
             	# Mostrar el input con el valor formateado (sin decimales)
-            	quant_peca_1_str = st.text_input(
-                	"", 
-                	value=default_qty,
-                	label_visibility="collapsed", 
-                	key="update_quant_peca_1"
-           	     )
+            	quant_peca_1_str = st.text_input("", value=default_qty, label_visibility="collapsed", key="update_quant_peca_1")
             
             	# Convertir a entero para cálculos
             	quant_peca_1 = int(parse_br_number(quant_peca_1_str or "1"))  # Usa 1 como valor por defecto si está vacío
@@ -1811,25 +1806,20 @@ elif action == "Atualizar ordem existente":
                     # Convertir a entero (cantidades son siempre enteras)
                     if raw_qty in [None, "", "None"]:
                     	default_qty = "1"
-                	else:
+                    else:
                     # Si es string con decimales (ej. "1,00" o "2.00"), extraer la parte entera
                     	if isinstance(raw_qty, str):
-                        	# Remover cualquier separador de miles y manejar decimales
-                        	clean_qty = raw_qty.replace('.', '').split(',')[0]
-                        	default_qty = str(int(float(clean_qty))) if clean_qty else "1"
+                            # Remover cualquier separador de miles y manejar decimales
+                            clean_qty = raw_qty.replace('.', '').split(',')[0]
+                            default_qty = str(int(float(clean_qty))) if clean_qty else "1"
                     	else:
-                        	# Si es número (int/float), convertirlo directamente
-                        	default_qty = str(int(raw_qty))
+                            # Si es número (int/float), convertirlo directamente
+                            default_qty = str(int(raw_qty))
             	except (ValueError, TypeError):
-                	default_qty = "1"
+                    default_qty = "1"
             
             	# Mostrar el input con el valor formateado (sin decimales)
-            	quant_peca_2_str = st.text_input(
-                	"", 
-                	value=default_qty,
-                	label_visibility="collapsed", 
-                	key="update_quant_peca_2"
-           	     )
+            	quant_peca_2_str = st.text_input("", value=default_qty, label_visibility="collapsed", key="update_quant_peca_2")
             
             	# Convertir a entero para cálculos
             	quant_peca_2 = int(parse_br_number(quant_peca_2_str or "1"))  # Usa 1 como valor por defecto si está vacío
