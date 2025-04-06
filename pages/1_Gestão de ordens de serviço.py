@@ -606,12 +606,12 @@ if action == "Nova ordem de serviço":
                 else:
                     gold_text("R$ 0.00")                
 
-        with st.container():
-            col180, col181, col182, col183, col184, col185 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
+	with st.container():
+	    col180, col181, col182, col183, col184, col185 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
             with col180:
-                gold_text("3")     
-            with col181:
- 	        quant_peca_3_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_3")
+                gold_text("3")
+	    with col181:
+		quant_peca_3_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_3")
                 quant_peca_3 = parse_br_number(quant_peca_3_str)  
             with col182:
                 desc_peca_3 = st.text_input("", "", label_visibility="collapsed", key="desc_peca_3")
