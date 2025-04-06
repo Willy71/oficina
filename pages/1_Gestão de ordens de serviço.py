@@ -2293,16 +2293,16 @@ elif action == "Atualizar ordem existente":
                             default_qty = str(int(raw_qty))
                 except (ValueError, TypeError):
                     default_qty = "1"
-                    # Mostrar el input con el valor formateado (sin decimales)
-                    quant_peca_7_str = st.text_input(
-                        "",
-                        value=default_qty,
-                        label_visibility="collapsed", 
-                        key="update_quant_peca_7"
-                    )
-            
-            	# Convertir a entero para cálculos
-            	quant_peca_7 = int(parse_br_number(quant_peca_7_str or "1"))  # Usa 1 como valor por defecto si está vacío
+                # Mostrar el input con el valor formateado (sin decimales)
+                quant_peca_7_str = st.text_input(
+                    "",
+                    value=default_qty,
+                    label_visibility="collapsed", 
+                    key="update_quant_peca_7"
+                )
+                # Convertir a entero para cálculos
+                quant_peca_7 = int(parse_br_number(quant_peca_7_str or "1"))  # Usa 1 como valor por defecto si está vacío
+                
             with col222:
                 desc_peca_7 = st.text_input(
                     "", 
