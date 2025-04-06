@@ -3051,13 +3051,12 @@ elif action == "Atualizar ordem existente":
                             # Remover cualquier separador de miles y manejar decimales
                             clean_qty = raw_qty.replace('.', '').split(',')[0]
                             default_qty = str(int(float(clean_qty))) if clean_qty else "1"
-                    	else:
+                        else:
                             # Si es número (int/float), convertirlo directamente
                             default_qty = str(int(raw_qty))
                 except (ValueError, TypeError):
                     default_qty = "1"
-            
-            	# Mostrar el input con el valor formateado (sin decimales)
+                # Mostrar el input con el valor formateado (sin decimales)
                 quant_peca_15_str = st.text_input(
                     "", 
                     value=default_qty,
