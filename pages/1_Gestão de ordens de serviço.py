@@ -542,8 +542,8 @@ if action == "Nova ordem de serviço":
         
         with st.container():
 			col160, col161, col162, col163, col164, col165 = st.columns([0.3, 0.5, 3, 0.7, 0.7, 0.7])
-            with col160:
-                gold_text("1")     
+			with col160:
+				gold_text("1")     
             with col161:
                 quant_peca_1_str = st.text_input("", "1", label_visibility="collapsed", key="quant_peca_1")
                 quant_peca_1 = parse_br_number(quant_peca_1_str)  
