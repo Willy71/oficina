@@ -1609,22 +1609,31 @@ elif action == "Atualizar ordem existente":
         with st.container():
             col_perc, col_empty, col_final = st.columns([4, 2.5, 4])
             with col_empty:
-               # Recupera el valor guardado o usa 30% como valor por defecto si no existe
-                porcentaje_guardado = vendor_data.get("porcentaje_adicional", 30.0)
+                # 1. Obtener el valor de la base de datos
+                porcentaje_guardado = vendor_data.get("porcentaje_adicional")
                 
-                # Manejo seguro para valores nulos/vacíos
+                # 2. Conversión ultra-segura (maneja todos los casos)
                 try:
-                    porcentaje_guardado = float(porcentaje_guardado) if porcentaje_guardado not in [None, ""] else 30.0
-                except (ValueError, TypeError):
-                    porcentaje_guardado = 30.0
+                    if porcentaje_guardado is None or str(porcentaje_guardado).strip() == "":
+                        porcentaje_default = 35.0  # Valor por defecto actualizado a 35%
+                    else:
+                        # Convierte tanto "35,5" como "35.5" correctamente
+                        if isinstance(porcentaje_guardado, str):
+                            porcentaje_default = float(porcentaje_guardado.replace(",", "."))
+                        else:
+                            porcentaje_default = float(porcentaje_guardado)
+                except:
+                    porcentaje_default = 35.0
                 
+                # 3. Mostrar el campo con formato adecuado
                 porcentaje_adicional = st.number_input(
                     "Porc. adicional (%)",
                     min_value=0.0,
                     max_value=100.0,
-                    value=float(porcentaje_guardado),  # <-- Aquí cargamos el valor guardado
+                    value=porcentaje_default,
                     step=0.5,
-                    key="update_porcentaje_adicional"  # Cambiado para evitar conflicto con otras keys
+                    format="%.1f",  # Muestra con 1 decimal
+                    key="update_porcentaje_adicional_unique"  # Key único
                 )
 
 
