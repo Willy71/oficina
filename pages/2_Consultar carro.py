@@ -173,6 +173,10 @@ def formatar_valor(valor, padrao=""):
     except:
         return padrao
 
+def formatar_dos(valor):
+    return f"{valor:,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+
+
 def formatar_real(valor, padrao="0,00"):
     """
     Formata valores para el estándar monetario brasileño (R$ 0,00)
@@ -333,9 +337,9 @@ if st.session_state.veiculo_encontrado:
                 pecas.append({
                     'Quant.': quant if pd.notna(quant) else '',
                     'Descrição': desc if pd.notna(desc) else '',
-                    'Custo Unit. (R$)': formatar_real(valor, padrao="0,00"),
+                    'Custo Unit. (R$)': formatar_dos(valor, padrao="0,00"),
                     '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                    'Valor Final (R$)': f"{(valor_total_final)}"
+                    'Valor Final (R$)': f"{formatar_dos(valor_total_final)}"
                 })
         
         if pecas:
@@ -355,7 +359,7 @@ if st.session_state.veiculo_encontrado:
     # Mostrar el gran total después de ambas secciones
     if 'total_servicos' in locals() and 'total_pecas' in locals():
         total_geral = total_servicos + total_pecas_final
-        st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_valor(total_geral)}")
+        st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_dos(total_geral)}")
 
     if st.button("Gerar PDF", key="gerar_pdf"):
         with st.spinner("Generando PDF..."):
