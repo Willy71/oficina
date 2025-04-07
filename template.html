@@ -4,31 +4,56 @@
     <meta charset="UTF-8">
     <style>
         body { font-family: Arial; margin: 0; padding: 20px; }
-        .header { text-align: center; margin-bottom: 20px; }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            max-width: 120px;
+        }
+        .company-info {
+            text-align: right;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
         .border-box { border: 2px solid #333; padding: 20px; margin-bottom: 20px; }
+        .vehicle-info p {
+            font-weight: bold;
+            font-size: 1.1em;
+            display: inline-block;
+            margin-right: 40px;
+            margin-bottom: 10px;
+        }
         table { width: 100%; border-collapse: collapse; margin: 10px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         .total { font-weight: bold; text-align: right; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <p>Emitido em: {{data_emissao}}</p>
-        <h1>ZAMBRZYCKI Auto Center</h1>
-        <p>CNPJ: 116902840001-01 | INSC: 9105659668</p>
-        <p>ENDEREÇO: Rua Nicolau Florenzano 608, Uvaranas</p>
-        <p>Contato: (42) 999915-8454</p>
+    <div class="header-container">
+        <div>
+            <img src="https://example.com/logo.png" alt="Logo" class="logo">
+            <p>Emitido em: {{data_emissao}}</p>
+        </div>
+        <div class="company-info">
+            <h2>ZAMBRZYCKI Auto Center</h2>
+            <p>CNPJ: 116902840001-01 | INSC: 9105659668</p>
+            <p>ENDEREÇO: Rua Nicolau Florenzano 608, Uvaranas</p>
+            <p>Contato: (42) 999915-8454</p>
+        </div>
     </div>
 
-    <div class="border-box">
+    <div class="border-box vehicle-info">
         <h2>Dados do Veículo</h2>
         <p><strong>Placa:</strong> {{placa}}</p>
-        <p><strong>Marca:</strong> {{carro}}</p>
+        <p><strong>Marca:</strong> {{carro}}</p><br>
         <p><strong>Modelo:</strong> {{modelo}}</p>
-        <p><strong>Ano:</strong> {{ano}}</p>
-        <p><strong>Proprietário:</strong> {{dono_empresa}}</p>
+        <p><strong>Ano:</strong> {{ano}}</p><br>
         <p><strong>Data Entrada:</strong> {{date_in}}</p>
-        <p><strong>Previsão Entrega:</strong> {{date_prev}}</p>
+        <p><strong>Previsão Entrega:</strong> {{date_prev}}</p><br>
+        <p><strong>Proprietário:</strong> {{dono_empresa}}</p>
     </div>
 
     <div class="border-box">
