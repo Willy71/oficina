@@ -320,7 +320,7 @@ if st.session_state.veiculo_encontrado:
 #==============================================================================================================================================================
 
 
-    # Mostrar peças con expanders
+   # Mostrar peças con expanders
     with st.expander("🔧 Peças Utilizadas", expanded=False):
         pecas = []
         total_pecas = 0.0
@@ -331,24 +331,25 @@ if st.session_state.veiculo_encontrado:
             desc = veiculo.get(f'desc_peca_{i}', '')  # Descripción
             valor = veiculo.get(f'valor_peca_{i}', '')  # Costo unitario
             porcentaje = veiculo.get('porcentaje_adicional', 0)  # Porcentaje adicional
-
-            if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):  
-                quant_float = safe_float(quant)
-                valor_float = safe_float(valor)
-                # Calcular el costo total de la pieza
-                valor_total_peca = quant_float * valor_float     
-                # Aplicar el porcentaje adicional
-                valor_total_final = valor_total_peca * (1 + safe_float(porcentaje) / 100)           
-                total_pecas += valor_total_peca  # Sumar costo total de piezas (sin adicional)
-                total_pecas_final += valor_total_final  # Sumar costo final con adicional
-                
+    
+            quant_float = safe_float(quant)
+            valor_float = safe_float(valor)
+            valor_total_peca = quant_float * valor_float
+            valor_total_final = valor_total_peca * (1 + safe_float(porcentaje) / 100)
+    
+            # Filtrar sólo si hay descripción o valor total > 0
+            if (pd.notna(desc) and str(desc).strip() != "") or valor_total_peca > 0:
+                total_pecas += valor_total_peca
+                total_pecas_final += valor_total_final
+    
                 pecas.append({
                     'Quant.': quant if pd.notna(quant) else '',
                     'Descrição': desc if pd.notna(desc) else '',
-                    'Custo Unit. (R$)': formatar_dos(valor),
+                    'Custo Unit. (R$)': formatar_dos(valor_float),
                     '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
                     'Valor Final (R$)': f"{formatar_dos(valor_total_final)}"
                 })
+
         
         if pecas:
             df_pecas = pd.DataFrame(pecas)
