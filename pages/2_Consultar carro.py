@@ -246,21 +246,21 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Estado", formatar_valor(veiculo.get('estado')))
+            st.metric("Estado", veiculo.get('estado'))
         with cols[1]:
-            st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
+            st.metric("Data Entrada", veiculo.get('date_in'))
         with cols[2]:
-            st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
+            st.metric("Previsão Entrega", veiculo.get('date_prev'))
     
     # Mostrar información del dueño
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Proprietário", formatar_valor(veiculo.get('dono_empresa')))
+            st.metric("Proprietário", veiculo.get('dono_empresa'))
         with cols[1]:
-            st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
+            st.metric("Telefone", veiculo.get('telefone'))
         with cols[2]:
-            st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
+            st.metric("Endereço", veiculo.get('endereco'))
 #===================================================================================================================================================================
     with st.expander("📋 Serviços Realizados", expanded=False):
         servicos = []
