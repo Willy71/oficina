@@ -412,8 +412,8 @@ if st.session_state.veiculo_encontrado:
                         pecas_pdf.append({
                             'Quant': str(quant),
                             'Descrição': str(desc),
-                            'Custo Unit.': formatar_real(valor_unitario),
-                            'Valor Final': formatar_real(valor_con_adicional)
+                            'Custo Unit.': formatar_dos(valor_unitario),
+                            'Valor Final': formatar_dos(valor_con_adicional)
                         })
     
                 # 4. GENERAR PDF
@@ -428,9 +428,9 @@ if st.session_state.veiculo_encontrado:
                     date_prev=veiculo.get('date_prev', ''),
                     servicos=servicos_pdf,
                     pecas=pecas_pdf,
-                    total_servicos=formatar_real(total_servicos_pdf),
-                    total_pecas_final=formatar_real(total_pecas_final_pdf),
-                    total_geral=formatar_real(total_servicos_pdf + total_pecas_final_pdf)
+                    total_servicos=formatar_dos(total_servicos_pdf),
+                    total_pecas_final=formatar_dos(total_pecas_final_pdf),
+                    total_geral=formatar_dos(total_servicos_pdf + total_pecas_final_pdf)
                 )
                 
                 pdf = pdfkit.from_string(html, False)
