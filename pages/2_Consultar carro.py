@@ -174,7 +174,11 @@ def formatar_valor(valor, padrao=""):
         return padrao
 
 def formatar_dos(valor):
-    return f"{valor:,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+    try:
+        valor_float = float(valor)
+        return f"{valor_float:,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+    except (ValueError, TypeError):
+        return "0,00"
 
 
 def formatar_real(valor, padrao="0,00"):
