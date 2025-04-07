@@ -353,9 +353,9 @@ if st.session_state.veiculo_encontrado:
             # Mostrar totales
             col1, col2 = st.columns(2)
             with col1:
-                st.markdown(f"**Total Costo Peças:** R$ {formatar_valor(total_pecas)}")
+                st.markdown(f"**Total Costo Peças:** R$ {formatar_dos(total_pecas)}")
             with col2:
-                st.markdown(f"**Total Final Peças:** R$ {formatar_valor(total_pecas_final)}")
+                st.markdown(f"**Total Final Peças:** R$ {formatar_dos(total_pecas_final)}")
         else:
             st.info("Nenhuma peça registrada")
     
