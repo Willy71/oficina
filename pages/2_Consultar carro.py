@@ -319,7 +319,7 @@ if st.session_state.veiculo_encontrado:
                 pecas.append({
                     'Quant.': quant if pd.notna(quant) else '',
                     'Descrição': desc if pd.notna(desc) else '',
-                    'Custo Unit. (R$)': formatar_valor(valor, padrao="0,00"),
+                    'Custo Unit. (R$)': formatar_valor(valor),
                     '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
                     'Valor Final (R$)': f"{formatar_valor(valor_total_final)}"
                 })
