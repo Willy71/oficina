@@ -292,17 +292,21 @@ if st.session_state.veiculo_encontrado:
             item = veiculo.get(f'item_serv_{i}', '')
             desc = veiculo.get(f'desc_ser_{i}', '')
             valor = veiculo.get(f'valor_serv_{i}', '')
-    
-            if pd.notna(item) and pd.notna(desc) and pd.notna(valor):  # Filtrar solo los servicios con datos
-                valor_formatado = formatar_real(valor)
-                valor_float = safe_float(valor) if pd.notna(valor) else 0.0
+        
+            # Convertir el valor a float seguro
+            valor_float = safe_float(valor) if pd.notna(valor) else 0.0
+        
+            # Verificamos si hay descripción o valor diferente de cero
+            if (pd.notna(desc) and str(desc).strip() != "") or valor_float > 0:
+                valor_formatado = formatar_real(valor_float)
                 total_servicos += valor_float
-    
+        
                 servicos.append({
                     'Item': item if pd.notna(item) else '',
                     'Descrição': desc if pd.notna(desc) else '',
                     'Valor (R$)': valor_formatado
                 })
+
     
         if servicos:
             df_servicos = pd.DataFrame(servicos)
