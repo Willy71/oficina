@@ -155,23 +155,9 @@ def safe_float(valor):
         return 0.0
 
 
-def formatar_valor(valor, padrao=""):
-    """
-    Formatea valores para visualización segura
-    
-    Args:
-        valor: Valor a formatear (str, float, int, None)
-        padrao: Valor por defecto si no se puede formatear (default: "")
-    
-    Returns:
-        str: Valor formateado o string vacío si es nulo/inválido
-    """
-    if pd.isna(valor) or valor in [None, '']:
-        return padrao
-    try:
-        return str(valor).strip()
-    except:
-        return padrao
+def formatar_valor(valor):
+    return f"{valor:,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+
 
 def formatar_real(valor, padrao="0,00"):
     """
@@ -333,9 +319,9 @@ if st.session_state.veiculo_encontrado:
                 pecas.append({
                     'Quant.': quant if pd.notna(quant) else '',
                     'Descrição': desc if pd.notna(desc) else '',
-                    'Custo Unit. (R$)': formatar_real(valor, padrao="0,00"),
+                    'Custo Unit. (R$)': formatar_valor(valor, padrao="0,00"),
                     '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                    'Valor Final (R$)': f"{(valor_total_final)}"
+                    'Valor Final (R$)': f"{formatar_valor(valor_total_final)}"
                 })
         
         if pecas:
