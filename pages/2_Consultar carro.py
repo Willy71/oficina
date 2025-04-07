@@ -373,7 +373,7 @@ if st.session_state.veiculo_encontrado:
     if st.button("Gerar PDF", key="gerar_pdf"):
         with st.spinner("Generando PDF..."):
             try:
-                # 1. PROCESAR SERVICIOS
+                # 1. PROCESAR SERVIÇOS
                 servicos_pdf = []
                 total_servicos_pdf = 0.0
                 
@@ -382,17 +382,17 @@ if st.session_state.veiculo_encontrado:
                     desc = veiculo.get(f'desc_ser_{i}', '')
                     valor = veiculo.get(f'valor_serv_{i}', '')
                     
-                    if pd.notna(item) and pd.notna(desc) and pd.notna(valor):
-                        valor_float = safe_float(valor)  # Usamos la función mejorada
+                    valor_float = safe_float(valor) if pd.notna(valor) else 0.0
+    
+                    if (pd.notna(desc) and str(desc).strip() != "") or valor_float > 0:
                         total_servicos_pdf += valor_float
-                        
                         servicos_pdf.append({
                             'Item': str(item),
                             'Descrição': str(desc),
                             'Valor': formatar_real(valor_float)
                         })
     
-                # 2. PROCESAR PIEZAS
+                # 2. PROCESAR PEÇAS
                 pecas_pdf = []
                 total_pecas_final_pdf = 0.0
                 porcentaje_adicional = safe_float(veiculo.get('porcentaje_adicional', 0))
@@ -402,13 +402,15 @@ if st.session_state.veiculo_encontrado:
                     desc = veiculo.get(f'desc_peca_{i}', '')
                     valor = veiculo.get(f'valor_peca_{i}', '')
                     
-                    if pd.notna(quant) and pd.notna(desc) and pd.notna(valor):
-                        quant_float = safe_float(quant)
-                        valor_unitario = safe_float(valor)
-                        valor_total = quant_float * valor_unitario
-                        valor_con_adicional = valor_total * (1 + porcentaje_adicional/100)
+                    quant_float = safe_float(quant)
+                    valor_unitario = safe_float(valor)
+                    valor_total = quant_float * valor_unitario
+                    valor_con_adicional = valor_total * (1 + porcentaje_adicional / 100)
+    
+                    # Mostrar solo si hay descripción o el valor total > 0
+                    if (pd.notna(desc) and str(desc).strip() != "") or valor_total > 0:
                         total_pecas_final_pdf += valor_con_adicional
-                        
+    
                         pecas_pdf.append({
                             'Quant': str(quant),
                             'Descrição': str(desc),
@@ -416,7 +418,7 @@ if st.session_state.veiculo_encontrado:
                             'Valor Final': formatar_dos(valor_con_adicional)
                         })
     
-                # 4. GENERAR PDF
+                # 3. GENERAR PDF
                 html = template.render(
                     data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
                     placa=veiculo['placa'],
@@ -432,7 +434,7 @@ if st.session_state.veiculo_encontrado:
                     total_pecas_final=formatar_dos(total_pecas_final_pdf),
                     total_geral=formatar_dos(total_servicos_pdf + total_pecas_final_pdf)
                 )
-                
+    
                 pdf = pdfkit.from_string(html, False)
                 st.download_button(
                     "⬇️ Baixar PDF",
@@ -440,10 +442,10 @@ if st.session_state.veiculo_encontrado:
                     file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']}.pdf",
                     mime="application/octet-stream"
                 )
-                
+    
             except Exception as e:
                 st.error(f"Erro ao gerar PDF: {str(e)}")
-        
+
 #==========================================================================================================================================================
 # Opción para buscar por otros criterios
 with st.expander("🔎 Busca Avançada", expanded=False):
