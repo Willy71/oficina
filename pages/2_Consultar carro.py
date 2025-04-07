@@ -155,9 +155,23 @@ def safe_float(valor):
         return 0.0
 
 
-def formatar_valor(valor):
-    return f"{valor:,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
-
+def formatar_valor(valor, padrao=""):
+    """
+    Formatea valores para visualización segura
+    
+    Args:
+        valor: Valor a formatear (str, float, int, None)
+        padrao: Valor por defecto si no se puede formatear (default: "")
+    
+    Returns:
+        str: Valor formateado o string vacío si es nulo/inválido
+    """
+    if pd.isna(valor) or valor in [None, '']:
+        return padrao
+    try:
+        return str(valor).strip()
+    except:
+        return padrao
 
 def formatar_real(valor, padrao="0,00"):
     """
@@ -233,9 +247,9 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Marca", veiculo.get('carro'))
+            st.metric("Marca", formatar_valor(veiculo.get('carro')))
         with cols[1]:
-            st.metric("Modelo", veiculo.get('modelo'))
+            st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
         with cols[2]:
             ano = veiculo.get('ano')
             if isinstance(ano, float):
@@ -246,21 +260,21 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Estado", veiculo.get('estado'))
+            st.metric("Estado", formatar_valor(veiculo.get('estado')))
         with cols[1]:
-            st.metric("Data Entrada", veiculo.get('date_in'))
+            st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
         with cols[2]:
-            st.metric("Previsão Entrega", veiculo.get('date_prev'))
+            st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
     
     # Mostrar información del dueño
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Proprietário", veiculo.get('dono_empresa'))
+            st.metric("Proprietário", formatar_valor(veiculo.get('dono_empresa')))
         with cols[1]:
-            st.metric("Telefone", veiculo.get('telefone'))
+            st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
         with cols[2]:
-            st.metric("Endereço", veiculo.get('endereco'))
+            st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
 #===================================================================================================================================================================
     with st.expander("📋 Serviços Realizados", expanded=False):
         servicos = []
@@ -319,9 +333,9 @@ if st.session_state.veiculo_encontrado:
                 pecas.append({
                     'Quant.': quant if pd.notna(quant) else '',
                     'Descrição': desc if pd.notna(desc) else '',
-                    'Custo Unit. (R$)': formatar_valor(valor),
+                    'Custo Unit. (R$)': formatar_real(valor, padrao="0,00"),
                     '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                    'Valor Final (R$)': f"{formatar_valor(valor_total_final)}"
+                    'Valor Final (R$)': f"{(valor_total_final)}"
                 })
         
         if pecas:
