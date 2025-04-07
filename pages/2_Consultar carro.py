@@ -335,7 +335,7 @@ if st.session_state.veiculo_encontrado:
                     'Descrição': desc if pd.notna(desc) else '',
                     'Custo Unit. (R$)': formatar_real(valor, padrao="0,00"),
                     '% Adicional': f"{porcentaje}%" if pd.notna(porcentaje) else "0%",
-                    'Valor Final (R$)': f"{formatar_valor(valor_total_final)}"
+                    'Valor Final (R$)': f"{formatar_real(valor_total_final)}"
                 })
         
         if pecas:
