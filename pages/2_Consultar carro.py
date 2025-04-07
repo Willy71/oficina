@@ -233,9 +233,9 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Marca", formatar_valor(veiculo.get('carro')))
+            st.metric("Marca", veiculo.get('carro'))
         with cols[1]:
-            st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
+            st.metric("Modelo", veiculo.get('modelo'))
         with cols[2]:
             ano = veiculo.get('ano')
             if isinstance(ano, float):
