@@ -451,7 +451,82 @@ if st.session_state.veiculo_encontrado:
                     st.error(f"Erro ao gerar PDF: {str(e)}")
 
     with col4:
-        st.text('hola')
+        if st.button("Gerar PDF oficina", key="gerar_pdf"):
+            with st.spinner("Generando PDF..."):
+                try:
+                    # 1. PROCESAR SERVIÇOS
+                    servicos_pdf = []
+                    total_servicos_pdf = 0.0
+                    
+                    for i in range(1, 13):
+                        item = veiculo.get(f'item_serv_{i}', '')
+                        desc = veiculo.get(f'desc_ser_{i}', '')
+                        valor = veiculo.get(f'valor_serv_{i}', '')
+                        
+                        valor_float = safe_float(valor) if pd.notna(valor) else 0.0
+        
+                        if (pd.notna(desc) and str(desc).strip() != "") or valor_float > 0:
+                            total_servicos_pdf += valor_float
+                            servicos_pdf.append({
+                                'Item': str(item),
+                                'Descrição': str(desc),
+                                'Valor': formatar_dos(valor_float)
+                            })
+        
+                    # 2. PROCESAR PEÇAS
+                    pecas_pdf = []
+                    total_pecas_final_pdf = 0.0
+                    porcentaje_adicional = safe_float(veiculo.get('porcentaje_adicional', 0))
+                    
+                    for i in range(1, 17):
+                        quant = veiculo.get(f'quant_peca_{i}', '')
+                        desc = veiculo.get(f'desc_peca_{i}', '')
+                        valor = veiculo.get(f'valor_peca_{i}', '')
+                        
+                        quant_float = safe_float(quant)
+                        valor_unitario = safe_float(valor)
+                        valor_total = quant_float * valor_unitario
+                        valor_con_adicional = valor_total * (1 + porcentaje_adicional / 100)
+        
+                        # Mostrar solo si hay descripción o el valor total > 0
+                        if (pd.notna(desc) and str(desc).strip() != "") or valor_total > 0:
+                            total_pecas_final_pdf += valor_con_adicional
+        
+                            pecas_pdf.append({
+                                'Quant': str(quant),
+                                'Descrição': str(desc),
+                                'Custo Unit.': formatar_dos(valor_unitario),
+                                'Valor Final': formatar_dos(valor_con_adicional)
+                            })
+        
+                    # 3. GENERAR PDF
+                    html = template.render(
+                        data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
+                        placa=veiculo['placa'],
+                        carro=veiculo['carro'],
+                        modelo=veiculo['modelo'],
+                        ano=veiculo['ano'],
+                        cor=veiculo['cor'],
+                        dono_empresa=veiculo.get('dono_empresa', ''),
+                        date_in=veiculo.get('date_in', ''),
+                        date_prev=veiculo.get('date_prev', ''),
+                        servicos=servicos_pdf,
+                        pecas=pecas_pdf,
+                        total_servicos=formatar_dos(total_servicos_pdf),
+                        total_pecas_final=formatar_dos(total_pecas_final_pdf),
+                        total_geral=formatar_dos(total_servicos_pdf + total_pecas_final_pdf)
+                    )
+        
+                    pdf = pdfkit.from_string(html, False)
+                    st.download_button(
+                        "⬇️ Baixar PDF",
+                        data=pdf,
+                        file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']}.pdf",
+                        mime="application/octet-stream"
+                    )
+        
+                except Exception as e:
+                    st.error(f"Erro ao gerar PDF: {str(e)}")
 
 
 #==========================================================================================================================================================
