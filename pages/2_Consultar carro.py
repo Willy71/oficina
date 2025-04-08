@@ -372,7 +372,7 @@ if st.session_state.veiculo_encontrado:
 
 
     col1, col2, col3, col4, col5 = st.columns(5)
-    with col2
+    with col2:
         if st.button("Gerar PDF cliente", key="gerar_pdf"):
             with st.spinner("Generando PDF..."):
                 try:
@@ -450,7 +450,7 @@ if st.session_state.veiculo_encontrado:
                 except Exception as e:
                     st.error(f"Erro ao gerar PDF: {str(e)}")
 
-    with col4
+    with col4:
         st.text('hola')
 
 
