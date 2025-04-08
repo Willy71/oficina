@@ -13,7 +13,7 @@
         }
 
         .logo {
-            max-width: 300px; /* Aumentado 2.5x */
+            max-width: 300px;
         }
 
         .company-info {
@@ -29,14 +29,29 @@
         }
 
         .vehicle-info {
-            text-align: center; /* Centrar contenido */
+            text-align: center;
+            font-size: 1.6em;
+            font-weight: bold;
         }
 
-        .vehicle-info p {
+        .vehicle-line {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .vehicle-footer {
+            font-size: 1em;
+            font-weight: normal;
+        }
+
+        .date-in {
+            text-align: right;
+            margin-top: 10px;
+            margin-bottom: -10px;
+            font-size: 1em;
             font-weight: bold;
-            font-size: 1.6em; /* Tamaño mayor */
-            display: inline-block;
-            margin: 10px 40px 10px 0;
         }
 
         table {
@@ -72,14 +87,19 @@
         </div>
     </div>
 
+    <!-- Fecha de ingreso arriba del recuadro -->
+    <div class="date-in">
+        Data Entrada: {{date_in}}
+    </div>
+
     <div class="border-box vehicle-info">
-        <p><strong>Data Entrada:</strong> {{date_in}}</p>
-        <p><strong>Placa:</strong> {{placa}}</p><br>
-        <p><strong>Marca:</strong> {{carro}}</p>
-        <p><strong>Modelo:</strong> {{modelo}}</p>
-        <p><strong>Ano:</strong> {{ano}}</p><br>
-        <p><strong>Proprietário:</strong> {{dono_empresa}}</p>
-        <p><strong>Previsão Entrega:</strong> {{date_prev}}</p>
+        <div class="vehicle-line">
+            {{placa}} {{carro}} {{modelo}} {{ano}} {{cor}}
+        </div>
+        <div class="vehicle-footer">
+            <p><strong>Proprietário:</strong> {{dono_empresa}}</p>
+            <p><strong>Previsão Entrega:</strong> {{date_prev}}</p>
+        </div>
     </div>
 
     <div class="border-box">
