@@ -419,7 +419,7 @@ if st.session_state.veiculo_encontrado:
                                 'Quant': str(quant),
                                 'Descrição': str(desc),
                                 'Custo Unit.': formatar_dos(valor_unitario),
-                                'Sub-Total' : formatar_dos(sub_total)
+                                'Sub-Total' : formatar_dos(sub_total),
                                 'Valor Final': formatar_dos(valor_con_adicional)
                             })
         
