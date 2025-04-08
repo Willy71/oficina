@@ -484,9 +484,11 @@ if st.session_state.veiculo_encontrado:
                         quant = veiculo.get(f'quant_peca_{i}', '')
                         desc = veiculo.get(f'desc_peca_{i}', '')
                         valor = veiculo.get(f'valor_peca_{i}', '')
+                        sub_total_peça = veiculo.get(f'sub_tota_peca_{i}', '')
                         
                         quant_float = safe_float(quant)
                         valor_unitario = safe_float(valor)
+                        sub_total = safe_float(sub_total_peça)
                         valor_total = quant_float * valor_unitario
                         valor_con_adicional = valor_total * (1 + porcentaje_adicional / 100)
         
@@ -498,6 +500,7 @@ if st.session_state.veiculo_encontrado:
                                 'Quant': str(quant),
                                 'Descrição': str(desc),
                                 'Custo Unit.': formatar_dos(valor_unitario),
+                                'Sub-Total' : formatar_dos(sub_total),
                                 'Valor Final': formatar_dos(valor_con_adicional)
                             })
         
