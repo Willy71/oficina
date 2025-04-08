@@ -154,6 +154,7 @@
                     <th>Quant</th>
                     <th>Descrição</th>
                     <th>Valor Unit.</th>
+                    <td>Custo</td>
                     <th>Valor Total</th>
                 </tr>
             </thead>
@@ -163,6 +164,7 @@
                     <td>{{peca.Quant}}</td>
                     <td>{{peca.Descrição}}</td>
                     <td>{{peca['Custo Unit.']}}</td>
+                    <td>{{peca['Sub-Total']}}</td>          
                     <td>{{peca['Valor Final']}}</td>
                 </tr>
                 {% endfor %}
