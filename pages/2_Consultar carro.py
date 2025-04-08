@@ -389,7 +389,7 @@ if st.session_state.veiculo_encontrado:
                         servicos_pdf.append({
                             'Item': str(item),
                             'Descrição': str(desc),
-                            'Valor': formatar_real(valor_float)
+                            'Valor': formatar_dos(valor_float)
                         })
     
                 # 2. PROCESAR PEÇAS
