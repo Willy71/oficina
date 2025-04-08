@@ -425,6 +425,7 @@ if st.session_state.veiculo_encontrado:
                     carro=veiculo['carro'],
                     modelo=veiculo['modelo'],
                     ano=veiculo['ano'],
+                    cor=veiculo['cor'],
                     dono_empresa=veiculo.get('dono_empresa', ''),
                     date_in=veiculo.get('date_in', ''),
                     date_prev=veiculo.get('date_prev', ''),
