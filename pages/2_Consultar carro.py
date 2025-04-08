@@ -442,7 +442,7 @@ if st.session_state.veiculo_encontrado:
                     st.download_button(
                         "⬇️ Baixar PDF",
                         data=pdf,
-                        file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']}.pdf",
+                        file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']} - CLIENTE.pdf",
                         mime="application/octet-stream"
                     )
         
@@ -520,7 +520,7 @@ if st.session_state.veiculo_encontrado:
                     st.download_button(
                         "⬇️ Baixar PDF",
                         data=pdf,
-                        file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']}.pdf",
+                        file_name=f"{veiculo['placa']}_{veiculo['carro']}_{veiculo['modelo']} - OFICINA.pdf",
                         mime="application/octet-stream"
                     )
         
