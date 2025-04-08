@@ -298,7 +298,7 @@ if st.session_state.veiculo_encontrado:
         
             # Verificamos si hay descripción o valor diferente de cero
             if (pd.notna(desc) and str(desc).strip() != "") or valor_float > 0:
-                valor_formatado = formatar_dos(valor_float)
+                valor_formatado = formatar_valor(valor_float)
                 total_servicos += valor_float
         
                 servicos.append({
