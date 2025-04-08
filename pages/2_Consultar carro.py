@@ -373,7 +373,7 @@ if st.session_state.veiculo_encontrado:
 
     col1, col2, col3, col4, col5 = st.columns(5)
     with col2:
-        if st.button("Gerar PDF cliente", key="gerar_pdf"):
+        if st.button("Gerar PDF cliente", key="gerar_pdf_cliente"):
             with st.spinner("Generando PDF..."):
                 try:
                     # 1. PROCESAR SERVIÇOS
@@ -451,7 +451,7 @@ if st.session_state.veiculo_encontrado:
                     st.error(f"Erro ao gerar PDF: {str(e)}")
 
     with col4:
-        if st.button("Gerar PDF oficina", key="gerar_pdf"):
+        if st.button("Gerar PDF oficina", key="gerar_pdf_oficina"):
             with st.spinner("Generando PDF..."):
                 try:
                     # 1. PROCESAR SERVIÇOS
