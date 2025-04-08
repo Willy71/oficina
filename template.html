@@ -29,27 +29,31 @@
         }
 
         .vehicle-info {
-            text-align: center;
             font-size: 1.6em;
             font-weight: bold;
         }
 
         .vehicle-line {
             display: flex;
-            justify-content: center;
-            gap: 40px;
+            justify-content: space-between;
             margin-bottom: 20px;
+        }
+
+        .vehicle-left, .vehicle-right {
+            display: flex;
+            gap: 20px;
         }
 
         .vehicle-footer {
             font-size: 1em;
             font-weight: normal;
+            margin-top: 10px;
         }
 
         .date-in {
             text-align: right;
-            margin-top: 10px;
-            margin-bottom: -10px;
+            margin-top: 0;
+            margin-bottom: 10px;
             font-size: 1em;
             font-weight: bold;
         }
@@ -87,14 +91,19 @@
         </div>
     </div>
 
-    <!-- Fecha de ingreso arriba del recuadro -->
-    <div class="date-in">
+    <!-- Fecha de ingreso más arriba -->
+    <div class="date-in" style="margin-bottom: 30px;">
         Data Entrada: {{date_in}}
     </div>
 
     <div class="border-box vehicle-info">
         <div class="vehicle-line">
-            {{placa}} {{carro}} {{modelo}} {{ano}} {{cor}}
+            <div class="vehicle-left">
+                {{placa}}
+            </div>
+            <div class="vehicle-right">
+                {{carro}} {{modelo}} {{ano}} {{cor}}
+            </div>
         </div>
         <div class="vehicle-footer">
             <p><strong>Proprietário:</strong> {{dono_empresa}}</p>
