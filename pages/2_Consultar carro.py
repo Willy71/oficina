@@ -215,10 +215,9 @@ worksheet = inicializar_hoja()
 
 # Cargar datos
 dados = cargar_datos(worksheet)
-
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-template = env.get_template("template.html")
-
+template_1 = env.get_template("template.html")
+template_2 = env.get_template("template_2.html")
 #====================================================================================================================================================
 # Inicialización (al inicio del script, fuera de cualquier función)
 if 'veiculo' not in st.session_state:
@@ -422,7 +421,7 @@ if st.session_state.veiculo_encontrado:
                             })
         
                     # 3. GENERAR PDF
-                    html = template.render(
+                    html = template_1.render(
                         data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
                         placa=veiculo['placa'],
                         carro=veiculo['carro'],
@@ -500,7 +499,7 @@ if st.session_state.veiculo_encontrado:
                             })
         
                     # 3. GENERAR PDF
-                    html = template.render(
+                    html = template_2.render(
                         data_emissao=datetime.now().strftime("%d/%m/%Y %H:%M"),
                         placa=veiculo['placa'],
                         carro=veiculo['carro'],
