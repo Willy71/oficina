@@ -371,7 +371,8 @@ if st.session_state.veiculo_encontrado:
         st.success(f"**TOTAL GERAL (Serviços + Peças):** R$ {formatar_dos(total_geral)}")
 
 
-    with st.columns:
+    # Interfaz de usuario
+    with st.container():
         cols = st.columns(5)
         with cols[2]:
             if st.button("Gerar PDF cliente", key="gerar_pdf"):
