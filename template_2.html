@@ -127,6 +127,12 @@
             font-size: 1.1em;
             font-weight: bold;
         }
+        .valor-right {
+            text-align: right;
+            width: 80px; /* suficiente para 9999,99 con espacio */
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums; /* alineación perfecta de números */
+        }
 
     </style>
 </head>
@@ -204,9 +210,9 @@
                 <tr>
                     <th>Quant</th>
                     <th>Descrição</th>
-                    <th>Valor Unit.</th>
-                    <th>Custo</th>
-                    <th>Valor Total</th>
+                    <th class="valor-right">Valor Unit.</th>
+                    <th class="valor-right">Custo</th>
+                    <th class="valor-right">Valor Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -214,16 +220,18 @@
                 <tr>
                     <td>{{peca.Quant}}</td>
                     <td>{{peca.Descrição}}</td>
-                    <td>{{peca['Custo Unit.']}}</td>
-                    <td>{{peca['Sub-Total']}}</td>          
-                    <td>{{peca['Valor Final']}}</td>
+                    <td class="valor-right">{{peca['Custo Unit.']}}</td>
+                    <td class="valor-right">{{peca['Sub-Total']}}</td>          
+                    <td class="valor-right">{{peca['Valor Final']}}</td>
                 </tr>
                 {% endfor %}
                 {% for i in range(16 - pecas|length) %}
                 <tr>
                     <td>&nbsp;</td>
                     <td></td>
-                    <td></td>
+                    <td class="valor-right"></td>
+                    <td class="valor-right"></td>
+                    <td class="valor-right"></td>
                 </tr>
                 {% endfor %}
             </tbody>
