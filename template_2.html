@@ -179,7 +179,7 @@
                 <tr>
                     <th>Item</th>
                     <th>Descrição</th>
-                    <th>Valor (R$)</th>
+                    <th class="valor-right">Valor (R$)</th>
                 </tr>
             </thead>
             <tbody>
@@ -187,14 +187,14 @@
                 <tr>
                     <td>{{servico.Item}}</td>
                     <td>{{servico.Descrição}}</td>
-                    <td>{{servico.Valor}}</td>
+                    <td class="valor-right">{{servico.Valor}}</td>
                 </tr>
                 {% endfor %}
                 {% for i in range(12 - servicos|length) %}
                 <tr>
                     <td>&nbsp;</td>
                     <td></td>
-                    <td></td>
+                    <td class="valor-right"></td>
                 </tr>
                 {% endfor %}
             </tbody>
