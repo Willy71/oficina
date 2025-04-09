@@ -140,6 +140,13 @@
                     <td>{{servico.Valor}}</td>
                 </tr>
                 {% endfor %}
+                {% for i in range(12 - servicos|length) %}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="total">Subtotal Serviços: R$ {{total_servicos}}</div>
@@ -162,6 +169,13 @@
                     <td>{{peca.Quant}}</td>
                     <td>{{peca.Descrição}}</td>
                     <td>{{peca['Valor Final']}}</td>
+                </tr>
+                {% endfor %}
+                {% for i in range(16 - pecas|length) %}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 {% endfor %}
             </tbody>
