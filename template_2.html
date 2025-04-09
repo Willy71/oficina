@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { font-family: Arial; margin: 0; padding: 20px; }
+        html, body {
+            height: auto;
+            overflow: hidden;
+        }
+        body {
+            font-family: Arial;
+            margin: 0;
+            padding: 0 15px 15px 15px;
+        }
 
         .header-container {
             display: flex;
@@ -38,7 +46,7 @@
         }
 
         .vehicle-info {
-            font-size: 1.6em;
+            font-size: 1.3em;
             font-weight: bold;
         }
 
@@ -84,6 +92,42 @@
             margin-top: 5px;
             font-size: 0.95em;
         }
+        .vehicle-footer-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        
+        .vehicle-footer-line .left {
+            text-align: left;
+        }
+        
+        .vehicle-footer-line .right {
+            text-align: right;
+        }
+    
+        .label-small {
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+        
+        .value-small {
+            font-size: 0.95em;
+        }
+    
+        .label-owner {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .value-owner {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
@@ -115,9 +159,15 @@
                 {{carro}} {{modelo}} {{ano}} {{cor}}
             </div>
         </div>
-        <div class="vehicle-footer">
-            <p><strong>Proprietário:</strong> {{dono_empresa}}</p>
-            <p><strong>Previsão Entrega:</strong> {{date_prev}}</p>
+        <div class="vehicle-footer-line">
+            <div class="left">
+                <span class="label-small">Data Entrada:</span>
+                <span class="value-small">{{date_in}}</span>
+            </div>
+            <div class="right">
+                <span class="label-owner">Proprietário:</span>
+                <span class="value-owner">{{dono_empresa}}</span>
+            </div>
         </div>
     </div>
 
@@ -138,6 +188,13 @@
                     <td>{{servico.Item}}</td>
                     <td>{{servico.Descrição}}</td>
                     <td>{{servico.Valor}}</td>
+                </tr>
+                {% endfor %}
+                {% for i in range(12 - servicos|length) %}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -166,6 +223,13 @@
                     <td>{{peca['Custo Unit.']}}</td>
                     <td>{{peca['Sub-Total']}}</td>          
                     <td>{{peca['Valor Final']}}</td>
+                </tr>
+                {% endfor %}
+                {% for i in range(16 - pecas|length) %}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 {% endfor %}
             </tbody>
