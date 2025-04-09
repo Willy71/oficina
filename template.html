@@ -128,6 +128,12 @@
             font-size: 1.1em;
             font-weight: bold;
         }
+        .valor-right {
+            text-align: right;
+            width: 80px;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
 
     </style>
 </head>
@@ -206,7 +212,7 @@
                 <tr>
                     <th>Quant</th>
                     <th>Descrição</th>
-                    <th>Valor Total</th>
+                    <th class="valor-right">Valor Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -214,14 +220,14 @@
                 <tr>
                     <td>{{peca.Quant}}</td>
                     <td>{{peca.Descrição}}</td>
-                    <td>{{peca['Valor Final']}}</td>
+                    <td class="valor-right">{{peca['Valor Final']}}</td>
                 </tr>
                 {% endfor %}
                 {% for i in range(16 - pecas|length) %}
                 <tr>
                     <td>&nbsp;</td>
                     <td></td>
-                    <td></td>
+                    <td class="valor-right"></td>
                 </tr>
                 {% endfor %}
             </tbody>
