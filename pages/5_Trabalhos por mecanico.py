@@ -100,9 +100,11 @@ if atualizar:
     
     
     # Mostrar totais
+    total_carros = len(df_filtrado)
     total_geral = resultado["total_servicos"].sum()
     total_comissao = resultado["comissao"].sum()
-    
+
+    st.markdown(f"**🚗 Total de carros atendidos no período:** {total_carros}")
     st.markdown(f"**🔧 Total de serviços no período:** R$ {formatar_dos(total_geral)}")
     st.markdown(f"**💰 Total de comissões:** R$ {formatar_dos(total_comissao)} ({comissao_pct:.0f}%)")
     
