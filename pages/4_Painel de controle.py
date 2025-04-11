@@ -214,7 +214,7 @@ else:
         orcamento = dados_filtrados[dados_filtrados['estado'] == "Em orçamento"]
         dados_mostrar = orcamento[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'mecanico','dono_empresa']].copy()
         dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
-        dados_mostrar['date_prev'] = formatar_data(dados_mostrar['date_prev'])
+        #dados_mostrar['date_prev'] = formatar_data(dados_mostrar['date_prev'])
         st.dataframe(
             dados_mostrar,
             column_config={
@@ -235,7 +235,7 @@ else:
         reparacao = dados_filtrados[dados_filtrados['estado'] == "Em reparação"]
         dados_mostrar = reparacao[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'mecanico','dono_empresa']].copy()
         dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
-        dados_mostrar['date_prev'] = formatar_data(dados_mostrar['date_prev'])
+        #dados_mostrar['date_prev'] = formatar_data(dados_mostrar['date_prev'])
         st.dataframe(
             dados_mostrar,
             column_config={
