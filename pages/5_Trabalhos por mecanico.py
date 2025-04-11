@@ -79,11 +79,14 @@ if atualizar:
     if mecanico_filtro != "Todos":
         df_filtrado = df_filtrado[df_filtrado["mecanico"] == mecanico_filtro]
     
-    # Calcular total de serviços (sem peças)
-    df_filtrado["total_servicos"] = df_filtrado[[f"valor_serv_{i}" for i in range(1, 13)]].sum(axis=1, skipna=True)
+    colunas_servicos = [f"valor_serv_{i}" for i in range(1, 13)]
+    df_filtrado[colunas_servicos] = df_filtrado[colunas_servicos].fillna(0)
+    df_filtrado["total_servicos"] = df_filtrado[colunas_servicos].sum(axis=1)
+
     
     # Agrupar por mecânico
     resultado = df_filtrado.groupby("mecanico")["total_servicos"].sum().reset_index()
+    st.write(f"🔍 Total de ordens encontradas: {len(df_filtrado)}")
     resultado["comissao"] = resultado["total_servicos"] * (comissao_pct / 100)
     
     # -------------------------- EXIBIR RESULTADO ---------------------------------
