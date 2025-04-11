@@ -50,17 +50,18 @@ with st.sidebar:
 
 # ------------------------ FILTRAR E AGRUPAR ----------------------------------
 df = cargar_datos()
-df_filtrado["total_servicos"] = df_filtrado[[f"valor_serv_{i}" for i in range(1, 13)]].sum(axis=1, skipna=True)
+df_filtrado = df[(df['date_in'] >= pd.to_datetime(data_inicial)) & (df['date_in'] <= pd.to_datetime(data_final))]
 
 # Remover linhas sem mecânico
 df_filtrado = df_filtrado[df_filtrado['mecanico'].notna() & (df_filtrado['mecanico'] != '')]
 
 # Calcular total de serviços (sem peças)
-df_filtrado["total_servicos"] = df_filtrado[["valor_serv_1", "valor_serv_2", "valor_serv_3"]].sum(axis=1, skipna=True)
+df_filtrado["total_servicos"] = df_filtrado[[f"valor_serv_{i}" for i in range(1, 13)]].sum(axis=1, skipna=True)
 
 # Agrupar por mecânico
 resultado = df_filtrado.groupby("mecanico")["total_servicos"].sum().reset_index()
 resultado["comissao"] = resultado["total_servicos"] * (comissao_pct / 100)
+
 
 # -------------------------- EXIBIR RESULTADO ---------------------------------
 st.subheader("📊 Resumo por Mecânico")
