@@ -45,6 +45,12 @@ def formatar_dos(valor):
     except (ValueError, TypeError):
         return "0,00"
 
+@st.cache_data(ttl=600)
+def cargar_mecanicos():
+    ws_mecanicos = gc.open_by_key(SPREADSHEET_KEY).worksheet("Mecanicos")
+    nombres = ws_mecanicos.col_values(1)[1:]  # Ignorar header
+    return [n.strip() for n in nombres if n.strip()]
+
 # -------------------------- CONSULTA DE TRABAJOS ------------------------------
 st.title("🛠️ Relatório de Trabalhos por Mecânico")
 
@@ -58,6 +64,9 @@ with st.sidebar:
 
     comissao_pct = st.slider("% Comissão do mecânico", 0.0, 100.0, 40.0, step=5.0)
 
+    mecanicos_lista = cargar_mecanicos()
+    mecanico_filtro = st.selectbox("Filtrar por mecânico", options=["Todos"] + mecanicos_lista)
+
     atualizar = st.button("🔄 Atualizar relatório")
 
 # ------------------------ FILTRAR E AGRUPAR ----------------------------------
@@ -67,6 +76,8 @@ if atualizar:
     
     # Remover linhas sem mecânico
     df_filtrado = df_filtrado[df_filtrado['mecanico'].notna() & (df_filtrado['mecanico'] != '')]
+    if mecanico_filtro != "Todos":
+        df_filtrado = df_filtrado[df_filtrado["mecanico"] == mecanico_filtro]
     
     # Calcular total de serviços (sem peças)
     df_filtrado["total_servicos"] = df_filtrado[[f"valor_serv_{i}" for i in range(1, 13)]].sum(axis=1, skipna=True)
