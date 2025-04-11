@@ -30,10 +30,13 @@ def cargar_datos():
     datos = worksheet.get_all_records()
     df = pd.DataFrame(datos)
     df["date_in"] = pd.to_datetime(df["date_in"], errors='coerce')
-    df["valor_serv_1"] = pd.to_numeric(df["valor_serv_1"], errors='coerce')
-    df["valor_serv_2"] = pd.to_numeric(df["valor_serv_2"], errors='coerce')
-    df["valor_serv_3"] = pd.to_numeric(df["valor_serv_3"], errors='coerce')
+    
+    # Convertir todos los valores de servicio a numéricos (del 1 al 12)
+    for i in range(1, 13):
+        df[f"valor_serv_{i}"] = pd.to_numeric(df.get(f"valor_serv_{i}", 0), errors='coerce')
+    
     return df
+
 
 # -------------------------- CONSULTA DE TRABAJOS ------------------------------
 st.title("🛠️ Relatório de Trabalhos por Mecânico")
@@ -46,7 +49,7 @@ with st.sidebar:
 
 # ------------------------ FILTRAR E AGRUPAR ----------------------------------
 df = cargar_datos()
-df_filtrado = df[(df['date_in'] >= pd.to_datetime(data_inicial)) & (df['date_in'] <= pd.to_datetime(data_final))]
+df_filtrado["total_servicos"] = df_filtrado[[f"valor_serv_{i}" for i in range(1, 13)]].sum(axis=1, skipna=True)
 
 # Remover linhas sem mecânico
 df_filtrado = df_filtrado[df_filtrado['mecanico'].notna() & (df_filtrado['mecanico'] != '')]
