@@ -44,31 +44,47 @@ def cargar_datos():
     records = worksheet.get_all_records()
     return pd.DataFrame(records) if records else pd.DataFrame()
 
+
+# Función para buscar vehículo por placa
+def buscar_por_placa(placa, df):
+    if df.empty:
+        return None
+    
+    # Buscar coincidencias exactas (ignorando mayúsculas/minúsculas y espacios)
+    resultado = df[df['placa'].astype(str).str.upper().str.strip() == placa.upper().strip()]
+    
+    if not resultado.empty:
+        return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
+    return None
+
 # ------------------------------
 st.markdown("<h2 style='color: gold;'>📋 Histórico de Veículo</h2>", unsafe_allow_html=True)
 placa = st.text_input("Digite a placa do veículo").strip().upper()
 
 if placa:
     df = cargar_datos()
-    historico = df[df["placa"] == placa]
+    historico = df[df["placa"].astype(str).str.upper().str.strip() == placa]
 
     if historico.empty:
         st.warning("Nenhum histórico encontrado para essa placa.")
     else:
         historico = historico.sort_values(by="date_in")  # ordem crescente
 
-        # Mostrar dados do veículo (baseado na visita mais antiga)
-        dados_veiculo = historico.iloc[0]
-        st.markdown(f"""
-        <div style='background-color: #262730; padding: 20px; border-radius: 10px;'>
-            <h4 style='color: gold;'>🚗 Dados do Veículo</h4>
-            <p style='color: white;'>Placa: <strong>{dados_veiculo['placa']}</strong></p>
-            <p style='color: white;'>Marca: {dados_veiculo['carro']} | Modelo: {dados_veiculo['modelo']}</p>
-            <p style='color: white;'>Ano: {dados_veiculo['ano']} | Cor: {dados_veiculo['cor']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+        # Buscar dados do veículo com a função
+        dados_veiculo_dict = buscar_por_placa(placa, df)
 
-        st.markdown("<hr>", unsafe_allow_html=True)
+        if dados_veiculo_dict:
+            st.markdown(f"""
+            <div style='background-color: #262730; padding: 20px; border-radius: 10px;'>
+                <h4 style='color: gold;'>🚗 Dados do Veículo</h4>
+                <p style='color: white;'>Placa: <strong>{dados_veiculo_dict['placa']}</strong></p>
+                <p style='color: white;'>Marca: {dados_veiculo_dict['carro']} | Modelo: {dados_veiculo_dict['modelo']}</p>
+                <p style='color: white;'>Ano: {dados_veiculo_dict['ano']} | Cor: {dados_veiculo_dict['cor']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            st.markdown("<hr>", unsafe_allow_html=True)
+
 
         # Mostrar cada visita como un "card"
         for i, row in historico.iterrows():
