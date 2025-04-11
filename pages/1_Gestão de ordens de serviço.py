@@ -104,7 +104,7 @@ def inicializar_hoja():
 # Definir las columnas en el orden correcto
 # Definir el esquema de columnas en el orden correcto
 columnas_ordenadas = ['user_id', 'date_in', 'date_prev', 'date_out', 'carro', 'modelo', 'cor', 'placa', 'km', 'ano', 
-                      'estado', 'dono_empresa', 'telefone', 'endereco', 'item_serv_1', 'desc_ser_1', 'valor_serv_1',
+                      'estado', 'mecanico', 'dono_empresa', 'telefone', 'endereco', 'item_serv_1', 'desc_ser_1', 'valor_serv_1',
                       'item_serv_2', 'desc_ser_2', 'valor_serv_2', 'item_serv_3', 'desc_ser_3', 'valor_serv_3',
                       'item_serv_4', 'desc_ser_4', 'valor_serv_4', 'item_serv_5', 'desc_ser_5', 'valor_serv_5',
                       'item_serv_6', 'desc_ser_6', 'valor_serv_6', 'item_serv_7', 'desc_ser_7', 'valor_serv_7',
@@ -340,9 +340,12 @@ if action == "Nova ordem de serviço":
         ]
         
         with st.container():    
-            col20, col21, col22= st.columns(3)
-            with col21:
+            col20, col21, col22, col23 = st.columns(4)
+            with col20:
                 estado = st.selectbox("Estado do serviço", opciones_estado)
+            with col23:
+                mecanico = st.text_input("Mecânico responsável")
+
 
         with st.container():    
             col30, col31, col32 = st.columns(3)
@@ -1012,6 +1015,7 @@ if action == "Nova ordem de serviço":
                     'km': km,
                     'ano': ano,
                     'estado': estado,
+                    'mecanico': mecanico,
                     'dono_empresa': dono_empresa,
                     'telefone': telefone,
                     'endereco': endereco,
@@ -1255,16 +1259,21 @@ elif action == "Atualizar ordem existente":
             "Entregado"
         ]
         with st.container():    
-            col20, col21, col22 = st.columns(3)
-            with col21:
+            col20, col21, col22, col23 = st.columns(4)
+        
+            with col20:
                 # Verificar si el estado actual está en opciones_estado
-                estado_actual = vendor_data["estado"]
+                estado_actual = vendor_data.get("estado", "")
                 if estado_actual in opciones_estado:
                     index_estado = opciones_estado.index(estado_actual)
                 else:
-                    index_estado = 0  # Usar el primer valor de opciones_estado como predeterminado
+                    index_estado = 0
         
-        estado = st.selectbox("Estado do serviço", opciones_estado, index=index_estado, key="update_estado")
+                estado = st.selectbox("Estado do serviço", opciones_estado, index=index_estado, key="update_estado")
+        
+            with col23:
+                mecanico = st.text_input("Mecânico responsável", value=vendor_data.get("mecanico", ""), key="update_mecanico")
+
 
         with st.container():    
             col30, col31, col32 = st.columns(3)
@@ -2608,6 +2617,7 @@ elif action == "Atualizar ordem existente":
                     'km': km,
                     'ano': ano,
                     'estado': estado,
+                    'mecanico': mecanico,
                     'dono_empresa': dono_empresa,
                     'telefone': telefone,
                     'endereco': endereco,
