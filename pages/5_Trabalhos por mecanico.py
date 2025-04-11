@@ -124,6 +124,17 @@ if atualizar:
         </div>
         """, unsafe_allow_html=True)
 
+    st.subheader("📋 Trabalhos detalhados (linha por serviço)")
+
+    df_filtrado["comissao"] = df_filtrado["total_servicos"] * (comissao_pct / 100)
+    df_filtrado["total_servicos_fmt"] = df_filtrado["total_servicos"].apply(formatar_dos)
+    df_filtrado["comissao_fmt"] = df_filtrado["comissao"].apply(formatar_dos)
+    df_filtrado["date_in_fmt"] = df_filtrado["date_in"].dt.strftime("%d/%m/%Y")
+    
+    st.dataframe(df_filtrado[[
+        "mecanico", "carro", "modelo", "placa", "date_in_fmt", "total_servicos_fmt", "comissao_fmt"
+    ]], use_container_width=True)
+
     
 
 
