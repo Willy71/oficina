@@ -71,6 +71,12 @@ resultado["comissao"] = resultado["total_servicos"] * (comissao_pct / 100)
 st.subheader("📊 Resumo por Mecânico")
 st.dataframe(resultado, use_container_width=True)
 
+resultado["total_servicos_fmt"] = resultado["total_servicos"].apply(formatar_dos)
+resultado["comissao_fmt"] = resultado["comissao"].apply(formatar_dos)
+
+st.dataframe(resultado[["mecanico", "total_servicos_fmt", "comissao_fmt"]], use_container_width=True)
+
+
 # Mostrar totais
 total_geral = resultado["total_servicos"].sum()
 total_comissao = resultado["comissao"].sum()
