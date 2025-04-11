@@ -50,7 +50,7 @@ with st.sidebar:
 
 # ------------------------ FILTRAR E AGRUPAR ----------------------------------
 df = cargar_datos()
-df_filtrado["total_servicos"] = df[[f"valor_serv_{i}" for i in range(1, 13)]].sum(axis=1, skipna=True)
+df_filtrado["total_servicos"] = df_filtrado[[f"valor_serv_{i}" for i in range(1, 13)]].sum(axis=1, skipna=True)
 
 # Remover linhas sem mecânico
 df_filtrado = df_filtrado[df_filtrado['mecanico'].notna() & (df_filtrado['mecanico'] != '')]
