@@ -26,10 +26,17 @@ credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes
 gc = gspread.authorize(credentials)
 worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
-# Cargar datos
 def cargar_datos():
-    records = worksheet.get_all_records()
-    return pd.DataFrame(records) if records else pd.DataFrame()
+    datos = worksheet.get_all_records()
+    df = pd.DataFrame(datos)
+    df["date_in"] = pd.to_datetime(df["date_in"], errors='coerce')
+    
+    # Convertir todos los valores de servicio a numéricos (del 1 al 12)
+    for i in range(1, 13):
+        df[f"valor_serv_{i}"] = pd.to_numeric(df.get(f"valor_serv_{i}", 0), errors='coerce')
+    
+    return df
+
 
 
 # -------------------------- CONSULTA DE TRABAJOS ------------------------------
