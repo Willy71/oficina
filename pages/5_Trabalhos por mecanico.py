@@ -30,7 +30,8 @@ worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 def cargar_datos():
     datos = worksheet.get_all_records()
     df = pd.DataFrame(datos)
-    df["date_in"] = pd.to_datetime(df["date_in"], errors='coerce')
+    df["date_in"] = pd.to_datetime(df["date_in"], errors='coerce', dayfirst=True)
+    df["date_out"] = pd.to_datetime(df.get("date_out", None), errors='coerce', dayfirst=True)
     
     # Convertir todos los valores de servicio a numéricos (del 1 al 12)
     for i in range(1, 13):
