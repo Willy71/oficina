@@ -120,6 +120,38 @@ if atualizar:
         "mecanico", "carro", "modelo", "placa", "date_in_fmt", "total_servicos_fmt", "comissao_fmt"
     ]], use_container_width=True)
 
+ # ---------------------- GESTÃO DE MECÂNICOS ------------------------------
+st.markdown("---")
+st.subheader("🔧 Gerenciar lista de Mecânicos")
+
+ws_mecanicos = gc.open_by_key(SPREADSHEET_KEY).worksheet("Mecanicos")
+mecanicos_existentes = ws_mecanicos.col_values(1)[1:]  # Ignorar header
+
+with st.expander("➕ Adicionar novo mecânico"):
+    novo_mecanico = st.text_input("Nome do novo mecânico")
+    if st.button("Adicionar", key="add_mecanico"):
+        if novo_mecanico.strip() == "":
+            st.warning("O nome não pode estar vazio.")
+        elif novo_mecanico in mecanicos_existentes:
+            st.warning("Esse mecânico já está na lista.")
+        else:
+            ws_mecanicos.append_row([novo_mecanico])
+            st.success(f"Mecânico '{novo_mecanico}' adicionado com sucesso!")
+
+with st.expander("📝 Editar ou remover mecânico existente"):
+    mecanico_selecionado = st.selectbox("Selecione o mecânico", options=mecanicos_existentes)
+
+    novo_nome = st.text_input("Editar nome", value=mecanico_selecionado, key="editar_nome")
+    if st.button("Salvar edição"):
+        cell = ws_mecanicos.find(mecanico_selecionado)
+        ws_mecanicos.update_cell(cell.row, cell.col, novo_nome)
+        st.success(f"Nome atualizado para '{novo_nome}'.")
+
+    if st.button("Remover mecânico"):
+        cell = ws_mecanicos.find(mecanico_selecionado)
+        ws_mecanicos.delete_rows(cell.row)
+        st.success(f"Mecânico '{mecanico_selecionado}' removido.")
+
 
     
 
