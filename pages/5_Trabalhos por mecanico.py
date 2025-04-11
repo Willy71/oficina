@@ -67,9 +67,10 @@ resultado["comissao"] = resultado["total_servicos"] * (comissao_pct / 100)
 st.subheader("📊 Resumo por Mecânico")
 st.dataframe(resultado, use_container_width=True)
 
-# Mostrar totais
-total_geral = resultado["total_servicos"].sum()
-total_comissao = resultado["comissao"].sum()
+total_geral_str = f\"{total_geral:,.2f}\".replace(\",\", \"X\").replace(\".\", \",\").replace(\"X\", \".\")
+total_comissao_str = f\"{total_comissao:,.2f}\".replace(\",\", \"X\").replace(\".\", \",\").replace(\"X\", \".\")
 
-st.markdown(f"**🔧 Total de serviços no período:** R$ {total_geral:,.2f}")
-st.markdown(f"**💰 Total de comissões:** R$ {total_comissao:,.2f} ({comissao_pct:.0f}%)")
+st.markdown(f\"**🔧 Total de serviços no período:** R$ {total_geral_str}\")
+st.markdown(f\"**💰 Total de comissões:** R$ {total_comissao_str} ({comissao_pct:.0f}%)\")
+
+
