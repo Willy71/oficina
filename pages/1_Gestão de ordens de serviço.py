@@ -305,7 +305,8 @@ if action == "Nova ordem de serviço":
         with st.container():    
             col00, col01, col02, col03, col04 = st.columns(5)
             with col00:
-                placa = st.text_input("Placa")
+                # Formatar para garantir que apenas letras fiquem em maiúsculas
+                placa = ''.join([char.upper() if char.isalpha() else char for char in placa_input])
             with col02:
                 data_entrada = st.text_input("Data de entrada")
             with col03:
