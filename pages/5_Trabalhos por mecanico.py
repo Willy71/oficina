@@ -108,32 +108,17 @@ if atualizar:
     
     st.subheader("📄 Detalhes dos Serviços Realizados")
     for idx, row in df_filtrado.iterrows():
-        date_in = row.get('date_in')
-        date_out = row.get('date_out')
-        data_entrada_fmt = date_in.strftime('%d/%m/%Y') if isinstance(date_in, (pd.Timestamp, datetime)) and pd.notna(date_in) else '-'
-        data_saida_fmt = date_out.strftime('%d/%m/%Y') if isinstance(date_out, (pd.Timestamp, datetime)) and pd.notna(date_out) else '-'
-    
-        st.markdown(f"""
-        <div style='background-color: #1a1a1a; padding: 10px; margin-bottom: 5px; border-radius: 8px;'>
-            <p><strong>Carro:</strong> {row.get('carro', '')} | 
-            <strong>Modelo:</strong> {row.get('modelo', '')} | 
-            <strong>Placa:</strong> {row.get('placa', '')} | 
-            <strong>Entrada:</strong> {data_entrada_fmt} | 
-            <strong>Saída:</strong> {data_saida_fmt} | 
-            <strong>Total serviços:</strong> R$ {formatar_dos(row.get('total_servicos'))}</p>
-        </div>
-        """, unsafe_allow_html=True)
+        df_filtrado["comissao"] = df_filtrado["total_servicos"] * (comissao_pct / 100)
+        df_filtrado["total_servicos_fmt"] = df_filtrado["total_servicos"].apply(formatar_dos)
+        df_filtrado["comissao_fmt"] = df_filtrado["comissao"].apply(formatar_dos)
+        df_filtrado["date_in_fmt"] = df_filtrado["date_in"].dt.strftime("%d/%m/%Y")
+        
+        st.dataframe(df_filtrado[[
+            "mecanico", "carro", "modelo", "placa", "date_in_fmt", "total_servicos_fmt", "comissao_fmt"
+        ]], use_container_width=True)
 
-    st.subheader("📋 Trabalhos detalhados (linha por serviço)")
 
-    df_filtrado["comissao"] = df_filtrado["total_servicos"] * (comissao_pct / 100)
-    df_filtrado["total_servicos_fmt"] = df_filtrado["total_servicos"].apply(formatar_dos)
-    df_filtrado["comissao_fmt"] = df_filtrado["comissao"].apply(formatar_dos)
-    df_filtrado["date_in_fmt"] = df_filtrado["date_in"].dt.strftime("%d/%m/%Y")
     
-    st.dataframe(df_filtrado[[
-        "mecanico", "carro", "modelo", "placa", "date_in_fmt", "total_servicos_fmt", "comissao_fmt"
-    ]], use_container_width=True)
 
     
 
