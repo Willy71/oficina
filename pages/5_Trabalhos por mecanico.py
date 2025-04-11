@@ -15,13 +15,13 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
-# --------------------------- CARGAR PLANILHA ----------------------------------
+# Autenticación
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
 SPREADSHEET_KEY = st.secrets["SPREADSHEET_KEY"]
 SHEET_NAME = 'Hoja 1'
 
-credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO)
+credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
