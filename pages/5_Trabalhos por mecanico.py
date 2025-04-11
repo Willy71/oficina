@@ -50,10 +50,10 @@ st.title("🛠️ Relatório de Trabalhos por Mecânico")
 with st.sidebar:
     st.header("🔍 Filtros")
     data_inicial = st.date_input("Data inicial", datetime(datetime.now().year, datetime.now().month, 1))
-    st.caption(f"📅 Início selecionado: {data_inicial.strftime('%d/%m/%Y')}")
+    st.caption(f"📅 Início : {data_inicial.strftime('%d/%m/%Y')}")
     
     data_final = st.date_input("Data final", datetime.now())
-    st.caption(f"📅 Fim selecionado: {data_final.strftime('%d/%m/%Y')}")
+    st.caption(f"📅 Fim : {data_final.strftime('%d/%m/%Y')}")
 
     comissao_pct = st.slider("% Comissão do mecânico", 0.0, 100.0, 40.0, step=5.0)
 
