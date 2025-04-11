@@ -195,6 +195,18 @@ def atualizar_ordem(worksheet, vendor_to_update, updated_record):
     except Exception as e:
         st.error(f"Erro ao atualizar planilha: {str(e)}")
 
+# Función para buscar vehículo por placa
+def buscar_por_placa(placa, df):
+    if df.empty:
+        return None
+    
+    # Buscar coincidencias exactas (ignorando mayúsculas/minúsculas y espacios)
+    resultado = df[df['placa'].astype(str).str.upper().str.strip() == placa.upper().strip()]
+    
+    if not resultado.empty:
+        return resultado.iloc[-1].to_dict()  # Tomar el último ingreso en lugar del primero
+    return None
+
 #==============================================================================================================================================================
 
 
@@ -1178,23 +1190,24 @@ elif action == "Atualizar ordem existente":
             if search_option == "ID":
                 with col201:
                     vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0]
+                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0].to_dict()
             else:
                 with col201:
                     placa_to_search = st.text_input("Digite um número de placa").strip().upper()
                     if placa_to_search:
-                        vendor_data_filtered = existing_data[existing_data["placa"] == placa_to_search]
-                        if not vendor_data_filtered.empty:
-                            vendor_data = vendor_data_filtered.iloc[-1]
+                        resultado = buscar_por_placa(placa_to_search, existing_data)
+                        if resultado:
+                            vendor_data = resultado
                             vendor_to_update = vendor_data["user_id"]
                         else:
                             with col202:
                                 st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                                st.stop()  # Detener la ejecución si no se encuentra la placa
+                                st.stop()
                     else:
                         with col202:
                             st.warning("Digite um número de placa para buscar.")
-                            st.stop()  # Detener la ejecución si no se ingresa una placa
+                            st.stop()
+
                             
     #st.subheader("🧪 Diagnóstico de Google Sheets")
 
