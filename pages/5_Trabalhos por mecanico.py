@@ -18,7 +18,7 @@ st.markdown("""
 
 # --------------------------- CARGAR PLANILHA ----------------------------------
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
-SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
+SPREADSHEET_KEY = st.secrets["SPREADSHEET_KEY"]
 SHEET_NAME = 'Hoja 1'
 
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO)
