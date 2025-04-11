@@ -73,8 +73,7 @@ with st.sidebar:
 # ------------------------ FILTRAR E AGRUPAR ----------------------------------
 if atualizar:
     df = cargar_datos()
-    df_filtrado = df.copy()  # sin filtrar por fecha
-    #df_filtrado = df[(df['date_in'] >= pd.to_datetime(data_inicial)) & (df['date_in'] <= pd.to_datetime(data_final))]
+    df_filtrado = df[(df['date_in'] >= pd.to_datetime(data_inicial)) & (df['date_in'] <= pd.to_datetime(data_final))]
     
     # Remover linhas sem mecânico
     df_filtrado = df_filtrado[df_filtrado['mecanico'].notna() & (df_filtrado['mecanico'] != '')]
