@@ -172,7 +172,7 @@ else:
     tabs = st.tabs(["📋 Todos", "🏠 Na Oficina", "⏳ Orçamento", "🛠️ Reparação", "✅ Prontos"])
     
     with tabs[0]:  # Todos
-        dados_mostrar = dados_filtrados[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'dono_empresa']].copy()
+        dados_mostrar = dados_filtrados[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'mecanico', 'dono_empresa']].copy()
         dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
         st.dataframe(
             dados_mostrar,
@@ -183,6 +183,7 @@ else:
                 "modelo": "Modelo",
                 "ano": "Ano",
                 "estado": "Status",
+                "mecanico": "Mecánico",
                 "dono_empresa": "Cliente"
             },
             hide_index=True,
