@@ -37,7 +37,12 @@ def cargar_datos():
     
     return df
 
-
+def formatar_dos(valor):
+    try:
+        valor_float = float(valor)
+        return f"{valor_float:,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+    except (ValueError, TypeError):
+        return "0,00"
 
 # -------------------------- CONSULTA DE TRABAJOS ------------------------------
 st.title("🛠️ Relatório de Trabalhos por Mecânico")
@@ -71,8 +76,9 @@ st.dataframe(resultado, use_container_width=True)
 total_geral = resultado["total_servicos"].sum()
 total_comissao = resultado["comissao"].sum()
 
-st.markdown(f"**🔧 Total de serviços no período:** R$ {total_geral:,.2f}")
-st.markdown(f"**💰 Total de comissões:** R$ {total_comissao:,.2f} ({comissao_pct:.0f}%)")
+st.markdown(f"**🔧 Total de serviços no período:** R$ {formatar_dos(total_geral)}")
+st.markdown(f"**💰 Total de comissões:** R$ {formatar_dos(total_comissao)} ({comissao_pct:.0f}%)")
+
 
 
 
