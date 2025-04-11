@@ -26,6 +26,7 @@ credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes
 gc = gspread.authorize(credentials)
 worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
+@st.cache_data(ttl=600)
 def cargar_datos():
     datos = worksheet.get_all_records()
     df = pd.DataFrame(datos)
