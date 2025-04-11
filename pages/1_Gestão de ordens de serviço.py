@@ -155,6 +155,12 @@ worksheet = inicializar_hoja()
 # Cargar datos desde Google Sheets
 existing_data = cargar_datos(worksheet)
 
+@st.cache_data(ttl=600)
+def cargar_mecanicos():
+    ws_mecanicos = gc.open_by_key(SPREADSHEET_KEY).worksheet("Mecanicos")
+    nombres = ws_mecanicos.col_values(1)[1:]  # Ignorar header
+    return [n.strip() for n in nombres if n.strip()]
+
 #=============================================================================================================================
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
@@ -344,7 +350,8 @@ if action == "Nova ordem de serviço":
             with col20:
                 estado = st.selectbox("Estado do serviço", opciones_estado)
             with col23:
-                mecanico = st.text_input("Mecânico responsável")
+                mecanicos_lista = cargar_mecanicos()
+                mecanico = st.selectbox("Mecânico responsável", options=mecanicos_lista)
 
 
         with st.container():    
@@ -1272,7 +1279,7 @@ elif action == "Atualizar ordem existente":
                 estado = st.selectbox("Estado do serviço", opciones_estado, index=index_estado, key="update_estado")
         
             with col23:
-                mecanico = st.text_input("Mecânico responsável", value=vendor_data.get("mecanico", ""), key="update_mecanico")
+                mecanico = st.selectbox("Mecânico responsável", options=mecanicos_lista, index=mecanicos_lista.index(vendor_data.get("mecanico", "")) if vendor_data.get("mecanico", "") in mecanicos_lista else 0, key="update_mecanico")
 
 
         with st.container():    
