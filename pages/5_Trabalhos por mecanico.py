@@ -91,24 +91,25 @@ if atualizar:
     st.markdown(f"**🔧 Total de serviços no período:** R$ {formatar_dos(total_geral)}")
     st.markdown(f"**💰 Total de comissões:** R$ {formatar_dos(total_comissao)} ({comissao_pct:.0f}%)")
 
-    st.subheader("📄 Detalhes por Serviço")
+
+    st.subheader("📄 Detalhes dos Serviços Realizados")
     for idx, row in df_filtrado.iterrows():
         date_in = row.get('date_in')
         date_out = row.get('date_out')
         data_entrada_fmt = date_in.strftime('%d/%m/%Y') if isinstance(date_in, (pd.Timestamp, datetime)) and pd.notna(date_in) else '-'
         data_saida_fmt = date_out.strftime('%d/%m/%Y') if isinstance(date_out, (pd.Timestamp, datetime)) and pd.notna(date_out) else '-'
-    
+
         st.markdown(f"""
-        <div style='background-color: #1a1a1a; padding: 15px; margin-bottom: 10px; border-radius: 10px;'>
-            <p><strong>Carro:</strong> {row.get('carro', '')}</p>
-            <p><strong>Modelo:</strong> {row.get('modelo', '')}</p>
-            <p><strong>Placa:</strong> {row.get('placa', '')}</p>
-            <p><strong>Data de entrada:</strong> {data_entrada_fmt}</p>
-            <p><strong>Data de saída:</strong> {data_saida_fmt}</p>
-            <p><strong>Total de serviços:</strong> R$ {formatar_dos(row.get('total_servicos'))}</p>
+        <div style='background-color: #1a1a1a; padding: 10px; margin-bottom: 5px; border-radius: 8px;'>
+            <p><strong>Carro:</strong> {row.get('carro', '')} | 
+            <strong>Modelo:</strong> {row.get('modelo', '')} | 
+            <strong>Placa:</strong> {row.get('placa', '')} | 
+            <strong>Entrada:</strong> {data_entrada_fmt} | 
+            <strong>Saída:</strong> {data_saida_fmt} | 
+            <strong>Total serviços:</strong> R$ {formatar_dos(row.get('total_servicos'))}</p>
         </div>
         """, unsafe_allow_html=True)
-       
+
     
 
 
