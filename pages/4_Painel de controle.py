@@ -254,13 +254,14 @@ else:
     
     with tabs[4]:  # Prontos
         prontos = dados_filtrados[dados_filtrados['estado'] == "Concluido"]
-        dados_mostrar = prontos[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'mecanico','dono_empresa']].copy()
+        dados_mostrar = prontos[['date_in', 'date_out', 'placa', 'carro', 'modelo', 'ano', 'estado', 'mecanico','dono_empresa']].copy()
         dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
         dados_mostrar['date_out'] = formatar_data(dados_mostrar['date_out'])
         st.dataframe(
             dados_mostrar,
             column_config={
                 "date_in": "Entrada (D/M/A)",
+                "date_out": "Data de saida",
                 "placa": "Placa",
                 "carro": "Marca",
                 "modelo": "Modelo",
