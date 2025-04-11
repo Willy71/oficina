@@ -15,27 +15,21 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 # Autenticación
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
-SPREADSHEET_KEY = st.secrets["SPREADSHEET_KEY"]
+SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
 SHEET_NAME = 'Hoja 1'
 
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
-@st.cache_data(ttl=600)
+# Cargar datos
 def cargar_datos():
-    datos = worksheet.get_all_records()
-    df = pd.DataFrame(datos)
-    df["date_in"] = pd.to_datetime(df["date_in"], errors='coerce')
-    
-    # Convertir todos los valores de servicio a numéricos (del 1 al 12)
-    for i in range(1, 13):
-        df[f"valor_serv_{i}"] = pd.to_numeric(df.get(f"valor_serv_{i}", 0), errors='coerce')
-    
-    return df
+    records = worksheet.get_all_records()
+    return pd.DataFrame(records) if records else pd.DataFrame()
 
 
 # -------------------------- CONSULTA DE TRABAJOS ------------------------------
