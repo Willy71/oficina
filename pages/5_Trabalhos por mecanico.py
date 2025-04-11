@@ -63,12 +63,13 @@ df_filtrado = df_filtrado[df_filtrado['mecanico'].notna() & (df_filtrado['mecani
 # Calcular total de serviços (sem peças)
 df_filtrado["total_servicos"] = df_filtrado[[f"valor_serv_{i}" for i in range(1, 13)]].sum(axis=1, skipna=True)
 
-resultado["total_servicos_fmt"] = resultado["total_servicos"].apply(formatar_dos)
-resultado["comissao_fmt"] = resultado["comissao"].apply(formatar_dos)
+# Agrupar por mecânico
+resultado = df_filtrado.groupby("mecanico")["total_servicos"].sum().reset_index()
+resultado["comissao"] = resultado["total_servicos"] * (comissao_pct / 100)
 
 # -------------------------- EXIBIR RESULTADO ---------------------------------
 st.subheader("📊 Resumo por Mecânico")
-st.dataframe(resultado[["mecanico", "total_servicos_fmt", "comissao_fmt"]], use_container_width=True)
+st.dataframe(resultado, use_container_width=True)
 
 # Mostrar totais
 total_geral = resultado["total_servicos"].sum()
