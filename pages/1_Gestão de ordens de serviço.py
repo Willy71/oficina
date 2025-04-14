@@ -350,17 +350,8 @@ if action == "Nova ordem de serviço":
             with col20:
                 estado = st.selectbox("Estado do serviço", opciones_estado)
             with col23:
-                mecanicos_lista = [""] + cargar_mecanicos()
-                mecanico_atual = vendor_data.get("mecanico", "").strip()
-                index_mecanico = mecanicos_lista.index(mecanico_atual) if mecanico_atual in mecanicos_lista else 0
-                
-                mecanico = st.selectbox(
-                    "Mecânico responsável", 
-                    options=mecanicos_lista, 
-                    index=index_mecanico, 
-                    key="update_mecanico"
-                )
-
+                mecanicos_lista = cargar_mecanicos()
+                mecanico = st.selectbox("Mecânico responsável", options=mecanicos_lista)               
 
         with st.container():    
             col30, col31, col32 = st.columns(3)
