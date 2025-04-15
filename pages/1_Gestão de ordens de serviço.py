@@ -51,13 +51,13 @@ st.markdown(page_bg_color, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Establecer conexion con Google Sheets
-conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+#conn = st.experimental_connection("gsheets", type=GSheetsConnection)
 
 # Fetch existing vendors data
-existing_data = conn.read(worksheet="Hoja1", usecols=list(range(22)), ttl=5)
-existing_data = existing_data.dropna(how="all")
+#existing_data = conn.read(worksheet="Hoja1", usecols=list(range(22)), ttl=5)
+#existing_data = existing_data.dropna(how="all")
 
-df = st.dataframe(existing_data)
+#df = st.dataframe(existing_data)
 #=============================================================================================================================
 # Conexion via gspread a traves de https://console.cloud.google.com/ y Google sheets
 
