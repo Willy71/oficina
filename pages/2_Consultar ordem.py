@@ -236,7 +236,7 @@ def center_text(text, size, color):
         unsafe_allow_html=True
     )
 
-def text(text, align = "center", size = 4, color = "white"):
+def text(text, align = "left", size = 4, color = "white"):
     """
     Centers text on the Streamlit page.
 
@@ -296,8 +296,8 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(4)
         with cols[0]:
-            center_text("Placa", 7, "yellow")
-            center_text(f"{formatar_valor(veiculo.get('placa'))}", 3, "white")
+            text("Placa", 7, "yellow")
+            text(f"{formatar_valor(veiculo.get('placa'))}", 3, "white")
         with cols[1]:
             center_text("Marca", 7, "yellow")
             center_text(f"{formatar_valor(veiculo.get('carro'))}", 3, "white")
