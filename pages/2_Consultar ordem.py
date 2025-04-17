@@ -305,7 +305,6 @@ if st.session_state.veiculo_encontrado:
         cols = st.columns(3)
         with cols[0]:
             center_text("Proprietário", 6, "yellow")
-            line(10, "blue")
             center_text(f"{formatar_valor(veiculo.get('dono_empresa'))}", 4, "white")
             #st.subheader("Proprietário", divider=True)
             #st.header(formatar_valor(veiculo.get('dono_empresa')))
