@@ -299,55 +299,55 @@ if st.session_state.veiculo_encontrado:
             text("Placa", "center", 7, "yellow")
             text(f"{formatar_valor(veiculo.get('placa'))}", "left", 3, "white")
         with cols[1]:
-            text("Marca", 7, "yellow")
-            text(f"{formatar_valor(veiculo.get('carro'))}", 3, "white")
+            text("Marca", "center", 7, "yellow")
+            text(f"{formatar_valor(veiculo.get('carro'))}", "left", 3, "white")
             #st.metric("Marca", formatar_valor(veiculo.get('carro')))
         with cols[2]:
-            text("Modelo", 7, "yellow")
-            text(f"{formatar_valor(veiculo.get('modelo'))}", 3, "white")
+            text("Modelo", "center", 7, "yellow")
+            text(f"{formatar_valor(veiculo.get('modelo'))}", "left", 3, "white")
             #st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
         with cols[3]:
             ano = veiculo.get('ano')
             if isinstance(ano, float):
                 ano = int(ano)
-            text("Ano", 7, "yellow")
-            text(f"{formatar_valor(veiculo.get('ano'))}", 3, "white")
+            text("Ano", "center", 7, "yellow")
+            text(f"{formatar_valor(veiculo.get('ano'))}", "left", 3, "white")
             #st.metric("Ano", formatar_valor(ano))
     st.text("")
     # Mostrar detalles del estado y fechas
     with st.container():
         cols = st.columns(4)
         with cols[0]:
-            text("Estado", 8, "yellow")
-            text(f"{formatar_valor(veiculo.get('estado'))}", 5, "white")
+            text("Estado", "center", 8, "yellow")
+            text(f"{formatar_valor(veiculo.get('estado'))}", "left", 5, "white")
             #st.metric("Estado", formatar_valor(veiculo.get('estado')))
         with cols[1]:
-            text("Mecanico", 8, "yellow")
-            text(f"{formatar_valor(veiculo.get('mecanico'))}", 5, "white")
+            text("Mecanico", "center", 8, "yellow")
+            text(f"{formatar_valor(veiculo.get('mecanico'))}", "left", 5, "white")
         with cols[2]:
-            text("Data de Entrada", 8, "yellow")
-            text(f"{formatar_valor(veiculo.get('date_in'))}", 5, "white")
+            text("Data de Entrada", "center", 8, "yellow")
+            text(f"{formatar_valor(veiculo.get('date_in'))}", "left", 5, "white")
             #st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
         with cols[3]:
-            text("Data de Entrega", 8, "yellow")
-            text(f"{formatar_valor(veiculo.get('date_out'))}", 5, "white")
+            text("Data de Entrega", "center", 8, "yellow")
+            text(f"{formatar_valor(veiculo.get('date_out'))}", "left", 5, "white")
             #st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
     st.text("")    
     # Mostrar información del dueño
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            text("Proprietário", 8, "yellow")
-            text(f"{formatar_valor(veiculo.get('dono_empresa'))}", 5, "white")
+            text("Proprietário", "center", 8, "yellow")
+            text(f"{formatar_valor(veiculo.get('dono_empresa'))}", "left", 5, "white")
             #st.subheader("Proprietário", divider=True)
             #st.header(formatar_valor(veiculo.get('dono_empresa')))
         with cols[1]:
-            text("Telefone", 8, "yellow")
-            text(f"{formatar_valor(veiculo.get('telefone'))}", 5, "white")
+            text("Telefone", "center", 8, "yellow")
+            text(f"{formatar_valor(veiculo.get('telefone'))}", "left", 5, "white")
             #st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
         with cols[2]:
-            text("Endereço", 8, "yellow")
-            text(f"{formatar_valor(veiculo.get('endereco'))}", 5, "white")
+            text("Endereço", "center", 8, "yellow")
+            text(f"{formatar_valor(veiculo.get('endereco'))}", "left", 5, "white")
             #st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
 #===================================================================================================================================================================
     with st.expander("📋 Serviços Realizados", expanded=False):
