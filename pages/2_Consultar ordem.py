@@ -281,24 +281,36 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Marca", formatar_valor(veiculo.get('carro')))
+            center_text("Marca", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('carro'))}", 5, "white")
+            #st.metric("Marca", formatar_valor(veiculo.get('carro')))
         with cols[1]:
-            st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
+            center_text("Modelo", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('modelo'))}", 5, "white")
+            #st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
         with cols[2]:
             ano = veiculo.get('ano')
             if isinstance(ano, float):
                 ano = int(ano)
-            st.metric("Ano", formatar_valor(ano))
+            center_text("Ano", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('ano'))}", 5, "white")
+            #st.metric("Ano", formatar_valor(ano))
     
     # Mostrar detalles del estado y fechas
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Estado", formatar_valor(veiculo.get('estado')))
+            center_text("Estado", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('estado'))}", 5, "white")
+            #st.metric("Estado", formatar_valor(veiculo.get('estado')))
         with cols[1]:
-            st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
+            center_text("Data Entrada", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('date_in'))}", 5, "white")
+            #st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
         with cols[2]:
-            st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
+            center_text("Previsão Entrega", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('date_prev'))}", 5, "white")
+            #st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
     
     # Mostrar información del dueño
     with st.container():
@@ -309,9 +321,13 @@ if st.session_state.veiculo_encontrado:
             #st.subheader("Proprietário", divider=True)
             #st.header(formatar_valor(veiculo.get('dono_empresa')))
         with cols[1]:
-            st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
+            center_text("Telefone", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('telefone'))}", 5, "white")
+            #st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
         with cols[2]:
-            st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
+            center_text("Endereço", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('endereco'))}", 5, "white")
+            #st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
 #===================================================================================================================================================================
     with st.expander("📋 Serviços Realizados", expanded=False):
         servicos = []
