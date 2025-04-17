@@ -86,3 +86,41 @@ with st.expander("➕ Adicionar novo produto"):
                 st.experimental_rerun()
             except Exception as e:
                 st.error(f"Erro ao adicionar produto: {str(e)}")
+
+# ---------------- VENTAS ----------------
+st.markdown("---")
+st.header("🛒 Registrar Venda")
+
+if not df.empty:
+    produtos = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
+    produto_escolhido = st.selectbox("Produto", produtos)
+
+    qtd_vendida = st.number_input("Quantidade Vendida", min_value=1, step=1)
+
+    if st.button("Registrar Venda"):
+        try:
+            # Identificar ID do produto
+            id_escolhido = produto_escolhido.split(" | Código: ")[1]
+            
+            # Encontrar a linha do produto na planilha
+            worksheet = inicializar_hoja()  # Re-obtener worksheet por si expiró
+            celda_id = worksheet.find(id_escolhido)
+            linha = celda_id.row
+
+            # Obtener valor actual da coluna "quant"
+            idx_quant = columnas_ordenadas.index("quant") + 1  # +1 por ser 1-based en Sheets
+            quant_atual = int(worksheet.cell(linha, idx_quant).value)
+
+            if qtd_vendida > quant_atual:
+                st.warning("⚠️ Estoque insuficiente para esta venda.")
+            else:
+                nova_quant = quant_atual - qtd_vendida
+                worksheet.update_cell(linha, idx_quant, nova_quant)
+                st.success(f"✅ Venda registrada! Novo estoque: {nova_quant}")
+                st.experimental_rerun()
+
+        except Exception as e:
+            st.error(f"Erro ao registrar venda: {str(e)}")
+else:
+    st.info("ℹ️ Nenhum produto disponível para venda.")
+
