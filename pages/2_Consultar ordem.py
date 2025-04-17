@@ -236,6 +236,21 @@ def center_text(text, size, color):
         unsafe_allow_html=True
     )
 
+def text(text, align = "center", size, color):
+    """
+    Centers text on the Streamlit page.
+
+    Parameters:
+    - text (str): The text to display.
+    - align (str) Indicate the text alignment. center - right - left    
+    - size (str): The size of the text (HTML heading size, e.g., "1" for <h1>).
+    - color (str): The color of the text.
+    """
+    st.markdown(
+        f"<h{size} style='text-align: {align}; color: {color}'>{text}</h{size}>",
+        unsafe_allow_html=True
+    )
+
 #====================================================================================================================================================
 # Inicializar la hoja de cálculo
 worksheet = inicializar_hoja()
