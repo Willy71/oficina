@@ -54,21 +54,16 @@ columnas_ordenadas = [
 # ---------------- INTERFAZ ----------------
 st.title("📦 Controle de Estoque")
 
+df = cargar_datos_desde_gsheet()
 
-
-# Ordenar antes de mostrar
-df_ordenado = df.sort_values(by="descripcao", ascending=True)
-
+# Filtro por descrição ou código
 filtro = st.text_input("🔍 Buscar por descrição ou código:")
-if not df.empty:
-    if "descripcao" in df.columns:
-        df_ordenado = df.sort_values(by="descripcao", ascending=True)
-    else:
-        st.error("⚠️ A coluna 'descripcao' não está presente na planilha.")
-        df_ordenado = df
+if filtro:
+    df_filtrado = df[df['descripcao'].str.contains(filtro, case=False, na=False) |
+                     df['codigo_fab'].astype(str).str.contains(filtro)]
+    st.dataframe(df_filtrado, use_container_width=True)
 else:
-    st.warning("📭 Nenhum dado encontrado na planilha de estoque.")
-    df_ordenado = pd.DataFrame(columns=columnas_ordenadas)
+    st.dataframe(df, use_container_width=True)
 
 
 # Formulario para adicionar novo produto
