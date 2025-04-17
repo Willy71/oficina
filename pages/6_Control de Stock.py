@@ -96,7 +96,7 @@ st.markdown("---")
 st.header("🛒 Registrar Venda")
 
 if not df.empty:
-    produtos = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
+    produtos = df.sort['descripcao'] + " | Código: " + df['id_prod'].astype(str)
     produto_escolhido = st.selectbox("Produto", produtos)
 
     qtd_vendida = st.number_input("Quantidade Vendida", min_value=1, step=1)
