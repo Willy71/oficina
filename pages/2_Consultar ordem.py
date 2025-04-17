@@ -275,7 +275,8 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Proprietário", formatar_valor(veiculo.get('dono_empresa')))
+            st.subheader("Proprietário", divider=True)
+            st.header(formatar_valor(veiculo.get('dono_empresa')))
         with cols[1]:
             st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
         with cols[2]:
