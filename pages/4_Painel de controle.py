@@ -94,7 +94,7 @@ entregues_total = entregados_df.shape[0]
 ultimo_id = dados_completos['user_id'].max()
 
 # Calcular veículos no taller
-veiculos_no_taller = ultimo_id - entregues_total
+veiculos_no_taller = ultimo_id - entregues_total -1
 
 # 📌 FILTRAR DADOS: excluir entregues da visualização
 dados = dados[dados['estado'].astype(str).str.strip().str.lower() != 'entregado']
