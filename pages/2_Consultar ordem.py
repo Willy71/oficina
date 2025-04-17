@@ -281,22 +281,22 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(4)
         with cols[0]:
-            center_text("Placa", 8, "yellow")
-            center_text(f"{formatar_valor(veiculo.get('placa'))}", 4, "white")
+            center_text("Placa", 7, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('placa'))}", 3, "white")
         with cols[1]:
-            center_text("Marca", 8, "yellow")
-            center_text(f"{formatar_valor(veiculo.get('carro'))}", 4, "white")
+            center_text("Marca", 7, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('carro'))}", 3, "white")
             #st.metric("Marca", formatar_valor(veiculo.get('carro')))
         with cols[2]:
-            center_text("Modelo", 8, "yellow")
-            center_text(f"{formatar_valor(veiculo.get('modelo'))}", 4, "white")
+            center_text("Modelo", 7, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('modelo'))}", 3, "white")
             #st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
         with cols[3]:
             ano = veiculo.get('ano')
             if isinstance(ano, float):
                 ano = int(ano)
-            center_text("Ano", 8, "yellow")
-            center_text(f"{formatar_valor(veiculo.get('ano'))}", 4, "white")
+            center_text("Ano", 7, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('ano'))}", 3, "white")
             #st.metric("Ano", formatar_valor(ano))
     st.text("")
     # Mostrar detalles del estado y fechas
