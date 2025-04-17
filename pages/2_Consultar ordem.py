@@ -303,18 +303,18 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(4)
         with cols[0]:
-            center_text("Estado", 6, "yellow")
+            center_text("Estado", 8, "yellow")
             center_text(f"{formatar_valor(veiculo.get('estado'))}", 5, "white")
             #st.metric("Estado", formatar_valor(veiculo.get('estado')))
         with cols[1]:
-            center_text("Mecanico", 6, "yellow")
+            center_text("Mecanico", 8, "yellow")
             center_text(f"{formatar_valor(veiculo.get('mecanico'))}", 5, "white")
         with cols[2]:
-            center_text("Data de Entrada", 6, "yellow")
+            center_text("Data de Entrada", 8, "yellow")
             center_text(f"{formatar_valor(veiculo.get('date_in'))}", 5, "white")
             #st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
         with cols[3]:
-            center_text("Data de Entrega", 6, "yellow")
+            center_text("Data de Entrega", 8, "yellow")
             center_text(f"{formatar_valor(veiculo.get('date_out'))}", 5, "white")
             #st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
     st.text("")    
@@ -322,16 +322,16 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            center_text("Proprietário", 6, "yellow")
+            center_text("Proprietário", 8, "yellow")
             center_text(f"{formatar_valor(veiculo.get('dono_empresa'))}", 5, "white")
             #st.subheader("Proprietário", divider=True)
             #st.header(formatar_valor(veiculo.get('dono_empresa')))
         with cols[1]:
-            center_text("Telefone", 6, "yellow")
+            center_text("Telefone", 8, "yellow")
             center_text(f"{formatar_valor(veiculo.get('telefone'))}", 5, "white")
             #st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
         with cols[2]:
-            center_text("Endereço", 6, "yellow")
+            center_text("Endereço", 8, "yellow")
             center_text(f"{formatar_valor(veiculo.get('endereco'))}", 5, "white")
             #st.metric("Endereço", formatar_valor(veiculo.get('endereco')))
 #===================================================================================================================================================================
