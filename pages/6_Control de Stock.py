@@ -47,7 +47,10 @@ def cargar_datos_desde_gsheet():
     else:
         return pd.DataFrame(columns=columnas_ordenadas)
 
-
+columnas_ordenadas = [
+    "id_prod", "quant", "descripcao", "carro_peca", "marca",
+    "codigo_fab", "custo", "porcentagem", "valor_final"
+]
 # ---------------- INTERFAZ ----------------
 st.title("📦 Controle de Estoque")
 
