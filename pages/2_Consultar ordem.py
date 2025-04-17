@@ -298,7 +298,7 @@ if st.session_state.veiculo_encontrado:
             center_text("Ano", 6, "yellow")
             center_text(f"{formatar_valor(veiculo.get('ano'))}", 4, "white")
             #st.metric("Ano", formatar_valor(ano))
-    
+    st.text("")
     # Mostrar detalles del estado y fechas
     with st.container():
         cols = st.columns(4)
@@ -317,7 +317,7 @@ if st.session_state.veiculo_encontrado:
             center_text("Data de Entrega", 6, "yellow")
             center_text(f"{formatar_valor(veiculo.get('date_out'))}", 5, "white")
             #st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
-    
+    st.text("")    
     # Mostrar información del dueño
     with st.container():
         cols = st.columns(3)
