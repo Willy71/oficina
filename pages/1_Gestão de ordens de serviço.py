@@ -1194,14 +1194,14 @@ elif action == "Atualizar ordem existente":
     existing_data["user_id"] = existing_data["user_id"].astype(int)
 
     with st.container():    
-        col200, col201, col202, col203, col204 = st.columns([2, 1.5, 2, 1, 1])
+        col200, col201, col202, col203, col204 = st.columns([2, 3, 4, 1, 1])
         with col200:
             # Opción para buscar por ID o por placa
             search_option = st.radio("Buscar por:", ["Placa", "ID"])
             
             if search_option == "Placa":
                 with col201:
-                    placa_to_search = st.text_input("Digite um número de placa").strip().upper()
+                    placa_to_search = st.text_input("Digite o número da placa.").strip().upper()
                     if placa_to_search:
                         resultado = buscar_por_placa(placa_to_search, existing_data)
                         if resultado:
@@ -1213,7 +1213,7 @@ elif action == "Atualizar ordem existente":
                                 st.stop()
                     else:
                         with col202:
-                            st.warning("Digite um número de placa para buscar.")
+                            st.warning("Digite o número da placa para pesquisar e pressione Enter.")
                             st.stop()
             else:
                 with col201:
