@@ -49,11 +49,11 @@ def cargar_datos_desde_gsheet():
 
 # Función para obtener el próximo ID disponible
 def obtener_proximo_id(df):
-    if df.empty or 'user_id' not in df.columns:
+    if df.empty or 'id_prod' not in df.columns:
         return 1  # Si no hay datos, el primer ID es 1
     try:
         # Calcular el máximo ID y sumar 1
-        return int(df['user_id'].max()) + 1
+        return int(df['id_prod'].max()) + 1
     except (ValueError, TypeError):
         # Si hay algún error (por ejemplo, valores no numéricos), retornar 1
         return 1
