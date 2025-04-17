@@ -208,6 +208,50 @@ def formatar_real(valor, padrao="0,00"):
     except (ValueError, TypeError, AttributeError):
         return padrao
 #====================================================================================================================================================
+
+def line(size, color):
+    """
+    Draws a horizontal line on the Streamlit page.
+
+    Parameters:
+    - size (str): The thickness of the line.
+    - color (str): The color of the line.
+    """
+    st.markdown(
+        f"<hr style='height:{size}px;border:none;color:{color};background-color:{color};' />",
+        unsafe_allow_html=True
+    )
+
+def text(text, align = "center", size, color):
+    """
+    Centers text on the Streamlit page.
+
+    Parameters:
+    - text (str): The text to display.
+    - align (str) Indicate the text alignment. center - right - left    
+    - size (str): The size of the text (HTML heading size, e.g., "1" for <h1>).
+    - color (str): The color of the text.
+    """
+    st.markdown(
+        f"<h{size} style='text-align: {align}; color: {color}'>{text}</h{size}>",
+        unsafe_allow_html=True
+    )
+
+def center_text(text, size, color):
+    """
+    Centers text on the Streamlit page.
+
+    Parameters:
+    - text (str): The text to display.
+    - size (str): The size of the text (HTML heading size, e.g., "1" for <h1>).
+    - color (str): The color of the text.
+    """
+    st.markdown(
+        f"<h{size} style='text-align: center; color: {color}'>{text}</h{size}>",
+        unsafe_allow_html=True
+    )
+
+#====================================================================================================================================================
 # Inicializar la hoja de cálculo
 worksheet = inicializar_hoja()
 
@@ -275,8 +319,11 @@ if st.session_state.veiculo_encontrado:
     with st.container():
         cols = st.columns(3)
         with cols[0]:
-            st.subheader("Proprietário", divider=True)
-            st.header(formatar_valor(veiculo.get('dono_empresa')))
+            center_text("Proprietário", 6, "yellow")
+            line(10, "blue")
+            center_text(formatar_valor(veiculo.get('dono_empresa'), 4, "white")
+            #st.subheader("Proprietário", divider=True)
+            #st.header(formatar_valor(veiculo.get('dono_empresa')))
         with cols[1]:
             st.metric("Telefone", formatar_valor(veiculo.get('telefone')))
         with cols[2]:
