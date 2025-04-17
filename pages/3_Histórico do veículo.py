@@ -55,7 +55,7 @@ with st.container():
     with col1:
         placa_input = st.text_input("Digite a placa do veículo:", key="placa_hist_input").strip().upper()
     with col2:
-        st.text("    ")  # espacio
+        st.text("Button")  # espacio
         buscar = st.button("Buscar", key="buscar_historico_btn")
 
 if buscar:
