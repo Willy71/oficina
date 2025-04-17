@@ -236,7 +236,7 @@ def center_text(text, size, color):
         unsafe_allow_html=True
     )
 
-def text(text, align = "center", tamanho, color):
+def text(text, align = "center", size = 4, color):
     """
     Centers text on the Streamlit page.
 
