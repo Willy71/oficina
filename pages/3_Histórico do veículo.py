@@ -119,7 +119,7 @@ with st.expander("🔎 Busca Avançada", expanded=False):
         
         col3, col4 = st.columns(2)
         with col3:
-            estado_options = ["Todos"] + dados['estado'].dropna().unique().tolist() if not dados.empty else []
+            estado_options = ["Todos"] + df['estado'].dropna().unique().tolist() if not df.empty else []
             estado = st.selectbox("Estado (opcional)", estado_options)
         with col4:
             ano = st.text_input("Ano (opcional)", "")
