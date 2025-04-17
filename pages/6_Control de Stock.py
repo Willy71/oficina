@@ -47,6 +47,17 @@ def cargar_datos_desde_gsheet():
     else:
         return pd.DataFrame(columns=columnas_ordenadas)
 
+# Función para obtener el próximo ID disponible
+def obtener_proximo_id(df):
+    if df.empty or 'user_id' not in df.columns:
+        return 1  # Si no hay datos, el primer ID es 1
+    try:
+        # Calcular el máximo ID y sumar 1
+        return int(df['user_id'].max()) + 1
+    except (ValueError, TypeError):
+        # Si hay algún error (por ejemplo, valores no numéricos), retornar 1
+        return 1
+
 columnas_ordenadas = [
     "id_prod", "quant", "descripcao", "carro_peca", "marca",
     "codigo_fab", "custo", "porcentagem", "valor_final"
@@ -69,7 +80,7 @@ else:
 # Formulario para adicionar novo produto
 with st.expander("➕ Adicionar novo produto"):
     with st.form("form_novo_produto"):
-        id_prod = st.text_input("ID Produto")
+        id_prod = obtener_proximo_id(df)
         quant = st.number_input("Quantidade", min_value=0, step=1)
         descripcao = st.text_input("Descrição")
         carro_peca = st.text_input("Carro / Peça")
