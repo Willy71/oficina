@@ -97,10 +97,10 @@ st.header("🛒 Registrar Venda")
 
 if not df.empty:
     # Ordenar el DataFrame por 'descripcao'
-    df_ordenado = df.sort_values(by="descripcao", ascending=True)
+    #df_ordenado = df.sort_values(by="descripcao", ascending=True)
     # Crear la lista desplegable a partir del DataFrame ya ordenado
-    #produtos = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
-    produtos = df_ordenado['descripcao']
+    produtos = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
+    #produtos = df_ordenado['descripcao'] + " | Código: " + df['id_prod'].astype(str)
     produto_escolhido = st.selectbox("Produto", produtos)
     
  
