@@ -61,9 +61,9 @@ filtro = st.text_input("🔍 Buscar por descrição ou código:")
 if filtro:
     df_filtrado = df[df['descripcao'].str.contains(filtro, case=False, na=False) |
                      df['codigo_fab'].astype(str).str.contains(filtro)]
-    st.dataframe(df_filtrado, use_container_width=True)
+    st.dataframe(df_filtrado, use_container_width=True, hide_index=True)
 else:
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, use_container_width=True, hide_index=True)
 
 
 # Formulario para adicionar novo produto
