@@ -20,7 +20,7 @@ reduce_space ="""
             </style>
             """
 # We load reduce_space
-st.markdown(reduce_space, unsafe_allow_html=True)
+st.markdown(reduce_space, unsafe_allow_html=True) 
 
 # Colocar background azul muy oscuro
 page_bg_color = f"""
