@@ -51,16 +51,17 @@ def cargar_datos_desde_gsheet():
 # ---------------- INTERFAZ ----------------
 st.title("📦 Controle de Estoque")
 
-df = cargar_datos_desde_gsheet()
+# Ordenar antes de mostrar
+df_ordenado = df.sort_values(by="descripcao", ascending=True)
 
-# Filtro por descrição ou código
 filtro = st.text_input("🔍 Buscar por descrição ou código:")
 if filtro:
-    df_filtrado = df[df['descripcao'].str.contains(filtro, case=False, na=False) |
-                     df['codigo_fab'].astype(str).str.contains(filtro)]
-    st.dataframe(df_filtrado, use_container_width=True)
+    df_filtrado = df_ordenado[df_ordenado['descripcao'].str.contains(filtro, case=False, na=False) |
+                              df_ordenado['codigo_fab'].astype(str).str.contains(filtro)]
+    st.dataframe(df_filtrado.reset_index(drop=True), use_container_width=True)
 else:
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df_ordenado.reset_index(drop=True), use_container_width=True)
+
 
 # Formulario para adicionar novo produto
 with st.expander("➕ Adicionar novo produto"):
@@ -92,7 +93,8 @@ st.markdown("---")
 st.header("🛒 Registrar Venda")
 
 if not df.empty:
-    produtos = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
+    df_ordenado = df.sort_values(by="descripcao", ascending=True)
+    produtos = df_ordenado['descripcao'] + " | Código: " + df_ordenado['id_prod'].astype(str)
     produto_escolhido = st.selectbox("Produto", produtos)
 
     qtd_vendida = st.number_input("Quantidade Vendida", min_value=1, step=1)
