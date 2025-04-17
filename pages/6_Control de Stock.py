@@ -53,36 +53,36 @@ st.title("📦 Controle de Estoque")
 
 df = cargar_datos_desde_gsheet()
 
-    # Filtro por descrição ou código
-    filtro = st.text_input("🔍 Buscar por descrição ou código:")
-    if filtro:
-        df_filtrado = df[df['descripcao'].str.contains(filtro, case=False, na=False) |
-                         df['codigo_fab'].astype(str).str.contains(filtro)]
-        st.dataframe(df_filtrado, use_container_width=True)
-    else:
-        st.dataframe(df, use_container_width=True)
+# Filtro por descrição ou código
+filtro = st.text_input("🔍 Buscar por descrição ou código:")
+if filtro:
+    df_filtrado = df[df['descripcao'].str.contains(filtro, case=False, na=False) |
+                     df['codigo_fab'].astype(str).str.contains(filtro)]
+    st.dataframe(df_filtrado, use_container_width=True)
+else:
+    st.dataframe(df, use_container_width=True)
 
-    # Formulario para adicionar novo produto
-    with st.expander("➕ Adicionar novo produto"):
-        with st.form("form_novo_produto"):
-            id_prod = st.text_input("ID Produto")
-            quant = st.number_input("Quantidade", min_value=0, step=1)
-            descripcao = st.text_input("Descrição")
-            carro_peca = st.text_input("Carro / Peça")
-            marca = st.text_input("Marca")
-            codigo_fab = st.text_input("Código de Fabricante")
-            custo = st.number_input("Custo (R$)", min_value=0.0, step=0.1)
-            porcentagem = st.number_input("Margem (%)", min_value=0.0, max_value=100.0, step=0.1)
-            valor_final = round(custo + (custo * porcentagem / 100), 2)
+# Formulario para adicionar novo produto
+with st.expander("➕ Adicionar novo produto"):
+    with st.form("form_novo_produto"):
+        id_prod = st.text_input("ID Produto")
+        quant = st.number_input("Quantidade", min_value=0, step=1)
+        descripcao = st.text_input("Descrição")
+        carro_peca = st.text_input("Carro / Peça")
+        marca = st.text_input("Marca")
+        codigo_fab = st.text_input("Código de Fabricante")
+        custo = st.number_input("Custo (R$)", min_value=0.0, step=0.1)
+        porcentagem = st.number_input("Margem (%)", min_value=0.0, max_value=100.0, step=0.1)
+        valor_final = round(custo + (custo * porcentagem / 100), 2)
 
-            st.markdown(f"💰 **Valor Final sugerido:** R$ {valor_final:.2f}")
+        st.markdown(f"💰 **Valor Final sugerido:** R$ {valor_final:.2f}")
 
-            submitted = st.form_submit_button("Salvar")
-            if submitted:
-                nova_linha = [id_prod, quant, descripcao, carro_peca, marca, codigo_fab, custo, porcentagem, valor_final]
-                try:
-                    worksheet.append_row(nova_linha)
-                    st.success("✅ Produto adicionado com sucesso!")
-                    st.experimental_rerun()
-                except Exception as e:
-                    st.error(f"Erro ao adicionar produto: {str(e)}")
+        submitted = st.form_submit_button("Salvar")
+        if submitted:
+            nova_linha = [id_prod, quant, descripcao, carro_peca, marca, codigo_fab, custo, porcentagem, valor_final]
+            try:
+                worksheet.append_row(nova_linha)
+                st.success("✅ Produto adicionado com sucesso!")
+                st.experimental_rerun()
+            except Exception as e:
+                st.error(f"Erro ao adicionar produto: {str(e)}")
