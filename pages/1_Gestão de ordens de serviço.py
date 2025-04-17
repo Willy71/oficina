@@ -1195,33 +1195,30 @@ elif action == "Atualizar ordem existente":
 
     with st.container():    
         col200, col201, col202, col203, col204 = st.columns([2, 1.5, 2, 1, 1])
-        
         with col200:
-            search_option = st.radio("Buscar por:", ["Placa", "ID"], key="search_option")
-    
-        if search_option == "Placa":
-            with col201:
-                placa_to_search = st.text_input("Digite um número de placa", key="input_placa").strip().upper()
-            with col202:
-                buscar_placa_btn = st.button("Buscar", key="buscar_placa_btn")
-    
-            if buscar_placa_btn:
-                if not placa_to_search:
-                    st.warning("Digite um número de placa para buscar.")
-                    st.stop()
-                else:
-                    resultado = buscar_por_placa(placa_to_search, existing_data)
-                    if resultado:
-                        vendor_data = resultado
-                        vendor_to_update = vendor_data["user_id"]
+            # Opción para buscar por ID o por placa
+            search_option = st.radio("Buscar por:", ["Placa", "ID"])
+            
+            if search_option == "Placa":
+                with col201:
+                    placa_to_search = st.text_input("Digite um número de placa").strip().upper()
+                    if placa_to_search:
+                        resultado = buscar_por_placa(placa_to_search, existing_data)
+                        if resultado:
+                            vendor_data = resultado
+                            vendor_to_update = vendor_data["user_id"]
+                        else:
+                            with col202:
+                                st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
+                                st.stop()
                     else:
-                        st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                        st.stop()
-    
-        else:
-            with col201:
-                vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist(), key="select_id")
-                vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0].to_dict()
+                        with col202:
+                            st.warning("Digite um número de placa para buscar.")
+                            st.stop()
+            else:
+                with col201:
+                    vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
+                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0].to_dict()
 
 
                             
