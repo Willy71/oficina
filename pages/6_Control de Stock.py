@@ -60,12 +60,15 @@ st.title("📦 Controle de Estoque")
 df_ordenado = df.sort_values(by="descripcao", ascending=True)
 
 filtro = st.text_input("🔍 Buscar por descrição ou código:")
-if filtro:
-    df_filtrado = df_ordenado[df_ordenado['descripcao'].str.contains(filtro, case=False, na=False) |
-                              df_ordenado['codigo_fab'].astype(str).str.contains(filtro)]
-    st.dataframe(df_filtrado.reset_index(drop=True), use_container_width=True)
+if not df.empty:
+    if "descripcao" in df.columns:
+        df_ordenado = df.sort_values(by="descripcao", ascending=True)
+    else:
+        st.error("⚠️ A coluna 'descripcao' não está presente na planilha.")
+        df_ordenado = df
 else:
-    st.dataframe(df_ordenado.reset_index(drop=True), use_container_width=True)
+    st.warning("📭 Nenhum dado encontrado na planilha de estoque.")
+    df_ordenado = pd.DataFrame(columns=columnas_ordenadas)
 
 
 # Formulario para adicionar novo produto
