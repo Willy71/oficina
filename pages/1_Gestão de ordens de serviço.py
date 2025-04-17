@@ -1181,7 +1181,7 @@ if action == "Nova ordem de serviço":
             # Mostrar la tabla actualizada
             st.dataframe(existing_data, hide_index=True)
 
-# ____________________________________________________________________________________________________________________________________
+# ==============================================================================================================================================================
 
 # Código para actualizar una orden de servicio
 elif action == "Atualizar ordem existente":
@@ -1197,13 +1197,9 @@ elif action == "Atualizar ordem existente":
         col200, col201, col202, col203, col204 = st.columns([2, 1.5, 2, 1, 1])
         with col200:
             # Opción para buscar por ID o por placa
-            search_option = st.radio("Buscar por:", ["ID", "Placa"])
+            search_option = st.radio("Buscar por:", ["Placa", "ID"])
             
-            if search_option == "ID":
-                with col201:
-                    vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0].to_dict()
-            else:
+            if search_option == "Placa":
                 with col201:
                     placa_to_search = st.text_input("Digite um número de placa").strip().upper()
                     if placa_to_search:
@@ -1219,6 +1215,11 @@ elif action == "Atualizar ordem existente":
                         with col202:
                             st.warning("Digite um número de placa para buscar.")
                             st.stop()
+            else:
+                with col201:
+                    vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
+                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0].to_dict()
+                    
 
                             
     #st.subheader("🧪 Diagnóstico de Google Sheets")
