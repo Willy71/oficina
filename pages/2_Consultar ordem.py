@@ -279,16 +279,19 @@ if st.session_state.veiculo_encontrado:
                 
     # Mostrar información principal en cards
     with st.container():
-        cols = st.columns(3)
+        cols = st.columns(4)
         with cols[0]:
+            center_text("Placa", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('placa'))}", 5, "white")
+        with cols[1]:
             center_text("Marca", 6, "yellow")
             center_text(f"{formatar_valor(veiculo.get('carro'))}", 5, "white")
             #st.metric("Marca", formatar_valor(veiculo.get('carro')))
-        with cols[1]:
+        with cols[2]:
             center_text("Modelo", 6, "yellow")
             center_text(f"{formatar_valor(veiculo.get('modelo'))}", 5, "white")
             #st.metric("Modelo", formatar_valor(veiculo.get('modelo')))
-        with cols[2]:
+        with cols[3]:
             ano = veiculo.get('ano')
             if isinstance(ano, float):
                 ano = int(ano)
