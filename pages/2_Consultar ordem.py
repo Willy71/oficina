@@ -301,18 +301,21 @@ if st.session_state.veiculo_encontrado:
     
     # Mostrar detalles del estado y fechas
     with st.container():
-        cols = st.columns(3)
+        cols = st.columns(4)
         with cols[0]:
             center_text("Estado", 6, "yellow")
             center_text(f"{formatar_valor(veiculo.get('estado'))}", 5, "white")
             #st.metric("Estado", formatar_valor(veiculo.get('estado')))
         with cols[1]:
-            center_text("Data Entrada", 6, "yellow")
+            center_text("Mecanico", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('mecanico'))}", 5, "white")
+        with cols[2]:
+            center_text("Data de Entrada", 6, "yellow")
             center_text(f"{formatar_valor(veiculo.get('date_in'))}", 5, "white")
             #st.metric("Data Entrada", formatar_valor(veiculo.get('date_in')))
-        with cols[2]:
-            center_text("Previsão Entrega", 6, "yellow")
-            center_text(f"{formatar_valor(veiculo.get('date_prev'))}", 5, "white")
+        with cols[3]:
+            center_text("Data de Entrega", 6, "yellow")
+            center_text(f"{formatar_valor(veiculo.get('date_out'))}", 5, "white")
             #st.metric("Previsão Entrega", formatar_valor(veiculo.get('date_prev')))
     
     # Mostrar información del dueño
