@@ -51,10 +51,10 @@ st.markdown("<h2 style='color: gold;'>📋 Histórico de Veículo</h2>", unsafe_
 
 # Interfaz con input + botón
 with st.container():
-    col1, col2 = st.columns([3, 1])
+    col1, col2, col3, col4, col5 = st.columns([2, 3, 3, 3, 2])
     with col1:
         placa_input = st.text_input("Digite a placa do veículo:", key="placa_hist_input").strip().upper()
-    with col2:
+    with col5:
         st.write("")  # espacio
         buscar = st.button("Buscar", key="buscar_historico_btn")
 
