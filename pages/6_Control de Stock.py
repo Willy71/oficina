@@ -80,7 +80,9 @@ else:
 # Formulario para adicionar novo produto
 with st.expander("➕ Adicionar novo produto"):
     with st.form("form_novo_produto"):
-        id_prod = obtener_proximo_id(df)
+        # Asegurar que el DataFrame existente tenga todas las columnas en el orden correcto
+        existing_data = df.reindex(columns=columnas_ordenadas)
+        id_prod = obtener_proximo_id(existing_data)
         quant = st.number_input("Quantidade", min_value=0, step=1)
         descripcao = st.text_input("Descrição")
         carro_peca = st.text_input("Carro / Peça")
