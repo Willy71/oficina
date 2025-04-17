@@ -51,6 +51,8 @@ def cargar_datos_desde_gsheet():
 # ---------------- INTERFAZ ----------------
 st.title("📦 Controle de Estoque")
 
+
+
 # Ordenar antes de mostrar
 df_ordenado = df.sort_values(by="descripcao", ascending=True)
 
