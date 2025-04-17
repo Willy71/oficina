@@ -31,24 +31,27 @@ def inicializar_hoja():
         st.error(f"Erro ao acessar planilha: {str(e)}")
         return None
 
-@st.cache_data(ttl=300)
-def cargar_datos(worksheet):
-    try:
-        records = worksheet.get_all_records()
-        if not records:
+def cargar_datos_desde_gsheet():
+    worksheet = inicializar_hoja()
+    if worksheet:
+        try:
+            # get_all_records devuelve una lista de diccionarios (sí es cacheable)
+            records = worksheet.get_all_records()
+            if not records:
+                return pd.DataFrame(columns=columnas_ordenadas)
+            else:
+                return pd.DataFrame(records)
+        except Exception as e:
+            st.error(f"Erro ao carregar dados: {str(e)}")
             return pd.DataFrame(columns=columnas_ordenadas)
-        else:
-            return pd.DataFrame(records)
-    except Exception as e:
-        st.error(f"Erro ao carregar dados: {str(e)}")
+    else:
         return pd.DataFrame(columns=columnas_ordenadas)
+
 
 # ---------------- INTERFAZ ----------------
 st.title("📦 Controle de Estoque")
 
-worksheet = inicializar_hoja()
-if worksheet:
-    df = cargar_datos(worksheet)
+df = cargar_datos_desde_gsheet()
 
     # Filtro por descrição ou código
     filtro = st.text_input("🔍 Buscar por descrição ou código:")
