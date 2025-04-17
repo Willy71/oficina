@@ -1210,12 +1210,10 @@ elif action == "Atualizar ordem existente":
                         else:
                             with col202:
                                 st.write("")  # Espaciador
-                                st.write("")  # Espaciador
                                 st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
                                 st.stop()
                     else:
                         with col202:
-                            st.write("")  # Espaciador
                             st.write("")  # Espaciador
                             st.warning("Digite o número da placa para pesquisar e pressione Enter.")
                             st.stop()
