@@ -85,6 +85,7 @@ with st.expander("➕ Adicionar novo produto"):
         if submitted:
             nova_linha = [id_prod, quant, descripcao, carro_peca, marca, codigo_fab, custo, porcentagem, valor_final]
             try:
+                worksheet = inicializar_hoja()
                 worksheet.append_row(nova_linha)
                 st.success("✅ Produto adicionado com sucesso!")
                 st.experimental_rerun()
