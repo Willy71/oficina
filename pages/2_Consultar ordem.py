@@ -270,11 +270,11 @@ if 'veiculo' not in st.session_state:
 with st.container():
     col1, col2, col3, col4, col5 = st.columns([3, 3, 3, 3, 2])
     with col1:
-        placa = st.text_input("Digite a placa do veículo:", key="placa_hist_input").strip().upper()
+        placa = st.text_input("Digite a placa do veículo:", key="placa_input").strip().upper()
     with col2:
         st.write("")  # Espaciador
         st.write("")  # Espaciador
-        buscar = st.button("Buscar", key="buscar_historico_btn")
+        buscar = st.button("Buscar Veículo", key="buscar_btn")
 
 # Manejo del estado de búsqueda
 if 'veiculo_encontrado' not in st.session_state:
