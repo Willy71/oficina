@@ -19,7 +19,11 @@ sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 # Funções utilitárias
 def carregar_dados():
     data = sheet.get_all_records()
-    return pd.DataFrame(data)
+    df = pd.DataFrame(data)
+    if "valor" in df.columns:
+        df["valor"] = df["valor"].apply(safe_float)
+    return df
+
 
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
     novo_id = str(uuid.uuid4())
