@@ -17,16 +17,34 @@ client = gspread.authorize(credentials)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 def carregar_dados():
-    """Carga los datos y convierte correctamente los valores numéricos"""
-    data = sheet.get_all_records()
-    df = pd.DataFrame(data)
+    """Carga los datos y realiza una limpieza completa"""
+    try:
+        # Obtener todos los registros incluyendo encabezados
+        all_data = sheet.get_all_values()
+        
+        if len(all_data) < 2:  # Solo encabezado o vacío
+            return pd.DataFrame(columns=all_data[0] if all_data else [])
+            
+        # Crear DataFrame con primera fila como encabezado
+        df = pd.DataFrame(all_data[1:], columns=all_data[0])
+        
+        # Limpieza y conversión de columnas
+        df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        
+        # Conversión segura de la columna 'valor'
+        df['valor'] = pd.to_numeric(
+            df['valor'].astype(str).str.replace(',', '.'), 
+            errors='coerce'
+        ).fillna(0)
+        
+        # Normalización de status
+        df['status'] = df['status'].str.strip().str.lower()
+        
+        return df
     
-    # Convertir la columna 'valor' asegurando formato americano
-    df["valor"] = pd.to_numeric(df["valor"].astype(str).str.replace(',', ''), errors='coerce')
-    
-    # Normalizar otros campos importantes
-    df["status"] = df["status"].astype(str).str.strip().str.lower()
-    return df
+    except Exception as e:
+        st.error(f"Error al cargar datos: {str(e)}")
+        return pd.DataFrame()
 
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
     """Añade nuevo registro con formato numérico correcto"""
@@ -99,17 +117,23 @@ with aba1:
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
-    df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
     
-    st.write("📄 Dados carregados:", df.shape)
-    st.dataframe(df)
-
-    #st.markdown("### 📊 Resumo Financeiro")
-    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
-    total_saida = df[df["status"] == "saida"]["valor"].sum()
-    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
-    saldo = total_entrada - total_saida
+    if df.empty:
+        st.warning("No hay registros disponibles")
+    else:
+        # Mostrar dataframe con formato mejorado
+        st.dataframe(
+            df.style.format({
+                'valor': 'R$ {:.2f}'.format
+            }),
+            height=500
+        )
+        
+        # Mostrar información de diagnóstico
+        with st.expander("🔍 Ver detalles técnicos"):
+            st.write("Columnas disponibles:", df.columns.tolist())
+            st.write("Primeras filas:", df.head().to_dict('records'))
+            st.write("Tipos de datos:", df.dtypes)
 
 with aba3:
     st.subheader("🛠️ Editar ou Remover Lançamento")
@@ -191,28 +215,62 @@ with aba3:
 
 with aba4:
     st.subheader("📊 Resumo Financeiro")
-    
     df = carregar_dados()
     
-    # Verificar si hay datos
     if df.empty:
         st.warning("No hay datos financieros para mostrar")
     else:
-        # Cálculos (ya con valores numéricos correctos)
-        total_entrada = df[df["status"] == "entrada"]["valor"].sum()
-        total_saida = df[df["status"] == "saida"]["valor"].sum()
-        total_pendente = df[df["status"] == "pendente"]["valor"].sum()
-        saldo = total_entrada - total_saida
-        
-        # Función de formato para visualización (sin conversión numérica)
-        def formatar_moeda(valor):
-            return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        
-        # Mostrar métricas
-        col1, col2, col3, col4 = st.columns(4)
-        col1.metric("🟢 Entradas", formatar_moeda(total_entrada))
-        col2.metric("🔴 Saídas", formatar_moeda(total_saida))
-        col3.metric("🟡 Pendentes", formatar_moeda(total_pendente))
-        col4.metric("💰 Saldo", formatar_moeda(saldo))
-        
-        # Resto del código del gráfico...
+        # Verificar si la columna 'valor' existe y tiene datos
+        if 'valor' not in df.columns or df['valor'].isnull().all():
+            st.error("La columna 'valor' no existe o está vacía")
+        else:
+            # Cálculos seguros
+            try:
+                total_entrada = df.loc[df['status'] == 'entrada', 'valor'].sum()
+                total_saida = df.loc[df['status'] == 'saida', 'valor'].sum()
+                total_pendente = df.loc[df['status'] == 'pendente', 'valor'].sum()
+                saldo = total_entrada - total_saida
+            except Exception as e:
+                st.error(f"Error en cálculos: {str(e)}")
+                st.stop()
+            
+            # Formateo de valores
+            def format_currency(value):
+                return f"R$ {value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            
+            # Mostrar métricas
+            cols = st.columns(4)
+            cols[0].metric("🟢 Entradas", format_currency(total_entrada))
+            cols[1].metric("🔴 Saídas", format_currency(total_saida))
+            cols[2].metric("🟡 Pendentes", format_currency(total_pendente))
+            cols[3].metric("💰 Saldo", format_currency(saldo))
+            
+            # Gráfico de resumen
+            try:
+                summary_df = pd.DataFrame({
+                    'Tipo': ['Entradas', 'Saídas', 'Pendentes'],
+                    'Valor': [total_entrada, total_saida, total_pendente]
+                })
+                
+                fig = px.bar(
+                    summary_df,
+                    x='Tipo',
+                    y='Valor',
+                    text='Valor',
+                    color='Tipo',
+                    color_discrete_map={
+                        'Entradas': '#28a745',
+                        'Saídas': '#dc3545',
+                        'Pendentes': '#ffc107'
+                    }
+                )
+                fig.update_traces(texttemplate='R$ %{text:,.2f}', textposition='outside')
+                fig.update_layout(
+                    title='Resumo Financeiro',
+                    xaxis_title='',
+                    yaxis_title='Valor (R$)',
+                    showlegend=False
+                )
+                st.plotly_chart(fig, use_container_width=True)
+            except Exception as e:
+                st.error(f"Error al generar gráfico: {str(e)}")
