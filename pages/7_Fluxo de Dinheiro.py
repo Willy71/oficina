@@ -69,12 +69,9 @@ with aba1:
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
-
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
-    df["status"] = df["status"].str.strip().str.lower()  # ✅ normaliza os valores
+    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)  # 🔧 fix
 
     st.markdown("### 📊 Resumo Financeiro")
-
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
     total_saida = df[df["status"] == "saida"]["valor"].sum()
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
@@ -101,8 +98,6 @@ with aba2:
 
     st.dataframe(df, use_container_width=True)
 
-
- 
 
 
 
