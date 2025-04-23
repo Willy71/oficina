@@ -257,10 +257,11 @@ with aba4:
 
     # Mostrar métricas
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🟢 Entradas", formatar_real(total_entrada))
-    col2.metric("🔴 Saídas", formatar_real(total_saida))
-    col3.metric("🟡 Pendentes", formatar_real(saldo))
-    col4.metric("💰 Saldo", formatar_real(saldo))
+    col1.metric("🟢 Entradas", f"R$ {total_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    col2.metric("🔴 Saídas", f"R$ {total_saida:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    col3.metric("🟡 Pendentes", f"R$ {total_pendente:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    col4.metric("💰 Saldo", f"R$ {saldo:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+
 
     # Gráfico
     df_grafico = pd.DataFrame({
