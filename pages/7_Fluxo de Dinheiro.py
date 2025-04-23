@@ -144,7 +144,7 @@ with aba1:
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
-    df["valor"] = df["valor"].apply(safe_float)
+    df["valor"] = df["valor"].apply(formatar_dos)
     df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
     
     st.write("📄 Dados carregados:", df.shape)
