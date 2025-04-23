@@ -271,33 +271,36 @@ with aba3:
 
 with aba4:
     st.subheader("📊 Resumo Financeiro")
-    
-    # Cargar y verificar datos
+
+    # Cargar los datos
     df = carregar_dados()
-    st.write("Datos crudos:", df)  # Para depuración
-    
-    # Verificar valores de status
-    st.write("Valores únicos en 'status':", df["status"].unique())
-    
-    # Limpiar y estandarizar status
+    df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
     df["status"] = df["status"].astype(str).str.strip().str.lower()
-    df["status"] = df["status"].replace({
-        "entrada": "entrada",
-        "saída": "saida",  # en caso de acentos
-        "saida": "saida",
-        "pendente": "pendente",
-        "pending": "pendente"  # en caso de términos en inglés
-    })
-    
-    # Verificar conversión de valores
-    df["valor"] = df["valor"].apply(safe_float)
-    st.write("Valores convertidos:", df[["valor", "status"]].head())
     
     # Calcular totales
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
     total_saida = df[df["status"] == "saida"]["valor"].sum()
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+
     saldo = total_entrada - total_saida
+
+    # Mostrar métricas
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("🟢 Entradas", formatar_real(total_entrada))
+    col2.metric("🔴 Saídas", formatar_real(total_saida))
+    col3.metric("🟡 Pendentes", formatar_real(total_pendente))
+    col4.metric("💰 Saldo", formatar_real(saldo))
+
+    # Gráfico
+    df_grafico = pd.DataFrame({
+        "Tipo": ["Entradas", "Saídas", "Pendentes"],
+        "Valor": [total_entrada, total_saida, total_pendente]
+    })
+
+    fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
+                 color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
+    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
+    st.plotly_chart(fig, use_container_width=True)
     
     # Mostrar métricas
     st.write(f"Total entrada calculado: {total_entrada}")
