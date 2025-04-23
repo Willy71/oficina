@@ -61,6 +61,7 @@ with aba1:
     placa = st.text_input("Placa")
     motivo = st.text_input("Motivo")
     forma = st.selectbox("Forma de pagamento", ["dinheiro", "pix", "cartão", "boleto", "outro"])
+    
     valor = st.number_input("Valor", min_value=0.0, format="%.2f")
     if st.button("Salvar Registro"):
         adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
@@ -111,7 +112,13 @@ with aba3:
                 novo_carro = st.text_input("Carro", lancamento["carro"])
                 nova_placa = st.text_input("Placa", lancamento["placa"])
                 novo_motivo = st.text_input("Motivo", lancamento["motivo"])
-                nova_forma = st.selectbox("Forma de Pagamento", ["dinheiro", "pix", "cartão", "outro"], index=["dinheiro", "pix", "cartão", "outro"].index(lancamento["form"]))
+                opcoes_forma = ["dinheiro", "pix", "cartão", "outro"]
+                valor_atual_forma = lancamento["form"].strip().lower()      
+                if valor_atual_forma in opcoes_forma:
+                    idx_forma = opcoes_forma.index(valor_atual_forma)
+                else:
+                    idx_forma = 0  # default: "dinheiro"
+                nova_forma = st.selectbox("Forma de Pagamento", opcoes_forma, index=idx_forma)
                 novo_valor = st.number_input("Valor", value=float(lancamento["valor"]))
                 novo_status = st.selectbox("Status", ["entrada", "saida", "pendente"], index=["entrada", "saida", "pendente"].index(lancamento["status"]))
 
