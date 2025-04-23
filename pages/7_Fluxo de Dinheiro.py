@@ -273,10 +273,6 @@ with aba4:
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     st.write("📄 Dados carregados:", df.shape)
     
-    st.write("🧾 Entradas:", df[df["status"] == "entrada"])
-    st.write("🧾 Saídas:", df[df["status"] == "saida"])
-    st.write("🧾 Pendentes:", df[df["status"] == "pendente"])
-
     # Calcular totales
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
     total_saida = df[df["status"] == "saida"]["valor"].sum()
