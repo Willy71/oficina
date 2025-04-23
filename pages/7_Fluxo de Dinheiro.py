@@ -122,6 +122,40 @@ with aba4:
 
 st.markdown("### 📊 Resumo Financeiro")
 
+df = carregar_dados()
+
+# Verificación de tipos de datos
+st.write("Tipos de columnas:", df.dtypes)
+
+# Verificar los primeros registros
+st.write("Primeros registros del DataFrame:", df.head())
+
+# Verificar los valores únicos de 'status'
+st.write("Valores únicos en 'status':", df["status"].unique())
+
+# Verificar si la columna 'valor' es numérica
+st.write("¿Es 'valor' numérica?", df["valor"].dtype)
+
+# Verificar valores únicos de 'valor'
+st.write("Valores únicos en 'valor':", df["valor"].unique())
+
+# Calcular los totales para cada filtro
+total_entrada = df[df["status"] == "entrada"]["valor"].sum()
+total_saida = df[df["status"] == "saida"]["valor"].sum()
+total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+
+# Mostrar los resultados intermedios
+st.write("Total Entradas:", total_entrada)
+st.write("Total Saídas:", total_saida)
+st.write("Total Pendentes:", total_pendente)
+
+# Calcular el saldo
+saldo = total_entrada - total_saida
+
+# Mostrar el resultado final
+st.write("Saldo:", saldo)
+
+
 # Cálculo dos totais
 total_entrada = df[df["status"] == "entrada"]["valor"].sum()
 total_saida = df[df["status"] == "saida"]["valor"].sum()
