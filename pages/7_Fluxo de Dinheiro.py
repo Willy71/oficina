@@ -307,9 +307,9 @@ with aba4:
     df["status"] = df["status"].str.strip().str.lower()
     
     # DEPURACIÓN: Mostrar registros de entrada con valores altos
-    st.write("🔍 Registros de entrada con valores > R$ 1,000:")
-    high_value_entries = df[(df["status"] == "entrada") & (df["valor"].apply(safe_float) > 1000)]
-    st.dataframe(high_value_entries)
+    #st.write("🔍 Registros de entrada con valores > R$ 1,000:")
+    #high_value_entries = df[(df["status"] == "entrada") & (df["valor"].apply(safe_float) > 1000)]
+    #st.dataframe(high_value_entries)
     
     # Cálculo corregido de totales
     total_entrada = df[df["status"] == "entrada"]["valor"].apply(safe_float).sum()
