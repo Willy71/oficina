@@ -174,8 +174,6 @@ with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
     df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
-    
-    st.write("📄 Dados carregados:", df.shape)
     st.dataframe(df)
 
     #st.markdown("### 📊 Resumo Financeiro")
