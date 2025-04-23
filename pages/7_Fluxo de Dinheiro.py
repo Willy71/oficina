@@ -288,43 +288,25 @@ with aba3:
 
 with aba4:
     st.subheader("📊 Resumo Financeiro")
-    
-    # Cargar datos
+
+    # Cargar los datos
     df = carregar_dados()
+    df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
+    df["status"] = df["status"].astype(str).str.strip().str.lower()
     
-    # Normalización exhaustiva de status
-    df['status_normalized'] = df['status'].apply(normalize_status)
-    
-    # Depuración: Mostrar distribución de status
-    st.write("Distribución de status normalizados:")
-    st.write(df['status_normalized'].value_counts())
-    
-    # Identificar la diferencia específica
-    total_entrada_app = df[df['status_normalized'] == 'entrada']['valor'].apply(safe_float).sum()
-    diferencia = total_entrada_app - 17208.65  # El valor esperado
-    
-    st.write(f"Diferencia encontrada: R$ {diferencia:,.2f}")
-    
-    # Encontrar registros problemáticos (aproximadamente el valor de la diferencia)
-    if diferencia > 0:
-        st.warning("Registros sospechosos que podrían estar causando la diferencia:")
-        suspicious = df[
-            (df['valor'].apply(safe_float).between(diferencia-100, diferencia+100) & 
-            (df['status_normalized'] == 'entrada')
-        ]
-        st.dataframe(suspicious)
-    
-    # Cálculo final de totales
-    total_entrada = df[df['status_normalized'] == 'entrada']['valor'].apply(safe_float).sum()
-    total_saida = df[df['status_normalized'] == 'saida']['valor'].apply(safe_float).sum()
-    total_pendente = df[df['status_normalized'] == 'pendente']['valor'].apply(safe_float).sum()
-    
+    # Calcular totales
+    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
+    total_saida = df[df["status"] == "saida"]["valor"].sum()
+    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+
+    saldo = total_entrada - total_saida
+
     # Mostrar métricas
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("🟢 Entradas", formatar_real(total_entrada))
     col2.metric("🔴 Saídas", formatar_real(total_saida))
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
-    col4.metric("💰 Saldo", formatar_real(total_entrada - total_saida))
+    col4.metric("💰 Saldo", formatar_real(saldo))
 
     # Gráfico
     df_grafico = pd.DataFrame({
@@ -336,9 +318,3 @@ with aba4:
                  color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
     fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
     st.plotly_chart(fig, use_container_width=True)
-    
-    # Mostrar métricas
-    st.write(f"Total entrada calculado: {total_entrada}")
-    st.write(f"Total saida calculado: {total_saida}")
-    st.write(f"Total pendente calculado: {total_pendente}")
-    st.write(f"Saldo calculado: {saldo}")
