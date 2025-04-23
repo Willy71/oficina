@@ -268,8 +268,9 @@ with aba4:
 
     # Cargar los datos
     df = carregar_dados()
-    duplicados = df[df.duplicated("ids", keep=False)]
-    st.write("🧪 Duplicados por 'ids':", duplicados)
+    st.write("🔍 Entradas:", df[df["status"] == "entrada"])
+    st.write("🔍 Saídas:", df[df["status"] == "saida"])
+    st.write("🔍 Pendentes:", df[df["status"] == "pendente"])
     df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
     df["status"] = df["status"].str.strip().str.lower()
     st.write("📄 Dados carregados:", df.shape)
