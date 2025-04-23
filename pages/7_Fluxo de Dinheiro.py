@@ -298,34 +298,25 @@ with aba3:
 
 
 with aba4:
-    st.subheader("📊 Resumo Financeiro")
-
-    # Cargar los datos
-    df = carregar_dados()
-    df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
-    df["status"] = df["status"].astype(str).str.strip().str.lower()
+    # ... (código existente)
     
-    # Calcular totales
-    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
-    total_saida = df[df["status"] == "saida"]["valor"].sum()
-    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
-
-    saldo = total_entrada - total_saida
-
-    # Mostrar métricas
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🟢 Entradas", formatar_real(total_entrada))
-    col2.metric("🔴 Saídas", formatar_real(total_saida))
-    col3.metric("🟡 Pendentes", formatar_real(total_pendente))
-    col4.metric("💰 Saldo", formatar_real(saldo))
-
-    # Gráfico
-    df_grafico = pd.DataFrame({
-        "Tipo": ["Entradas", "Saídas", "Pendentes"],
-        "Valor": [total_entrada, total_saida, total_pendente]
-    })
-
-    fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
-                 color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
-    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
-    st.plotly_chart(fig, use_container_width=True)
+    # DEPURACIÓN: Comparar suma directa vs processed
+    st.subheader("🔍 Depuración de Valores")
+    
+    # Opción 1: Mostrar registros problemáticos
+    st.write("5 registros con mayores valores de entrada:")
+    top_entradas = df[df["status"] == "entrada"].nlargest(5, "valor")
+    st.dataframe(top_entradas)
+    
+    # Opción 2: Exportar datos para comparación
+    @st.cache_data
+    def convert_df_to_csv(df):
+        return df.to_csv(index=False).encode('utf-8')
+    
+    csv = convert_df_to_csv(df)
+    st.download_button(
+        "⬇️ Descargar datos para comparación",
+        csv,
+        "datos_flujo_caja.csv",
+        "text/csv"
+    )
