@@ -16,6 +16,31 @@ credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes
 client = gspread.authorize(credentials)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
+def safe_float(valor):
+    """Convierte cualquier valor a float de manera segura"""
+    # Verificación segura de valores nulos o vacíos
+    if pd.isna(valor) or valor in [None, '']:
+        return 0.0
+    
+    # Si ya es numérico, retornar directamente
+    if isinstance(valor, (int, float)):
+        return float(valor)
+    
+    try:
+        # Convertir a string y limpiar
+        str_valor = str(valor).strip()
+        str_valor = str_valor.replace('R$', '').replace('$', '').strip()
+        
+        # Detección automática de formato
+        if '.' in str_valor and ',' in str_valor:  # Formato 1.234,56
+            return float(str_valor.replace('.', '').replace(',', '.'))
+        elif ',' in str_valor:  # Formato 1234,56
+            return float(str_valor.replace(',', '.'))
+        else:  # Formato americano 1234.56 o entero
+            return float(str_valor)
+    except:
+        return 0.0
+
 # Funções utilitárias
 def carregar_dados():
     data = sheet.get_all_records()
