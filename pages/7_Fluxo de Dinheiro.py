@@ -48,7 +48,7 @@ def excluir_linha_por_id(id_alvo):
 st.set_page_config("Fluxo de Caixa", layout="wide")
 st.title("💰 Fluxo de Caixa")
 
-aba1, aba2, aba3, aba4 = st.tabs(["➕ Novo Registro", "📋 Ver Lançamentos", "✏️ Editar", "🗑️ Excluir"])
+aba1, aba2, aba3, aba4 = st.tabs(["➕ Novo Lançamento", "📋 Lançamentos", "🛠️ Editar / Remover", "📊 Resumo Financeiro"])
 
 with aba1:
     st.subheader("➕ Novo Registro")
@@ -77,27 +77,95 @@ with aba2:
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
     saldo = total_entrada - total_saida
 
+with aba3:
+    st.subheader("🛠️ Editar ou Remover Lançamento")
+
+    df = carregar_dados()
+
+    if df.empty:
+        st.info("Nenhum lançamento encontrado.")
+    else:
+        # Mostrar lista de lançamentos com índice para escolha
+        opcoes = df["descricao"] + " | " + df["cliente"] + " | R$ " + df["valor"].astype(str) + " | " + df["status"]
+        escolha = st.selectbox("Selecione um lançamento para editar ou remover:", opcoes)
+
+        if escolha:
+            idx = opcoes[opcoes == escolha].index[0]
+            lancamento = df.loc[idx]
+
+            # Formulário de edição
+            with st.form("form_edicao"):
+                nova_data = st.date_input("Data", pd.to_datetime(lancamento["data"]))
+                nova_data_pag = st.date_input("Data Pagamento (se aplicável)", pd.to_datetime(lancamento["data_pag"]))
+                novo_cliente = st.text_input("Cliente", lancamento["cliente"])
+                nova_descricao = st.text_input("Descrição", lancamento["descricao"])
+                novo_carro = st.text_input("Carro", lancamento["carro"])
+                nova_placa = st.text_input("Placa", lancamento["placa"])
+                novo_motivo = st.text_input("Motivo", lancamento["motivo"])
+                nova_forma = st.selectbox("Forma de Pagamento", ["dinheiro", "pix", "cartão", "outro"], index=["dinheiro", "pix", "cartão", "outro"].index(lancamento["form"]))
+                novo_valor = st.number_input("Valor", value=float(lancamento["valor"]))
+                novo_status = st.selectbox("Status", ["entrada", "saida", "pendente"], index=["entrada", "saida", "pendente"].index(lancamento["status"]))
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    editar = st.form_submit_button("💾 Salvar Alterações")
+                with col2:
+                    excluir = st.form_submit_button("🗑️ Remover")
+
+            if editar:
+                df.at[idx, "data"] = nova_data.strftime("%Y-%m-%d")
+                df.at[idx, "data_pag"] = nova_data_pag.strftime("%Y-%m-%d")
+                df.at[idx, "cliente"] = novo_cliente
+                df.at[idx, "descricao"] = nova_descricao
+                df.at[idx, "carro"] = novo_carro
+                df.at[idx, "placa"] = nova_placa
+                df.at[idx, "motivo"] = novo_motivo
+                df.at[idx, "form"] = nova_forma
+                df.at[idx, "valor"] = novo_valor
+                df.at[idx, "status"] = novo_status
+
+                salvar_dados(df)
+                st.success("Lançamento atualizado com sucesso!")
+
+            if excluir:
+                df = df.drop(idx).reset_index(drop=True)
+                salvar_dados(df)
+                st.success("Lançamento removido com sucesso!")
+
+
+with aba4:
+    st.subheader("📊 Resumo Financeiro")
+
+    # Cargar los datos
+    df = carregar_dados()
+
+    # Normalizar columna 'status'
+    df["status"] = df["status"].str.strip().str.lower()
+
+    # Asegurar que 'valor' es numérico
+    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
+
+    # Calcular totales
+    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
+    total_saida = df[df["status"] == "saida"]["valor"].sum()
+    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+
+    saldo = total_entrada - total_saida
+
+    # Mostrar métricas
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("🟢 Entradas", f"R$ {total_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
     col2.metric("🔴 Saídas", f"R$ {total_saida:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
     col3.metric("🟡 Pendentes", f"R$ {total_pendente:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col4.metric("💰 Saldo", f"R$ {saldo:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."), delta=f"{saldo:.2f}")
+    col4.metric("💰 Saldo", f"R$ {saldo:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
 
+    # Gráfico
     df_grafico = pd.DataFrame({
         "Tipo": ["Entradas", "Saídas", "Pendentes"],
         "Valor": [total_entrada, total_saida, total_pendente]
     })
+
     fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
-                 color_discrete_map={
-                     "Entradas": "green",
-                     "Saídas": "red",
-                     "Pendentes": "orange"
-                 })
+                 color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
     fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
     st.plotly_chart(fig, use_container_width=True)
-
-    st.dataframe(df, use_container_width=True)
-
-
-
-
