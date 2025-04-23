@@ -41,12 +41,22 @@ def safe_float(valor):
     except:
         return 0.0
 
-# Funções utilitárias
+# En la función cargar_dados():
 def carregar_dados():
     data = sheet.get_all_records()
     df = pd.DataFrame(data)
+    
+    # Depuración: mostrar tipos de datos
+    print("Tipos de datos antes de conversión:", df.dtypes)
+    
     if "valor" in df.columns:
+        # Primero convertir a string para limpieza uniforme
+        df["valor"] = df["valor"].astype(str)
+        # Aplicar conversión segura
         df["valor"] = df["valor"].apply(safe_float)
+    
+    # Depuración: mostrar resultado
+    print("Valores convertidos:", df["valor"].head())
     return df
 
 
