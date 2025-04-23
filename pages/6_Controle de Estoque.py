@@ -104,46 +104,63 @@ with st.expander("➕ Adicionar novo produto"):
             except Exception as e:
                 st.error(f"Erro ao adicionar produto: {str(e)}")
 
+# ---------------- AGREGAR STOCK EXISTENTE ----------------
+with st.expander("📥 Agregar quantidade a produto existente"):
+    if not df.empty:
+        produtos_existentes = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
+        produto_selecionado = st.selectbox("Selecionar Produto", produtos_existentes, key="add_stock")
+
+        qtd_agregar = st.number_input("Quantidade a adicionar", min_value=1, step=1, key="qtd_add")
+
+        if st.button("Adicionar ao estoque"):
+            try:
+                id_escolhido = produto_selecionado.split(" | Código: ")[1]
+                worksheet = inicializar_hoja()
+                celda_id = worksheet.find(id_escolhido)
+                linha = celda_id.row
+
+                idx_quant = columnas_ordenadas.index("quant") + 1
+                quant_atual = int(worksheet.cell(linha, idx_quant).value)
+                nova_quant = quant_atual + qtd_agregar
+
+                worksheet.update_cell(linha, idx_quant, nova_quant)
+                st.success(f"✅ Estoque atualizado: {quant_atual} → {nova_quant}")
+                st.experimental_rerun()
+            except Exception as e:
+                st.error(f"Erro ao atualizar estoque: {str(e)}")
+    else:
+        st.info("ℹ️ Nenhum produto disponível para atualizar estoque.")
+
 # ---------------- VENTAS ----------------
 st.markdown("---")
-st.header("🛒 Registrar Venda")
+with st.expander("🛒 Registrar venda"):
+    if not df.empty:
+        produtos = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
+        produto_escolhido = st.selectbox("Produto", produtos, key="venda_produto")
 
-if not df.empty:
-    # Ordenar el DataFrame por 'descripcao'
-    #df_ordenado = df.sort_values(by="descripcao", ascending=True)
-    # Crear la lista desplegable a partir del DataFrame ya ordenado
-    produtos = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
-    #produtos = df_ordenado['descripcao'] + " | Código: " + df['id_prod'].astype(str)
-    produto_escolhido = st.selectbox("Produto", produtos)
-    
- 
+        qtd_vendida = st.number_input("Quantidade Vendida", min_value=1, step=1, key="venda_qtd")
 
-    qtd_vendida = st.number_input("Quantidade Vendida", min_value=1, step=1)
+        if st.button("Registrar Venda", key="registrar_venda"):
+            try:
+                id_escolhido = produto_escolhido.split(" | Código: ")[1]
 
-    if st.button("Registrar Venda"):
-        try:
-            # Identificar ID do produto
-            id_escolhido = produto_escolhido.split(" | Código: ")[1]
-            
-            # Encontrar a linha do produto na planilha
-            worksheet = inicializar_hoja()  # Re-obtener worksheet por si expiró
-            celda_id = worksheet.find(id_escolhido)
-            linha = celda_id.row
+                worksheet = inicializar_hoja()
+                celda_id = worksheet.find(id_escolhido)
+                linha = celda_id.row
 
-            # Obtener valor actual da coluna "quant"
-            idx_quant = columnas_ordenadas.index("quant") + 1  # +1 por ser 1-based en Sheets
-            quant_atual = int(worksheet.cell(linha, idx_quant).value)
+                idx_quant = columnas_ordenadas.index("quant") + 1
+                quant_atual = int(worksheet.cell(linha, idx_quant).value)
 
-            if qtd_vendida > quant_atual:
-                st.warning("⚠️ Estoque insuficiente para esta venda.")
-            else:
-                nova_quant = quant_atual - qtd_vendida
-                worksheet.update_cell(linha, idx_quant, nova_quant)
-                st.success(f"✅ Venda registrada! Novo estoque: {nova_quant}")
-                st.experimental_rerun()
+                if qtd_vendida > quant_atual:
+                    st.warning("⚠️ Estoque insuficiente para esta venda.")
+                else:
+                    nova_quant = quant_atual - qtd_vendida
+                    worksheet.update_cell(linha, idx_quant, nova_quant)
+                    st.success(f"✅ Venda registrada! Novo estoque: {nova_quant}")
+                    st.experimental_rerun()
 
-        except Exception as e:
-            st.error(f"Erro ao registrar venda: {str(e)}")
-else:
-    st.info("ℹ️ Nenhum produto disponível para venda.")
+            except Exception as e:
+                st.error(f"Erro ao registrar venda: {str(e)}")
+    else:
+        st.info("ℹ️ Nenhum produto disponível para venda.")
 
