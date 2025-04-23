@@ -75,27 +75,37 @@ def excluir_linha_por_id(id_alvo):
 
 def safe_float(valor):
     """Convierte cualquier valor a float de manera segura"""
-    # Verificación segura de valores nulos o vacíos
-    if pd.isna(valor) or valor in [None, '']:
+    if pd.isna(valor) or valor in [None, '', 'nan', 'NaN']:
         return 0.0
     
-    # Si ya es numérico, retornar directamente
     if isinstance(valor, (int, float)):
         return float(valor)
     
     try:
-        # Convertir a string y limpiar
         str_valor = str(valor).strip()
+        # Eliminar símbolos de moneda y espacios
         str_valor = str_valor.replace('R$', '').replace('$', '').strip()
         
-        # Detección automática de formato
-        if '.' in str_valor and ',' in str_valor:  # Formato 1.234,56
-            return float(str_valor.replace('.', '').replace(',', '.'))
-        elif ',' in str_valor:  # Formato 1234,56
+        # Si está vacío después de limpiar
+        if not str_valor:
+            return 0.0
+            
+        # Detección de formato (1.234,56 o 1,234.56)
+        if '.' in str_valor and ',' in str_valor:
+            # Formato 1.234,56 (europeo)
+            if str_valor.find('.') < str_valor.find(','):
+                return float(str_valor.replace('.', '').replace(',', '.'))
+            # Formato 1,234.56 (americano)
+            else:
+                return float(str_valor.replace(',', ''))
+        elif ',' in str_valor:
+            # Formato 1234,56
             return float(str_valor.replace(',', '.'))
-        else:  # Formato americano 1234.56 o entero
+        else:
+            # Formato americano 1234.56 o entero
             return float(str_valor)
-    except:
+    except Exception as e:
+        st.error(f"Error convirtiendo valor '{valor}': {str(e)}")
         return 0.0
 
 def formatar_valor(valor, padrao=""):
@@ -261,34 +271,36 @@ with aba3:
 
 with aba4:
     st.subheader("📊 Resumo Financeiro")
-
-    # Cargar los datos
+    
+    # Cargar y verificar datos
     df = carregar_dados()
-    df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
+    st.write("Datos crudos:", df)  # Para depuración
+    
+    # Verificar valores de status
+    st.write("Valores únicos en 'status':", df["status"].unique())
+    
+    # Limpiar y estandarizar status
     df["status"] = df["status"].astype(str).str.strip().str.lower()
+    df["status"] = df["status"].replace({
+        "entrada": "entrada",
+        "saída": "saida",  # en caso de acentos
+        "saida": "saida",
+        "pendente": "pendente",
+        "pending": "pendente"  # en caso de términos en inglés
+    })
+    
+    # Verificar conversión de valores
+    df["valor"] = df["valor"].apply(safe_float)
+    st.write("Valores convertidos:", df[["valor", "status"]].head())
     
     # Calcular totales
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
     total_saida = df[df["status"] == "saida"]["valor"].sum()
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
-
     saldo = total_entrada - total_saida
-
+    
     # Mostrar métricas
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🟢 Entradas", formatar_real(total_entrada))
-    col2.metric("🔴 Saídas", formatar_real(total_saida))
-    col3.metric("🟡 Pendentes", formatar_real(total_pendente))
-    col4.metric("💰 Saldo", formatar_real(saldo))
-
-    # Gráfico
-    df_grafico = pd.DataFrame({
-        "Tipo": ["Entradas", "Saídas", "Pendentes"],
-        "Valor": [total_entrada, total_saida, total_pendente]
-    })
-
-    fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
-                 color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
-    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
-    st.plotly_chart(fig, use_container_width=True)
-
+    st.write(f"Total entrada calculado: {total_entrada}")
+    st.write(f"Total saida calculado: {total_saida}")
+    st.write(f"Total pendente calculado: {total_pendente}")
+    st.write(f"Saldo calculado: {saldo}")
