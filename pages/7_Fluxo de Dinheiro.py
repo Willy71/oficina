@@ -247,15 +247,9 @@ with aba4:
 
     # Cargar los datos
     df = carregar_dados()
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
-    df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
-    st.write("📄 Dados carregados:", df.shape)
-
-    # Normalizar columna 'status'
+    df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
     df["status"] = df["status"].str.strip().str.lower()
-
-    # Asegurar que 'valor' es numérico
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
+    st.write("📄 Dados carregados:", df.shape)
 
     # Calcular totales
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
@@ -266,11 +260,10 @@ with aba4:
 
     # Mostrar métricas
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🟢 Entradas", f"R$ {total_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col2.metric("🔴 Saídas", f"R$ {total_saida:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col3.metric("🟡 Pendentes", f"R$ {total_pendente:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col4.metric("💰 Saldo", f"R$ {saldo:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-
+    col1.metric("🟢 Entradas", formatar_real(total_entrada))
+    col2.metric("🔴 Saídas", formatar_real(total_saida))
+    col3.metric("🟡 Pendentes", formatar_real(total_pendente))
+    col4.metric("💰 Saldo", formatar_real(saldo))
 
     # Gráfico
     df_grafico = pd.DataFrame({
@@ -282,3 +275,4 @@ with aba4:
                  color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
     fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
     st.plotly_chart(fig, use_container_width=True)
+
