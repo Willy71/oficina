@@ -72,7 +72,7 @@ with aba2:
     df = carregar_dados()
     df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)  # 🔧 fix
 
-    st.markdown("### 📊 Resumo Financeiro")
+    #st.markdown("### 📊 Resumo Financeiro")
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
     total_saida = df[df["status"] == "saida"]["valor"].sum()
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
