@@ -132,7 +132,6 @@ with st.expander("📥 Agregar quantidade a produto existente"):
         st.info("ℹ️ Nenhum produto disponível para atualizar estoque.")
 
 # ---------------- VENTAS ----------------
-st.markdown("---")
 with st.expander("🛒 Registrar venda"):
     if not df.empty:
         produtos = df['descripcao'] + " | Código: " + df['id_prod'].astype(str)
