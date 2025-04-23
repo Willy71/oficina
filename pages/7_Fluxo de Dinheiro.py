@@ -165,6 +165,8 @@ with aba4:
 
     # Cargar los datos
     df = carregar_dados()
+    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
+    df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
     st.write("📄 Dados carregados:", df.shape)
 
     # Normalizar columna 'status'
