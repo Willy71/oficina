@@ -268,12 +268,14 @@ with aba4:
 
     # Cargar los datos
     df = carregar_dados()
-    st.write("🔍 Entradas:", df[df["status"] == "entrada"])
-    st.write("🔍 Saídas:", df[df["status"] == "saida"])
-    st.write("🔍 Pendentes:", df[df["status"] == "pendente"])
+   
     df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
-    df["status"] = df["status"].str.strip().str.lower()
+    df["status"] = df["status"].astype(str).str.strip().str.lower()
     st.write("📄 Dados carregados:", df.shape)
+    
+    st.write("🧾 Entradas:", df[df["status"] == "entrada"])
+    st.write("🧾 Saídas:", df[df["status"] == "saida"])
+    st.write("🧾 Pendentes:", df[df["status"] == "pendente"])
 
     # Calcular totales
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
@@ -281,12 +283,6 @@ with aba4:
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
 
     saldo = total_entrada - total_saida
-
-    st.write("🧪 DEBUG:")
-    st.write("Total Entrada:", total_entrada)
-    st.write("Total Saída:", total_saida)
-    st.write("Total Pendente:", total_pendente)
-    st.write("Saldo:", saldo)
 
     # Mostrar métricas
     col1, col2, col3, col4 = st.columns(4)
