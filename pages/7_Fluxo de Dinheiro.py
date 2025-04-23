@@ -4,6 +4,7 @@ import gspread
 import uuid
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+import plotly.express as px
 
 # Conexão com Google Sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
@@ -112,3 +113,33 @@ with aba4:
             st.success("Registro excluído.")
     else:
         st.info("Selecione um registro na aba anterior para excluir.")
+
+st.markdown("### 📊 Resumo Financeiro")
+
+# Cálculo dos totais
+total_entrada = df[df["status"] == "entrada"]["valor"].sum()
+total_saida = df[df["status"] == "saida"]["valor"].sum()
+total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+saldo = total_entrada - total_saida
+
+# Mostrar os totais
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("🟢 Entradas", f"R$ {total_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+col2.metric("🔴 Saídas", f"R$ {total_saida:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+col3.metric("🟡 Pendentes", f"R$ {total_pendente:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+col4.metric("💰 Saldo", f"R$ {saldo:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."), delta=f"{total_entrada - total_saida:.2f}")
+
+# Gráfico de barras
+df_grafico = pd.DataFrame({
+    "Tipo": ["Entradas", "Saídas", "Pendentes"],
+    "Valor": [total_entrada, total_saida, total_pendente]
+})
+fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
+             color_discrete_map={
+                 "Entradas": "green",
+                 "Saídas": "red",
+                 "Pendentes": "orange"
+             })
+fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
+
+st.plotly_chart(fig, use_container_width=True)
