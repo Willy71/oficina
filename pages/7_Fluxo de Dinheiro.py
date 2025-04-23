@@ -66,6 +66,41 @@ with aba1:
         adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
         st.success("Registro salvo com sucesso!")
 
+with aba2:
+    st.subheader("📋 Lançamentos")
+    df = carregar_dados()
+
+    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
+    df["status"] = df["status"].str.strip().str.lower()  # ✅ normaliza os valores
+
+    st.markdown("### 📊 Resumo Financeiro")
+
+    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
+    total_saida = df[df["status"] == "saida"]["valor"].sum()
+    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+    saldo = total_entrada - total_saida
+
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("🟢 Entradas", f"R$ {total_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    col2.metric("🔴 Saídas", f"R$ {total_saida:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    col3.metric("🟡 Pendentes", f"R$ {total_pendente:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    col4.metric("💰 Saldo", f"R$ {saldo:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."), delta=f"{saldo:.2f}")
+
+    df_grafico = pd.DataFrame({
+        "Tipo": ["Entradas", "Saídas", "Pendentes"],
+        "Valor": [total_entrada, total_saida, total_pendente]
+    })
+    fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
+                 color_discrete_map={
+                     "Entradas": "green",
+                     "Saídas": "red",
+                     "Pendentes": "orange"
+                 })
+    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.dataframe(df, use_container_width=True)
+
 
  
 
