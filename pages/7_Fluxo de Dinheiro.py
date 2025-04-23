@@ -116,6 +116,10 @@ def formatar_real(valor, padrao="0,00"):
             
         # Reemplaza comas por puntos para conversión a float
         str_valor = str_valor.replace('.', '').replace(',', '.')
+    
+    except (ValueError, TypeError, AttributeError):
+        return padrao
+
 
 # Interface
 # Configuración de página (igual que tu código original)
