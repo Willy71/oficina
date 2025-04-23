@@ -17,33 +17,53 @@ client = gspread.authorize(credentials)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 def carregar_dados():
-    """Carga los datos y realiza una limpieza completa"""
+    """Carga datos con verificación exhaustiva"""
     try:
-        # Obtener todos los registros incluyendo encabezados
+        # Obtener todos los datos crudos
         all_data = sheet.get_all_values()
         
-        if len(all_data) < 2:  # Solo encabezado o vacío
-            return pd.DataFrame(columns=all_data[0] if all_data else [])
+        if not all_data:
+            st.error("La hoja de cálculo está completamente vacía")
+            return pd.DataFrame()
             
-        # Crear DataFrame con primera fila como encabezado
+        # Verificar estructura de columnas
+        expected_columns = ['ids', 'data', 'data_pag', 'cliente', 'descricao', 
+                          'carro', 'placa', 'motivo', 'form', 'valor', 'status']
+        
+        if len(all_data[0]) < len(expected_columns):
+            st.error(f"Faltan columnas. Esperadas: {expected_columns}")
+            st.error(f"Encontradas: {all_data[0]}")
+            return pd.DataFrame()
+        
+        # Crear DataFrame
         df = pd.DataFrame(all_data[1:], columns=all_data[0])
         
-        # Limpieza y conversión de columnas
-        df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        # Diagnóstico inicial
+        st.session_state.diagnostico = {
+            'raw_columns': all_data[0],
+            'first_row': all_data[1] if len(all_data) > 1 else None,
+            'valor_sample': df['valor'].iloc[0] if 'valor' in df.columns else None
+        }
         
-        # Conversión segura de la columna 'valor'
-        df['valor'] = pd.to_numeric(
-            df['valor'].astype(str).str.replace(',', '.'), 
-            errors='coerce'
-        ).fillna(0)
+        # Limpieza de datos
+        df = df.replace('', pd.NA)
         
-        # Normalización de status
-        df['status'] = df['status'].str.strip().str.lower()
+        # Conversión segura de valores numéricos
+        if 'valor' in df.columns:
+            df['valor'] = (
+                df['valor']
+                .astype(str)
+                .str.replace(',', '.', regex=False)
+                .apply(lambda x: pd.to_numeric(x, errors='coerce'))
+            df['valor'] = df['valor'].fillna(0)
+        
+        # Verificar conversión
+        st.session_state.diagnostico['valor_converted'] = df['valor'].iloc[0] if 'valor' in df.columns else None
         
         return df
     
     except Exception as e:
-        st.error(f"Error al cargar datos: {str(e)}")
+        st.error(f"Error crítico al cargar datos: {str(e)}")
         return pd.DataFrame()
 
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
@@ -115,26 +135,43 @@ with aba1:
         st.success("Registro salvo com sucesso!")
 
 with aba2:
-    st.subheader("📋 Lançamentos")
+    st.subheader("📋 Lançamentos - Con Diagnóstico")
     df = carregar_dados()
     
     if df.empty:
-        st.warning("No hay registros disponibles")
+        st.error("No se cargaron datos. Verifique:")
+        st.write("1. Que la hoja existe y tiene datos")
+        st.write("2. Que la cuenta de servicio tiene permisos")
+        st.write("3. Que el ID de la hoja es correcto")
     else:
-        # Mostrar dataframe con formato mejorado
+        # Mostrar DataFrame con formato
         st.dataframe(
             df.style.format({
-                'valor': 'R$ {:.2f}'.format
+                'valor': lambda x: f'R$ {x:,.2f}' if pd.notnull(x) else 'N/A'
             }),
             height=500
         )
         
-        # Mostrar información de diagnóstico
-        with st.expander("🔍 Ver detalles técnicos"):
-            st.write("Columnas disponibles:", df.columns.tolist())
-            st.write("Primeras filas:", df.head().to_dict('records'))
-            st.write("Tipos de datos:", df.dtypes)
-
+        # Panel de diagnóstico avanzado
+        with st.expander("🚨 Diagnóstico Avanzado", expanded=True):
+            st.write("### Información de Columnas")
+            st.write(f"Columnas encontradas: {list(df.columns)}")
+            st.write(f"Tipos de datos: {df.dtypes.to_dict()}")
+            
+            st.write("### Muestra de Datos")
+            st.write("Primera fila:", df.iloc[0].to_dict() if not df.empty else "N/A")
+            
+            st.write("### Información de Valor")
+            if 'valor' in df.columns:
+                st.write("Tipo de 'valor':", type(df['valor'].iloc[0]))
+                st.write("Valores únicos:", df['valor'].unique()[:5])
+                st.write("Estadísticas:")
+                st.write(df['valor'].describe())
+            else:
+                st.error("No existe columna 'valor'")
+            
+            st.write("### Datos Crudos")
+            st.write(st.session_state.get('diagnostico', 'No disponible'))
 with aba3:
     st.subheader("🛠️ Editar ou Remover Lançamento")
 
@@ -214,63 +251,76 @@ with aba3:
 
 
 with aba4:
-    st.subheader("📊 Resumo Financeiro")
+    st.subheader("📊 Resumo Financeiro - Con Validación")
     df = carregar_dados()
     
     if df.empty:
-        st.warning("No hay datos financieros para mostrar")
+        st.error("No hay datos para generar el resumen")
     else:
-        # Verificar si la columna 'valor' existe y tiene datos
-        if 'valor' not in df.columns or df['valor'].isnull().all():
-            st.error("La columna 'valor' no existe o está vacía")
+        # Validación estricta
+        if 'valor' not in df.columns:
+            st.error("Columna 'valor' no encontrada")
+            st.write("Columnas disponibles:", df.columns.tolist())
+        elif 'status' not in df.columns:
+            st.error("Columna 'status' no encontrada")
         else:
-            # Cálculos seguros
             try:
-                total_entrada = df.loc[df['status'] == 'entrada', 'valor'].sum()
-                total_saida = df.loc[df['status'] == 'saida', 'valor'].sum()
-                total_pendente = df.loc[df['status'] == 'pendente', 'valor'].sum()
-                saldo = total_entrada - total_saida
-            except Exception as e:
-                st.error(f"Error en cálculos: {str(e)}")
-                st.stop()
-            
-            # Formateo de valores
-            def format_currency(value):
-                return f"R$ {value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-            
-            # Mostrar métricas
-            cols = st.columns(4)
-            cols[0].metric("🟢 Entradas", format_currency(total_entrada))
-            cols[1].metric("🔴 Saídas", format_currency(total_saida))
-            cols[2].metric("🟡 Pendentes", format_currency(total_pendente))
-            cols[3].metric("💰 Saldo", format_currency(saldo))
-            
-            # Gráfico de resumen
-            try:
-                summary_df = pd.DataFrame({
-                    'Tipo': ['Entradas', 'Saídas', 'Pendentes'],
-                    'Valor': [total_entrada, total_saida, total_pendente]
-                })
+                # Cálculos protegidos
+                df['status'] = df['status'].str.strip().str.lower()
                 
-                fig = px.bar(
-                    summary_df,
-                    x='Tipo',
-                    y='Valor',
-                    text='Valor',
-                    color='Tipo',
-                    color_discrete_map={
-                        'Entradas': '#28a745',
-                        'Saídas': '#dc3545',
-                        'Pendentes': '#ffc107'
-                    }
-                )
-                fig.update_traces(texttemplate='R$ %{text:,.2f}', textposition='outside')
-                fig.update_layout(
-                    title='Resumo Financeiro',
-                    xaxis_title='',
-                    yaxis_title='Valor (R$)',
-                    showlegend=False
-                )
-                st.plotly_chart(fig, use_container_width=True)
-            except Exception as e:
-                st.error(f"Error al generar gráfico: {str(e)}")
+                mask_entrada = df['status'] == 'entrada'
+                mask_saida = df['status'] == 'saida'
+                mask_pendente = df['status'] == 'pendente'
+                
+                total_entrada = df.loc[mask_entrada, 'valor'].sum()
+                total_saida = df.loc[mask_saida, 'valor'].sum()
+                total_pendente = df.loc[mask_pendente, 'valor'].sum()
+                saldo = total_entrada - total_saida
+                
+                # Formateo indestructible
+                def safe_format(value):
+                    try:
+                        return f"R$ {float(value):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                    except:
+                        return "Formato inválido"
+                
+                # Mostrar métricas con verificación
+                cols = st.columns(4)
+                cols[0].metric("🟢 Entradas", safe_format(total_entrada))
+                cols[1].metric("🔴 Saídas", safe_format(total_saida))
+                cols[2].metric("🟡 Pendentes", safe_format(total_pendente))
+                cols[3].metric("💰 Saldo", safe_format(saldo))
+                
+                # Gráfico con validación
+                try:
+                    fig_data = pd.DataFrame({
+                        'Tipo': ['Entradas', 'Saídas', 'Pendentes'],
+                        'Valor': [total_entrada, total_saida, total_pendente]
+                    })
+                    
+                    fig = px.bar(
+                        fig_data,
+                        x='Tipo',
+                        y='Valor',
+                        text='Valor',
+                        color='Tipo',
+                        color_discrete_sequence=['#28a745', '#dc3545', '#ffc107']
+                    )
+                    fig.update_traces(
+                        texttemplate='%{text:.2f}',
+                        textposition='outside'
+                    )
+                    fig.update_layout(
+                        title='Resumo Financeiro',
+                        xaxis_title='',
+                        yaxis_title='Valor (R$)',
+                        showlegend=False
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+                except Exception as graph_error:
+                    st.error(f"Error al generar gráfico: {str(graph_error)}")
+                    
+            except Exception as calc_error:
+                st.error(f"Error en cálculos: {str(calc_error)}")
+                st.write("Estado actual del DataFrame:")
+                st.write(df)
