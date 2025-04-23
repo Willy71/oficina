@@ -84,25 +84,26 @@ def excluir_linha_por_id(id_alvo):
     return False
 
 def safe_float(valor):
-    """Convierte cualquier valor a float de manera segura"""
-    if pd.isna(valor) or valor in [None, '', 'nan', 'NaN']:
+    """Conversión robusta a float para formatos brasileños"""
+    if pd.isna(valor) or valor in [None, '', 'nan', 'NaN', 'N/A']:
         return 0.0
     
+    # Si ya es numérico
     if isinstance(valor, (int, float)):
         return float(valor)
     
     try:
+        # Limpieza inicial
         str_valor = str(valor).strip()
-        # Eliminar símbolos de moneda y espacios
         str_valor = str_valor.replace('R$', '').replace('$', '').strip()
         
-        # Si está vacío después de limpiar
+        # Caso especial: vacío después de limpiar
         if not str_valor:
             return 0.0
             
-        # Detección de formato (1.234,56 o 1,234.56)
+        # Detección automática de formato
         if '.' in str_valor and ',' in str_valor:
-            # Formato 1.234,56 (europeo)
+            # Formato 1.234,56 (europeo/brasileño)
             if str_valor.find('.') < str_valor.find(','):
                 return float(str_valor.replace('.', '').replace(',', '.'))
             # Formato 1,234.56 (americano)
@@ -112,12 +113,12 @@ def safe_float(valor):
             # Formato 1234,56
             return float(str_valor.replace(',', '.'))
         else:
-            # Formato americano 1234.56 o entero
+            # Formato simple
             return float(str_valor)
     except Exception as e:
-        st.error(f"Error convirtiendo valor '{valor}': {str(e)}")
+        st.error(f"Error convertiendo valor: '{valor}'. Error: {str(e)}")
         return 0.0
-
+        
 def formatar_valor(valor, padrao=""):
     """
     Formatea valores para visualización segura
