@@ -268,6 +268,7 @@ with aba4:
 
     # Cargar los datos
     df = carregar_dados()
+    st.write("🧪 Tipos de dados:", df.dtypes)
     df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
     df["status"] = df["status"].str.strip().str.lower()
     st.write("📄 Dados carregados:", df.shape)
