@@ -70,6 +70,7 @@ with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
     df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
+    df["status"] = df["status"].str.strip().str.lower()
     # 👇 Agregá esto para ver qué valores hay en status
     st.write("Valores únicos en 'status':", df["status"].unique())
     st.dataframe(df, use_container_width=True)
