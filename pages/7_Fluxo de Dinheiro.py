@@ -268,7 +268,8 @@ with aba4:
 
     # Cargar los datos
     df = carregar_dados()
-    st.write("🧪 Tipos de dados:", df.dtypes)
+    valores_raw = sheet.col_values(df.columns.get_loc("valor") + 1)
+    st.write("🧪 Valores brutos da coluna 'valor':", valores_raw[:20])
     df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
     df["status"] = df["status"].str.strip().str.lower()
     st.write("📄 Dados carregados:", df.shape)
