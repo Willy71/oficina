@@ -5,12 +5,16 @@ from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 
 # Conectar a Google Sheets
-scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',
-         "https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
+# Autenticación
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
+SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
+SHEET_NAME = 'fluxo'
+
+creds = st.secrets["gsheets"]
 client = gspread.authorize(creds)
 
-sheet = client.open_by_key(st.secrets["SPREADSHEET_KEY"]).worksheet("fluxo")
+sheet = client.open_by_key(st.secrets["SPREADSHEET_KEY"]).worksheet(SHEET_NAME)
 data = sheet.get_all_records()
 df = pd.DataFrame(data)
 
