@@ -68,14 +68,41 @@ with aba1:
 
 with aba2:
     st.subheader("📋 Lançamentos")
+    #df = carregar_dados()
+    #df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
+    #st.dataframe(df, use_container_width=True)
+
     df = carregar_dados()
+
+    # Normalizar la columna 'status'
+    df["status"] = df["status"].str.strip().str.lower()
+    
+    # Verificar los valores únicos después de la normalización
+    st.write("Valores únicos en 'status' (después de normalizar):", df["status"].unique())
+    
+    # Verificar si 'valor' es numérica
+    st.write("¿Es 'valor' numérica?", df["valor"].dtype)
+    
     # Verificar los primeros registros
-    #st.write("Primeros registros del DataFrame:", df.head())
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
-    #df["status"] = df["status"].str.strip().str.lower()
-    # 👇 Agregá esto para ver qué valores hay en status
-    #st.write("Valores únicos en 'status':", df["status"].unique())
-    st.dataframe(df, use_container_width=True)
+    st.write("Primeros registros del DataFrame:", df.head())
+    
+    # Calcular los totales para cada filtro y verificar el resultado del filtrado
+    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
+    st.write("Filtrado de 'entrada' - Total Entradas:", total_entrada)
+    
+    total_saida = df[df["status"] == "saida"]["valor"].sum()
+    st.write("Filtrado de 'saida' - Total Saídas:", total_saida)
+    
+    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+    st.write("Filtrado de 'pendente' - Total Pendentes:", total_pendente)
+    
+    # Calcular el saldo
+    saldo = total_entrada - total_saida
+    st.write("Saldo:", saldo)
+    
+    # Mostrar el dataframe
+    st.dataframe(df)
+
 
     st.markdown("### Ações por linha:")
     for _, row in df.iterrows():
