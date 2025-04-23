@@ -50,11 +50,7 @@ def carregar_dados():
         
         # Conversión segura de valores numéricos
         if 'valor' in df.columns:
-            df['valor'] = (
-                df['valor']
-                .astype(str)
-                .str.replace(',', '.', regex=False)
-                .apply(lambda x: pd.to_numeric(x, errors='coerce'))
+            df['valor'] = (df['valor'].astype(str).str.replace(',', '.', regex=False).apply(lambda x: pd.to_numeric(x, errors='coerce'))
             df['valor'] = df['valor'].fillna(0)
         
         # Verificar conversión
