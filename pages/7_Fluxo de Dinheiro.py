@@ -44,6 +44,12 @@ def excluir_linha_por_id(id_alvo):
         return True
     return False
 
+def salvar_dados(df):
+    sheet.clear()
+    sheet.append_row(df.columns.tolist())  # Encabezados
+    for _, row in df.iterrows():
+        sheet.append_row(row.tolist())
+
 # Interface
 st.set_page_config("Fluxo de Caixa", layout="wide")
 st.title("💰 Fluxo de Caixa")
@@ -161,40 +167,37 @@ with aba3:
 
 
 with aba4:
-    st.subheader("📊 Resumo Financeiro")
-
-    # Cargar los datos
+    st.subheader("📊 Resumen Financeiro")
+    
+    # Cargar y preparar datos
     df = carregar_dados()
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
-    df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
-    st.write("📄 Dados carregados:", df.shape)
-
-    # Normalizar columna 'status'
+    
+    # Asegurar que los datos están limpios
     df["status"] = df["status"].str.strip().str.lower()
-
-    # Asegurar que 'valor' es numérico
     df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
-
-    # Calcular totales
+    
+    # Filtrar y calcular totales
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
     total_saida = df[df["status"] == "saida"]["valor"].sum()
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
-
     saldo = total_entrada - total_saida
-
-    # Mostrar métricas
+    
+    # Mostrar métricas con formato correcto
+    def formatar_valor(valor):
+        return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🟢 Entradas", f"R$ {total_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col2.metric("🔴 Saídas", f"R$ {total_saida:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col3.metric("🟡 Pendentes", f"R$ {total_pendente:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col4.metric("💰 Saldo", f"R$ {saldo:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-
+    col1.metric("🟢 Entradas", formatar_valor(total_entrada))
+    col2.metric("🔴 Saídas", formatar_valor(total_saida))
+    col3.metric("🟡 Pendentes", formatar_valor(total_pendente))
+    col4.metric("💰 Saldo", formatar_valor(saldo))
+    
     # Gráfico
     df_grafico = pd.DataFrame({
         "Tipo": ["Entradas", "Saídas", "Pendentes"],
         "Valor": [total_entrada, total_saida, total_pendente]
     })
-
+    
     fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
                  color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
     fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
