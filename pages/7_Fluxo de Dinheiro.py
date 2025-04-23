@@ -119,7 +119,13 @@ with aba3:
                 else:
                     idx_forma = 0  # default: "dinheiro"
                 nova_forma = st.selectbox("Forma de Pagamento", opcoes_forma, index=idx_forma)
-                novo_valor = st.number_input("Valor", value=float(lancamento["valor"]))
+                try:
+                    valor_padrao = float(str(lancamento["valor"]).replace("R$", "").replace(",", ".").strip())
+                except Exception:
+                    valor_padrao = 0.0
+                
+                novo_valor = st.number_input("Valor", value=valor_padrao)
+
                 novo_status = st.selectbox("Status", ["entrada", "saida", "pendente"], index=["entrada", "saida", "pendente"].index(lancamento["status"]))
 
                 col1, col2 = st.columns(2)
