@@ -97,28 +97,20 @@ def formatar_dos(valor):
 
 def formatar_real(valor, padrao="0,00"):
     """
-    Formata valores para el estándar monetario brasileño (R$ 0,00)
-    
-    Args:
-        valor: Valor a formatear (str, float, int o None)
-        padrao: Valor por defecto si no se puede formatear (default: "0,00")
-    
-    Returns:
-        str: Valor formateado con coma decimal (ej. "1.234,56")
+    Formata valores para o padrão monetário brasileiro (R$ 0,00)
     """
     try:
-        # Convierte a string y limpia
-        str_valor = str(valor).strip()
+        if pd.isna(valor) or valor in [None, '']:
+            return f"R$ {padrao}"
         
-        # Verifica valores vacíos o inválidos
-        if not str_valor or str_valor.lower() in ['nan', 'none', 'null', '']:
-            return padrao
-            
-        # Reemplaza comas por puntos para conversión a float
-        str_valor = str_valor.replace('.', '').replace(',', '.')
-    
-    except (ValueError, TypeError, AttributeError):
-        return padrao
+        # Tenta converter para float mesmo que venha como string com vírgula
+        if isinstance(valor, str):
+            valor = valor.replace("R$", "").replace(".", "").replace(",", ".")
+        
+        valor_float = float(valor)
+        return f"R$ {valor_float:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    except:
+        return f"R$ {padrao}"
 
 
 # Interface
@@ -257,6 +249,12 @@ with aba4:
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
 
     saldo = total_entrada - total_saida
+
+    st.write("🧪 DEBUG:")
+    st.write("Total Entrada:", total_entrada)
+    st.write("Total Saída:", total_saida)
+    st.write("Total Pendente:", total_pendente)
+    st.write("Saldo:", saldo)
 
     # Mostrar métricas
     col1, col2, col3, col4 = st.columns(4)
