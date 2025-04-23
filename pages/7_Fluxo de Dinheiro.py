@@ -96,7 +96,16 @@ with aba3:
             # Formulário de edição
             with st.form("form_edicao"):
                 nova_data = st.date_input("Data", pd.to_datetime(lancamento["data"]))
-                nova_data_pag = st.date_input("Data Pagamento (se aplicável)", pd.to_datetime(lancamento["data_pag"]))
+                # Verifica se a data_pag é válida
+                try:
+                    data_pag_padrao = pd.to_datetime(lancamento["data_pag"])
+                    if pd.isnull(data_pag_padrao):
+                        data_pag_padrao = datetime.today()
+                except Exception:
+                    data_pag_padrao = datetime.today()
+                
+                nova_data_pag = st.date_input("Data Pagamento (se aplicável)", data_pag_padrao)
+
                 novo_cliente = st.text_input("Cliente", lancamento["cliente"])
                 nova_descricao = st.text_input("Descrição", lancamento["descricao"])
                 novo_carro = st.text_input("Carro", lancamento["carro"])
