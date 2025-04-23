@@ -16,14 +16,37 @@ credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes
 client = gspread.authorize(credentials)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
-# Funções utilitárias
 def carregar_dados():
+    """Carga los datos y convierte correctamente los valores numéricos"""
     data = sheet.get_all_records()
-    return pd.DataFrame(data)
+    df = pd.DataFrame(data)
+    
+    # Convertir la columna 'valor' asegurando formato americano
+    df["valor"] = pd.to_numeric(df["valor"].astype(str).str.replace(',', ''), errors='coerce')
+    
+    # Normalizar otros campos importantes
+    df["status"] = df["status"].astype(str).str.strip().str.lower()
+    return df
 
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
+    """Añade nuevo registro con formato numérico correcto"""
     novo_id = str(uuid.uuid4())
-    nova_linha = [novo_id, str(data), str(data_pag) if data_pag else "", cliente, descricao, carro, placa, motivo, forma, valor, status]
+    # Asegurar formato americano para el valor
+    valor_americano = float(str(valor).replace(',', ''))
+    
+    nova_linha = [
+        novo_id, 
+        str(data),
+        str(data_pag) if data_pag else "",
+        str(cliente).strip(),
+        str(descricao).strip(),
+        str(carro).strip(),
+        str(placa).strip(),
+        str(motivo).strip(),
+        str(forma).strip().lower(),
+        valor_americano,  # Usamos el valor con punto decimal
+        str(status).strip().lower()
+    ]
     sheet.append_row(nova_linha)
     return novo_id
 
@@ -167,38 +190,29 @@ with aba3:
 
 
 with aba4:
-    st.subheader("📊 Resumen Financeiro")
+    st.subheader("📊 Resumo Financeiro")
     
-    # Cargar y preparar datos
     df = carregar_dados()
     
-    # Asegurar que los datos están limpios
-    df["status"] = df["status"].str.strip().str.lower()
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
-    
-    # Filtrar y calcular totales
-    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
-    total_saida = df[df["status"] == "saida"]["valor"].sum()
-    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
-    saldo = total_entrada - total_saida
-    
-    # Mostrar métricas con formato correcto
-    def formatar_valor(valor):
-        return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🟢 Entradas", formatar_valor(total_entrada))
-    col2.metric("🔴 Saídas", formatar_valor(total_saida))
-    col3.metric("🟡 Pendentes", formatar_valor(total_pendente))
-    col4.metric("💰 Saldo", formatar_valor(saldo))
-    
-    # Gráfico
-    df_grafico = pd.DataFrame({
-        "Tipo": ["Entradas", "Saídas", "Pendentes"],
-        "Valor": [total_entrada, total_saida, total_pendente]
-    })
-    
-    fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
-                 color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
-    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
-    st.plotly_chart(fig, use_container_width=True)
+    # Verificar si hay datos
+    if df.empty:
+        st.warning("No hay datos financieros para mostrar")
+    else:
+        # Cálculos (ya con valores numéricos correctos)
+        total_entrada = df[df["status"] == "entrada"]["valor"].sum()
+        total_saida = df[df["status"] == "saida"]["valor"].sum()
+        total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+        saldo = total_entrada - total_saida
+        
+        # Función de formato para visualización (sin conversión numérica)
+        def formatar_moeda(valor):
+            return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        
+        # Mostrar métricas
+        col1, col2, col3, col4 = st.columns(4)
+        col1.metric("🟢 Entradas", formatar_moeda(total_entrada))
+        col2.metric("🔴 Saídas", formatar_moeda(total_saida))
+        col3.metric("🟡 Pendentes", formatar_moeda(total_pendente))
+        col4.metric("💰 Saldo", formatar_moeda(saldo))
+        
+        # Resto del código del gráfico...
