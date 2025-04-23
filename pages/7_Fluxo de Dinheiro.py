@@ -70,6 +70,7 @@ with aba1:
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
+    st.write("📄 Dados carregados:", df.shape)
     df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)  # 🔧 fix
 
     #st.markdown("### 📊 Resumo Financeiro")
@@ -82,6 +83,7 @@ with aba3:
     st.subheader("🛠️ Editar ou Remover Lançamento")
 
     df = carregar_dados()
+    st.write("📄 Dados carregados:", df.shape)
 
     if df.empty:
         st.info("Nenhum lançamento encontrado.")
@@ -160,6 +162,7 @@ with aba4:
 
     # Cargar los datos
     df = carregar_dados()
+    st.write("📄 Dados carregados:", df.shape)
 
     # Normalizar columna 'status'
     df["status"] = df["status"].str.strip().str.lower()
