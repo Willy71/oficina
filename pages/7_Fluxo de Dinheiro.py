@@ -1,20 +1,23 @@
 import streamlit as st
 import pandas as pd
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from oauth2client.service_account import ServiceAccountCredentials, Credentials
 from datetime import datetime
 
 # Conectar a Google Sheets
 # Autenticación
+# Datos de conexión
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
 SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
 SHEET_NAME = 'fluxo'
 
-creds = st.secrets["gsheets"]
-client = gspread.authorize(creds)
+# Autenticación con Google
+credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+client = gspread.authorize(credentials)
 
-sheet = client.open_by_key(st.secrets["SPREADSHEET_KEY"]).worksheet(SHEET_NAME)
+# Abrir hoja
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 data = sheet.get_all_records()
 df = pd.DataFrame(data)
 
