@@ -70,8 +70,11 @@ with aba1:
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
+    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
+    df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
+    
     st.write("📄 Dados carregados:", df.shape)
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)  # 🔧 fix
+    st.dataframe(df)
 
     #st.markdown("### 📊 Resumo Financeiro")
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
