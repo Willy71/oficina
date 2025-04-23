@@ -69,6 +69,7 @@ with aba1:
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
+    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
     st.dataframe(df, use_container_width=True)
 
     st.markdown("### Ações por linha:")
