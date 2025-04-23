@@ -17,53 +17,57 @@ client = gspread.authorize(credentials)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 def carregar_dados():
-    """Carga datos con verificación exhaustiva"""
+    """Carga y limpia los datos de la hoja de cálculo"""
     try:
         # Obtener todos los datos crudos
         all_data = sheet.get_all_values()
         
         if not all_data:
-            st.error("La hoja de cálculo está completamente vacía")
-            return pd.DataFrame()
-            
-        # Verificar estructura de columnas
-        expected_columns = ['ids', 'data', 'data_pag', 'cliente', 'descricao', 
-                          'carro', 'placa', 'motivo', 'form', 'valor', 'status']
-        
-        if len(all_data[0]) < len(expected_columns):
-            st.error(f"Faltan columnas. Esperadas: {expected_columns}")
-            st.error(f"Encontradas: {all_data[0]}")
-            return pd.DataFrame()
+            st.warning("La hoja de cálculo está vacía")
+            return pd.DataFrame(columns=['ids', 'data', 'data_pag', 'cliente', 'descricao', 
+                                      'carro', 'placa', 'motivo', 'form', 'valor', 'status'])
         
         # Crear DataFrame
-        df = pd.DataFrame(all_data[1:], columns=all_data[0])
+        headers = all_data[0]
+        df = pd.DataFrame(all_data[1:], columns=headers)
         
-        # Diagnóstico inicial
-        st.session_state.diagnostico = {
-            'raw_columns': all_data[0],
-            'first_row': all_data[1] if len(all_data) > 1 else None,
-            'valor_sample': df['valor'].iloc[0] if 'valor' in df.columns else None
-        }
+        # Verificar columnas esenciales
+        required_columns = {'valor', 'status'}
+        missing_cols = required_columns - set(headers)
+        if missing_cols:
+            st.error(f"Columnas faltantes: {missing_cols}")
+            return pd.DataFrame()
         
-        # Limpieza de datos
-        df = df.replace('', pd.NA)
+        # Limpieza básica
+        df = df.replace(['', 'NA', 'N/A'], pd.NA)
         
-        # Conversión segura de valores numéricos (CORRECCIÓN DEL ERROR)
+        # Conversión segura de valores numéricos - VERSIÓN CORREGIDA
         if 'valor' in df.columns:
-            df['valor'] = (
-                df['valor']
-                .astype(str)
-                .str.replace(',', '.', regex=False)
-                .apply(lambda x: pd.to_numeric(x, errors='coerce'))
+            # Paso 1: Convertir a string
+            str_values = df['valor'].astype(str)
+            
+            # Paso 2: Reemplazar comas por puntos
+            str_values = str_values.str.replace(',', '.', regex=False)
+            
+            # Paso 3: Convertir a numérico
+            df['valor'] = pd.to_numeric(str_values, errors='coerce')
+            
+            # Paso 4: Rellenar NA
             df['valor'] = df['valor'].fillna(0)
         
-        # Verificar conversión
-        st.session_state.diagnostico['valor_converted'] = df['valor'].iloc[0] if 'valor' in df.columns else None
+        # Normalización de status
+        if 'status' in df.columns:
+            df['status'] = (
+                df['status']
+                .astype(str)
+                .str.strip()
+                .str.lower()
+            )
         
         return df
     
     except Exception as e:
-        st.error(f"Error crítico al cargar datos: {str(e)}")
+        st.error(f"Error al cargar datos: {str(e)}")
         return pd.DataFrame()
 
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
