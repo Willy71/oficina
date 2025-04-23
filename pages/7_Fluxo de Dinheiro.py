@@ -44,6 +44,79 @@ def excluir_linha_por_id(id_alvo):
         return True
     return False
 
+def safe_float(valor):
+    """Convierte cualquier valor a float de manera segura"""
+    # Verificación segura de valores nulos o vacíos
+    if pd.isna(valor) or valor in [None, '']:
+        return 0.0
+    
+    # Si ya es numérico, retornar directamente
+    if isinstance(valor, (int, float)):
+        return float(valor)
+    
+    try:
+        # Convertir a string y limpiar
+        str_valor = str(valor).strip()
+        str_valor = str_valor.replace('R$', '').replace('$', '').strip()
+        
+        # Detección automática de formato
+        if '.' in str_valor and ',' in str_valor:  # Formato 1.234,56
+            return float(str_valor.replace('.', '').replace(',', '.'))
+        elif ',' in str_valor:  # Formato 1234,56
+            return float(str_valor.replace(',', '.'))
+        else:  # Formato americano 1234.56 o entero
+            return float(str_valor)
+    except:
+        return 0.0
+
+def formatar_valor(valor, padrao=""):
+    """
+    Formatea valores para visualización segura
+    
+    Args:
+        valor: Valor a formatear (str, float, int, None)
+        padrao: Valor por defecto si no se puede formatear (default: "")
+    
+    Returns:
+        str: Valor formateado o string vacío si es nulo/inválido
+    """
+    if pd.isna(valor) or valor in [None, '']:
+        return padrao
+    try:
+        return str(valor).strip()
+    except:
+        return padrao
+
+def formatar_dos(valor):
+    try:
+        valor_float = float(valor)
+        return f"{valor_float:,.2f}".replace(",", "v").replace(".", ",").replace("v", ".")
+    except (ValueError, TypeError):
+        return "0,00"
+
+
+def formatar_real(valor, padrao="0,00"):
+    """
+    Formata valores para el estándar monetario brasileño (R$ 0,00)
+    
+    Args:
+        valor: Valor a formatear (str, float, int o None)
+        padrao: Valor por defecto si no se puede formatear (default: "0,00")
+    
+    Returns:
+        str: Valor formateado con coma decimal (ej. "1.234,56")
+    """
+    try:
+        # Convierte a string y limpia
+        str_valor = str(valor).strip()
+        
+        # Verifica valores vacíos o inválidos
+        if not str_valor or str_valor.lower() in ['nan', 'none', 'null', '']:
+            return padrao
+            
+        # Reemplaza comas por puntos para conversión a float
+        str_valor = str_valor.replace('.', '').replace(',', '.')
+
 # Interface
 st.set_page_config("Fluxo de Caixa", layout="wide")
 st.title("💰 Fluxo de Caixa")
@@ -70,7 +143,7 @@ with aba1:
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
-    df["valor"] = pd.to_numeric(df["valor"], errors="coerce").fillna(0)
+    df["valor"] = df["valor"].apply(safe_float)
     df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
     
     st.write("📄 Dados carregados:", df.shape)
@@ -184,10 +257,10 @@ with aba4:
 
     # Mostrar métricas
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🟢 Entradas", f"R$ {total_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col2.metric("🔴 Saídas", f"R$ {total_saida:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col3.metric("🟡 Pendentes", f"R$ {total_pendente:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
-    col4.metric("💰 Saldo", f"R$ {saldo:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    col1.metric("🟢 Entradas", formatar_real(total_entrada))
+    col2.metric("🔴 Saídas", formatar_real(total_saida))
+    col3.metric("🟡 Pendentes", formatar_real(saldo))
+    col4.metric("💰 Saldo", formatar_real(saldo))
 
     # Gráfico
     df_grafico = pd.DataFrame({
