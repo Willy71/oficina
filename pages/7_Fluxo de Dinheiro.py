@@ -173,7 +173,6 @@ with aba1:
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
-    df["valor"] = df["valor"].apply(safe_float)
     df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
     
     st.write("📄 Dados carregados:", df.shape)
@@ -189,7 +188,6 @@ with aba3:
     st.subheader("🛠️ Editar ou Remover Lançamento")
 
     df = carregar_dados()
-    st.write("📄 Dados carregados:", df.shape)
 
     if df.empty:
         st.info("Nenhum lançamento encontrado.")
@@ -268,10 +266,8 @@ with aba4:
 
     # Cargar los datos
     df = carregar_dados()
-   
     df["valor"] = df["valor"].apply(safe_float)  # ✅ convertir a float correctamente
     df["status"] = df["status"].astype(str).str.strip().str.lower()
-    st.write("📄 Dados carregados:", df.shape)
     
     # Calcular totales
     total_entrada = df[df["status"] == "entrada"]["valor"].sum()
