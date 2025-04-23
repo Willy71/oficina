@@ -118,7 +118,12 @@ def formatar_real(valor, padrao="0,00"):
         str_valor = str_valor.replace('.', '').replace(',', '.')
 
 # Interface
-st.set_page_config("Fluxo de Caixa", layout="wide")
+# Configuración de página (igual que tu código original)
+st.set_page_config(
+    page_title="💰 Fluxo de Caixa",
+    page_icon="💰",
+    layout="wide"
+)
 st.title("💰 Fluxo de Caixa")
 
 aba1, aba2, aba3, aba4 = st.tabs(["➕ Novo Lançamento", "📋 Lançamentos", "🛠️ Editar / Remover", "📊 Resumo Financeiro"])
