@@ -221,6 +221,9 @@ with aba1:
     if st.button("Salvar Registro"):
         adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
         st.success("Registro salvo com sucesso!")
+    
+        # 👇 Forzar recarga
+        st.experimental_rerun()
 
 with aba2:
     st.subheader("📋 Lançamentos")
