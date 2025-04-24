@@ -336,14 +336,6 @@ with aba4:
     st.text(type(total_saida))
     st.text(type(total_pendente))
 
-    total_entrada = df[df['tipo'] == 'Entrada']['valor'].sum()
-    total_saida = df[df['tipo'] == 'Saída']['valor'].sum()
-    total_pendente = df[df['status'] == 'Pendente']['valor'].sum()
-
-    total_entrada = total_entrada or 0
-    total_saida = total_saida or 0
-    total_pendente = total_pendente or 0
-
     st.dataframe(df_grafico)
 
 
@@ -353,6 +345,8 @@ with aba4:
         "Tipo": ["Entradas", "Saídas", "Pendentes"],
         "Valor": [total_entrada, total_saida, total_pendente]
     })
+
+     st.dataframe(df_grafico)
 
     fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
                  color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
