@@ -346,7 +346,7 @@ with aba4:
         "Valor": [total_entrada, total_saida, total_pendente]
     })
 
-     st.dataframe(df_grafico)
+    st.dataframe(df_grafico)
 
     fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
                  color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
