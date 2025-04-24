@@ -330,12 +330,22 @@ with aba4:
     
 
         
-    # 1. Verificación de datos (temporal)
-    st.write("Datos para el gráfico:", {
-        "Entradas": total_entrada,
-        "Saídas": total_saida,
-        "Pendentes": total_pendente
+   
+    # VERIFICACIÓN DE DATOS (agrega esto temporalmente)
+    st.write("Valores crudos:", {
+        "total_entrada": total_entrada,
+        "total_saida": total_saida,
+        "total_pendente": total_pendente,
+        "tipos": type(total_entrada)
     })
+    
+    # Crear DataFrame para el gráfico
+    df_grafico = pd.DataFrame({
+        "Tipo": ["Entradas", "Saídas", "Pendentes"],
+        "Valor": [float(total_entrada), float(total_saida), float(total_pendente)]  # Forzar conversión a float
+    })
+    
+    st.write("DataFrame del gráfico:", df_grafico)  # Depuración
     
         # Configuración robusta del gráfico
     fig = px.bar(
