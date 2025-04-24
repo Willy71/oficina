@@ -328,13 +328,53 @@ with aba4:
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
     col4.metric("💰 Saldo", formatar_real(total_entrada - total_saida))
     
-    # Gráfico
-    df_grafico = pd.DataFrame({
-        "Tipo": ["Entradas", "Saídas", "Pendentes"],
-        "Valor": [total_entrada, total_saida, total_pendente]
+    with aba4:
+    st.subheader("📊 Resumo Financeiro")
+    
+    # [Aquí va el código previo de cálculos...]
+    
+    # --- SECCIÓN DEL GRÁFICO CON DIAGNÓSTICO ---
+    
+    # 1. Verificación de datos (temporal)
+    st.write("Datos para el gráfico:", {
+        "Entradas": total_entrada,
+        "Saídas": total_saida,
+        "Pendentes": total_pendente
     })
-
-    fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
-                 color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
-    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
-    st.plotly_chart(fig, use_container_width=True)
+    
+    # 2. Creación del DataFrame
+    try:
+        df_grafico = pd.DataFrame({
+            "Tipo": ["Entradas", "Saídas", "Pendentes"],
+            "Valor": [total_entrada, total_saida, total_pendente]
+        })
+        
+        st.write("DataFrame del gráfico:", df_grafico)  # Depuración
+        
+        # 3. Creación del gráfico
+        fig = px.bar(
+            df_grafico, 
+            x="Tipo", 
+            y="Valor", 
+            text_auto=".2s", 
+            color="Tipo",
+            color_discrete_map={
+                "Entradas": "green", 
+                "Saídas": "red", 
+                "Pendentes": "orange"
+            },
+            title="Totais por Tipo"
+        )
+        
+        fig.update_layout(
+            xaxis_title="",
+            yaxis_title="R$",
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
+        
+        # 4. Mostrar el gráfico con mensaje de diagnóstico
+        st.write("⚠️ Si no ves el gráfico a continuación, revisa la consola del navegador (F12)")
+        st.plotly_chart(fig, use_container_width=True)
+        
+    except Exception as e:
+        st.error(f"Error al crear el gráfico: {str(e)}")
