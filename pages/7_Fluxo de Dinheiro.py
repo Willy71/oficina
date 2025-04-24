@@ -349,6 +349,34 @@ with aba4:
     col2.metric("🔴 Saídas", formatar_real(total_saida))
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
     col4.metric("💰 Saldo", formatar_real(total_entrada - total_saida))
+
+    st.subheader("🧪 Diagnóstico Resumo Financeiro")
+
+    # Cargar y mostrar datos crudos
+    df = carregar_dados()
+    st.write("🔍 DataFrame original:", df)
+    
+    # Normalizar columnas
+    df["status"] = df["status"].astype(str).str.strip().str.lower()
+    df["valor"] = df["valor"].apply(safe_float)
+    
+    # Confirmar tipos
+    st.write("🧾 Tipos de columnas:", df.dtypes)
+    st.write("🔍 Valores únicos en 'status':", df["status"].unique())
+    
+    # Mostrar solo entradas detectadas
+    entradas = df[df["status"] == "entrada"]
+    st.write("📄 Entradas detectadas:", entradas)
+    
+    # Calcular total
+    total_entrada = entradas["valor"].sum()
+    st.write("💰 Total Entrada (calculado):", total_entrada)
+    
+    # Mostrar métricas reales
+    col1, col2 = st.columns(2)
+    col1.metric("🟢 Total de Entradas", formatar_real(total_entrada))
+    col2.metric("🔢 Número de registros de entrada", len(entradas))
+
     
     
     # Gráfico
