@@ -335,10 +335,6 @@ with aba4:
     st.text(type(total_entrada))
     st.text(type(total_saida))
     st.text(type(total_pendente))
-
-    st.dataframe(df_grafico)
-
-
     
     # Gráfico
     df_grafico = pd.DataFrame({
