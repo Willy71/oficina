@@ -335,12 +335,6 @@ with aba4:
     "Valor": [total_entrada, total_saida, total_pendente]
     })
 
-    st.write("DataFrame para el gráfico:")
-    st.write(df_grafico)
-    st.write(df_grafico.dtypes)
-
-
-
     fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
                  color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
     fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
@@ -348,14 +342,14 @@ with aba4:
 
 #===================================================================================================================================
 
-    # Datos como strings (simulando tu situación)
+    # DataFrame original con comillas dobles y comas en miles
     df_grafico = pd.DataFrame({
         "Tipo": ["Entradas", "Saídas", "Pendentes"],
         "Valor": ['"17,208.65"', '"17,742.51"', '"7,592.58"']
     })
     
-    # Convertir los valores con safe_float
-    df_grafico["Valor"] = df_grafico["Valor"].apply(safe_float)
+    # Limpieza previa: eliminar comillas dobles antes de aplicar safe_float
+    df_grafico["Valor"] = df_grafico["Valor"].apply(lambda x: safe_float(str(x).replace('"', '')))
     
     # Mostrar para verificar
     st.write("DataFrame para el gráfico:", df_grafico)
@@ -377,4 +371,5 @@ with aba4:
     fig.update_traces(texttemplate="R$ %{text:.2f}", textposition="outside")
     fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
     st.plotly_chart(fig, use_container_width=True)
+
 
