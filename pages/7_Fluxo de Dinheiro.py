@@ -337,39 +337,42 @@ with aba4:
         "Pendentes": total_pendente
     })
     
-    # 2. Creación del DataFrame
-    try:
-        df_grafico = pd.DataFrame({
-            "Tipo": ["Entradas", "Saídas", "Pendentes"],
-            "Valor": [total_entrada, total_saida, total_pendente]
-        })
-        
-        st.write("DataFrame del gráfico:", df_grafico)  # Depuración
-        
-        # 3. Creación del gráfico
-        fig = px.bar(
-            df_grafico, 
-            x="Tipo", 
-            y="Valor", 
-            text_auto=".2s", 
-            color="Tipo",
-            color_discrete_map={
-                "Entradas": "green", 
-                "Saídas": "red", 
-                "Pendentes": "orange"
-            },
-            title="Totais por Tipo"
-        )
-        
-        fig.update_layout(
-            xaxis_title="",
-            yaxis_title="R$",
-            plot_bgcolor='rgba(0,0,0,0)'
-        )
-        
-        # 4. Mostrar el gráfico con mensaje de diagnóstico
-        st.write("⚠️ Si no ves el gráfico a continuación, revisa la consola del navegador (F12)")
-        st.plotly_chart(fig, use_container_width=True)
-        
-    except Exception as e:
-        st.error(f"Error al crear el gráfico: {str(e)}")
+        # Configuración robusta del gráfico
+    fig = px.bar(
+        df_grafico,
+        x="Tipo",
+        y="Valor",
+        text_auto=".2f",
+        color="Tipo",
+        color_discrete_map={
+            "Entradas": "#2ecc71",  # Verde más vivo
+            "Saídas": "#e74c3c",    # Rojo más vivo
+            "Pendentes": "#f39c12"  # Naranja más vivo
+        },
+        title="Totais Financeiros",
+        height=500  # Altura fija
+    )
+    
+    # Personalización avanzada
+    fig.update_layout(
+        xaxis_title="",
+        yaxis_title="Valor (R$)",
+        yaxis=dict(
+            rangemode="tozero",  # Fuerza que el eje Y empiece en 0
+            showgrid=True,
+            gridcolor="lightgray"
+        ),
+        plot_bgcolor="white",
+        hovermode="x unified"
+    )
+    
+    # Asegurar que las barras sean visibles
+    fig.update_traces(
+        marker_line_width=1.5,
+        marker_line_color="darkgray",
+        opacity=0.9,
+        textfont_size=12,
+        textposition="outside"
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
