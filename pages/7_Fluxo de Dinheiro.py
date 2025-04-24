@@ -215,14 +215,25 @@ with aba1:
             data = st.date_input("Data do lançamento")
         with cols[2]:    
             data_pag = st.date_input("Data de pagamento prevista", value=None) if tipo == "pendente" else None
-    cliente = st.text_input("Cliente")
+    with st.container():
+        cols = st.columns(3)
+        with cols[0]:
+            cliente = st.text_input("Cliente")
     descricao = st.text_input("Descrição")
-    carro = st.text_input("Carro")
-    placa = st.text_input("Placa")
+    with st.container():
+        cols = st.columns(3)
+        with cols[0]:
+            carro = st.text_input("Carro")
+        with cols[1]:
+            placa = st.text_input("Placa")
+      
     motivo = st.text_input("Motivo")
-    forma = st.selectbox("Forma de pagamento", ["dinheiro", "pix", "cartão", "boleto", "outro"])
-    
-    valor = st.number_input("Valor", min_value=0.0, format="%.2f")
+    with st.container():
+        cols = st.columns(3)
+        with cols[0]:
+            forma = st.selectbox("Forma de pagamento", ["dinheiro", "pix", "cartão", "boleto", "outro"])
+        with cols[0]:
+            valor = st.number_input("Valor", min_value=0.0, format="%.2f")
     if st.button("Salvar Registro"):
         adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
         st.success("Registro salvo com sucesso!")
