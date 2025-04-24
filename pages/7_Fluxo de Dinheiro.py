@@ -227,7 +227,7 @@ with aba1:
         with cols[2]:
             placa = st.text_input("Placa")
       
-    motivo = st.text_input("Motivo")
+    motivo = st.text_input("Fornecedor")
     with st.container():
         cols = st.columns(4)
         with cols[1]:
