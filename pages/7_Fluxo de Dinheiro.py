@@ -235,7 +235,7 @@ with aba1:
         with cols[2]:
             valor = st.number_input("Valor", min_value=0.0, format="%.2f")
     with st.container():
-        cols = st.columns(3)
+        cols = st.columns([4,2,2])
         with cols[1]:
             if st.button("Salvar Registro"):
                 adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
