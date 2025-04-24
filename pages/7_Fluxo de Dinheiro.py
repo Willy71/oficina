@@ -61,8 +61,14 @@ def carregar_dados():
 
 
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
-    novo_id = str(uuid.uuid4())
-    nova_linha = [novo_id, str(data), str(data_pag) if data_pag else "", cliente, descricao, carro, placa, motivo, forma, valor, status]
+    df = carregar_dados()
+    novo_id = obter_proximo_id(df)
+
+    # Formatear fechas al estilo brasileiro
+    data_fmt = pd.to_datetime(data).strftime("%d/%m/%Y")
+    data_pag_fmt = pd.to_datetime(data_pag).strftime("%d/%m/%Y") if data_pag else ""
+
+    nova_linha = [novo_id, data_fmt, data_pag_fmt, cliente, descricao, carro, placa, motivo, forma, valor, status]
     sheet.append_row(nova_linha)
     return novo_id
 
@@ -179,6 +185,15 @@ def normalize_status(status):
     
     return status  # Mantener original si no coincide
 
+def obtener_proximo_id(df):
+    if df.empty or 'ids' not in df.columns:
+        return 1
+    try:
+        return int(df['ids'].max()) + 1
+    except:
+        return 1
+
+
 
 # Interface
 # Configuración de página (igual que tu código original)
@@ -238,10 +253,14 @@ with aba3:
 
             # Formulário de edição
             with st.form("form_edicao"):
-                nova_data = st.date_input("Data", pd.to_datetime(lancamento["data"]))
+                nova_data = st.date_input("Data", pd.to_datetime(lancamento["data"], dayfirst=True))
+                
+    
+                #nova_data = st.date_input("Data", pd.to_datetime(lancamento["data"]))
                 # Verifica se a data_pag é válida
                 try:
-                    data_pag_padrao = pd.to_datetime(lancamento["data_pag"])
+                    data_pag_padrao = pd.to_datetime(lancamento["data_pag"], dayfirst=True)
+                    #data_pag_padrao = pd.to_datetime(lancamento["data_pag"])
                     if pd.isnull(data_pag_padrao):
                         data_pag_padrao = datetime.today()
                 except Exception:
