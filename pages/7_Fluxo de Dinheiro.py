@@ -321,78 +321,46 @@ with aba3:
 
 with aba4:
     st.subheader("📊 Resumo Financeiro")
-    
+
     # Cargar y limpiar datos
     df = carregar_dados()
-    
-    # Verificación especial para el registro problemático
-    df["status"] = df["status"].str.strip().str.lower()
-    
-    # DEPURACIÓN: Mostrar registros de entrada con valores altos
-    #st.write("🔍 Registros de entrada con valores > R$ 1,000:")
-    #high_value_entries = df[(df["status"] == "entrada") & (df["valor"].apply(safe_float) > 1000)]
-    #st.dataframe(high_value_entries)
-    
-    # Cálculo corregido de totales
-    total_entrada = df[df["status"] == "entrada"]["valor"].apply(safe_float).sum()
-    total_saida = df[df["status"] == "saida"]["valor"].apply(safe_float).sum()
-    total_pendente = df[df["status"] == "pendente"]["valor"].apply(safe_float).sum()
-    
-    # Ajuste manual para corregir la diferencia (solución temporal)
-    if abs(total_entrada - 17208.65) > 4000:
-        #st.warning("⚠️ Se detectó una posible discrepancia en las entradas. Aplicando corrección...")
-        total_entrada = 17208.65  # Valor correcto de Google Sheets
-    
+    df["status"] = df["status"].astype(str).str.strip().str.lower()
+    df["valor"] = df["valor"].apply(safe_float)
+
+    # Calcular totales
+    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
+    total_saida = df[df["status"] == "saida"]["valor"].sum()
+    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+    saldo = total_entrada - total_saida
+
     # Mostrar métricas
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("🟢 Entradas", formatar_real(total_entrada))
     col2.metric("🔴 Saídas", formatar_real(total_saida))
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
-    col4.metric("💰 Saldo", formatar_real(total_entrada - total_saida))
+    col4.metric("💰 Saldo", formatar_real(saldo))
 
-    st.subheader("🧪 Diagnóstico Resumo Financeiro")
-
-    # Cargar y mostrar datos crudos
-    df = carregar_dados()
-    st.write("🔍 DataFrame original:", df)
-    
-    # Normalizar columnas
-    df["status"] = df["status"].astype(str).str.strip().str.lower()
-    df["valor"] = df["valor"].apply(safe_float)
-    
-    # Confirmar tipos
-    st.write("🧾 Tipos de columnas:", df.dtypes)
-    st.write("🔍 Valores únicos en 'status':", df["status"].unique())
-    
-    # Mostrar solo entradas detectadas
-    entradas = df[df["status"] == "entrada"]
-    st.write("📄 Entradas detectadas:", entradas)
-    
-    # Calcular total
-    total_entrada = entradas["valor"].sum()
-    st.write("💰 Total Entrada (calculado):", total_entrada)
-    
-    # Mostrar métricas reales
-    col1, col2 = st.columns(2)
-    col1.metric("🟢 Total de Entradas", formatar_real(total_entrada))
-    col2.metric("🔢 Número de registros de entrada", len(entradas))
-
-    
-    
     # Gráfico
     df_grafico = pd.DataFrame({
-    "Tipo": ["Entradas", "Saídas", "Pendentes"],
-    "Valor": [total_entrada, total_saida, total_pendente]
+        "Tipo": ["Entradas", "Saídas", "Pendentes"],
+        "Valor": [total_entrada, total_saida, total_pendente]
     })
 
-    fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
-                 color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
+    fig = px.bar(
+        df_grafico,
+        x="Tipo",
+        y="Valor",
+        text="Valor",
+        color="Tipo",
+        color_discrete_map={
+            "Entradas": "green",
+            "Saídas": "red",
+            "Pendentes": "orange"
+        }
+    )
+    fig.update_traces(texttemplate="R$ %{text:.2f}", textposition="outside")
     fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
     st.plotly_chart(fig, use_container_width=True)
-
-    st.write("Entradas detectadas:", df[df["status"] == "entrada"])
-
-#===================================================================================================================================
 
 
 
