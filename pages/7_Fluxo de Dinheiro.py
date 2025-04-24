@@ -234,7 +234,6 @@ with aba2:
     total_pendente = df[df["status"] == "pendente"]["valor"].sum()
     saldo = total_entrada - total_saida
 
-    st.write(df.tail())  # Ver las últimas filas
 
 with aba3:
     st.subheader("🛠️ Editar ou Remover Lançamento")
@@ -360,11 +359,7 @@ with aba4:
     fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
     st.plotly_chart(fig, use_container_width=True)
 
-    st.write(df.tail())  # Ver las últimas filas
-
-    df["valor"] = df["valor"].apply(safe_float)
-    st.write("Tipos de columna:", df.dtypes)
-
+    st.write("Entradas detectadas:", df[df["status"] == "entrada"])
 
 #===================================================================================================================================
 
