@@ -332,9 +332,9 @@ with aba4:
     st.write("Total Saída:", total_saida)
     st.write("Total Pendente:", total_pendente)
 
-    st.text(type(total_entrada), total_entrada)
-    st.text(type(total_saida), total_saida)
-    st.text(type(total_pendente), total_pendente)
+    st.text(type(total_entrada))
+    st.text(type(total_saida))
+    st.text(type(total_pendente))
     
     # Gráfico
     df_grafico = pd.DataFrame({
