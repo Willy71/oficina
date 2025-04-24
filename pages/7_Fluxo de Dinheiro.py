@@ -334,7 +334,15 @@ with aba4:
     "Tipo": ["Entradas", "Saídas", "Pendentes"],
     "Valor": [total_entrada, total_saida, total_pendente]
     })
-    st.text(type(total_entrada))  # debería ser 
+    #st.text(type(total_entrada))  # debería ser 
+
+    fig = px.bar(df_grafico, x="Tipo", y="Valor", text="Valor", color="Tipo",
+             color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
+
+    fig.update_traces(texttemplate='R$ %{text:.2f}', textposition='outside')
+    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
+    st.plotly_chart(fig, use_container_width=True)
+
 
     fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
                  color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
