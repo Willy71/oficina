@@ -328,9 +328,10 @@ with aba4:
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
     col4.metric("💰 Saldo", formatar_real(total_entrada - total_saida))
     
-
-        
-   
+    st.write("Total Entrada:", total_entrada)
+    st.write("Total Saída:", total_saida)
+    st.write("Total Pendente:", total_pendente)
+    
     # Gráfico
     df_grafico = pd.DataFrame({
         "Tipo": ["Entradas", "Saídas", "Pendentes"],
