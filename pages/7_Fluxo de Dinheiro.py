@@ -334,7 +334,11 @@ with aba4:
     "Tipo": ["Entradas", "Saídas", "Pendentes"],
     "Valor": [total_entrada, total_saida, total_pendente]
     })
-    #st.text(type(total_entrada))  # debería ser 
+
+    st.write("DataFrame para el gráfico:")
+    st.write(df_grafico)
+    st.write(df_grafico.dtypes)
+
 
 
     fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
