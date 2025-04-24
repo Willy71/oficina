@@ -217,14 +217,14 @@ with aba1:
             data_pag = st.date_input("Data de pagamento prevista", value=None) if tipo == "pendente" else None
     with st.container():
         cols = st.columns(3)
-        with cols[0]:
+        with cols[1]:
             cliente = st.text_input("Cliente")
     descricao = st.text_input("Descrição")
     with st.container():
-        cols = st.columns(3)
-        with cols[0]:
-            carro = st.text_input("Carro")
+        cols = st.columns(4)
         with cols[1]:
+            carro = st.text_input("Carro")
+        with cols[2]:
             placa = st.text_input("Placa")
       
     motivo = st.text_input("Motivo")
