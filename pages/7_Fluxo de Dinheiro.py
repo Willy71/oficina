@@ -179,6 +179,19 @@ def normalize_status(status):
     
     return status  # Mantener original si no coincide
 
+def parse_valor(valor_str):
+    if isinstance(valor_str, str):
+        valor_str = valor_str.replace("R$", "").replace(".", "").replace(",", ".").strip()
+        try:
+            return float(valor_str)
+        except ValueError:
+            return 0.0
+    elif isinstance(valor_str, (int, float)):
+        return float(valor_str)
+    else:
+        return 0.0
+
+
 
 # Interface
 # Configuración de página (igual que tu código original)
