@@ -328,13 +328,8 @@ with aba4:
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
     col4.metric("💰 Saldo", formatar_real(total_entrada - total_saida))
     
-    with aba4:
-    st.subheader("📊 Resumo Financeiro")
-    
-    # [Aquí va el código previo de cálculos...]
-    
-    # --- SECCIÓN DEL GRÁFICO CON DIAGNÓSTICO ---
-    
+
+        
     # 1. Verificación de datos (temporal)
     st.write("Datos para el gráfico:", {
         "Entradas": total_entrada,
