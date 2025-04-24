@@ -88,7 +88,7 @@ line(6, "red")
 
 centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/Logo%20oficina%20001.jpeg?raw=true", 600)
 
-line(6, "red)
+line(6, "red")
 
 
 
