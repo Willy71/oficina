@@ -84,11 +84,11 @@ def line(size, color):
         unsafe_allow_html=True
     )
 
-line(4, "blue")
+line(6, "red")
 
 centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/Logo%20oficina%20001.jpeg?raw=true", 600)
 
-line(4, "blue")
+line(6, "red)
 
 
 
