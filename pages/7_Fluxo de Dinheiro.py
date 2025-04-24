@@ -18,28 +18,27 @@ sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 def safe_float(valor):
     """Convierte cualquier valor a float de manera segura"""
-    # Verificación segura de valores nulos o vacíos
     if pd.isna(valor) or valor in [None, '']:
         return 0.0
     
-    # Si ya es numérico, retornar directamente
     if isinstance(valor, (int, float)):
         return float(valor)
-    
+
     try:
-        # Convertir a string y limpiar
-        str_valor = str(valor).strip()
-        str_valor = str_valor.replace('R$', '').replace('$', '').strip()
+        str_valor = str(valor).strip().replace('R$', '').replace('$', '').replace('"', '')
         
-        # Detección automática de formato
-        if '.' in str_valor and ',' in str_valor:  # Formato 1.234,56
-            return float(str_valor.replace('.', '').replace(',', '.'))
-        elif ',' in str_valor:  # Formato 1234,56
-            return float(str_valor.replace(',', '.'))
-        else:  # Formato americano 1234.56 o entero
-            return float(str_valor)
-    except:
+        # 🇧🇷 Caso: formato brasileiro "1.234,56"
+        if '.' in str_valor and ',' in str_valor:
+            str_valor = str_valor.replace('.', '').replace(',', '.')
+        elif ',' in str_valor:  # "1234,56"
+            str_valor = str_valor.replace(',', '.')
+        # si tiene solo punto, ya está ok
+
+        return float(str_valor)
+    except Exception as e:
+        print(f"Error convertiendo valor: '{valor}'. Error: {e}")
         return 0.0
+
 
 # En la función cargar_dados():
 def carregar_dados():
