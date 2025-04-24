@@ -206,9 +206,15 @@ aba1, aba2, aba3, aba4 = st.tabs(["➕ Novo Lançamento", "📋 Lançamentos", "
 
 with aba1:
     st.subheader("➕ Novo Registro")
-    tipo = st.selectbox("Tipo", ["entrada", "saida", "pendente"])
-    data = st.date_input("Data do lançamento")
-    data_pag = st.date_input("Data de pagamento prevista", value=None) if tipo == "pendente" else None
+     # Mostrar información principal en cards
+    with st.container():
+        cols = st.columns(3)
+        with cols[0]:
+            tipo = st.selectbox("Tipo", ["entrada", "saida", "pendente"])
+        with cols[1]:
+            data = st.date_input("Data do lançamento")
+        with cols[2]:    
+            data_pag = st.date_input("Data de pagamento prevista", value=None) if tipo == "pendente" else None
     cliente = st.text_input("Cliente")
     descricao = st.text_input("Descrição")
     carro = st.text_input("Carro")
