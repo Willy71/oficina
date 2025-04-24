@@ -331,58 +331,13 @@ with aba4:
 
         
    
-    # VERIFICACIÓN DE DATOS (agrega esto temporalmente)
-    st.write("Valores crudos:", {
-        "total_entrada": total_entrada,
-        "total_saida": total_saida,
-        "total_pendente": total_pendente,
-        "tipos": type(total_entrada)
-    })
-    
-    # Crear DataFrame para el gráfico
+    # Gráfico
     df_grafico = pd.DataFrame({
         "Tipo": ["Entradas", "Saídas", "Pendentes"],
-        "Valor": [float(total_entrada), float(total_saida), float(total_pendente)]  # Forzar conversión a float
+        "Valor": [total_entrada, total_saida, total_pendente]
     })
-    
-    st.write("DataFrame del gráfico:", df_grafico)  # Depuración
-    
-        # Configuración robusta del gráfico
-    fig = px.bar(
-        df_grafico,
-        x="Tipo",
-        y="Valor",
-        text_auto=".2f",
-        color="Tipo",
-        color_discrete_map={
-            "Entradas": "#2ecc71",  # Verde más vivo
-            "Saídas": "#e74c3c",    # Rojo más vivo
-            "Pendentes": "#f39c12"  # Naranja más vivo
-        },
-        title="Totais Financeiros",
-        height=500  # Altura fija
-    )
-    
-    # Personalización avanzada
-    fig.update_layout(
-        xaxis_title="",
-        yaxis_title="Valor (R$)",
-        yaxis=dict(
-            rangemode="tozero",  # Fuerza que el eje Y empiece en 0
-            showgrid=True,
-            gridcolor="lightgray"
-        ),
-        plot_bgcolor="white",
-        hovermode="x unified"
-    )
-    
-    # Asegurar que las barras sean visibles
-    fig.update_traces(
-        marker_line_width=1.5,
-        marker_line_color="darkgray",
-        opacity=0.9,
-        textfont_size=12,
-        textposition="outside"
-    )
-    
+
+    fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
+                 color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
+    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
     st.plotly_chart(fig, use_container_width=True)
