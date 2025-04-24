@@ -229,17 +229,20 @@ with aba1:
       
     motivo = st.text_input("Motivo")
     with st.container():
-        cols = st.columns(3)
-        with cols[0]:
+        cols = st.columns(4)
+        with cols[1]:
             forma = st.selectbox("Forma de pagamento", ["dinheiro", "pix", "cartão", "boleto", "outro"])
-        with cols[0]:
+        with cols[2]:
             valor = st.number_input("Valor", min_value=0.0, format="%.2f")
-    if st.button("Salvar Registro"):
-        adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
-        st.success("Registro salvo com sucesso!")
-    
-        # 👇 Forzar recarga
-        st.experimental_rerun()
+    with st.container():
+        cols = st.columns(3)
+        with cols[1]:
+            if st.button("Salvar Registro"):
+                adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
+                st.success("Registro salvo com sucesso!")
+            
+                # 👇 Forzar recarga
+                st.experimental_rerun()
 
 with aba2:
     st.subheader("📋 Lançamentos")
