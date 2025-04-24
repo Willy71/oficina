@@ -335,6 +335,20 @@ with aba4:
     st.text(type(total_entrada))
     st.text(type(total_saida))
     st.text(type(total_pendente))
+
+    df['valor'] = df['valor'].apply(parse_valor)  # asegúrate de que parse_valor esté aplicado
+
+    total_entrada = df[df['tipo'] == 'Entrada']['valor'].sum()
+    total_saida = df[df['tipo'] == 'Saída']['valor'].sum()
+    total_pendente = df[df['status'] == 'Pendente']['valor'].sum()
+
+    total_entrada = total_entrada or 0
+    total_saida = total_saida or 0
+    total_pendente = total_pendente or 0
+
+    st.dataframe(df_grafico)
+
+
     
     # Gráfico
     df_grafico = pd.DataFrame({
