@@ -59,6 +59,13 @@ def carregar_dados():
     print("Valores convertidos:", df["valor"].head())
     return df
 
+def obter_proximo_id(df):
+    if df.empty or 'ids' not in df.columns:
+        return 1
+    try:
+        return int(df['ids'].max()) + 1
+    except:
+        return 1
 
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
     df = carregar_dados()
@@ -184,14 +191,6 @@ def normalize_status(status):
         return 'pendente'
     
     return status  # Mantener original si no coincide
-
-def obtener_proximo_id(df):
-    if df.empty or 'ids' not in df.columns:
-        return 1
-    try:
-        return int(df['ids'].max()) + 1
-    except:
-        return 1
 
 
 
