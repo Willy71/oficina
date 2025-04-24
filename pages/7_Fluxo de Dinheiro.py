@@ -328,21 +328,13 @@ with aba4:
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
     col4.metric("💰 Saldo", formatar_real(total_entrada - total_saida))
     
-    st.write("Total Entrada:", total_entrada)
-    st.write("Total Saída:", total_saida)
-    st.write("Total Pendente:", total_pendente)
-
-    st.text(type(total_entrada))
-    st.text(type(total_saida))
-    st.text(type(total_pendente))
     
     # Gráfico
     df_grafico = pd.DataFrame({
-        "Tipo": ["Entradas", "Saídas", "Pendentes"],
-        "Valor": [total_entrada, total_saida, total_pendente]
+    "Tipo": ["Entradas", "Saídas", "Pendentes"],
+    "Valor": [total_entrada, total_saida, total_pendente]
     })
 
-    st.dataframe(df_grafico)
 
     fig = px.bar(df_grafico, x="Tipo", y="Valor", text_auto=".2s", color="Tipo",
                  color_discrete_map={"Entradas": "green", "Saídas": "red", "Pendentes": "orange"})
