@@ -4,7 +4,7 @@ import gspread
 import uuid
 from google.oauth2.service_account import Credentials
 from datetime import datetime
-import plotly.express as px
+#import plotly.express as px
 
 # Conexão com Google Sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
@@ -365,21 +365,21 @@ with aba4:
         "Valor": [total_entrada, total_saida, total_pendente]
     })
 
-    fig = px.bar(
-        df_grafico,
-        x="Tipo",
-        y="Valor",
-        text="Valor",
-        color="Tipo",
-        color_discrete_map={
-            "Entradas": "green",
-            "Saídas": "red",
-            "Pendentes": "orange"
-        }
-    )
-    fig.update_traces(texttemplate="R$ %{text:.2f}", textposition="outside")
-    fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
-    st.plotly_chart(fig, use_container_width=True)
+    #fig = px.bar(
+    #    df_grafico,
+   #    x="Tipo",
+     #   y="Valor",
+     #   text="Valor",
+     #   color="Tipo",
+     #   color_discrete_map={
+     #       "Entradas": "green",
+       #     "Saídas": "red",
+       #     "Pendentes": "orange"
+      #  }
+    #)
+    #fig.update_traces(texttemplate="R$ %{text:.2f}", textposition="outside")
+   # fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
+    #st.plotly_chart(fig, use_container_width=True)
 
 
 
