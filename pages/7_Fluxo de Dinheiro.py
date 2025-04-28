@@ -191,25 +191,6 @@ def normalize_status(status):
     
     return status  # Mantener original si no coincide
 
-def salvar_dados(df):
-    """
-    Salva o DataFrame atualizado de volta para a planilha Google Sheets.
-    """
-    # Primeiro, limpar a planilha removendo todos os dados
-    sheet.clear()
-
-    # Reescrever o cabeçalho
-    sheet.append_row(df.columns.tolist())
-
-    # Escrever cada linha
-    for _, linha in df.iterrows():
-        # Convertir os valores para string para garantir compatibilidade
-        linha_str = [str(x) if not pd.isna(x) else "" for x in linha]
-        sheet.append_row(linha_str)
-
-
-
-
 # Interface
 # Configuración de página (igual que tu código original)
 st.set_page_config(
