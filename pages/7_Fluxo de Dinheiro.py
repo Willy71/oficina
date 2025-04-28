@@ -327,12 +327,12 @@ with aba3:
                 df.at[idx, "valor"] = novo_valor
                 df.at[idx, "status"] = novo_status
 
-                salvar_dados(df)
+                #salvar_dados(df)
                 st.success("Lançamento atualizado com sucesso!")
 
             if excluir:
-                df = df.drop(idx).reset_index(drop=True)
-                salvar_dados(df)
+                #df = df.drop(idx).reset_index(drop=True)
+                #salvar_dados(df)
                 st.success("Lançamento removido com sucesso!")
 
 
