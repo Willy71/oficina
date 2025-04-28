@@ -130,6 +130,24 @@ def safe_float(valor):
     except Exception as e:
         st.error(f"Error convertiendo valor: '{valor}'. Error: {str(e)}")
         return 0.0
+
+
+def salvar_dados(df):
+    """
+    Salva o DataFrame atualizado de volta para a planilha Google Sheets.
+    """
+    # Primeiro, limpar a planilha removendo todos os dados
+    sheet.clear()
+
+    # Reescrever o cabeçalho
+    sheet.append_row(df.columns.tolist())
+
+    # Escrever cada linha
+    for _, linha in df.iterrows():
+        # Convertir os valores para string para garantir compatibilidade
+        linha_str = [str(x) if not pd.isna(x) else "" for x in linha]
+        sheet.append_row(linha_str)
+
         
 def formatar_valor(valor, padrao=""):
     """
