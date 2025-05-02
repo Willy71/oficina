@@ -238,24 +238,47 @@ with aba1:
             if st.button("Salvar Registro"):
                 adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
                 st.success("Registro salvo com sucesso!")
-            
+                time.sleep(0.3)
                 # 👇 Forzar recarga
-                st.experimental_rerun()
+                st.rerun()
 
 with aba2:
     st.subheader("📋 Lançamentos")
     df = carregar_dados()
-    df["status"] = df["status"].str.strip().str.lower()  # 👈 esto faltaba
-    st.dataframe(df)
+    df["status"] = df["status"].astype(str).str.strip().str.lower()
 
-    #st.markdown("### 📊 Resumo Financeiro")
-    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
-    total_saida = df[df["status"] == "saida"]["valor"].sum()
-    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
-    saldo = total_entrada - total_saida
+    col1, col2, col3 = st.columns(3)
+    filtro = None
+    with col1:
+        if st.button("Mostrar Entradas"):
+            filtro = "entrada"
+    with col2:
+        if st.button("Mostrar Saídas"):
+            filtro = "saida"
+    with col3:
+        if st.button("Mostrar Pendentes"):
+            filtro = "pendente"
+
+    if filtro:
+        df = df[df["status"] == filtro]
+    
+    df = df.sort_values("data", ascending=False)  # mostrar do mais novo ao mais antigo
+    st.dataframe(df)
 
 
 with aba3:
+
+    st.markdown("### 🗑️ Remover por ID")
+    id_para_excluir = st.number_input("Digite o ID que deseja excluir", min_value=1, step=1)
+    if st.button("Remover por ID"):
+        sucesso = excluir_linha_por_id(id_para_excluir)
+        if sucesso:
+            st.success(f"Lançamento com ID {id_para_excluir} removido com sucesso!")
+            time.sleep(0.3)
+            st.experimental_rerun()
+        else:
+            st.warning(f"Nenhum lançamento com ID {id_para_excluir} foi encontrado.")
+                
     st.subheader("🛠️ Editar ou Remover Lançamento")
 
     df = carregar_dados()
