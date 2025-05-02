@@ -238,7 +238,6 @@ with aba1:
             if st.button("Salvar Registro"):
                 adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
                 st.success("Registro salvo com sucesso!")
-                time.sleep(0.3)
                 # 👇 Forzar recarga
                 st.rerun()
 
