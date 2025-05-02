@@ -263,7 +263,7 @@ with aba2:
         df = df[df["status"] == filtro]
     
     df = df.sort_values("data", ascending=False)  # mostrar do mais novo ao mais antigo
-    st.dataframe(df)
+    st.dataframe(df, hide_index=True)
 
 
 with aba3:
