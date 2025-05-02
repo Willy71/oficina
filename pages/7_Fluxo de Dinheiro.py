@@ -267,97 +267,86 @@ with aba2:
 
 
 with aba3:
-
-    st.markdown("### 🗑️ Remover por ID")
-    id_para_excluir = st.number_input("Digite o ID que deseja excluir", min_value=1, step=1)
-    if st.button("Remover por ID"):
-        sucesso = excluir_linha_por_id(id_para_excluir)
-        if sucesso:
-            st.success(f"Lançamento com ID {id_para_excluir} removido com sucesso!")
-            time.sleep(0.3)
-            st.experimental_rerun()
-        else:
-            st.warning(f"Nenhum lançamento com ID {id_para_excluir} foi encontrado.")
-                
-    st.subheader("🛠️ Editar ou Remover Lançamento")
+    st.subheader("🛠️ Editar ou Remover Lançamento por ID")
 
     df = carregar_dados()
+    df["ids"] = df["ids"].astype(int)  # Asegurar tipo entero
 
     if df.empty:
         st.info("Nenhum lançamento encontrado.")
     else:
-        # Mostrar lista de lançamentos com índice para escolha
-        opcoes = df["descricao"] + " | " + df["cliente"] + " | R$ " + df["valor"].astype(str) + " | " + df["status"]
-        escolha = st.selectbox("Selecione um lançamento para editar ou remover:", opcoes)
+        ids_disponiveis = df["ids"].sort_values(ascending=False).tolist()
+        id_escolhido = st.selectbox("Selecione o ID do lançamento", ids_disponiveis)
 
-        if escolha:
-            idx = opcoes[opcoes == escolha].index[0]
-            lancamento = df.loc[idx]
+        lancamento = df[df["ids"] == id_escolhido].iloc[0]
 
-            # Formulário de edição
-            with st.form("form_edicao"):
-                nova_data = st.date_input("Data", pd.to_datetime(lancamento["data"], dayfirst=True))
-                
-    
-                #nova_data = st.date_input("Data", pd.to_datetime(lancamento["data"]))
-                # Verifica se a data_pag é válida
-                try:
-                    data_pag_padrao = pd.to_datetime(lancamento["data_pag"], dayfirst=True)
-                    #data_pag_padrao = pd.to_datetime(lancamento["data_pag"])
-                    if pd.isnull(data_pag_padrao):
-                        data_pag_padrao = datetime.today()
-                except Exception:
+        with st.form("form_edicao_id"):
+            nova_data = st.date_input("Data", pd.to_datetime(lancamento["data"], dayfirst=True))
+            try:
+                data_pag_padrao = pd.to_datetime(lancamento["data_pag"], dayfirst=True)
+                if pd.isnull(data_pag_padrao):
                     data_pag_padrao = datetime.today()
-                
-                nova_data_pag = st.date_input("Data Pagamento (se aplicável)", data_pag_padrao)
+            except Exception:
+                data_pag_padrao = datetime.today()
 
-                novo_cliente = st.text_input("Cliente", lancamento["cliente"])
-                nova_descricao = st.text_input("Descrição", lancamento["descricao"])
-                novo_carro = st.text_input("Carro", lancamento["carro"])
-                nova_placa = st.text_input("Placa", lancamento["placa"])
-                novo_motivo = st.text_input("Motivo", lancamento["motivo"])
-                opcoes_forma = ["dinheiro", "pix", "cartão", "outro"]
-                valor_atual_forma = lancamento["form"].strip().lower()      
-                if valor_atual_forma in opcoes_forma:
-                    idx_forma = opcoes_forma.index(valor_atual_forma)
-                else:
-                    idx_forma = 0  # default: "dinheiro"
-                nova_forma = st.selectbox("Forma de Pagamento", opcoes_forma, index=idx_forma)
-                try:
-                    valor_padrao = float(str(lancamento["valor"]).replace("R$", "").replace(",", ".").strip())
-                except Exception:
-                    valor_padrao = 0.0
-                
-                novo_valor = st.number_input("Valor", value=valor_padrao)
+            nova_data_pag = st.date_input("Data Pagamento (se aplicável)", data_pag_padrao)
+            novo_cliente = st.text_input("Cliente", lancamento["cliente"])
+            nova_descricao = st.text_input("Descrição", lancamento["descricao"])
+            novo_carro = st.text_input("Carro", lancamento["carro"])
+            nova_placa = st.text_input("Placa", lancamento["placa"])
+            novo_motivo = st.text_input("Motivo", lancamento["motivo"])
 
-                novo_status = st.selectbox("Status", ["entrada", "saida", "pendente"], index=["entrada", "saida", "pendente"].index(lancamento["status"]))
+            opcoes_forma = ["dinheiro", "pix", "cartão", "boleto", "outro"]
+            valor_atual_forma = str(lancamento["form"]).strip().lower()
+            idx_forma = opcoes_forma.index(valor_atual_forma) if valor_atual_forma in opcoes_forma else 0
+            nova_forma = st.selectbox("Forma de Pagamento", opcoes_forma, index=idx_forma)
 
-                col1, col2 = st.columns(2)
-                with col1:
-                    editar = st.form_submit_button("💾 Salvar Alterações")
-                with col2:
-                    excluir = st.form_submit_button("🗑️ Remover")
+            try:
+                valor_padrao = float(str(lancamento["valor"]).replace("R$", "").replace(",", ".").strip())
+            except:
+                valor_padrao = 0.0
+            novo_valor = st.number_input("Valor", value=valor_padrao)
 
-            if editar:
-                df.at[idx, "data"] = nova_data.strftime("%Y-%m-%d")
-                df.at[idx, "data_pag"] = nova_data_pag.strftime("%Y-%m-%d")
-                df.at[idx, "cliente"] = novo_cliente
-                df.at[idx, "descricao"] = nova_descricao
-                df.at[idx, "carro"] = novo_carro
-                df.at[idx, "placa"] = nova_placa
-                df.at[idx, "motivo"] = novo_motivo
-                df.at[idx, "form"] = nova_forma
-                df.at[idx, "valor"] = novo_valor
-                df.at[idx, "status"] = novo_status
+            status_opcoes = ["entrada", "saida", "pendente"]
+            idx_status = status_opcoes.index(str(lancamento["status"]).strip().lower()) if lancamento["status"] in status_opcoes else 0
+            novo_status = st.selectbox("Status", status_opcoes, index=idx_status)
 
-                #salvar_dados(df)
+            col1, col2 = st.columns(2)
+            with col1:
+                editar = st.form_submit_button("💾 Salvar Alterações")
+            with col2:
+                excluir = st.form_submit_button("🗑️ Remover")
+
+        if editar:
+            novos_dados = [
+                id_escolhido,
+                nova_data.strftime("%d/%m/%Y"),
+                nova_data_pag.strftime("%d/%m/%Y"),
+                novo_cliente,
+                nova_descricao,
+                novo_carro,
+                nova_placa,
+                novo_motivo,
+                nova_forma,
+                novo_valor,
+                novo_status
+            ]
+            atualizado = atualizar_linha_por_id(id_escolhido, novos_dados)
+            if atualizado:
                 st.success("Lançamento atualizado com sucesso!")
+                time.sleep(0.3)
+                st.experimental_rerun()
+            else:
+                st.error("Erro ao atualizar lançamento.")
 
-            if excluir:
-                #df = df.drop(idx).reset_index(drop=True)
-                #salvar_dados(df)
-                st.success("Lançamento removido com sucesso!")
-
+        if excluir:
+            removido = excluir_linha_por_id(id_escolhido)
+            if removido:
+                st.success(f"Lançamento com ID {id_escolhido} removido com sucesso!")
+                time.sleep(0.3)
+                st.experimental_rerun()
+            else:
+                st.warning("Erro ao remover lançamento.")
 
 with aba4:
     st.subheader("📊 Resumo Financeiro")
