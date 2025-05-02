@@ -90,7 +90,7 @@ def atualizar_linha_por_id(id_alvo, novos_dados):
 def excluir_linha_por_id(id_alvo):
     df = carregar_dados()
     if id_alvo in df["ids"].values:
-        linha = df[df["ids"] == id_alvo].index[0] + 2
+        linha = int(df[df["ids"] == id_alvo].index[0]) + 2  # Convertir a int nativo
         sheet.delete_rows(linha)
         return True
     return False
