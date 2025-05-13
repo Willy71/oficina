@@ -1,37 +1,76 @@
 import streamlit as st
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+import gspread
+from google.oauth2.service_account import Credentials
+import pandas as pd
 from datetime import datetime
 import pdfkit
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-# Config
-st.set_page_config(page_title="Gerar Laudo Técnico", layout="wide")
+# Configuración inicial
+st.set_page_config(page_title="Laudo Técnico", layout="wide")
+st.title("📄 Gerar Laudo Técnico")
 
-# Inicializar Jinja2
+# Credenciales y conexión
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
+SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
+SHEET_NAME = 'Hoja 1'
+credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+gc = gspread.authorize(credentials)
+worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+dados = pd.DataFrame(worksheet.get_all_records())
+
+# Jinja2
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
 template = env.get_template("template_laudo.html")
 
-# Interfaz
-st.title("📝 Gerar Laudo Técnico")
+# Buscar por placa
+placa = st.text_input("Digite a placa:", "").strip().upper()
 
-placa = st.text_input("Placa do veículo")
+if placa:
+    veiculo = dados[dados['placa'].str.upper().str.strip() == placa]
+    if not veiculo.empty:
+        veiculo_dict = veiculo.iloc[-1].to_dict()
+        carro = veiculo_dict.get('carro', '')
+        modelo = veiculo_dict.get('modelo', '')
+        ano = veiculo_dict.get('ano', '')
+        cor = veiculo_dict.get('cor', '')
+        dono_empresa = veiculo_dict.get('dono_empresa', '')
+        date_in = veiculo_dict.get('date_in', '')
+        
+        st.success("✅ Veículo encontrado:")
+        st.markdown(f"**{carro} {modelo} {ano} - {cor}**")
+        st.markdown(f"**Dono:** {dono_empresa} | **Data entrada:** {date_in}")
+    else:
+        st.warning("❌ Veículo não encontrado.")
+        carro = modelo = ano = cor = dono_empresa = date_in = ""
+
+else:
+    carro = modelo = ano = cor = dono_empresa = date_in = ""
+
 cidade = st.text_input("Cidade", value="Ponta Grossa")
-laudo = st.text_area("Digite o conteúdo do laudo técnico:", height=300)
+laudo = st.text_area("Digite o Laudo Técnico:", height=300)
 
 if st.button("Gerar PDF"):
     if not laudo or not placa:
-        st.warning("Preencha todos os campos obrigatórios.")
+        st.warning("Por favor, preencha todos os campos.")
     else:
-        data_atual = datetime.now().strftime("%d/%m/%Y")
         html = template.render(
+            placa=placa,
+            carro=carro,
+            modelo=modelo,
+            ano=ano,
+            cor=cor,
+            dono_empresa=dono_empresa,
+            date_in=date_in,
             laudo_conteudo=laudo.replace("\n", "<br>"),
             cidade=cidade,
-            data=data_atual
+            data=datetime.now().strftime("%d/%m/%Y")
         )
         try:
             pdf = pdfkit.from_string(html, False)
-            st.success("PDF gerado com sucesso!")
             st.download_button(
-                "⬇️ Baixar Laudo PDF",
+                "⬇️ Baixar PDF",
                 data=pdf,
                 file_name=f"Laudo_{placa}.pdf",
                 mime="application/pdf"
