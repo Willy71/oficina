@@ -6,25 +6,22 @@ from datetime import datetime
 import pdfkit
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-# Configuración inicial
 st.set_page_config(page_title="Laudo Técnico", layout="wide")
 st.title("📄 Gerar Laudo Técnico")
 
-# Credenciales y conexión
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
 SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'
 SHEET_NAME = 'Hoja 1'
+
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 dados = pd.DataFrame(worksheet.get_all_records())
 
-# Jinja2
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-template = env.get_template("template_laudo.html")
+template = env.get_template("template_laudo_final.html")
 
-# Buscar por placa
 placa = st.text_input("Digite a placa:", "").strip().upper()
 
 if placa:
@@ -44,7 +41,6 @@ if placa:
     else:
         st.warning("❌ Veículo não encontrado.")
         carro = modelo = ano = cor = dono_empresa = date_in = ""
-
 else:
     carro = modelo = ano = cor = dono_empresa = date_in = ""
 
@@ -63,7 +59,7 @@ if st.button("Gerar PDF"):
             cor=cor,
             dono_empresa=dono_empresa,
             date_in=date_in,
-            laudo_conteudo=laudo.replace("\n", "<br>"),
+            laudo_conteudo=laudo.replace("\\n", "<br>"),
             cidade=cidade,
             data=datetime.now().strftime("%d/%m/%Y")
         )
