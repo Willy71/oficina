@@ -20,7 +20,7 @@ worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 dados = pd.DataFrame(worksheet.get_all_records())
 
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-template = env.get_template("template_laudo_final.html")
+template = env.get_template("template_laudo.html")
 
 placa = st.text_input("Digite a placa:", "").strip().upper()
 
