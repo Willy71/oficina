@@ -239,7 +239,7 @@ with aba1:
                 adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
                 st.success("Registro salvo com sucesso!")
                 # 👇 Forzar recarga
-                #st.rerun()
+                st.rerun()
 
 with aba2:
     st.subheader("📋 Lançamentos")
@@ -333,7 +333,7 @@ with aba3:
             atualizado = atualizar_linha_por_id(id_escolhido, novos_dados)
             if atualizado:
                 st.success("Lançamento atualizado com sucesso!")
-                #st.rerun()
+                st.rerun()
             else:
                 st.error("Erro ao atualizar lançamento.")
 
@@ -341,7 +341,7 @@ with aba3:
             removido = excluir_linha_por_id(id_escolhido)
             if removido:
                 st.success(f"Lançamento com ID {id_escolhido} removido com sucesso!")
-                #st.rerun()
+                st.rerun()
             else:
                 st.warning("Erro ao remover lançamento.")
 
