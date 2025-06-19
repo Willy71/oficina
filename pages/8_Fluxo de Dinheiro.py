@@ -3,7 +3,7 @@ import pandas as pd
 import gspread
 import uuid
 from google.oauth2.service_account import Credentials
-from datetime import datetime
+from datetime import datetime, date
 #import plotly.express as px
 
 # Conexão com Google Sheets
@@ -362,16 +362,23 @@ with aba4:
     df["data"] = pd.to_datetime(df["data"], dayfirst=True)
 
     col1, col2 = st.columns(2)
+    
+    data_min = df["data"].min().date() if not df.empty else date.today()
+    data_max = df["data"].max().date() if not df.empty else date.today()
+    
     with col1:
-        data_inicio = st.date_input("Data início", value=df["data"].min().date())
+        data_inicio = st.date_input("Data início", value=data_min, min_value=data_min, max_value=data_max, key="inicio_resumo")
+    
     with col2:
-        data_fim = st.date_input("Data fim", value=df["data"].max().date())
+        # Asegurarse de que data_fim no sea menor que data_inicio
+        data_fim = st.date_input("Data fim", value=data_max, min_value=data_inicio, max_value=data_max, key="fim_resumo")
 
-    df = df[(df["data"] >= pd.to_datetime(data_inicio)) & (df["data"] <= pd.to_datetime(data_fim))]
 
-    total_entrada = df[df["status"] == "entrada"]["valor"].sum()
-    total_saida = df[df["status"] == "saida"]["valor"].sum()
-    total_pendente = df[df["status"] == "pendente"]["valor"].sum()
+    df_filtrado = df[(df["data"] >= pd.to_datetime(data_inicio)) & (df["data"] <= pd.to_datetime(data_fim))]
+
+    total_entrada = df_filtrado[df_filtrado["status"] == "entrada"]["valor"].sum()
+    total_saida = df_filtrado[df_filtrado["status"] == "saida"]["valor"].sum()
+    total_pendente = df_filtrado[df_filtrado["status"] == "pendente"]["valor"].sum()
     saldo = total_entrada - total_saida
 
     col1, col2, col3, col4 = st.columns(4)
@@ -380,6 +387,27 @@ with aba4:
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
     col4.metric("💰 Saldo", formatar_real(saldo))
 
+    st.markdown("---")
+    st.markdown("### 📋 Filtrar lançamentos por tipo")
+
+    col1, col2, col3 = st.columns(3)
+    mostrar_tipo = None
+    with col1:
+        if st.button("🟢 Mostrar Entradas"):
+            mostrar_tipo = "entrada"
+    with col2:
+        if st.button("🔴 Mostrar Saídas"):
+            mostrar_tipo = "saida"
+    with col3:
+        if st.button("🟡 Mostrar Pendentes"):
+            mostrar_tipo = "pendente"
+
+    if mostrar_tipo:
+        df_tipo = df_filtrado[df_filtrado["status"] == mostrar_tipo]
+        cor = {"entrada": "🟢", "saida": "🔴", "pendente": "🟡"}.get(mostrar_tipo, "")
+        titulo = {"entrada": "Entradas", "saida": "Saídas", "pendente": "Pendentes"}.get(mostrar_tipo, mostrar_tipo)
+        st.markdown(f"#### {cor} {titulo}")
+        st.dataframe(df_tipo.sort_values("data", ascending=False), use_container_width=True)
 
     # Gráfico
     df_grafico = pd.DataFrame({
