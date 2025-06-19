@@ -430,7 +430,7 @@ with aba4:
             cor = {"entrada": "🟢", "saida": "🔴", "pendente": "🟡"}[mostrar_tipo]
             titulo = {"entrada": "Entradas", "saida": "Saídas", "pendente": "Pendentes"}[mostrar_tipo]
             st.markdown(f"#### {cor} {titulo}")
-            st.dataframe(df_tipo.sort_values("data", ascending=False), use_container_width=True)
+            st.dataframe(df_tipo.sort_values("data", ascending=False), use_container_width=True, hide_index=True)
 
 
     # Gráfico
@@ -501,7 +501,7 @@ with aba5:
             agrupado = df_filtrado.groupby("motivo")["valor"].sum().sort_values(ascending=False).reset_index()
             st.bar_chart(agrupado.rename(columns={"motivo": "Fornecedor", "valor": "Total Gasto"}).set_index("Fornecedor"))
 
-            st.dataframe(agrupado, use_container_width=True)
+            st.dataframe(agrupado, use_container_width=True, hide_index=True)
 
 with aba6:
     st.subheader("🔍 Buscar Gastos")
@@ -521,6 +521,6 @@ with aba6:
         )
 
         resultados = df[filtro].sort_values("data", ascending=False)
-        st.dataframe(resultados, use_container_width=True)
+        st.dataframe(resultados, use_container_width=True, hide_index=True)
     else:
         st.info("Digite um termo para buscar nos registros.")
