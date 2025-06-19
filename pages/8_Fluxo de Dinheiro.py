@@ -9,7 +9,7 @@ from datetime import datetime
 # Conexão com Google Sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
-SPREADSHEET_KEY = '1Wbfy1X3sVypDw-HTC4As0mHoq3a1jYDiPaO3x6YF4Vk' 
+SPREADSHEET_KEY = "1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4"
 SHEET_NAME = "fluxo"
 
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
@@ -200,7 +200,6 @@ st.set_page_config(
 )
 st.title("💰 Fluxo de Caixa")
 
-# Nuevo codigo
 aba1, aba2, aba3, aba4, aba5, aba6 = st.tabs([
     "➕ Novo Lançamento", 
     "📋 Lançamentos", 
@@ -210,7 +209,6 @@ aba1, aba2, aba3, aba4, aba5, aba6 = st.tabs([
     "🔍 Buscar Gastos"
 ])
 
-#aba1, aba2, aba3, aba4 = st.tabs(["➕ Novo Lançamento", "📋 Lançamentos", "🛠️ Editar / Remover", "📊 Resumo Financeiro"])
 
 with aba1:
     st.subheader("➕ Novo Registro")
@@ -382,6 +380,7 @@ with aba4:
     col3.metric("🟡 Pendentes", formatar_real(total_pendente))
     col4.metric("💰 Saldo", formatar_real(saldo))
 
+
     # Gráfico
     df_grafico = pd.DataFrame({
         "Tipo": ["Entradas", "Saídas", "Pendentes"],
@@ -403,7 +402,6 @@ with aba4:
     #fig.update_traces(texttemplate="R$ %{text:.2f}", textposition="outside")
    # fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
     #st.plotly_chart(fig, use_container_width=True)
-
 
 with aba5:
     st.subheader("📈 Análise de Gastos por Fornecedor")
@@ -441,7 +439,6 @@ with aba6:
     if termo:
         filtro = (
             df["carro"].astype(str).str.lower().str.contains(termo) |
-            df["placa"].astype(str).str.lower().str.contains(termo) |
             df["descricao"].astype(str).str.lower().str.contains(termo) |
             df["cliente"].astype(str).str.lower().str.contains(termo) |
             df["motivo"].astype(str).str.lower().str.contains(termo)
