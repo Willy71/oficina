@@ -53,6 +53,8 @@ def carregar_dados():
         df["valor"] = df["valor"].astype(str)
         # Aplicar conversión segura
         df["valor"] = df["valor"].apply(safe_float)
+        df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce').dt.date
+
     
     # Depuración: mostrar resultado
     print("Valores convertidos:", df["valor"].head())
@@ -353,28 +355,31 @@ with aba3:
             else:
                 st.warning("Erro ao remover lançamento.")
 
+from datetime import date
+
 with aba4:
     st.subheader("📊 Resumo Financeiro")
 
     df = carregar_dados()
+
+    # Garantir formato de datas e limpeza
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     df["valor"] = df["valor"].apply(safe_float)
-    df["data"] = pd.to_datetime(df["data"], dayfirst=True)
+    df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
+    df = df.dropna(subset=["data"])  # elimina linhas com datas inválidas
+    df["data"] = df["data"].dt.date  # transforma datetime em date puro (sem hora)
+
+    # Define limites confiáveis
+    data_min = df["data"].min() if not df.empty else date.today()
+    data_max = df["data"].max() if not df.empty else date.today()
 
     col1, col2 = st.columns(2)
-    
-    data_min = df["data"].min().date() if not df.empty else date.today()
-    data_max = df["data"].max().date() if not df.empty else date.today()
-    
     with col1:
         data_inicio = st.date_input("Data início", value=data_min, min_value=data_min, max_value=data_max, key="inicio_resumo")
-    
     with col2:
-        # Asegurarse de que data_fim no sea menor que data_inicio
         data_fim = st.date_input("Data fim", value=data_max, min_value=data_inicio, max_value=data_max, key="fim_resumo")
 
-
-    df_filtrado = df[(df["data"] >= pd.to_datetime(data_inicio)) & (df["data"] <= pd.to_datetime(data_fim))]
+    df_filtrado = df[(df["data"] >= data_inicio) & (df["data"] <= data_fim)]
 
     total_entrada = df_filtrado[df_filtrado["status"] == "entrada"]["valor"].sum()
     total_saida = df_filtrado[df_filtrado["status"] == "saida"]["valor"].sum()
@@ -408,6 +413,7 @@ with aba4:
         titulo = {"entrada": "Entradas", "saida": "Saídas", "pendente": "Pendentes"}.get(mostrar_tipo, mostrar_tipo)
         st.markdown(f"#### {cor} {titulo}")
         st.dataframe(df_tipo.sort_values("data", ascending=False), use_container_width=True)
+
 
     # Gráfico
     df_grafico = pd.DataFrame({
