@@ -68,7 +68,7 @@ st.title("🛠️ Relatório de Trabalhos por Mecânico")
 #    mecanicos_lista = cargar_mecanicos()
 #    mecanico_filtro = st.selectbox("Filtrar por mecânico", options=["Todos"] + mecanicos_lista)
 
-st.markdown("🎯 Filtros")
+st.markdown("## 🎯 Filtros")
 
 df = cargar_datos()
 df["date_in"] = pd.to_datetime(df["date_in"], dayfirst=True, errors='coerce')
@@ -93,7 +93,7 @@ with col3:
     comissao_pct = st.slider("% Comissão do mecânico", 0.0, 100.0, 40.0, step=5.0)
 with col4:
     mecanicos_lista = cargar_mecanicos()
-    mecanico_filtro = st.selectbox("👨‍🔧 Fil_
+    mecanico_filtro = st.selectbox("👨‍🔧 Filtrar por mecânico", options=["Todos"] + mecanicos_lista)
 
 
     #atualizar = st.button("🔄 Atualizar relatório")
