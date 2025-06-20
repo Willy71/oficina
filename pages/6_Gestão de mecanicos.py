@@ -68,7 +68,7 @@ st.title("🛠️ Relatório de Trabalhos por Mecânico")
 #    mecanicos_lista = cargar_mecanicos()
 #    mecanico_filtro = st.selectbox("Filtrar por mecânico", options=["Todos"] + mecanicos_lista)
 
-st.markdown("## 🎯 Filtros")
+st.markdown("🎯 Filtros")
 
 df = cargar_datos()
 df["date_in"] = pd.to_datetime(df["date_in"], dayfirst=True, errors='coerce')
