@@ -1260,14 +1260,15 @@ elif action == "Atualizar ordem existente":
             with col14:
                 km = st.text_input("Km", value=vendor_data["km"], key="update_km")
 
-        # Opciones para el desplegable
         opciones_estado = [
             "Entrada",
             "Em orçamento",
             "Aguardando aprovação",
             "Em reparação",
             "Concluido",
-            "Entregado"
+            "Não aprovado",
+            "Entregado",
+            "Entregado e cobrado"
         ]
         with st.container():    
             col20, col21, col22, col23 = st.columns(4)
