@@ -91,7 +91,7 @@ if mecanico_filtro != "Todos":
     df_filtrado = df_filtrado[df_filtrado["mecanico"] == mecanico_filtro]
 
 # ✅ Filtrar apenas ordens com status Entregado ou Entregado e cobrado
-df_filtrado = df_filtrado[df_filtrado["status"].isin(["Entregado", "Entregado e cobrado"])]
+df_filtrado = df_filtrado[df_filtrado["estado"].isin(["Entregado", "Entregado e cobrado"])]
 
 # Calcular total de serviços
 colunas_servicos = [f"valor_serv_{i}" for i in range(1, 13)]
