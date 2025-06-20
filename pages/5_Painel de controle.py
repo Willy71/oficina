@@ -200,7 +200,7 @@ else:
 
 
     # Abas por status
-    tabs = st.tabs(["📋 Todos", "🏠 Na Oficina", "⏳ Orçamento", "🛠️ Reparação", "✅ Prontos"])
+    tabs = st.tabs(["📋 Todos", "🏠 Na Oficina", "⏳ Orçamento", "🛠️ Reparação", "✅ Prontos", "🚫 Não Aprovados"])
     
     with tabs[0]:  # Todos
         dados_mostrar = dados_filtrados[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'mecanico', 'dono_empresa']].copy()
@@ -284,7 +284,8 @@ else:
         )
     
     with tabs[4]:  # Prontos
-        prontos = dados_filtrados[dados_filtrados['estado'] == "Concluido"]
+        estados_prontos = ["concluido", "entregado", "entregado e cobrado"]
+        prontos = dados_filtrados[dados_filtrados['estado'].str.lower().isin(estados_prontos)]
         dados_mostrar = prontos[['date_in', 'date_out', 'placa', 'carro', 'modelo', 'ano', 'estado', 'mecanico','dono_empresa']].copy()
         dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
         dados_mostrar['date_out'] = formatar_data(dados_mostrar['date_out'])
@@ -309,3 +310,23 @@ else:
     st.subheader("Distribuição por Status")
     contagem_status = dados['estado'].value_counts()
     st.bar_chart(contagem_status)
+
+    with tabs[5]:  # Não Aprovados
+        nao_aprovados = dados_filtrados[dados_filtrados['estado'].str.lower().str.strip() == "não aprovado"]
+        dados_mostrar = nao_aprovados[['date_in', 'placa', 'carro', 'modelo', 'ano', 'estado', 'dono_empresa']].copy()
+        dados_mostrar['date_in'] = formatar_data(dados_mostrar['date_in'])
+        st.dataframe(
+            dados_mostrar,
+            column_config={
+                "date_in": "Entrada (D/M/A)",
+                "placa": "Placa",
+                "carro": "Marca",
+                "modelo": "Modelo",
+                "ano": "Ano",
+                "estado": "Status",
+                "dono_empresa": "Cliente"
+            },
+            hide_index=True,
+            use_container_width=True
+        )
+
