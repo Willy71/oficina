@@ -55,18 +55,46 @@ def cargar_mecanicos():
 # -------------------------- CONSULTA DE TRABAJOS ------------------------------
 st.title("🛠️ Relatório de Trabalhos por Mecânico")
 
-with st.sidebar:
-    st.header("🔍 Filtros")
-    data_inicial = st.date_input("Data inicial", datetime(datetime.now().year, datetime.now().month, 1))
-    st.caption(f"📅 Início selecionado: {data_inicial.strftime('%d/%m/%Y')}")
+#with st.sidebar:
+#    st.header("🔍 Filtros")
+#    data_inicial = st.date_input("Data inicial", datetime(datetime.now().year, datetime.now().month, 1))
+#    st.caption(f"📅 Início selecionado: {data_inicial.strftime('%d/%m/%Y')}")
     
-    data_final = st.date_input("Data final", datetime.now())
-    st.caption(f"📅 Fim selecionado: {data_final.strftime('%d/%m/%Y')}")
+#    data_final = st.date_input("Data final", datetime.now())
+#    st.caption(f"📅 Fim selecionado: {data_final.strftime('%d/%m/%Y')}")
 
+#    comissao_pct = st.slider("% Comissão do mecânico", 0.0, 100.0, 40.0, step=5.0)
+
+#    mecanicos_lista = cargar_mecanicos()
+#    mecanico_filtro = st.selectbox("Filtrar por mecânico", options=["Todos"] + mecanicos_lista)
+
+st.markdown("## 🎯 Filtros")
+
+df = cargar_datos()
+df["date_in"] = pd.to_datetime(df["date_in"], dayfirst=True, errors='coerce')
+df = df.dropna(subset=["date_in"])
+df["date_in"] = df["date_in"].dt.date  # apenas a data
+
+if df.empty:
+    st.warning("Nenhum dado com datas válidas foi encontrado.")
+    st.stop()
+
+data_min = df["date_in"].min()
+data_max = df["date_in"].max()
+
+col1, col2 = st.columns(2)
+with col1:
+    data_inicial = st.date_input("📅 Data inicial", value=data_min, min_value=data_min, max_value=data_max, key="inicio")
+with col2:
+    data_final = st.date_input("📅 Data final", value=data_max, min_value=data_inicial, max_value=data_max, key="fim")
+
+col3, col4 = st.columns([2, 2])
+with col3:
     comissao_pct = st.slider("% Comissão do mecânico", 0.0, 100.0, 40.0, step=5.0)
-
+with col4:
     mecanicos_lista = cargar_mecanicos()
-    mecanico_filtro = st.selectbox("Filtrar por mecânico", options=["Todos"] + mecanicos_lista)
+    mecanico_filtro = st.selectbox("👨‍🔧 Fil_
+
 
     #atualizar = st.button("🔄 Atualizar relatório")
 
