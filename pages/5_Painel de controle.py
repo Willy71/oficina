@@ -107,43 +107,73 @@ if dados.empty:
     st.warning("Nenhum dado encontrado.")
     st.stop()
 else:
+    # Carregar dados e tratar datas
+    dados, dados_completos = carregar_dados()
+    dados['estado'] = dados['estado'].astype(str).str.strip()
+    dados['date_in'] = pd.to_datetime(dados['date_in'], dayfirst=True, errors='coerce')
+    dados = dados.dropna(subset=["date_in"])
+    dados['date_in'] = dados['date_in'].dt.date  # remover hora
+    
+    # Filtros visuais na área principal
+    st.markdown("## 🔍 Filtros")
+    
+    min_date, max_date = dados['date_in'].min(), dados['date_in'].max()
+    col1, col2 = st.columns(2)
+    with col1:
+        data_inicial = st.date_input("📅 Data inicial", value=min_date, min_value=min_date, max_value=max_date, key="painel_inicio")
+    with col2:
+        data_final = st.date_input("📅 Data final", value=max_date, min_value=data_inicial, max_value=max_date, key="painel_fim")
+    
+    estados = dados['estado'].value_counts().index.tolist()
+    estado_opcoes = ["Todos"] + estados
+    estado_selecionado = st.selectbox("🧾 Status do veículo", estado_opcoes)
+
+    
     # Sidebar com filtros
-    with st.sidebar:
-        st.header("Filtros")
+    #with st.sidebar:
+      #  st.header("Filtros")
         # Excluir os veículos entregues da exibição
-        dados = dados[dados['estado'].astype(str).str.strip().str.lower() != 'entregado']
+     #   dados = dados[dados['estado'].astype(str).str.strip().str.lower() != 'entregado']
         
         # Filtro por estado com contagem
-        estados = dados['estado'].value_counts().index.tolist()
-        estado_opcoes = ["Todos"] + estados
-        estado_selecionado = st.selectbox(
-            "Status do veículo",
-            estado_opcoes,
-            format_func=lambda x: f"{x} ({len(dados[dados['estado']==x])})" if x != 'Todos' else x
-        )
+      #  estados = dados['estado'].value_counts().index.tolist()
+      #  estado_opcoes = ["Todos"] + estados
+      #  estado_selecionado = st.selectbox(
+     #       "Status do veículo",
+     #       estado_opcoes,
+      #      format_func=lambda x: f"{x} ({len(dados[dados['estado']==x])})" if x != 'Todos' else x
+      #  )
         
         # Filtro por datas com formato brasileiro
-        min_date, max_date = dados['date_in'].min().date(), dados['date_in'].max().date()
-        faixa_data = st.date_input(
-            "Período de entrada",
-            value=(min_date, max_date),
-            min_value=min_date,
-            max_value=max_date,
-            format="DD/MM/YYYY"
-        )
+      #  min_date, max_date = dados['date_in'].min().date(), dados['date_in'].max().date()
+       # faixa_data = st.date_input(
+        #    "Período de entrada",
+           # value=(min_date, max_date),
+          #  min_value=min_date,
+         #   max_value=max_date,
+        #    format="DD/MM/YYYY"
+       # )
 
+    
 
     # Aplicar filtros
-    dados_filtrados = dados.copy()
+  #  dados_filtrados = dados.copy()
+    
+ #   if estado_selecionado != "Todos":
+   #     dados_filtrados = dados_filtrados[dados_filtrados['estado'] == estado_selecionado]
+    
+  #  if len(faixa_data) == 2:
+   #     dados_filtrados = dados_filtrados[
+   #         (dados_filtrados['date_in'].dt.date >= faixa_data[0]) & 
+    #        (dados_filtrados['date_in'].dt.date <= faixa_data[1])
+     #   ]
+    dados_filtrados = dados[
+        (dados['date_in'] >= data_inicial) & (dados['date_in'] <= data_final)
+    ]
     
     if estado_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['estado'] == estado_selecionado]
-    
-    if len(faixa_data) == 2:
-        dados_filtrados = dados_filtrados[
-            (dados_filtrados['date_in'].dt.date >= faixa_data[0]) & 
-            (dados_filtrados['date_in'].dt.date <= faixa_data[1])
-        ]
+
 
 
     # Função para formatar datas
