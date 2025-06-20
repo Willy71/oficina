@@ -190,7 +190,7 @@ else:
         ("⏳ Orçamento", len(dados[dados['estado'] == "Em orçamento"])),
         ("🛠️ Reparação", len(dados[dados['estado'] == "Em reparação"])),
         ("✅ Prontos", len(dados[dados['estado'] == "Concluido"])),
-        ("📅 Hoje", len(dados[dados['date_in'].dt.date == datetime.today().date()]))
+        ("📅 Hoje", len(dados[dados['date_in'] == datetime.today().date()]))
     ]
     
     cols = st.columns(len(metricas))
