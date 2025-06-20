@@ -178,7 +178,8 @@ else:
 
     # Função para formatar datas
     def formatar_data(serie_data):
-        return serie_data.dt.strftime('%d/%m/%Y').replace('NaT', '')
+        return pd.to_datetime(serie_data, errors='coerce').dt.strftime('%d/%m/%Y').fillna('')
+
     
     # Métricas resumidas
     st.subheader("Visão Geral")
