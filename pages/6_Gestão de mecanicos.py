@@ -76,10 +76,24 @@ df = cargar_datos()
 df_filtrado = df[(df['date_in'] >= pd.to_datetime(data_inicial)) & (df['date_in'] <= pd.to_datetime(data_final))]
 
 # Remover linhas sem mecânico
+#df_filtrado = df_filtrado[df_filtrado['mecanico'].notna() & (df_filtrado['mecanico'] != '')]
+#if mecanico_filtro != "Todos":
+#    df_filtrado = df_filtrado[df_filtrado["mecanico"] == mecanico_filtro]
+
+#colunas_servicos = [f"valor_serv_{i}" for i in range(1, 13)]
+#df_filtrado[colunas_servicos] = df_filtrado[colunas_servicos].fillna(0)
+#df_filtrado["total_servicos"] = df_filtrado[colunas_servicos].sum(axis=1)
+# Remover linhas sem mecânico
 df_filtrado = df_filtrado[df_filtrado['mecanico'].notna() & (df_filtrado['mecanico'] != '')]
+
+# Filtrar por mecânico, se selecionado
 if mecanico_filtro != "Todos":
     df_filtrado = df_filtrado[df_filtrado["mecanico"] == mecanico_filtro]
 
+# ✅ Filtrar apenas ordens com status Entregado ou Entregado e cobrado
+df_filtrado = df_filtrado[df_filtrado["status"].isin(["Entregado", "Entregado e cobrado"])]
+
+# Calcular total de serviços
 colunas_servicos = [f"valor_serv_{i}" for i in range(1, 13)]
 df_filtrado[colunas_servicos] = df_filtrado[colunas_servicos].fillna(0)
 df_filtrado["total_servicos"] = df_filtrado[colunas_servicos].sum(axis=1)
