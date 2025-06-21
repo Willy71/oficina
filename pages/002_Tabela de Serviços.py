@@ -120,7 +120,7 @@ with st.form("sugestao_form"):
     with col1:
         parte = st.selectbox("🚗 Parte do veículo", sorted(hoja30_df["Partes"].dropna().unique()))
     with col2:
-        peca = st.selectbox("🔩 Peça específica", sorted(hoja30_df["Peça"].dropna().unique()))
+        peca = st.selectbox("🔩 Peça específica", sorted(hoja30_df["Peças"].dropna().unique()))
     
     comentario = st.text_area("🗣️ Comentário adicional")
     enviar = st.form_submit_button("📤 Enviar sugestão")
