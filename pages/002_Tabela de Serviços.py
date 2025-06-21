@@ -82,7 +82,7 @@ css = """
 .tabela-centralizada {
     width: 100%;
     border-collapse: collapse;
-    background-color: #111;
+    background-color: #000;
     color: white;
 }
 
