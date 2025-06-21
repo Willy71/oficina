@@ -8,7 +8,15 @@ st.set_page_config(page_title="Tabela de Serviços", page_icon="🛠️", layout
 st.title("📋 Tabela de Serviços")
 st.caption("Consulte aqui os valores padrão de serviços para carros, camionetes e veículos pesados.")
 
+# Conexão com Google Sheets
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
+SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4' 
+SHEET_NAME = "servicos"
 
+credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+client = gspread.authorize(credentials)
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 def remover_acentos(txt):
     return ''.join(c for c in unicodedata.normalize('NFD', str(txt)) if unicodedata.category(c) != 'Mn')
