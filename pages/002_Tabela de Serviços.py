@@ -70,9 +70,9 @@ if termo_busca:
 tabela_html = df_filtrado.rename(columns={
     "serviço": "Serviço",
     "tempo_estimado": "⏱ Tempo",
-    "valor_base": "💰 Valor Base",
-    "valor_meio": "💰 Valor Médio",
-    "valor_max": "💰 Valor Máximo",
+    "valor_base": "💰 Base",
+    "valor_meio": "💰 Médio",
+    "valor_max": "💰 Máximo",
     "tipo_veiculo": "Tipo"
 }).to_html(index=False, classes="tabela-centralizada", border=0, justify="center")
 
