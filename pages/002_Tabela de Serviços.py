@@ -18,7 +18,6 @@ credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes
 client = gspread.authorize(credentials)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
-
 def remover_acentos(txt):
     return ''.join(c for c in unicodedata.normalize('NFD', str(txt)) if unicodedata.category(c) != 'Mn')
 
