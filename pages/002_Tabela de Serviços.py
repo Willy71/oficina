@@ -6,7 +6,7 @@ import unicodedata
 
 st.set_page_config(page_title="Tabela de Serviços", page_icon="🛠️", layout="wide")
 st.title("📋 Tabela de Serviços")
-st.caption("Consulte aqui os valores padrão de serviços para carros, camionetes e veículos pesados.")
+st.caption("Consulte aqui os valores padrão de serviços para carros e camionetes.")
 
 # Conexão com Google Sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
@@ -28,7 +28,7 @@ df = pd.DataFrame(data)
 # Filtros visuais
 col1, col2 = st.columns([2, 3])
 with col1:
-    categoria = st.selectbox("🚗 Tipo de veículo", ["Mecânica leve", "Mecânica camionetes", "Mecânica pesada"])
+    categoria = st.selectbox("🚗 Tipo de veículo", ["Mecânica leve", "Mecânica camionetes"])
 with col2:
     termo_busca = st.text_input("🔍 Buscar serviço pelo nome", placeholder="Ex: troca, freio, revisão...").strip().lower()
 
