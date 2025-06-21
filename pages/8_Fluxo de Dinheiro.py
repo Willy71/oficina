@@ -262,7 +262,7 @@ with aba2:
 
     st.markdown("### 📋 Filtrar lançamentos por tipo")
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4 = st.columns([1,1,1,1])
     mostrar_tipo = None
     with col1:
         if st.button("🟢 Entradas", key="btn_lan_entradas"):
