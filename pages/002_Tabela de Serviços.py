@@ -8,8 +8,6 @@ st.set_page_config(page_title="Tabela de Serviços", page_icon="🛠️", layout
 st.title("📋 Tabela de Serviços")
 st.caption("Consulte aqui os valores padrão de serviços para carros, camionetes e veículos pesados.")
 
-# Conexion via gspread a traves de https://console.cloud.google.com/ y Google sheets
-
 # Scopes necesarios
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 
