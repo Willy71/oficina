@@ -262,18 +262,18 @@ with aba2:
 
     st.markdown("### 📋 Filtrar lançamentos por tipo")
 
-    col1, col2, col3, col4 = st.columns([1,1,1,1])
+    col1, col2, col3, col4, col5, col6, col7 = st.columns([2,1,2,1,2,1,2])
     mostrar_tipo = None
     with col1:
         if st.button("🟢 Entradas", key="btn_lan_entradas"):
             mostrar_tipo = "entrada"
-    with col2:
+    with col3:
         if st.button("🔴 Saídas", key="btn_lan_saidas"):
             mostrar_tipo = "saida"
-    with col3:
+    with col5:
         if st.button("🟡 Pendentes", key="btn_lan_pendentes"):
             mostrar_tipo = "pendente"
-    with col4:
+    with col7:
         if st.button("📋 Todos", key="btn_lan_todos"):
             mostrar_tipo = "todos"
 
