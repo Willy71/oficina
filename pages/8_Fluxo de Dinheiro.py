@@ -265,16 +265,16 @@ with aba2:
     col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns([3,0.5,3,0.2,3,0.5,3,2,2,2])
     mostrar_tipo = None
     with col1:
-        if st.button("🟢 Entradas", key="btn_lan_entradas"):
+        if st.button("🟢 Entradas", key="btn_lan_entradas", use_container_width=True):
             mostrar_tipo = "entrada"
     with col3:
-        if st.button("🔴 Saídas", key="btn_lan_saidas"):
+        if st.button("🔴 Saídas", key="btn_lan_saidas", use_container_width=True):
             mostrar_tipo = "saida"
     with col5:
-        if st.button("🟡 Pendentes", key="btn_lan_pendentes"):
+        if st.button("🟡 Pendentes", key="btn_lan_pendentes", use_container_width=True):
             mostrar_tipo = "pendente"
     with col7:
-        if st.button("📋 Todos", key="btn_lan_todos"):
+        if st.button("📋 Todos", key="btn_lan_todos", use_container_width=True):
             mostrar_tipo = "todos"
 
 
