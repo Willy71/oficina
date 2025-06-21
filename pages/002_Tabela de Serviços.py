@@ -88,7 +88,7 @@ css = """
 
 .tabela-centralizada th, .tabela-centralizada td {
     text-align: center;
-    padding: 8px;
+    padding: 16px;
     border: 1px solid #444;
 }
 .tabela-centralizada th {
