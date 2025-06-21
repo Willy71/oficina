@@ -8,15 +8,22 @@ st.set_page_config(page_title="Tabela de Serviços", page_icon="🛠️", layout
 st.title("📋 Tabela de Serviços")
 st.caption("Consulte aqui os valores padrão de serviços para carros, camionetes e veículos pesados.")
 
-# Conexão com Google Sheets
-SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
-SPREADSHEET_KEY = "1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4"
-SHEET_NAME = "servicos"
+# Conexion via gspread a traves de https://console.cloud.google.com/ y Google sheets
 
+# Scopes necesarios
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+
+# Ruta al archivo de credenciales
+SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
+
+# Clave de la hoja de cálculo (la parte de la URL después de "/d/" y antes de "/edit")
+SPREADSHEET_KEY = '1kiXS0qeiCpWcNpKI-jmbzVgiRKrxlec9t8YQLDaqwU4'  # Reemplaza con la clave de tu documento
+SHEET_NAME = 'servicos'  # Nombre de la hoja dentro del documento
+
+# Cargar credenciales y autorizar
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
-client = gspread.authorize(credentials)
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+gc = gspread.authorize(credentials)
+credenciales_json = credentials
 
 def remover_acentos(txt):
     return ''.join(c for c in unicodedata.normalize('NFD', str(txt)) if unicodedata.category(c) != 'Mn')
