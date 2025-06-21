@@ -69,7 +69,6 @@ if termo_busca:
 # Converte o dataframe para HTML com classes personalizadas
 tabela_html = df_filtrado.rename(columns={
     "serviço": "Serviço",
-    "tempo_estimado": "⏱ Tempo",
     "valor_base": "💰 Base",
     "valor_meio": "💰 Médio",
     "valor_max": "💰 Máximo",
