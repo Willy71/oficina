@@ -448,22 +448,6 @@ with aba4:
         "Valor": [total_entrada, total_saida, total_pendente]
     })
 
-    #fig = px.bar(
-    #    df_grafico,
-   #    x="Tipo",
-     #   y="Valor",
-     #   text="Valor",
-     #   color="Tipo",
-     #   color_discrete_map={
-     #       "Entradas": "green",
-       #     "Saídas": "red",
-       #     "Pendentes": "orange"
-      #  }
-    #)
-    #fig.update_traces(texttemplate="R$ %{text:.2f}", textposition="outside")
-   # fig.update_layout(title="Totais por Tipo", xaxis_title="", yaxis_title="R$")
-    #st.plotly_chart(fig, use_container_width=True)
-
 with aba5:
     st.subheader("📈 Análise de Gastos por Fornecedor")
 
