@@ -45,6 +45,11 @@ def carregar_dados():
     data = sheet.get_all_records()
     df = pd.DataFrame(data)
     
+    if "data_pag" in df.columns:
+        df["data_pag"] = pd.to_datetime(df["data_pag"], dayfirst=True, errors='coerce').dt.date
+        df["data_pag"] = df["data_pag"].fillna(df["data"])  # Rellena vacíos con 'data'
+
+    
     # Depuración: mostrar tipos de datos
     print("Tipos de datos antes de conversión:", df.dtypes)
     
@@ -74,7 +79,9 @@ def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, plac
 
     # Formatear fechas al estilo brasileiro
     data_fmt = pd.to_datetime(data).strftime("%d/%m/%Y")
-    data_pag_fmt = pd.to_datetime(data_pag).strftime("%d/%m/%Y") if data_pag else ""
+    #data_pag_fmt = pd.to_datetime(data_pag).strftime("%d/%m/%Y") if data_pag else ""
+    data_pag_fmt = pd.to_datetime(data_pag if data_pag else data).strftime("%d/%m/%Y")
+
 
     nova_linha = [novo_id, data_fmt, data_pag_fmt, cliente, descricao, carro, placa, motivo, forma, valor, status]
     sheet.append_row(nova_linha)
@@ -382,15 +389,20 @@ with aba4:
     # Limpieza robusta de datas
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     df["valor"] = df["valor"].apply(safe_float)
-    df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
-    df = df.dropna(subset=["data"])
-    df["data"] = df["data"].dt.date  # solo fecha, sin hora
+
+    df["data_pag"] = pd.to_datetime(df["data_pag"], dayfirst=True, errors='coerce')
+    df = df.dropna(subset=["data_pag"])
+    df["data_pag"] = df["data_pag"].dt.date
+
+    #df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
+    #df = df.dropna(subset=["data"])
+    #df["data"] = df["data"].dt.date  # solo fecha, sin hora
 
     if df.empty:
         st.warning("Não há dados com datas válidas.")
     else:
-        data_min = min(df["data"])
-        data_max = max(df["data"])
+        data_min = min(df["data_pag"])
+        data_max = max(df["data_pag"])
 
         # Mostrar valores reales de rango de fechas
         st.caption(f"📅 Datas disponíveis: de {data_min.strftime('%d/%m/%Y')} até {data_max.strftime('%d/%m/%Y')}")
@@ -414,7 +426,8 @@ with aba4:
             )
 
         # Filtrar dataframe
-        df_filtrado = df[(df["data"] >= data_inicio) & (df["data"] <= data_fim)]
+        df_filtrado = df[(df["data_pag"] >= data_inicio) & (df["data_pag"] <= data_fim)]
+        #df_filtrado = df[(df["data"] >= data_inicio) & (df["data"] <= data_fim)]
 
         # Cálculos
         total_entrada = df_filtrado[df_filtrado["status"] == "entrada"]["valor"].sum()
@@ -457,8 +470,8 @@ with aba4:
                 cor = {"entrada": "🟢", "saida": "🔴", "pendente": "🟡"}[mostrar_tipo]
                 titulo = {"entrada": "Entradas", "saida": "Saídas", "pendente": "Pendentes"}[mostrar_tipo]
                 st.markdown(f"#### {cor} {titulo}")
-        
-            st.dataframe(df_tipo.sort_values("data", ascending=False), use_container_width=True, hide_index=True)
+                
+            st.dataframe(df_tipo.sort_values("data_pag", ascending=False), use_container_width=True, hide_index=True)
 
 
 
