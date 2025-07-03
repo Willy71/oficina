@@ -4,6 +4,7 @@ import gspread
 import uuid
 from google.oauth2.service_account import Credentials
 from datetime import datetime, date
+from calendar import monthrange
 #import plotly.express as px
 
 # Conexão com Google Sheets
@@ -407,23 +408,47 @@ with aba4:
         # Mostrar valores reales de rango de fechas
         st.caption(f"📅 Datas disponíveis: de {data_min.strftime('%d/%m/%Y')} até {data_max.strftime('%d/%m/%Y')}")
 
+#====================================================================================================================================================
+    
+    # ✅ Adiciona seleção de mês e ano
+    col_mes, col_ano = st.columns(2)
+    meses = {
+        1: "Janeiro", 2: "Fevereiro", 3: "Março", 4: "Abril",
+        5: "Maio", 6: "Junho", 7: "Julho", 8: "Agosto",
+        9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
+    }
+    mes_num = col_mes.selectbox("Selecionar mês (opcional)", options=[0] + list(meses.keys()), format_func=lambda x: "Selecionar..." if x == 0 else meses[x])
+    ano_atual = date.today().year
+    ano_selecionado = col_ano.selectbox("Ano", options=list(range(ano_atual, ano_atual - 6, -1)))
+    
+    # Define datas com base no mês selecionado, ou usa padrão
+    if mes_num > 0:
+        primeiro_dia = date(ano_selecionado, mes_num, 1)
+        ultimo_dia = date(ano_selecionado, mes_num, monthrange(ano_selecionado, mes_num)[1])
+    else:
+        primeiro_dia = min(df["data_pag"])
+        ultimo_dia = max(df["data_pag"])
+
+
+#====================================================================================================================================================
         col1, col2 = st.columns(2)
         with col1:
             data_inicio = st.date_input(
                 "Data início", 
-                value=data_min,
-                min_value=data_min,
-                max_value=data_max,
+                value=primeiro_dia,
+                min_value=min(df["data_pag"]),
+                max_value=max(df["data_pag"]),
                 key="inicio_resumo"
             )
         with col2:
             data_fim = st.date_input(
                 "Data fim", 
-                value=data_max,
-                min_value=data_inicio,  # ⛔ garantiza que no sea anterior
-                max_value=data_max,
+                value=ultimo_dia,
+                min_value=data_inicio,
+                max_value=max(df["data_pag"]),
                 key="fim_resumo"
             )
+
 
         # Filtrar dataframe
         df_filtrado = df[(df["data_pag"] >= data_inicio) & (df["data_pag"] <= data_fim)]
