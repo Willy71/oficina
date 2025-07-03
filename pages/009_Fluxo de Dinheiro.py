@@ -510,10 +510,10 @@ with aba4:
 
 
     # Gráfico
-    df_grafico = pd.DataFrame({
-        "Tipo": ["Entradas", "Saídas", "Pendentes"],
-        "Valor": [total_entrada, total_saida, total_pendente]
-    })
+    #df_grafico = pd.DataFrame({
+    #    "Tipo": ["Entradas", "Saídas", "Pendentes"],
+     #   "Valor": [total_entrada, total_saida, total_pendente]
+   # })
 
 with aba5:
     st.subheader("📈 Análise de Gastos por Fornecedor")
