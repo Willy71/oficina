@@ -431,10 +431,14 @@ with aba4:
 
 
 #==============================================================================================================================================================
+        # Corrige datas fora do intervalo permitido
+        data_inicio_padrao = max(min(primeiro_dia, data_max), data_min)
+        data_fim_padrao = max(min(ultimo_dia, data_max), data_inicio_padrao)
+        
         with col1:
             data_inicio = st.date_input(
                 "Data início", 
-                value=primeiro_dia,
+                value=data_inicio_padrao,
                 min_value=data_min,
                 max_value=data_max,
                 key="inicio_resumo"
@@ -442,11 +446,12 @@ with aba4:
         with col2:
             data_fim = st.date_input(
                 "Data fim", 
-                value=ultimo_dia,
+                value=data_fim_padrao,
                 min_value=data_inicio,
                 max_value=data_max,
                 key="fim_resumo"
             )
+
 
 
         # Filtrar dataframe
