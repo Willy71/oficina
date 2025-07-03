@@ -5,6 +5,7 @@ import gspread
 import uuid
 from google.oauth2.service_account import Credentials
 from datetime import datetime, date
+from calendar import monthrange
 #import plotly.express as px
 
 # Conexão com Google Sheets
@@ -407,12 +408,33 @@ with aba4:
 
         # Mostrar valores reales de rango de fechas
         st.caption(f"📅 Datas disponíveis: de {data_min.strftime('%d/%m/%Y')} até {data_max.strftime('%d/%m/%Y')}")
+#==============================================================================================================================================================
+        # Seleção de mês e ano
+        col_mes, col_ano = st.columns(2)
+        meses = {
+            0: "Selecionar...",
+            1: "Janeiro", 2: "Fevereiro", 3: "Março", 4: "Abril",
+            5: "Maio", 6: "Junho", 7: "Julho", 8: "Agosto",
+            9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
+        }
+        mes_selecionado = col_mes.selectbox("Mês", options=list(meses.keys()), format_func=lambda x: meses[x], index=0)
+        ano_atual = date.today().year
+        ano_selecionado = col_ano.selectbox("Ano", options=list(range(ano_atual, ano_atual - 6, -1)))
+        
+        # Definir datas padrão ou conforme mês selecionado
+        if mes_selecionado != 0:
+            primeiro_dia = date(ano_selecionado, mes_selecionado, 1)
+            ultimo_dia = date(ano_selecionado, mes_selecionado, monthrange(ano_selecionado, mes_selecionado)[1])
+        else:
+            primeiro_dia = data_min
+            ultimo_dia = data_max
 
-        col1, col2 = st.columns(2)
+
+#==============================================================================================================================================================
         with col1:
             data_inicio = st.date_input(
                 "Data início", 
-                value=data_min,
+                value=primeiro_dia,
                 min_value=data_min,
                 max_value=data_max,
                 key="inicio_resumo"
@@ -420,11 +442,12 @@ with aba4:
         with col2:
             data_fim = st.date_input(
                 "Data fim", 
-                value=data_max,
-                min_value=data_inicio,  # ⛔ garantiza que no sea anterior
+                value=ultimo_dia,
+                min_value=data_inicio,
                 max_value=data_max,
                 key="fim_resumo"
             )
+
 
         # Filtrar dataframe
         df_filtrado = df[(df["data_pag"] >= data_inicio) & (df["data_pag"] <= data_fim)]
@@ -477,10 +500,10 @@ with aba4:
 
 
     # Gráfico
-    df_grafico = pd.DataFrame({
-        "Tipo": ["Entradas", "Saídas", "Pendentes"],
-        "Valor": [total_entrada, total_saida, total_pendente]
-    })
+    #df_grafico = pd.DataFrame({
+    #    "Tipo": ["Entradas", "Saídas", "Pendentes"],
+    #    "Valor": [total_entrada, total_saida, total_pendente]
+    #})
 
 with aba5:
     st.subheader("📈 Análise de Gastos por Fornecedor")
