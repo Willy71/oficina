@@ -391,9 +391,18 @@ with aba4:
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     df["valor"] = df["valor"].apply(safe_float)
 
+    # Usa data_pag para análise
+    df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
     df["data_pag"] = pd.to_datetime(df["data_pag"], dayfirst=True, errors='coerce')
+    
+    # Rellena data_pag faltante con data
+    df["data_pag"] = df["data_pag"].fillna(df["data"])
     df = df.dropna(subset=["data_pag"])
     df["data_pag"] = df["data_pag"].dt.date
+
+    #df["data_pag"] = pd.to_datetime(df["data_pag"], dayfirst=True, errors='coerce')
+    #df = df.dropna(subset=["data_pag"])
+    #df["data_pag"] = df["data_pag"].dt.date
 
     #df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
     #df = df.dropna(subset=["data"])
