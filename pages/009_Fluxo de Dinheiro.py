@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import gspread
@@ -6,7 +5,7 @@ import uuid
 from google.oauth2.service_account import Credentials
 from datetime import datetime, date
 from calendar import monthrange
-#import plotly.express as px
+import calendar
 
 # Conexão com Google Sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
@@ -17,6 +16,7 @@ SHEET_NAME = "fluxo"
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 client = gspread.authorize(credentials)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+
 
 def safe_float(valor):
     """Convierte cualquier valor a float de manera segura"""
@@ -382,7 +382,7 @@ with aba3:
                 st.rerun()
             else:
                 st.warning("Erro ao remover lançamento.")
-
+#==============================================================================================================================================================
 with aba4:
     st.subheader("📊 Resumo Financeiro")
 
@@ -408,7 +408,7 @@ with aba4:
 
         # Mostrar valores reales de rango de fechas
         st.caption(f"📅 Datas disponíveis: de {data_min.strftime('%d/%m/%Y')} até {data_max.strftime('%d/%m/%Y')}")
-#==============================================================================================================================================================
+	#======================================================
         # Seleção de mês e ano
         col_mes, col_ano = st.columns(2)
         meses = {
@@ -430,7 +430,7 @@ with aba4:
             ultimo_dia = data_max
 
 
-#==============================================================================================================================================================
+	#======================================================
         # Corrige datas fora do intervalo permitido
         data_inicio_padrao = max(min(primeiro_dia, data_max), data_min)
         data_fim_padrao = max(min(ultimo_dia, data_max), data_inicio_padrao)
@@ -464,6 +464,7 @@ with aba4:
         total_pendente = df_filtrado[df_filtrado["status"] == "pendente"]["valor"].sum()
         saldo = total_entrada - total_saida
 
+        
         # Métricas
         col1, col2, col3, col4 = st.columns(4)
         col1.metric("🟢 Entradas", formatar_real(total_entrada))
@@ -502,13 +503,41 @@ with aba4:
                 
             st.dataframe(df_tipo.sort_values("data_pag", ascending=False), use_container_width=True, hide_index=True)
 
+		# --- NOVA TABELA DE RESUMO ANUAL ---
+        st.markdown("---")
+        if ano_selecionado:
+            st.markdown(f"### Resumo Anual para {ano_selecionado}")
+            df_ano = df[df['data_pag'].map(lambda x: x.year) == ano_selecionado]
+            
+            dados_anuais = []
+            for mes_num in range(1, 13):
+                df_mes = df_ano[df_ano['data_pag'].map(lambda x: x.month) == mes_num]
+                
+                entradas = df_mes[df_mes['status'] == 'entrada']['valor'].sum()
+                saidas = df_mes[df_mes['status'] == 'saida']['valor'].sum()
+                pendentes = df_mes[df_mes['status'] == 'pendente']['valor'].sum()
+                lucro = entradas - saidas
+                
+                dados_anuais.append({
+                    "Mês": meses[mes_num],
+                    "Ano": ano_selecionado,
+                    "Entradas": entradas,
+                    "Saídas": saidas,
+                    "Pendentes": pendentes,
+                    "Lucro Mensal": lucro
+                })
+            
+            tabela_anual = pd.DataFrame(dados_anuais)
+            tabela_anual['Entradas'] = tabela_anual['Entradas'].apply(formatar_real)
+            tabela_anual['Saídas'] = tabela_anual['Saídas'].apply(formatar_real)
+            tabela_anual['Pendentes'] = tabela_anual['Pendentes'].apply(formatar_real)
+            tabela_anual['Lucro Mensal'] = tabela_anual['Lucro Mensal'].apply(formatar_real)
+            st.dataframe(tabela_anual, use_container_width=True, hide_index=True)
+        # --- FIM DA NOVA TABELA ---
 
+	
 
-    # Gráfico
-    #df_grafico = pd.DataFrame({
-    #    "Tipo": ["Entradas", "Saídas", "Pendentes"],
-    #    "Valor": [total_entrada, total_saida, total_pendente]
-    #})
+#==============================================================================================================================================================
 
 with aba5:
     st.subheader("📈 Análise de Gastos por Fornecedor")
