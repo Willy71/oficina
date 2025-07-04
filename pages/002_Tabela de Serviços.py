@@ -31,7 +31,7 @@ df = pd.DataFrame(data)
 # Filtros visuais
 col1, col2 = st.columns([2, 3])
 with col1:
-    categoria = st.selectbox("🚗 Tipo de veículo", ["Mecânica leve", "Mecânica camionetes"])
+    categoria = st.selectbox("🚗 Tipo de veículo", ["Mecânica leve", "Mecânica caminhonete"])
 with col2:
     termo_busca = st.text_input("🔍 Buscar serviço pelo nome", placeholder="Ex: troca, freio, revisão...").strip().lower()
 
@@ -98,7 +98,7 @@ peca_selecionada = st.selectbox("🔩 Peça específica", sorted(pecas_relaciona
 
 with st.form("sugestao_form"):
     nome_usuario = st.text_input("Seu nome (opcional)")
-    tipo_veiculo = st.selectbox("🚙 Tipo de veículo", ["Mecânica leve", "Mecânica camionetes"])
+    tipo_veiculo = st.selectbox("🚙 Tipo de veículo", ["Mecânica leve", "Mecânica caminhonete"])
     servico_sugerido = st.text_input("🛠️ Serviço que deseja sugerir")
     valor_sugerido = st.text_input("💰 Valor sugerido (se aplicável)")
 
