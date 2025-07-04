@@ -6,7 +6,7 @@ import unicodedata
 
 st.set_page_config(page_title="Tabela de Serviços", page_icon="🛠️", layout="wide")
 st.title("📋 Tabela de Serviços")
-st.caption("Consulte aqui os valores padrão de serviços para carros e camionetes.")
+st.caption("Consulte aqui os valores padrão de serviços para mecânica leve e mecânica de caminhonetes.")
 
 # Conexão com Google Sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
