@@ -89,7 +89,7 @@ def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, plac
     # Formatear fechas al estilo brasileiro
 	data_fmt = pd.to_datetime(data).strftime("%d/%m/%Y")
     #data_pag_fmt = pd.to_datetime(data_pag).strftime("%d/%m/%Y") if data_pag else ""
-    data_pag_fmt = pd.to_datetime(data_pag if data_pag else data).strftime("%d/%m/%Y")
+	data_pag_fmt = pd.to_datetime(data_pag if data_pag else data).strftime("%d/%m/%Y")
 
 
     nova_linha = [novo_id, data_fmt, data_pag_fmt, cliente, descricao, carro, placa, motivo, forma, valor, status]
