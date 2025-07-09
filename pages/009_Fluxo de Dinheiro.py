@@ -67,6 +67,12 @@ def carregar_dados():
     print("Valores convertidos:", df["valor"].head())
     return df
 
+def get_dados():
+    if "dados_carregados" not in st.session_state or st.session_state["dados_carregados"] is None:
+        st.session_state["dados_carregados"] = get_dados() #carregar_dados()
+    return st.session_state["dados_carregados"]
+
+
 def obter_proximo_id(df):
     if df.empty or 'ids' not in df.columns:
         return 1
@@ -76,7 +82,8 @@ def obter_proximo_id(df):
         return 1
 
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
-    df = carregar_dados()
+    #df = carregar_dados()
+	df = get_dados()
     novo_id = obter_proximo_id(df)
 
     # Formatear fechas al estilo brasileiro
@@ -90,7 +97,8 @@ def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, plac
     return novo_id
 
 def atualizar_linha_por_id(id_alvo, novos_dados):
-    df = carregar_dados()
+    #df = carregar_dados()
+	df = get_dados()
     if id_alvo in df["ids"].values:
         linha = df[df["ids"] == id_alvo].index[0] + 2  # +2 por cabeçalho e índice 0-based
         for i, valor in enumerate(novos_dados):
@@ -99,7 +107,9 @@ def atualizar_linha_por_id(id_alvo, novos_dados):
     return False
 
 def excluir_linha_por_id(id_alvo):
-    df = carregar_dados()
+    #df = carregar_dados()
+	df = get_dados()
+
     if id_alvo in df["ids"].values:
         linha = int(df[df["ids"] == id_alvo].index[0]) + 2  # Convertir a int nativo
         sheet.delete_rows(linha)
@@ -223,7 +233,7 @@ aba1, aba2, aba3, aba4, aba5, aba6 = st.tabs([
 
 with aba1:
     st.subheader("➕ Novo Registro")
-     # Mostrar información principal en cards
+    
     with st.container():
         cols = st.columns(3)
         with cols[0]:
@@ -232,38 +242,45 @@ with aba1:
             data = st.date_input("Data do lançamento")
         with cols[2]:    
             data_pag = st.date_input("Data de pagamento prevista", value=None) if tipo == "pendente" else None
+    
     with st.container():
         cols = st.columns(3)
         with cols[1]:
             cliente = st.text_input("Cliente")
     descricao = st.text_input("Descrição")
+
     with st.container():
         cols = st.columns(4)
         with cols[1]:
             carro = st.text_input("Carro")
         with cols[2]:
             placa = st.text_input("Placa")
-      
+
     motivo = st.text_input("Fornecedor")
+
     with st.container():
         cols = st.columns(4)
         with cols[1]:
             forma = st.selectbox("Forma de pagamento", ["dinheiro", "pix", "cartão", "boleto", "outro"])
         with cols[2]:
             valor = st.number_input("Valor", min_value=0.0, format="%.2f")
+
     with st.container():
         cols = st.columns([3,2,2])
         with cols[1]:
             if st.button("Salvar Registro"):
                 adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
                 st.success("Registro salvo com sucesso!")
-                # 👇 Forzar recarga
+                st.session_state["dados_carregados"] = None  # Limpiar cache manual
                 st.rerun()
+
 
 with aba2:
     st.subheader("📋 Lançamentos")
 
-    df = carregar_dados()
+    #df = carregar_dados()
+	df = get_dados()
+
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
     df = df.dropna(subset=["data"])
@@ -306,7 +323,9 @@ with aba2:
 with aba3:
     st.subheader("🛠️ Editar ou Remover Lançamento por ID")
 
-    df = carregar_dados()
+    #df = carregar_dados()
+	df = get_dados()
+
     df["ids"] = df["ids"].astype(int)  # Asegurar tipo entero
 
     if df.empty:
@@ -386,7 +405,9 @@ with aba3:
 with aba4:
     st.subheader("📊 Resumo Financeiro")
 
-    df = carregar_dados()
+    #df = carregar_dados()
+	df = get_dados()
+
 
     # Limpieza robusta de datas
     df["status"] = df["status"].astype(str).str.strip().str.lower()
@@ -542,7 +563,9 @@ with aba4:
 with aba5:
     st.subheader("📈 Análise de Gastos por Fornecedor")
 
-    df = carregar_dados()
+    #df = carregar_dados()
+	df = get_dados()
+
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     df["valor"] = df["valor"].apply(safe_float)
     df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
@@ -590,7 +613,9 @@ with aba5:
 with aba6:
     st.subheader("🔍 Buscar Gastos")
 
-    df = carregar_dados()
+    #df = carregar_dados()
+	df = get_dados()
+
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
     df = df.dropna(subset=["data"])
