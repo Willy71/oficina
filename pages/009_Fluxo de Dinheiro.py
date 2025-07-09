@@ -42,30 +42,25 @@ def safe_float(valor):
         return 0.0
 
 
-# En la función cargar_dados():
 def carregar_dados():
-    data = sheet.get_all_records()
-    df = pd.DataFrame(data)
-    
-    if "data_pag" in df.columns:
-        df["data_pag"] = pd.to_datetime(df["data_pag"], dayfirst=True, errors='coerce').dt.date
-        df["data_pag"] = df["data_pag"].fillna(df["data"])  # Rellena vacíos con 'data'
+    if "dados_carregados" not in st.session_state or st.session_state["dados_carregados"] is None:
+        data = sheet.get_all_records()
+        df = pd.DataFrame(data)
+        
+        if "data_pag" in df.columns:
+            df["data_pag"] = pd.to_datetime(df["data_pag"], dayfirst=True, errors='coerce').dt.date
+            df["data_pag"] = df["data_pag"].fillna(df["data"])
+        
+        if "valor" in df.columns:
+            df["valor"] = df["valor"].astype(str).apply(safe_float)
+        
+        if "data" in df.columns:
+            df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce').dt.date
 
-    
-    # Depuración: mostrar tipos de datos
-    print("Tipos de datos antes de conversión:", df.dtypes)
-    
-    if "valor" in df.columns:
-        # Primero convertir a string para limpieza uniforme
-        df["valor"] = df["valor"].astype(str)
-        # Aplicar conversión segura
-        df["valor"] = df["valor"].apply(safe_float)
-        df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce').dt.date
+        st.session_state["dados_carregados"] = df
 
-    
-    # Depuración: mostrar resultado
-    print("Valores convertidos:", df["valor"].head())
-    return df
+    return st.session_state["dados_carregados"]
+
 
 def obter_proximo_id(df):
     if df.empty or 'ids' not in df.columns:
@@ -257,6 +252,7 @@ with aba1:
             if st.button("Salvar Registro"):
                 adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
                 st.success("Registro salvo com sucesso!")
+				st.session_state["dados_carregados"] = None  # Limpiar cache manual
                 # 👇 Forzar recarga
                 st.rerun()
 
