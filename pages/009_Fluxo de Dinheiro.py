@@ -84,7 +84,7 @@ def obter_proximo_id(df):
 def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
     #df = carregar_dados()
 	df = get_dados()
-    novo_id = obter_proximo_id(df)
+	novo_id = obter_proximo_id(df)
 
     # Formatear fechas al estilo brasileiro
     data_fmt = pd.to_datetime(data).strftime("%d/%m/%Y")
