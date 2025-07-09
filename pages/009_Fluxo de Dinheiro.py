@@ -252,7 +252,7 @@ with aba1:
             if st.button("Salvar Registro"):
                 adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
                 st.success("Registro salvo com sucesso!")
-				st.session_state["dados_carregados"] = None  # Limpiar cache manual
+                st.session_state["dados_carregados"] = None  # Limpiar cache manual
                 # 👇 Forzar recarga
                 st.rerun()
 
