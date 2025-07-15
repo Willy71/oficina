@@ -422,52 +422,46 @@ with aba4:
         ano_atual = date.today().year
         ano_selecionado = col_ano.selectbox("Ano", options=list(range(ano_atual, ano_atual - 6, -1)))
         
-        # Definir datas padrão ou conforme mês selecionado
+        # 1) Caso “por mês/ano”
         if mes_selecionado != 0:
-            primeiro_dia = date(ano_selecionado, mes_selecionado, 1)
-            ultimo_dia = date(ano_selecionado, mes_selecionado, monthrange(ano_selecionado, mes_selecionado)[1])
-        else:
-            primeiro_dia = data_min
-            ultimo_dia = data_max
+            # filtra diretamente pelo ano e mês
+            df_filtrado = df[
+                (df["data_pag"].map(lambda x: x.year)  == ano_selecionado) &
+                (df["data_pag"].map(lambda x: x.month) == mes_selecionado)
+            ]
 
-        # 🔍 Validar se há dados no período selecionado
-        if (ultimo_dia < data_min) or (primeiro_dia > data_max):
-            st.warning(f"⚠️ Nenhum dado encontrado para {meses[mes_selecionado]} de {ano_selecionado}.")
+        # 2) Caso “todos os períodos” (mês 0)
+        else:
+            # inputs de intervalo livre
+            col1, col2 = st.columns(2)
+            with col1:
+                data_inicio = st.date_input(
+                    "Data início", 
+                    value=data_min,
+                    min_value=data_min,
+                    max_value=data_max,
+                    key="inicio_resumo"
+                )
+            with col2:
+                data_fim = st.date_input(
+                    "Data fim", 
+                    value=data_max,
+                    min_value=data_min,
+                    max_value=data_max,
+                    key="fim_resumo"
+                )
+            df_filtrado = df[(df["data_pag"] >= data_inicio) & (df["data_pag"] <= data_fim)]
+
+        # Se não há dados:
+        if df_filtrado.empty:
+            st.warning("⚠️ Nenhum lançamento encontrado para o período selecionado.")
             st.stop()
 
-        # Corrige datas fora do intervalo permitido
-        data_inicio_padrao = max(min(primeiro_dia, data_max), data_min)
-        data_fim_padrao = max(min(ultimo_dia, data_max), data_inicio_padrao)
-
-        with col1:
-            data_inicio = st.date_input(
-                "Data início", 
-                value=data_inicio_padrao,
-                min_value=data_min,
-                max_value=data_max,
-                key="inicio_resumo"
-            )
-        with col2:
-            data_fim = st.date_input(
-                "Data fim", 
-                value=data_fim_padrao,
-                min_value=data_inicio,
-                max_value=data_max,
-                key="fim_resumo"
-            )
-
-
-
-
-        # Filtrar dataframe
-        df_filtrado = df[(df["data_pag"] >= data_inicio) & (df["data_pag"] <= data_fim)]
-        #df_filtrado = df[(df["data"] >= data_inicio) & (df["data"] <= data_fim)]
-
-        # Cálculos
+        # Cálculo de métricas
         total_entrada = df_filtrado[df_filtrado["status"] == "entrada"]["valor"].sum()
-        total_saida = df_filtrado[df_filtrado["status"] == "saida"]["valor"].sum()
-        total_pendente = df_filtrado[df_filtrado["status"] == "pendente"]["valor"].sum()
-        saldo = total_entrada - total_saida
+        total_saida   = df_filtrado[df_filtrado["status"] == "saida"]["valor"].sum()
+        total_pendente= df_filtrado[df_filtrado["status"] == "pendente"]["valor"].sum()
+        saldo         = total_entrada - total_saida
 
         
         # Métricas
