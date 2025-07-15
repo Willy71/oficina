@@ -508,7 +508,7 @@ if action == "Nova ordem de serviço":
                     "Porcentagem adicional (%)",
                     min_value=0.0,
                     max_value=100.0,
-                    value=35.0,  # Valor por defecto del 30%
+                    value=65.0,  # Valor por defecto del 30%
                     step=0.5,
                     key="porcentaje_adicional"
                 )
@@ -1659,7 +1659,7 @@ elif action == "Atualizar ordem existente":
                 # 2. Conversión ultra-segura (maneja todos los casos)
                 try:
                     if porcentaje_guardado is None or str(porcentaje_guardado).strip() == "":
-                        porcentaje_default = 35.0  # Valor por defecto actualizado a 35%
+                        porcentaje_default = 65.0  # Valor por defecto actualizado a 35%
                     else:
                         # Convierte tanto "35,5" como "35.5" correctamente
                         if isinstance(porcentaje_guardado, str):
@@ -1667,7 +1667,7 @@ elif action == "Atualizar ordem existente":
                         else:
                             porcentaje_default = float(porcentaje_guardado)
                 except:
-                    porcentaje_default = 35.0
+                    porcentaje_default = 65.0
                 
                 # 3. Mostrar el campo con formato adecuado
                 porcentaje_adicional = st.number_input(
