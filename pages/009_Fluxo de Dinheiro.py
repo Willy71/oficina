@@ -430,10 +430,10 @@ with aba4:
             primeiro_dia = data_min
             ultimo_dia = data_max
 
-		# Validar si hay dados no período selecionado
-		if (ultimo_dia < data_min) or (primeiro_dia > data_max):
-		    st.warning(f"⚠️ Nenhum dado encontrado para {meses[mes_selecionado]} de {ano_selecionado}.")
-		    st.stop()
+	# Validar si hay dados no período selecionado
+	if (ultimo_dia < data_min) or (primeiro_dia > data_max):
+	    st.warning(f"⚠️ Nenhum dado encontrado para {meses[mes_selecionado]} de {ano_selecionado}.")
+	    st.stop()
 
 
 
