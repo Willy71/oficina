@@ -26,7 +26,7 @@ st.markdown(reduce_space, unsafe_allow_html=True)
 page_bg_img = f"""
 <style>
 [data-testid="stAppViewContainer"] > .main {{
-background-image: url("https://github.com/Willy71/oficina/blob/main/pictures/image.jpg?raw=true");
+background-image: url("https://github.com/Willy71/oficina/blob/main/pictures/wallpaper%20black%20vintage.jpg?raw=true");
 background-size: 180%;
 background-position: top left;
 background-repeat: repeat;
@@ -86,7 +86,7 @@ def line(size, color):
 
 line(6, "red")
 
-centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/Logo%20oficina%20001.jpeg?raw=true", 600)
+centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/image.jpg?raw=true", 600)
 
 line(6, "red")
 
