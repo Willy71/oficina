@@ -84,11 +84,11 @@ def line(size, color):
         unsafe_allow_html=True
     )
 
-line(6, "blue")
+#line(6, "blue")
 
 centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/image.jpg?raw=true", 600)
 
-line(6, "blue")
+#line(6, "blue")
 
 
 
