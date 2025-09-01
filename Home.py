@@ -86,7 +86,8 @@ def line(size, color):
 
 #line(6, "blue")
 
-centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/image.jpg?raw=true", 600)
+centrar_imagen("https://ibb.co/GvL59Z2R", 600)
+#centrar_imagen("https://github.com/Willy71/oficina/blob/main/pictures/image.jpg?raw=true", 600)
 
 #line(6, "blue")
 
