@@ -288,17 +288,26 @@ def add_space(lines=1):
 centrar_texto("Gestão de Ordens de Serviço", 1, "white")
     
 # ----------------------------------------------------------------------------------------------------------------------------------
-# Seleccion de la opcion de CRUD
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Seleccion de la opcion de CRUD con session_state para redirección automática
+if "action" not in st.session_state:
+    st.session_state["action"] = "Nova ordem de serviço"
+
 action = st.selectbox(
     "Escolha uma ação",
     [
-        "Nova ordem de serviço", # Insert
-        "Atualizar ordem existente", # Update
-        "Ver todos as ordens de serviço", # View
-        "Apagar ordem de serviço", # Delete
+        "Nova ordem de serviço",
+        "Atualizar ordem existente",
+        "Ver todos as ordens de serviço",
+        "Apagar ordem de serviço",
     ],
+    index=[
+        "Nova ordem de serviço",
+        "Atualizar ordem existente",
+        "Ver todos as ordens de serviço",
+        "Apagar ordem de serviço",
+    ].index(st.session_state["action"])
 )
-
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Formulario
 
@@ -1176,6 +1185,12 @@ if action == "Nova ordem de serviço":
                     
                     # Actualizar la variable existing_data con los datos actualizados
                     existing_data = pd.concat([existing_data, new_record_df], ignore_index=True)
+
+                    # Guardar placa recién creada y redirigir automáticamente a "Atualizar ordem existente"
+                    st.session_state["placa_recien_creada"] = placa
+                    st.session_state["action"] = "Atualizar ordem existente"
+                    st.rerun()
+
             
                 except Exception as e:
                     st.error(f"Erro ao atualizar planilha: {str(e)}")
@@ -1198,6 +1213,18 @@ elif action == "Atualizar ordem existente":
     with st.container():    
         col200, col201, col202 = st.columns([1.5, 2.5, 6])
         with col200:
+            # Si venimos de una nueva ordem, buscar automáticamente la placa recién creada
+            if "placa_recien_creada" in st.session_state:
+                placa_to_search = st.session_state["placa_recien_creada"]
+                resultado = buscar_por_placa(placa_to_search, existing_data)
+                if resultado:
+                    vendor_data = resultado
+                    vendor_to_update = vendor_data["user_id"]
+                    # Limpiar para no repetir siempre
+                    del st.session_state["placa_recien_creada"]
+                else:
+                    st.warning("Nenhuma ordem encontrada para a placa recém-criada.")
+
             # Opción para buscar por ID o por placa
             search_option = st.radio("Buscar por:", ["Placa", "ID"])
             
