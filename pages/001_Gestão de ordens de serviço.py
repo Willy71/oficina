@@ -1210,46 +1210,52 @@ elif action == "Atualizar ordem existente":
     # Convertir la columna "user_id" a enteros
     existing_data["user_id"] = existing_data["user_id"].astype(int)
 
-    with st.container():    
+    # --- BLOQUE REEMPLAZO: búsqueda y carga automática por PLACA (para 'Atualizar ordem existente') ---
+    with st.container():
         col200, col201, col202 = st.columns([1.5, 2.5, 6])
+    
+        # Si viene de crear una nova ordem, pre-llenamos la placa
+        placa_prefill = ""
+        if "placa_recien_creada" in st.session_state:
+            placa_prefill = st.session_state["placa_recien_creada"]
+    
+        # Radio (siempre mostramos "Placa" primero)
         with col200:
-            # Si venimos de una nueva ordem, buscar automáticamente la placa recién creada
-            if "placa_recien_creada" in st.session_state:
-                placa_to_search = st.session_state["placa_recien_creada"]
-                resultado = buscar_por_placa(placa_to_search, existing_data)
-                if resultado:
-                    vendor_data = resultado
-                    vendor_to_update = vendor_data["user_id"]
-                    # Limpiar para no repetir siempre
-                    del st.session_state["placa_recien_creada"]
-                else:
-                    st.warning("Nenhuma ordem encontrada para a placa recém-criada.")
-
-            # Opción para buscar por ID o por placa
-            search_option = st.radio("Buscar por:", ["Placa", "ID"])
-            
-            if search_option == "Placa":
-                with col201:
-                    placa_to_search = st.text_input("Digite o número da placa.").strip().upper()
-                    if placa_to_search:
-                        resultado = buscar_por_placa(placa_to_search, existing_data)
-                        if resultado:
-                            vendor_data = resultado
-                            vendor_to_update = vendor_data["user_id"]
-                        else:
-                            with col202:
-                                st.write("")  # Espaciador
-                                st.warning("Nenhuma ordem de serviço encontrada com essa placa.")
-                                st.stop()
+            search_option = st.radio("Buscar por:", ["Placa", "ID"], index=0)
+    
+        # Búsqueda por PLACA (ahora con value prellenado si existe)
+        if search_option == "Placa":
+            with col201:
+                # Key único para evitar colisiones con otros text_input
+                placa_to_search = st.text_input("Digite o número da placa.", value=placa_prefill, key="search_placa")
+                placa_to_search = (placa_to_search or "").strip().upper()
+    
+                if placa_to_search:
+                    resultado = buscar_por_placa(placa_to_search, existing_data)
+                    if resultado:
+                        vendor_data = resultado
+                        vendor_to_update = vendor_data["user_id"]
+                        # si venimos de la creación, limpiamos la clave para no volver a auto-buscar
+                        if "placa_recien_creada" in st.session_state:
+                            del st.session_state["placa_recien_creada"]
                     else:
                         with col202:
-                            st.write("")  # Espaciador
-                            st.warning("Digite o número da placa para pesquisar e pressione Enter.")
+                            st.write("")  # espaciador
+                            st.warning(f"Nenhuma ordem de serviço encontrada com a placa {placa_to_search}.")
                             st.stop()
-            else:
-                with col201:
-                    vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
-                    vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0].to_dict()
+                else:
+                    with col202:
+                        st.write("")  # espaciador
+                        st.warning("Digite o número da placa para pesquisar e pressione Enter.")
+                        st.stop()
+    
+        # Búsqueda por ID (opción alternativa)
+        else:
+            with col201:
+                vendor_to_update = st.selectbox("Selecione o ID", options=existing_data["user_id"].tolist())
+                vendor_data = existing_data[existing_data["user_id"] == vendor_to_update].iloc[0].to_dict()
+    # --- FIN BLOQUE ---
+
 
 
                             
