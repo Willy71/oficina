@@ -334,7 +334,7 @@ with aba3:
             nova_placa = st.text_input("Placa", lancamento["placa"])
             novo_motivo = st.text_input("Motivo", lancamento["motivo"])
 
-            opcoes_forma = ["dinheiro", "pix", "cartão", "boleto", "outro"]
+            opcoes_forma = ["Dinheiro", "PIX", "Debito", "Credito", "C6", "TON", "Boleto", "outro"]
             valor_atual_forma = str(lancamento["form"]).strip().lower()
             idx_forma = opcoes_forma.index(valor_atual_forma) if valor_atual_forma in opcoes_forma else 0
             nova_forma = st.selectbox("Forma de Pagamento", opcoes_forma, index=idx_forma)
