@@ -249,7 +249,7 @@ with aba1:
 
         cols = st.columns(4)
         with cols[1]:
-            forma = st.selectbox("Forma de pagamento", ["dinheiro", "pix", "cartão", "boleto", "outro"])
+            forma = st.selectbox("Forma de pagamento", ["Dinheiro", "PIX", "Debito", "Credito", "C6", "TON", "Boleto", "outro"])
         with cols[2]:
             valor = st.number_input("Valor", min_value=0.0, format="%.2f")
 
