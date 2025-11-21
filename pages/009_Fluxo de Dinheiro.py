@@ -227,11 +227,11 @@ aba1, aba2, aba3, aba4, aba5, aba6 = st.tabs([
     "🔍 Buscar Gastos"
 ])
 
-
 with aba1:
     st.subheader("➕ Novo Registro")
 
     with st.form("form_novo_lancamento"):
+
         cols = st.columns(3)
         with cols[0]:
             tipo = st.selectbox("Tipo", ["entrada", "saida", "pendente"])
@@ -243,9 +243,10 @@ with aba1:
         cols = st.columns(3)
         with cols[1]:
             cliente = st.text_input("Cliente")
-        
+
+        # --- DESCRIÇÃO E CATEGORIA ---
         descricao = st.text_input("Descrição")
-		categoria = st.selectbox("Categoria", categorias)
+        categoria = st.selectbox("Categoria", categorias)
 
         cols = st.columns(4)
         with cols[1]:
@@ -257,17 +258,22 @@ with aba1:
 
         cols = st.columns(4)
         with cols[1]:
-            forma = st.selectbox("Forma de pagamento", ["Dinheiro", "PIX", "Debito", "Credito", "C6", "TON", "Boleto", "outro"])
+            forma = st.selectbox("Forma de pagamento", 
+                                 ["Dinheiro", "PIX", "Debito", "Credito", "C6", "TON", "Boleto", "outro"])
         with cols[2]:
             valor = st.number_input("Valor", min_value=0.0, format="%.2f")
 
         submit = st.form_submit_button("Salvar Registro")
 
         if submit:
-            adicionar_lancamento(tipo, data, data_pag, cliente, descricao, categoria, carro, placa, motivo, forma, valor)
+            adicionar_lancamento(
+                tipo, data, data_pag, cliente, descricao, categoria,
+                carro, placa, motivo, forma, valor
+            )
             st.success("Registro salvo com sucesso!")
-            st.session_state["dados_carregados"] = None  # Limpiar cache
+            st.session_state["dados_carregados"] = None
             st.rerun()
+
 
 with aba2:
     st.subheader("📋 Lançamentos")
