@@ -243,9 +243,9 @@ with aba1:
         cols = st.columns(3)
         with cols[1]:
             cliente = st.text_input("Cliente")
-
-    	descricao = st.text_input("Descrição")
-		#categoria = st.selectbox("Categoria", categorias)
+			
+		descricao = st.text_input("Descrição")
+		categoria = st.selectbox("Categoria", categorias)
 
         cols = st.columns(4)
         with cols[1]:
