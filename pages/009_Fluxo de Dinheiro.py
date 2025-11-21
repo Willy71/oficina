@@ -580,10 +580,20 @@ with aba5:
         5: "Maio", 6: "Junho", 7: "Julho", 8: "Agosto",
         9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
     }
-    mes_selecionado = col_mes.selectbox("Mês", list(meses.keys()), format_func=lambda x: meses[x], index=0)
+    mes_selecionado = col_mes.selectbox(
+    "Mês",
+    list(meses.keys()),
+    format_func=lambda x: meses[x],
+    index=0,
+    key="mes_gastos"     # <--- clave única
+	)
 
     ano_atual = date.today().year
-    ano_selecionado = col_ano.selectbox("Ano", list(range(ano_atual, ano_atual - 6, -1)))
+    ano_selecionado = col_ano.selectbox(
+    "Ano",
+    list(range(ano_atual, ano_atual - 6, -1)),
+    key="ano_gastos"     # <--- clave única
+	)
 
     if mes_selecionado != 0:
         df_filtrado = df_gastos[
