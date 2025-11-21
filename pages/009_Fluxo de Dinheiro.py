@@ -17,6 +17,13 @@ credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes
 client = gspread.authorize(credentials)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
+categorias = [
+    "agua", "aluguel", "borracharia", "cartão de todos", "combustivel",
+    "contadora", "credito celular", "devida", "energia", "ferramentas",
+    "guincho", "internet", "limpeça", "marmitas", "mercearia", "outros",
+    "papelaria", "peças", "redes sociais", "serviços outros",
+    "transporte", "vales", "venda"
+]
 
 def safe_float(valor):
     """Convierte cualquier valor a float de manera segura"""
@@ -75,7 +82,7 @@ def obter_proximo_id(df):
     except:
         return 1
 
-def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor):
+def adicionar_lancamento(status, data, data_pag, cliente, descricao, categoria, carro, placa, motivo, forma, valor):
     df = carregar_dados()
     novo_id = obter_proximo_id(df)
 
@@ -85,7 +92,7 @@ def adicionar_lancamento(status, data, data_pag, cliente, descricao, carro, plac
     data_pag_fmt = pd.to_datetime(data_pag if data_pag else data).strftime("%d/%m/%Y")
 
 
-    nova_linha = [novo_id, data_fmt, data_pag_fmt, cliente, descricao, carro, placa, motivo, forma, valor, status]
+    nova_linha = [novo_id, data_fmt, data_pag_fmt, cliente, descricao, categoria, carro, placa, motivo, forma, valor, status]
     sheet.append_row(nova_linha)
     return novo_id
 
@@ -239,6 +246,8 @@ with aba1:
 
         descricao = st.text_input("Descrição")
 
+		categoria = st.selectbox("Categoria", categorias)
+
         cols = st.columns(4)
         with cols[1]:
             carro = st.text_input("Carro")
@@ -256,7 +265,7 @@ with aba1:
         submit = st.form_submit_button("Salvar Registro")
 
         if submit:
-            adicionar_lancamento(tipo, data, data_pag, cliente, descricao, carro, placa, motivo, forma, valor)
+            adicionar_lancamento(tipo, data, data_pag, cliente, descricao, categoria, carro, placa, motivo, forma, valor)
             st.success("Registro salvo com sucesso!")
             st.session_state["dados_carregados"] = None  # Limpiar cache
             st.rerun()
@@ -539,53 +548,71 @@ with aba4:
 #==============================================================================================================================================================
 
 with aba5:
-    st.subheader("📈 Análise de Gastos por Fornecedor")
+    st.subheader("📈 Análise de Gastos por Categoria")
 
     df = carregar_dados()
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     df["valor"] = df["valor"].apply(safe_float)
-    df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce')
-    df = df.dropna(subset=["data"])
-    df["data"] = df["data"].dt.date  # Remueve hora
+    df["data_pag"] = pd.to_datetime(df["data_pag"], dayfirst=True, errors='coerce')
+    df = df.dropna(subset=["data_pag"])
+    df["data_pag"] = df["data_pag"].dt.date
 
+    # Filtrar sólo saídas
     df_gastos = df[df["status"] == "saida"]
 
     if df_gastos.empty:
         st.warning("Não há registros de saída para análise.")
+        st.stop()
+
+    # --- Filtro por mês/ano ou todos períodos ---
+    data_min = df_gastos["data_pag"].min()
+    data_max = df_gastos["data_pag"].max()
+
+    col_mes, col_ano = st.columns(2)
+    meses = {
+        0: "Todos os períodos...",
+        1: "Janeiro", 2: "Fevereiro", 3: "Março", 4: "Abril",
+        5: "Maio", 6: "Junho", 7: "Julho", 8: "Agosto",
+        9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
+    }
+    mes_selecionado = col_mes.selectbox("Mês", list(meses.keys()), format_func=lambda x: meses[x], index=0)
+
+    ano_atual = date.today().year
+    ano_selecionado = col_ano.selectbox("Ano", list(range(ano_atual, ano_atual - 6, -1)))
+
+    if mes_selecionado != 0:
+        df_filtrado = df_gastos[
+            (df_gastos["data_pag"].map(lambda x: x.year) == ano_selecionado) &
+            (df_gastos["data_pag"].map(lambda x: x.month) == mes_selecionado)
+        ]
     else:
-        data_min = df_gastos["data"].min()
-        data_max = df_gastos["data"].max()
-
-        st.caption(f"📅 Gastos registrados entre {data_min.strftime('%d/%m/%Y')} e {data_max.strftime('%d/%m/%Y')}")
-
         col1, col2 = st.columns(2)
         with col1:
-            data_inicio = st.date_input(
-                "Data início (gastos)",
-                value=data_min,
-                min_value=data_min,
-                max_value=data_max,
-                key="inicio_gasto"
-            )
+            data_inicio = st.date_input("Data início", data_min, min_value=data_min, max_value=data_max)
         with col2:
-            data_fim = st.date_input(
-                "Data fim (gastos)",
-                value=data_max,
-                min_value=data_inicio,
-                max_value=data_max,
-                key="fim_gasto"
-            )
+            data_fim = st.date_input("Data fim", data_max, min_value=data_min, max_value=data_max)
 
-        df_filtrado = df_gastos[(df_gastos["data"] >= data_inicio) & (df_gastos["data"] <= data_fim)]
+        df_filtrado = df_gastos[
+            (df_gastos["data_pag"] >= data_inicio) &
+            (df_gastos["data_pag"] <= data_fim)
+        ]
 
-        if df_filtrado.empty:
-            st.info("Nenhum gasto encontrado no período selecionado.")
-        else:
-            agrupado = df_filtrado.groupby("motivo")["valor"].sum().sort_values(ascending=False).reset_index()
-            st.bar_chart(agrupado.rename(columns={"motivo": "Fornecedor", "valor": "Total Gasto"}).set_index("Fornecedor"))
+    if df_filtrado.empty:
+        st.info("Nenhum gasto encontrado no período selecionado.")
+        st.stop()
 
-            st.dataframe(agrupado, use_container_width=True, hide_index=True)
+    # --- Agrupamento por categoria ---
+    agrupado = df_filtrado.groupby("categoria")["valor"].sum().sort_values(ascending=False).reset_index()
+    total_geral = agrupado["valor"].sum()
+    agrupado["percentual"] = ((agrupado["valor"] / total_geral) * 100).round(2)
 
+    st.markdown("### 📊 Percentual por Categoria")
+    st.bar_chart(agrupado.set_index("categoria")["valor"])
+
+    st.markdown("### 📋 Tabela detalhada")
+    agrupado["valor"] = agrupado["valor"].apply(formatar_real)
+    st.dataframe(agrupado, use_container_width=True, hide_index=True)
+#==============================================================================================================================================================
 with aba6:
     st.subheader("🔍 Buscar Gastos")
 
