@@ -22,7 +22,7 @@ categorias = [
     "contadora", "credito celular", "devida", "energia", "ferramentas",
     "guincho", "internet", "limpeça", "marmitas", "mercearia", "outros",
     "papelaria", "peças", "redes sociais", "serviços outros",
-    "transporte", "vales", "venda", "bombeiros"
+    "transporte", "vales", "venda", "bombeiros", "marmitas"
 ]
 
 def safe_float(valor):
