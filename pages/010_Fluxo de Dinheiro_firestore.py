@@ -89,7 +89,7 @@ def adicionar_lancamento(status, data, data_pag, cliente, descricao, categoria, 
         "carro": carro,
         "placa": placa,
         "motivo": motivo,
-        "form": forma,
+        "forma": forma,
         "valor": float(valor),
         "status": status
     }
