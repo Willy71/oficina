@@ -223,7 +223,7 @@ with aba3:
             novo_carro = st.text_input("Carro", lancamento["carro"])
             nova_placa = st.text_input("Placa", lancamento["placa"])
             novo_motivo = st.text_input("Motivo", lancamento["motivo"])
-            nova_forma = st.text_input("Forma", lancamento["form"])
+            nova_forma = st.text_input("Forma", lancamento["forma"])
             novo_valor = st.number_input("Valor", value=float(lancamento["valor"]))
             novo_status = st.selectbox("Status", ["entrada", "saida", "pendente"], index=["entrada","saida","pendente"].index(lancamento["status"]))
 
