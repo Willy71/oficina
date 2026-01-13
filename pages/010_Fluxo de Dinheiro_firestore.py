@@ -200,7 +200,24 @@ with aba2:
     if not df.empty:
         df["status"] = df["status"].astype(str).str.strip().str.lower()
         df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce').dt.date
-        st.dataframe(df.sort_values("data", ascending=False), use_container_width=True, hide_index=True)
+        # Orden y columnas
+        col_order = [
+            "ids", "data", "data_pag", "cliente", "descricao", "categoria",
+            "carro", "placa", "motivo", "forma", "valor", "status", "migrado"
+        ]
+        
+        # Asegurar columnas existentes
+        for c in col_order:
+            if c not in df_tipo.columns:
+                df_tipo[c] = ""
+        
+        df_tipo = df_tipo[col_order]
+        
+        # Ordenar por ID descendente
+        df_tipo = df_tipo.sort_values("ids", ascending=False)
+        
+        st.dataframe(df_tipo, use_container_width=True, hide_index=True)
+
     else:
         st.info("Nenhum registro.")
 
