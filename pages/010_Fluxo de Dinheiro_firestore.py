@@ -199,9 +199,12 @@ with aba2:
     df = carregar_dados()
     if not df.empty:
         df["status"] = df["status"].astype(str).str.strip().str.lower()
-        df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce').dt.date 
-        df = df.dropna(subset=["data"]) 
-        df["data"] = df["data"].dt.date 
+        df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors="coerce")
+		# elimina filas inválidas
+        df = df[~df["data"].isna()]
+		# ahora sí es seguro usar .dt
+        df["data"] = df["data"].apply(lambda x: x.date() if hasattr(x, "date") else x)
+
         df_tipo = df.copy()  # valor por defecto
 		
 		
