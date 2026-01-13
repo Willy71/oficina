@@ -200,6 +200,9 @@ with aba2:
     if not df.empty:
         df["status"] = df["status"].astype(str).str.strip().str.lower()
         df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors='coerce').dt.date
+		df = df.dropna(subset=["data"])
+		df["data"] = df["data"].dt.date
+		df_tipo = df.copy()  # valor por defecto
         # Orden y columnas
         col_order = [
             "ids", "data", "data_pag", "cliente", "descricao", "categoria",
