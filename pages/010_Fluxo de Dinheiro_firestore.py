@@ -203,6 +203,7 @@ with aba2:
 		df = df.dropna(subset=["data"])
 		df["data"] = df["data"].dt.date
 		df_tipo = df.copy()  # valor por defecto
+		
         # Orden y columnas
         col_order = [
             "ids", "data", "data_pag", "cliente", "descricao", "categoria",
